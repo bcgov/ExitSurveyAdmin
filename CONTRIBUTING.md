@@ -7,4 +7,4 @@ Pull requests will be evaluated by the repository guardians on a schedule and if
 
 All contributors retain the original copyright to their stuff, but by contributing to this project, you grant a world-wide, royalty-free, perpetual, irrevocable, non-exclusive, transferable license to all users **under the terms of the license under which this project is distributed.**
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/bcgov/ExitSurveyAdmin/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
