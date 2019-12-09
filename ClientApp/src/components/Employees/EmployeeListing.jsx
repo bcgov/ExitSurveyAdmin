@@ -1,7 +1,7 @@
 import React, ***REMOVED*** Component ***REMOVED*** from "react";
 
-export class FetchData extends Component ***REMOVED***
-  static displayName = FetchData.name;
+export class EmployeeListing extends Component ***REMOVED***
+  static displayName = EmployeeListing.name;
 
   constructor(props) ***REMOVED***
     super(props);
@@ -47,7 +47,7 @@ export class FetchData extends Component ***REMOVED***
         <em>Loading...</em>
       </p>
     ) : (
-      FetchData.renderEmployeesTable(this.state.employees)
+      EmployeeListing.renderEmployeesTable(this.state.employees)
     );
 
     return (
