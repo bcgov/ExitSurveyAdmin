@@ -1,31 +1,44 @@
+using ExitSurveyAdmin.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using EmployeeApi.Models;
 
-namespace NETReact
+namespace ExitSurveyAdmin
 ***REMOVED***
     public class Startup
     ***REMOVED***
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         ***REMOVED***
+            Environment = env;
             Configuration = configuration;
       ***REMOVED***
 
         public IConfiguration Configuration ***REMOVED*** get; ***REMOVED***
+        public IWebHostEnvironment Environment ***REMOVED*** get; ***REMOVED***
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         ***REMOVED***
-
             services.AddControllersWithViews();
 
-            services.AddDbContext<EmployeeContext>(opt => opt.UseInMemoryDatabase("EmployeeList"));
+            if (Environment.IsDevelopment())
+            ***REMOVED***
+                services.AddDbContext<ExitSurveyAdminContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("ExitSurveyAdmin")));
+          ***REMOVED***
+            else
+            ***REMOVED***
+                services.AddDbContext<ExitSurveyAdminContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("ExitSurveyAdmin")));
+          ***REMOVED***
+
+            // services.AddDbContext<ExitSurveyAdminContext>(opt => opt.UseInMemoryDatabase("ExitSurveyAdmin"));
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

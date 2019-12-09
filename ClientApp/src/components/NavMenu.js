@@ -26,7 +26,7 @@ export class NavMenu extends Component ***REMOVED***
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <NavbarBrand tag=***REMOVED***Link***REMOVED*** to="/">NETReact</NavbarBrand>
+            <NavbarBrand tag=***REMOVED***Link***REMOVED*** to="/">Exit Survey Admin</NavbarBrand>
             <NavbarToggler onClick=***REMOVED***this.toggleNavbar***REMOVED*** className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen=***REMOVED***!this.state.collapsed***REMOVED*** navbar>
               <ul className="navbar-nav flex-grow">

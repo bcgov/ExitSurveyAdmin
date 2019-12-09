@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace NETReact
+namespace ExitSurveyAdmin
 ***REMOVED***
     public class Program
     ***REMOVED***

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "$***REMOVED***workspaceFolder***REMOVED***/NETReact.csproj",
+                "$***REMOVED***workspaceFolder***REMOVED***/ExitSurveyAdmin.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "$***REMOVED***workspaceFolder***REMOVED***/NETReact.csproj",
+                "$***REMOVED***workspaceFolder***REMOVED***/ExitSurveyAdmin.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "$***REMOVED***workspaceFolder***REMOVED***/NETReact.csproj",
+                "$***REMOVED***workspaceFolder***REMOVED***/ExitSurveyAdmin.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
