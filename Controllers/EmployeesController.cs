@@ -29,7 +29,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/Employees/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(long id)
+        public async Task<ActionResult<Employee>> GetEmployee(string id)
         {
             var employee = await _context.Employees.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(long id, Employee employee)
+        public async Task<IActionResult> PutEmployee(string id, Employee employee)
         {
             if (id != employee.Id)
             {
@@ -87,7 +87,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(long id)
+        public async Task<ActionResult<Employee>> DeleteEmployee(string id)
         {
             var employee = await _context.Employees.FindAsync(id);
             if (employee == null)
@@ -101,7 +101,7 @@ namespace ExitSurveyAdmin.Controllers
             return employee;
         }
 
-        private bool EmployeeExists(long id)
+        private bool EmployeeExists(string id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }
