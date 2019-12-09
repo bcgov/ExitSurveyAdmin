@@ -1,9 +1,10 @@
 import React from 'react'
+import { AdminUser } from '../../types/AdminUser'
 
 interface IProps {}
 
 interface IState {
-  adminUsers: any[]
+  adminUsers: AdminUser[]
 }
 
 export class AdminUserListing extends React.Component<IProps, IState> {
@@ -16,7 +17,7 @@ export class AdminUserListing extends React.Component<IProps, IState> {
     this.populateData()
   }
 
-  static renderEmployeesTable(adminUsers: any[]): JSX.Element {
+  static renderEmployeesTable(adminUsers: AdminUser[]): JSX.Element {
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -29,7 +30,7 @@ export class AdminUserListing extends React.Component<IProps, IState> {
         </thead>
         <tbody>
           {adminUsers.map(
-            (adminUser: any): JSX.Element => (
+            (adminUser: AdminUser): JSX.Element => (
               <tr key={adminUser.id}>
                 <td>{adminUser.id}</td>
                 <td>{adminUser.firstName}</td>
@@ -61,10 +62,9 @@ export class AdminUserListing extends React.Component<IProps, IState> {
     )
   }
 
-  async populateData(): Promise<any> {
+  async populateData(): Promise<void> {
     const response = await fetch('api/AdminUsers')
     const data = await response.json()
-    console.log('data', data)
     this.setState({ adminUsers: data })
   }
 }

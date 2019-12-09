@@ -1,13 +1,14 @@
 import React from 'react'
+import { Employee } from '../../types/Employee'
 
 interface IProps {}
 
 interface IState {
-  employees: any[]
+  employees: Employee[]
 }
 
 export class EmployeeListing extends React.Component<IProps, IState> {
-  constructor(props) {
+  constructor(props: IProps) {
     super(props)
     this.state = { employees: [] }
   }
@@ -16,7 +17,7 @@ export class EmployeeListing extends React.Component<IProps, IState> {
     this.populateData()
   }
 
-  static renderEmployeesTable(employees): JSX.Element {
+  static renderEmployeesTable(employees: Employee[]): JSX.Element {
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -63,7 +64,7 @@ export class EmployeeListing extends React.Component<IProps, IState> {
     )
   }
 
-  async populateData(): Promise<any> {
+  async populateData(): Promise<void> {
     const response = await fetch('api/employees')
     const data = await response.json()
     this.setState({ employees: data })
