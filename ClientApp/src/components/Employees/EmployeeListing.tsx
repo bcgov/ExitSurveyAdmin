@@ -1,13 +1,14 @@
 import React from 'react'
+import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 
 interface IProps ***REMOVED******REMOVED***
 
 interface IState ***REMOVED***
-  employees: any[]
+  employees: Employee[]
 ***REMOVED***
 
 export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
-  constructor(props) ***REMOVED***
+  constructor(props: IProps) ***REMOVED***
     super(props)
     this.state = ***REMOVED*** employees: [] ***REMOVED***
 ***REMOVED***
@@ -16,7 +17,7 @@ export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED*
     this.populateData()
 ***REMOVED***
 
-  static renderEmployeesTable(employees): JSX.Element ***REMOVED***
+  static renderEmployeesTable(employees: Employee[]): JSX.Element ***REMOVED***
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -63,7 +64,7 @@ export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED*
     )
 ***REMOVED***
 
-  async populateData(): Promise<any> ***REMOVED***
+  async populateData(): Promise<void> ***REMOVED***
     const response = await fetch('api/employees')
     const data = await response.json()
     this.setState(***REMOVED*** employees: data ***REMOVED***)

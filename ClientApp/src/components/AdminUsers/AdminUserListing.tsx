@@ -1,9 +1,10 @@
 import React from 'react'
+import ***REMOVED*** AdminUser ***REMOVED*** from '../../types/AdminUser'
 
 interface IProps ***REMOVED******REMOVED***
 
 interface IState ***REMOVED***
-  adminUsers: any[]
+  adminUsers: AdminUser[]
 ***REMOVED***
 
 export class AdminUserListing extends React.Component<IProps, IState> ***REMOVED***
@@ -16,7 +17,7 @@ export class AdminUserListing extends React.Component<IProps, IState> ***REMOVED
     this.populateData()
 ***REMOVED***
 
-  static renderEmployeesTable(adminUsers: any[]): JSX.Element ***REMOVED***
+  static renderEmployeesTable(adminUsers: AdminUser[]): JSX.Element ***REMOVED***
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -29,7 +30,7 @@ export class AdminUserListing extends React.Component<IProps, IState> ***REMOVED
         </thead>
         <tbody>
           ***REMOVED***adminUsers.map(
-            (adminUser: any): JSX.Element => (
+            (adminUser: AdminUser): JSX.Element => (
               <tr key=***REMOVED***adminUser.id***REMOVED***>
                 <td>***REMOVED***adminUser.id***REMOVED***</td>
                 <td>***REMOVED***adminUser.firstName***REMOVED***</td>
@@ -61,10 +62,9 @@ export class AdminUserListing extends React.Component<IProps, IState> ***REMOVED
     )
 ***REMOVED***
 
-  async populateData(): Promise<any> ***REMOVED***
+  async populateData(): Promise<void> ***REMOVED***
     const response = await fetch('api/AdminUsers')
     const data = await response.json()
-    console.log('data', data)
     this.setState(***REMOVED*** adminUsers: data ***REMOVED***)
 ***REMOVED***
 ***REMOVED***
