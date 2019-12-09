@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -14,33 +14,45 @@ export class FetchData extends Component {
 
   static renderEmployeesTable(employees) {
     return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+      <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>Id</th>
-            <th>Name</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Birth date</th>
           </tr>
         </thead>
         <tbody>
-          {employees.map(employee =>
+          {employees.map(employee => (
             <tr key={employee.id}>
               <td>{employee.id}</td>
-              <td>{employee.name}</td>
+              <td>{employee.firstName}</td>
+              <td>{employee.lastName}</td>
+              <td>
+                {new Date(employee.birthDate).toLocaleDateString("en-CA", {
+                  timeZone: "UTC"
+                })}
+              </td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     );
   }
 
   render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderEmployeesTable(this.state.employees);
+    let contents = this.state.loading ? (
+      <p>
+        <em>Loading...</em>
+      </p>
+    ) : (
+      FetchData.renderEmployeesTable(this.state.employees)
+    );
 
     return (
       <div>
-        <h1 id="tabelLabel" >Employees</h1>
+        <h1 id="tabelLabel">Employees</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>
@@ -48,8 +60,9 @@ export class FetchData extends Component {
   }
 
   async populateEmployeeData() {
-    const response = await fetch('api/employees');
+    const response = await fetch("api/employees");
     const data = await response.json();
+    console.log(data);
     this.setState({ employees: data, loading: false });
   }
 }
