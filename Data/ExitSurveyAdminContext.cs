@@ -10,5 +10,6 @@ namespace ExitSurveyAdmin.Models
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
     }
 }

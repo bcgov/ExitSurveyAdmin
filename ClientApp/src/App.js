@@ -3,6 +3,7 @@ import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
+import { AdminUserListing } from './components/AdminUsers/AdminUserListing'
 
 import './custom.css'
 
@@ -14,6 +15,7 @@ export default class App extends Component {
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/employees' component={FetchData} />
+        <Route path='/admin-users' component={AdminUserListing} />
       </Layout>
     );
   }

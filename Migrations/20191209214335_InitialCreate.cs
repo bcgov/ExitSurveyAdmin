@@ -8,6 +8,20 @@ namespace ExitSurveyAdmin.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AdminUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -24,6 +38,9 @@ namespace ExitSurveyAdmin.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AdminUsers");
+
             migrationBuilder.DropTable(
                 name: "Employees");
         }

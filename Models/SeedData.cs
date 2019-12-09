@@ -22,12 +22,23 @@ namespace ExitSurveyAdmin.Models
         context.Employees.AddRange(
             new Employee
             {
-              Id = "000001",
+              Id = "123456",
               BirthDate = DateTime.Parse("1980-3-1"),
               FirstName = "John",
               LastName = "Doe",
             }
         );
+
+        context.AdminUsers.AddRange(
+            new AdminUser
+            {
+              Id = "000001",
+              FirstName = "Frank",
+              LastName = "Hangler",
+              Email = "frank@plotandscatter.com"
+            }
+        );
+
         context.SaveChanges();
       }
     }
