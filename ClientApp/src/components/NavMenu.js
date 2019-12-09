@@ -34,7 +34,7 @@ export class NavMenu extends Component ***REMOVED***
                   <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/fetch-data">Fetch data</NavLink>
+                  <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/employees">Exiting employees</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

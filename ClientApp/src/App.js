@@ -13,7 +13,7 @@ export default class App extends Component ***REMOVED***
     return (
       <Layout>
         <Route exact path='/' component=***REMOVED***Home***REMOVED*** />
-        <Route path='/fetch-data' component=***REMOVED***FetchData***REMOVED*** />
+        <Route path='/employees' component=***REMOVED***FetchData***REMOVED*** />
       </Layout>
     );
 ***REMOVED***
