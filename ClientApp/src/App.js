@@ -3,6 +3,7 @@ import ***REMOVED*** Route ***REMOVED*** from 'react-router';
 import ***REMOVED*** Layout ***REMOVED*** from './components/Layout';
 import ***REMOVED*** Home ***REMOVED*** from './components/Home';
 import ***REMOVED*** FetchData ***REMOVED*** from './components/FetchData';
+import ***REMOVED*** AdminUserListing ***REMOVED*** from './components/AdminUsers/AdminUserListing'
 
 import './custom.css'
 
@@ -14,6 +15,7 @@ export default class App extends Component ***REMOVED***
       <Layout>
         <Route exact path='/' component=***REMOVED***Home***REMOVED*** />
         <Route path='/employees' component=***REMOVED***FetchData***REMOVED*** />
+        <Route path='/admin-users' component=***REMOVED***AdminUserListing***REMOVED*** />
       </Layout>
     );
 ***REMOVED***

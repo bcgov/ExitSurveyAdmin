@@ -10,5 +10,6 @@ namespace ExitSurveyAdmin.Models
       ***REMOVED***
 
         public DbSet<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
+        public DbSet<AdminUser> AdminUsers ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***

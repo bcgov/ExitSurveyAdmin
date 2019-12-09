@@ -16,6 +16,28 @@ namespace ExitSurveyAdmin.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.1");
 
+            modelBuilder.Entity("ExitSurveyAdmin.Models.AdminUser", b =>
+                ***REMOVED***
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminUsers");
+              ***REMOVED***);
+
             modelBuilder.Entity("ExitSurveyAdmin.Models.Employee", b =>
                 ***REMOVED***
                     b.Property<string>("Id")
