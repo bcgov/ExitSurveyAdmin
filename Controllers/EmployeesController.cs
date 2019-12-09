@@ -29,7 +29,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/Employees/5
         [HttpGet("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<Employee>> GetEmployee(long id)
+        public async Task<ActionResult<Employee>> GetEmployee(string id)
         ***REMOVED***
             var employee = await _context.Employees.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("***REMOVED***id***REMOVED***")]
-        public async Task<IActionResult> PutEmployee(long id, Employee employee)
+        public async Task<IActionResult> PutEmployee(string id, Employee employee)
         ***REMOVED***
             if (id != employee.Id)
             ***REMOVED***
@@ -87,7 +87,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // DELETE: api/Employees/5
         [HttpDelete("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(long id)
+        public async Task<ActionResult<Employee>> DeleteEmployee(string id)
         ***REMOVED***
             var employee = await _context.Employees.FindAsync(id);
             if (employee == null)
@@ -101,7 +101,7 @@ namespace ExitSurveyAdmin.Controllers
             return employee;
       ***REMOVED***
 
-        private bool EmployeeExists(long id)
+        private bool EmployeeExists(string id)
         ***REMOVED***
             return _context.Employees.Any(e => e.Id == id);
       ***REMOVED***
