@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EmployeeApi.Models;
+using ExitSurveyAdmin.Models;
 
-namespace EmployeeApi.Controllers
+namespace ExitSurveyAdmin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly EmployeeContext _context;
+        private readonly ExitSurveyAdminContext _context;
 
-        public EmployeesController(EmployeeContext context)
+        public EmployeesController(ExitSurveyAdminContext context)
         {
             _context = context;
         }

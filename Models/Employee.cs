@@ -1,6 +1,6 @@
 using System;
 
-namespace EmployeeApi.Models
+namespace ExitSurveyAdmin.Models
 {
     public class Employee
     {
