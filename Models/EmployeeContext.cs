@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace EmployeeApi.Models
+namespace ExitSurveyAdmin.Models
 {
-    public class EmployeeContext : DbContext
+    public class ExitSurveyAdminContext : DbContext
     {
-        public EmployeeContext(DbContextOptions<EmployeeContext> options)
+        public ExitSurveyAdminContext(DbContextOptions<ExitSurveyAdminContext> options)
             : base(options)
         {
         }
