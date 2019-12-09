@@ -1,0 +1,17 @@
+***REMOVED***
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    ***REMOVED***
+      "language": "typescript",
+      "autoFix": true
+  ***REMOVED***
+    ***REMOVED***
+      "language": "typescriptreact",
+      "autoFix": true
+  ***REMOVED***
+  ],
+  "files.exclude": ***REMOVED***
+    "**/*.css": true
+***REMOVED***
+***REMOVED***

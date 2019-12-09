@@ -1,0 +1,62 @@
+***REMOVED***
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "env": ***REMOVED***
+    "browser": true,
+    "jasmine": true,
+    "jest": true,
+    "node": true
+***REMOVED***
+  "rules": ***REMOVED***
+    "sort-imports": [
+      "error",
+      ***REMOVED***
+        "ignoreDeclarationSort": true
+    ***REMOVED***
+    ],
+    "react/display-name": "off",
+    "@typescript-eslint/ban-ts-ignore": "warn",
+    "@typescript-eslint/interface-name-prefix": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/no-empty-interface": "off",
+    "space-before-function-paren": [
+      "error",
+      ***REMOVED***
+        "anonymous": "never",
+        "asyncArrow": "always",
+        "named": "never"
+    ***REMOVED***
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "prettier/prettier": [
+      "error",
+      ***REMOVED***
+        "singleQuote": true,
+        "trailingCommas": "none",
+        "semi": false
+    ***REMOVED***
+    ]
+***REMOVED***
+  "settings": ***REMOVED***
+    "react": ***REMOVED***
+      "pragma": "React",
+      "version": "detect"
+  ***REMOVED***
+***REMOVED***
+***REMOVED***
