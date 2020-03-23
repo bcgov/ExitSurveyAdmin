@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 ***REMOVED***
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20191209214335_InitialCreate")]
+    [Migration("20200323231645_InitialCreate")]
     partial class InitialCreate
     ***REMOVED***
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,14 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedTs")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -31,8 +38,14 @@ namespace ExitSurveyAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("LastLoginTs")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModifiedTs")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -48,6 +61,9 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedTs")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -57,6 +73,9 @@ namespace ExitSurveyAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
+
+                    b.Property<DateTime>("ModifiedTs")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

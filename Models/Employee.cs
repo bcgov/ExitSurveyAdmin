@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
-  public class Employee
+  public class Employee : BaseEntity
   ***REMOVED***
     [Required]
     public string Id ***REMOVED*** get; set; ***REMOVED***

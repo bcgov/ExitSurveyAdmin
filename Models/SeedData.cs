@@ -14,25 +14,16 @@ namespace ExitSurveyAdmin.Models
               DbContextOptions<ExitSurveyAdminContext>>()))
       ***REMOVED***
         // Look for any movies.
-        if (context.Employees.Any())
+        if (context.AdminUsers.Any())
         ***REMOVED***
           return;   // DB has been seeded
       ***REMOVED***
-
-        context.Employees.AddRange(
-            new Employee
-            ***REMOVED***
-              Id = "123456",
-              BirthDate = DateTime.Parse("1980-3-1"),
-              FirstName = "John",
-              LastName = "Doe",
-          ***REMOVED***
-        );
 
         context.AdminUsers.AddRange(
             new AdminUser
             ***REMOVED***
               Id = "000001",
+              EmployeeId = "FHANGLER",
               FirstName = "Frank",
               LastName = "Hangler",
               Email = "frank@plotandscatter.com"

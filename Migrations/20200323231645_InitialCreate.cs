@@ -12,9 +12,13 @@ namespace ExitSurveyAdmin.Migrations
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<string>(nullable: false),
+                    CreatedTs = table.Column<DateTime>(nullable: false),
+                    ModifiedTs = table.Column<DateTime>(nullable: false),
+                    EmployeeId = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false)
+                    Email = table.Column<string>(nullable: false),
+                    LastLoginTs = table.Column<DateTime>(nullable: false)
               ***REMOVED***
                 constraints: table =>
                 ***REMOVED***
@@ -26,6 +30,8 @@ namespace ExitSurveyAdmin.Migrations
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<string>(nullable: false),
+                    CreatedTs = table.Column<DateTime>(nullable: false),
+                    ModifiedTs = table.Column<DateTime>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false)
