@@ -3,10 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExitSurveyAdmin.Models
 {
-  public class AdminUser
+  public class AdminUser : BaseEntity
   {
-    [Required]
+    [Key]
     public string Id { get; set; }
+
+    [Required]
+    public string EmployeeId { get; set; }
 
     [Required]
     public string FirstName { get; set; }
@@ -16,5 +19,8 @@ namespace ExitSurveyAdmin.Models
 
     [Required]
     public string Email { get; set; }
+
+    [DataType(DataType.DateTime)]
+    public DateTime LastLoginTs { get; set; }
   }
 }
