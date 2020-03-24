@@ -15,7 +15,8 @@ namespace ExitSurveyAdmin.Models
                 >())
             )
             {
-                // Look for any movies.
+                // If the context contains any AdminUsers already, it has
+                // been seeded. Don't re-seed it.
                 if (context.AdminUsers.Any())
                 {
                     return;   // DB has been seeded
@@ -26,8 +27,7 @@ namespace ExitSurveyAdmin.Models
                     {
                         Id = "000001",
                         EmployeeId = "FHANGLER",
-                        FirstName = "Frank",
-                        LastName = "Hangler",
+                        Name = "Frank Hangler",
                         Email = "frank@plotandscatter.com"
                     }
                 );

@@ -23,8 +23,7 @@ export class AdminUserListing extends React.Component<IProps, IState> {
         <thead>
           <tr>
             <th>Id</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>Name</th>
             <th>Email</th>
           </tr>
         </thead>
@@ -33,8 +32,7 @@ export class AdminUserListing extends React.Component<IProps, IState> {
             (adminUser: AdminUser): JSX.Element => (
               <tr key={adminUser.id}>
                 <td>{adminUser.id}</td>
-                <td>{adminUser.firstName}</td>
-                <td>{adminUser.lastName}</td>
+                <td>{adminUser.name}</td>
                 <td>{adminUser.email}</td>
               </tr>
             )
