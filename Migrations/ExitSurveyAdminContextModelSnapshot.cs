@@ -102,6 +102,10 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("CreatedTs")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CurrentEmployeeStatusCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("DepartmentId")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -187,7 +191,36 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CurrentEmployeeStatusCode");
+
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeStatusEnum", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("EmployeeStatusEnums");
+                });
+
+            modelBuilder.Entity("ExitSurveyAdmin.Models.Employee", b =>
+                {
+                    b.HasOne("ExitSurveyAdmin.Models.EmployeeStatusEnum", "CurrentEmployeeStatus")
+                        .WithMany("Employees")
+                        .HasForeignKey("CurrentEmployeeStatusCode")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

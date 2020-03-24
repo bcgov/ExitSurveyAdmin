@@ -5,6 +5,7 @@ namespace ExitSurveyAdmin.Models
 {
     public class Employee : BaseEntity
     {
+        [Key]
         [Required]
         public string Id { get; set; }
 
@@ -111,5 +112,8 @@ namespace ExitSurveyAdmin.Models
 
         [Required]
         public string LocationGroup { get; set; }
+
+        [Required]
+        public EmployeeStatusEnum CurrentEmployeeStatus { get; set; }
     }
 }
