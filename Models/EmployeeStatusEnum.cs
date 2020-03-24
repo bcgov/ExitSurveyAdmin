@@ -23,5 +23,7 @@ namespace ExitSurveyAdmin.Models
         public string Description ***REMOVED*** get; set; ***REMOVED***
 
         public List<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
+
+        public List<EmployeeTimelineEntry> EmployeeTimelineEntries ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
