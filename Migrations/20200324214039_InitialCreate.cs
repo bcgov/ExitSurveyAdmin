@@ -90,16 +90,57 @@ namespace ExitSurveyAdmin.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EmployeeTimelineEntry",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreatedTs = table.Column<DateTime>(nullable: false),
+                    ModifiedTs = table.Column<DateTime>(nullable: false),
+                    EmployeeId = table.Column<string>(nullable: false),
+                    EmployeeStatusCode = table.Column<string>(nullable: false),
+                    Comment = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeTimelineEntry", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeTimelineEntry_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeTimelineEntry_EmployeeStatusEnums_EmployeeStatusCode",
+                        column: x => x.EmployeeStatusCode,
+                        principalTable: "EmployeeStatusEnums",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CurrentEmployeeStatusCode",
                 table: "Employees",
                 column: "CurrentEmployeeStatusCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTimelineEntry_EmployeeId",
+                table: "EmployeeTimelineEntry",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTimelineEntry_EmployeeStatusCode",
+                table: "EmployeeTimelineEntry",
+                column: "EmployeeStatusCode");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "AdminUsers");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeTimelineEntry");
 
             migrationBuilder.DropTable(
                 name: "Employees");
