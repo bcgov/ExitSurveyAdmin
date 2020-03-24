@@ -196,6 +196,20 @@ namespace ExitSurveyAdmin.Migrations
                     b.ToTable("Employees");
               ***REMOVED***);
 
+            modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeActionTypeEnum", b =>
+                ***REMOVED***
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("EmployeeActionTypeEnums");
+              ***REMOVED***);
+
             modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeStatusEnum", b =>
                 ***REMOVED***
                     b.Property<string>("Code")
@@ -226,12 +240,15 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("CreatedTs")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EmployeeActionTypeCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmployeeStatusCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ModifiedTs")
@@ -239,11 +256,13 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeActionTypeCode");
+
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("EmployeeStatusCode");
 
-                    b.ToTable("EmployeeTimelineEntry");
+                    b.ToTable("EmployeeTimelineEntries");
               ***REMOVED***);
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.Employee", b =>
@@ -257,17 +276,22 @@ namespace ExitSurveyAdmin.Migrations
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeTimelineEntry", b =>
                 ***REMOVED***
+                    b.HasOne("ExitSurveyAdmin.Models.EmployeeActionTypeEnum", "EmployeeActionType")
+                        .WithMany("TimelineEntries")
+                        .HasForeignKey("EmployeeActionTypeCode")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ExitSurveyAdmin.Models.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("TimelineEntries")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ExitSurveyAdmin.Models.EmployeeStatusEnum", "EmployeeStatus")
-                        .WithMany("EmployeeTimelineEntries")
+                        .WithMany("TimelineEntries")
                         .HasForeignKey("EmployeeStatusCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
               ***REMOVED***);
 #pragma warning restore 612, 618
       ***REMOVED***

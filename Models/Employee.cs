@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ExitSurveyAdmin.Models
@@ -115,5 +116,7 @@ namespace ExitSurveyAdmin.Models
 
         [Required]
         public EmployeeStatusEnum CurrentEmployeeStatus ***REMOVED*** get; set; ***REMOVED***
+
+        public List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***

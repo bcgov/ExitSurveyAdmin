@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
-    public class EmployeeStatusEnum
+    public class EmployeeActionTypeEnum
     ***REMOVED***
 
         [Key]
@@ -11,12 +11,7 @@ namespace ExitSurveyAdmin.Models
         public string Code ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public string State ***REMOVED*** get; set; ***REMOVED***
-
-        [Required]
         public string Description ***REMOVED*** get; set; ***REMOVED***
-
-        public List<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
 
         public List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***

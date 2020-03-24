@@ -25,6 +25,18 @@ namespace ExitSurveyAdmin.Migrations
               ***REMOVED***);
 
             migrationBuilder.CreateTable(
+                name: "EmployeeActionTypeEnums",
+                columns: table => new
+                ***REMOVED***
+                    Code = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false)
+              ***REMOVED***
+                constraints: table =>
+                ***REMOVED***
+                    table.PrimaryKey("PK_EmployeeActionTypeEnums", x => x.Code);
+              ***REMOVED***);
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeStatusEnums",
                 columns: table => new
                 ***REMOVED***
@@ -91,31 +103,38 @@ namespace ExitSurveyAdmin.Migrations
               ***REMOVED***);
 
             migrationBuilder.CreateTable(
-                name: "EmployeeTimelineEntry",
+                name: "EmployeeTimelineEntries",
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<string>(nullable: false),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<string>(nullable: false),
-                    EmployeeStatusCode = table.Column<string>(nullable: false),
+                    EmployeeActionTypeCode = table.Column<string>(nullable: false),
+                    EmployeeStatusCode = table.Column<string>(nullable: true),
                     Comment = table.Column<string>(nullable: false)
               ***REMOVED***
                 constraints: table =>
                 ***REMOVED***
-                    table.PrimaryKey("PK_EmployeeTimelineEntry", x => x.Id);
+                    table.PrimaryKey("PK_EmployeeTimelineEntries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeTimelineEntry_Employees_EmployeeId",
+                        name: "FK_EmployeeTimelineEntries_EmployeeActionTypeEnums_EmployeeActionTypeCode",
+                        column: x => x.EmployeeActionTypeCode,
+                        principalTable: "EmployeeActionTypeEnums",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EmployeeTimelineEntries_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EmployeeTimelineEntry_EmployeeStatusEnums_EmployeeStatusCode",
+                        name: "FK_EmployeeTimelineEntries_EmployeeStatusEnums_EmployeeStatusCode",
                         column: x => x.EmployeeStatusCode,
                         principalTable: "EmployeeStatusEnums",
                         principalColumn: "Code",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
               ***REMOVED***);
 
             migrationBuilder.CreateIndex(
@@ -124,13 +143,18 @@ namespace ExitSurveyAdmin.Migrations
                 column: "CurrentEmployeeStatusCode");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeTimelineEntry_EmployeeId",
-                table: "EmployeeTimelineEntry",
+                name: "IX_EmployeeTimelineEntries_EmployeeActionTypeCode",
+                table: "EmployeeTimelineEntries",
+                column: "EmployeeActionTypeCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTimelineEntries_EmployeeId",
+                table: "EmployeeTimelineEntries",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeTimelineEntry_EmployeeStatusCode",
-                table: "EmployeeTimelineEntry",
+                name: "IX_EmployeeTimelineEntries_EmployeeStatusCode",
+                table: "EmployeeTimelineEntries",
                 column: "EmployeeStatusCode");
       ***REMOVED***
 
@@ -140,7 +164,10 @@ namespace ExitSurveyAdmin.Migrations
                 name: "AdminUsers");
 
             migrationBuilder.DropTable(
-                name: "EmployeeTimelineEntry");
+                name: "EmployeeTimelineEntries");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeActionTypeEnums");
 
             migrationBuilder.DropTable(
                 name: "Employees");

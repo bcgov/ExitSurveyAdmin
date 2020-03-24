@@ -14,6 +14,8 @@ namespace ExitSurveyAdmin.Models
         public DbSet<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
         public DbSet<AdminUser> AdminUsers ***REMOVED*** get; set; ***REMOVED***
         public DbSet<EmployeeStatusEnum> EmployeeStatusEnums ***REMOVED*** get; set; ***REMOVED***
+        public DbSet<EmployeeActionTypeEnum> EmployeeActionTypeEnums ***REMOVED*** get; set; ***REMOVED***
+        public DbSet<EmployeeTimelineEntry> EmployeeTimelineEntries ***REMOVED*** get; set; ***REMOVED***
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         ***REMOVED***
@@ -22,6 +24,21 @@ namespace ExitSurveyAdmin.Models
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.CurrentEmployeeStatus)
                 .WithMany(s => s.Employees)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EmployeeTimelineEntry>()
+                .HasOne(timelineEntry => timelineEntry.Employee)
+                .WithMany(employee => employee.TimelineEntries)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EmployeeTimelineEntry>()
+                .HasOne(timelineEntry => timelineEntry.EmployeeActionType)
+                .WithMany(actionType => actionType.TimelineEntries)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EmployeeTimelineEntry>()
+                .HasOne(timelineEntry => timelineEntry.EmployeeStatus)
+                .WithMany(status => status.TimelineEntries)
                 .OnDelete(DeleteBehavior.Restrict);
       ***REMOVED***
 
