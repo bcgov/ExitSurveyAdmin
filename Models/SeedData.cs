@@ -30,6 +30,7 @@ namespace ExitSurveyAdmin.Models
                     }
                 );
 
+                // TODO: Add all the items.
                 context.EmployeeStatusEnums.AddRange(
                     new EmployeeStatusEnum
                     {
@@ -48,6 +49,25 @@ namespace ExitSurveyAdmin.Models
                         Code = "SurveyComplete",
                         State = "Final",
                         Description = "Survey has been finished."
+                    }
+                );
+
+                // TODO: Add all the items.
+                context.EmployeeActionTypeEnums.AddRange(
+                    new EmployeeActionTypeEnum
+                    {
+                        Code = "CreateFromCSV",
+                        Description = "Employee created by the CSV import task."
+                    },
+                    new EmployeeActionTypeEnum
+                    {
+                        Code = "UpdateByTask",
+                        Description = "Employee field(s) updated by a task."
+                    },
+                    new EmployeeActionTypeEnum
+                    {
+                        Code = "StatusChange",
+                        Description = "Employee status was changed."
                     }
                 );
 
