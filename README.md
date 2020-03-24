@@ -14,6 +14,14 @@ The Exit Survey Administration Tool will assist BC Stats in administering the BC
 6. Open the checked-out code in [Visual Studio Code](https://code.visualstudio.com).
 7. While in Visual Studio Code, press <kbd>CTRL</kbd> + <kbd>F5</kbd> to launch the project.
 
+## Quick database reset
+
+This command will quickly drop the database, delete migrations, create an initial migration, and update the database.
+
+```
+dotnet ef database drop --force;rm -rf Migrations/*.cs;dotnet ef migrations add InitialCreate;dotnet ef database update
+```
+
 # Copyright and license
 
 Copyright 2019 Province of British Columbia
