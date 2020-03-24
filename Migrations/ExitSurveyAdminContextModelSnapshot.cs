@@ -32,18 +32,14 @@ namespace ExitSurveyAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("LastLoginTs")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
+                    b.Property<DateTime>("ModifiedTs")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ModifiedTs")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

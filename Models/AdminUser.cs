@@ -12,13 +12,10 @@ namespace ExitSurveyAdmin.Models
         public string EmployeeId { get; set; }
 
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
         public string Email { get; set; }
+
+        [Required]
+        public string Name { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime LastLoginTs { get; set; }
