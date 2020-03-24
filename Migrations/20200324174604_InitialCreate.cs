@@ -15,9 +15,8 @@ namespace ExitSurveyAdmin.Migrations
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<string>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     LastLoginTs = table.Column<DateTime>(nullable: false)
               ***REMOVED***
                 constraints: table =>

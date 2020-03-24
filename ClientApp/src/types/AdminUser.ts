@@ -1,6 +1,5 @@
 export type AdminUser = ***REMOVED***
   id: string
-  firstName: string
-  lastName: string
+  name: string
   email: string
 ***REMOVED***

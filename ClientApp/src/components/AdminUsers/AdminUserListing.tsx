@@ -23,8 +23,7 @@ export class AdminUserListing extends React.Component<IProps, IState> ***REMOVED
         <thead>
           <tr>
             <th>Id</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>Name</th>
             <th>Email</th>
           </tr>
         </thead>
@@ -33,8 +32,7 @@ export class AdminUserListing extends React.Component<IProps, IState> ***REMOVED
             (adminUser: AdminUser): JSX.Element => (
               <tr key=***REMOVED***adminUser.id***REMOVED***>
                 <td>***REMOVED***adminUser.id***REMOVED***</td>
-                <td>***REMOVED***adminUser.firstName***REMOVED***</td>
-                <td>***REMOVED***adminUser.lastName***REMOVED***</td>
+                <td>***REMOVED***adminUser.name***REMOVED***</td>
                 <td>***REMOVED***adminUser.email***REMOVED***</td>
               </tr>
             )
