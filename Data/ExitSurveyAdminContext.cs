@@ -13,6 +13,17 @@ namespace ExitSurveyAdmin.Models
 
         public DbSet<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
         public DbSet<AdminUser> AdminUsers ***REMOVED*** get; set; ***REMOVED***
+        public DbSet<EmployeeStatusEnum> EmployeeStatusEnums ***REMOVED*** get; set; ***REMOVED***
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        ***REMOVED***
+            // Do not permit cascade deletes should either the Employee or the
+            // EmployeeStatusEnum be deleted.
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.CurrentEmployeeStatus)
+                .WithMany(s => s.Employees)
+                .OnDelete(DeleteBehavior.Restrict);
+      ***REMOVED***
 
         public override int SaveChanges()
         ***REMOVED***

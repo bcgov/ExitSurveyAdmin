@@ -10,9 +10,7 @@ namespace ExitSurveyAdmin.Models
         public static void Initialize(IServiceProvider serviceProvider)
         ***REMOVED***
             using (var context = new ExitSurveyAdminContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<ExitSurveyAdminContext>
-                >())
+                serviceProvider.GetRequiredService<DbContextOptions<ExitSurveyAdminContext>>())
             )
             ***REMOVED***
                 // If the context contains any AdminUsers already, it has
@@ -29,6 +27,27 @@ namespace ExitSurveyAdmin.Models
                         EmployeeId = "FHANGLER",
                         Name = "Frank Hangler",
                         Email = "frank@plotandscatter.com"
+                  ***REMOVED***
+                );
+
+                context.EmployeeStatusEnums.AddRange(
+                    new EmployeeStatusEnum
+                    ***REMOVED***
+                        Code = "New",
+                        State = "Initial",
+                        Description = "Newly added user; no email sent yet."
+                  ***REMOVED***
+                    new EmployeeStatusEnum
+                    ***REMOVED***
+                        Code = "WelcomeEmailSent",
+                        State = "InProgress",
+                        Description = "First email sent."
+                  ***REMOVED***
+                    new EmployeeStatusEnum
+                    ***REMOVED***
+                        Code = "SurveyComplete",
+                        State = "Final",
+                        Description = "Survey has been finished."
                   ***REMOVED***
                 );
 

@@ -5,6 +5,7 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class Employee : BaseEntity
     ***REMOVED***
+        [Key]
         [Required]
         public string Id ***REMOVED*** get; set; ***REMOVED***
 
@@ -111,5 +112,8 @@ namespace ExitSurveyAdmin.Models
 
         [Required]
         public string LocationGroup ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public EmployeeStatusEnum CurrentEmployeeStatus ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
