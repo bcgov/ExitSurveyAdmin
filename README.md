@@ -9,10 +9,12 @@ The Exit Survey Administration Tool will assist BC Stats in administering the BC
 1. Ensure the [.NET Core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1) is installed.
 2. Ensure the [.NET Core HTTPS development certificate is trusted](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio#trust-the-aspnet-core-https-development-certificate-on-windows-and-macos).
 3. Check out the code from this repository.
-4. On the command line / terminal, from the ClientApp directory, run `yarn install`.
-5. Open the checked-out code in [Visual Studio Code](https://code.visualstudio.com).
-6. While in Visual Studio Code, press <kbd>CTRL</kbd> + <kbd>F5</kbd> to launch the project.
+4. From the root project directory, run `dotnet ef database update`. This will run the migrations and set up your development database.
+5. On the command line / terminal, from the `ClientApp` directory (in the root project directory), run `yarn install`.
+6. Open the checked-out code in [Visual Studio Code](https://code.visualstudio.com).
+7. While in Visual Studio Code, press <kbd>CTRL</kbd> + <kbd>F5</kbd> to launch the project.
 
+# Copyright and license
 
 Copyright 2019 Province of British Columbia
 
