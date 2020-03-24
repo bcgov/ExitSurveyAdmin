@@ -2,15 +2,17 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    ***REMOVED***
-      "language": "typescript",
-      "autoFix": true
-  ***REMOVED***
-    ***REMOVED***
-      "language": "typescriptreact",
-      "autoFix": true
-  ***REMOVED***
+    "typescript",
+    "typescriptreact"
   ],
+  "[csharp]": ***REMOVED***
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false
+***REMOVED***
+  "[json]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
   "files.exclude": ***REMOVED***
     "**/*.css": true
 ***REMOVED***
