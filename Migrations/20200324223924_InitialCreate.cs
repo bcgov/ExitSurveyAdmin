@@ -50,6 +50,30 @@ namespace ExitSurveyAdmin.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaskOutcomeEnums",
+                columns: table => new
+                {
+                    Code = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskOutcomeEnums", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskTypeEnums",
+                columns: table => new
+                {
+                    Code = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskTypeEnums", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -137,6 +161,41 @@ namespace ExitSurveyAdmin.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TaskLogEntries",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreatedTs = table.Column<DateTime>(nullable: false),
+                    ModifiedTs = table.Column<DateTime>(nullable: false),
+                    EmployeeId = table.Column<string>(nullable: false),
+                    TaskTypeCode = table.Column<string>(nullable: false),
+                    TaskOutcomeCode = table.Column<string>(nullable: false),
+                    Comment = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskLogEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskLogEntries_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TaskLogEntries_TaskOutcomeEnums_TaskOutcomeCode",
+                        column: x => x.TaskOutcomeCode,
+                        principalTable: "TaskOutcomeEnums",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TaskLogEntries_TaskTypeEnums_TaskTypeCode",
+                        column: x => x.TaskTypeCode,
+                        principalTable: "TaskTypeEnums",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CurrentEmployeeStatusCode",
                 table: "Employees",
@@ -156,6 +215,21 @@ namespace ExitSurveyAdmin.Migrations
                 name: "IX_EmployeeTimelineEntries_EmployeeStatusCode",
                 table: "EmployeeTimelineEntries",
                 column: "EmployeeStatusCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskLogEntries_EmployeeId",
+                table: "TaskLogEntries",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskLogEntries_TaskOutcomeCode",
+                table: "TaskLogEntries",
+                column: "TaskOutcomeCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskLogEntries_TaskTypeCode",
+                table: "TaskLogEntries",
+                column: "TaskTypeCode");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -167,10 +241,19 @@ namespace ExitSurveyAdmin.Migrations
                 name: "EmployeeTimelineEntries");
 
             migrationBuilder.DropTable(
+                name: "TaskLogEntries");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeActionTypeEnums");
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "TaskOutcomeEnums");
+
+            migrationBuilder.DropTable(
+                name: "TaskTypeEnums");
 
             migrationBuilder.DropTable(
                 name: "EmployeeStatusEnums");

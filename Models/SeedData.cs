@@ -71,6 +71,42 @@ namespace ExitSurveyAdmin.Models
                     }
                 );
 
+                context.TaskTypeEnums.AddRange(
+                    new TaskTypeEnum
+                    {
+                        Code = "ReconcileCSV",
+                        Description = "Task to reconcile CSV with database."
+                    },
+                    new TaskTypeEnum
+                    {
+                        Code = "EmailUsers",
+                        Description = "Task to email users."
+                    },
+                    new TaskTypeEnum
+                    {
+                        Code = "RetrieveSurveyStatus",
+                        Description = "Task to get survey status from Callweb."
+                    }
+                );
+
+                context.TaskOutcomeEnums.AddRange(
+                    new TaskOutcomeEnum
+                    {
+                        Code = "Success",
+                        Description = "The task was successful. No warnings."
+                    },
+                    new TaskOutcomeEnum
+                    {
+                        Code = "Warn",
+                        Description = "The task was successful, with warnings."
+                    },
+                    new TaskOutcomeEnum
+                    {
+                        Code = "Fail",
+                        Description = "The task failed."
+                    }
+                );
+
                 context.SaveChanges();
             }
         }

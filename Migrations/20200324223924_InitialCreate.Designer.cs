@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200324220614_InitialCreate")]
+    [Migration("20200324223924_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -267,6 +267,72 @@ namespace ExitSurveyAdmin.Migrations
                     b.ToTable("EmployeeTimelineEntries");
                 });
 
+            modelBuilder.Entity("ExitSurveyAdmin.Models.TaskLogEntry", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedTs")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModifiedTs")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TaskOutcomeCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TaskTypeCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("TaskOutcomeCode");
+
+                    b.HasIndex("TaskTypeCode");
+
+                    b.ToTable("TaskLogEntries");
+                });
+
+            modelBuilder.Entity("ExitSurveyAdmin.Models.TaskOutcomeEnum", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("TaskOutcomeEnums");
+                });
+
+            modelBuilder.Entity("ExitSurveyAdmin.Models.TaskTypeEnum", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("TaskTypeEnums");
+                });
+
             modelBuilder.Entity("ExitSurveyAdmin.Models.Employee", b =>
                 {
                     b.HasOne("ExitSurveyAdmin.Models.EmployeeStatusEnum", "CurrentEmployeeStatus")
@@ -294,6 +360,27 @@ namespace ExitSurveyAdmin.Migrations
                         .WithMany("TimelineEntries")
                         .HasForeignKey("EmployeeStatusCode")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ExitSurveyAdmin.Models.TaskLogEntry", b =>
+                {
+                    b.HasOne("ExitSurveyAdmin.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExitSurveyAdmin.Models.TaskOutcomeEnum", "TaskOutcome")
+                        .WithMany("TaskLogEntries")
+                        .HasForeignKey("TaskOutcomeCode")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ExitSurveyAdmin.Models.TaskTypeEnum", "TaskType")
+                        .WithMany("TaskLogEntries")
+                        .HasForeignKey("TaskTypeCode")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
