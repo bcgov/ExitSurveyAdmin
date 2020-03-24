@@ -6,6 +6,7 @@ namespace ExitSurveyAdmin.Models
     public class AdminUser : BaseEntity
     ***REMOVED***
         [Key]
+        [Required]
         public string Id ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
