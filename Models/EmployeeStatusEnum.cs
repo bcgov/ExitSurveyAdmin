@@ -23,5 +23,7 @@ namespace ExitSurveyAdmin.Models
         public string Description { get; set; }
 
         public List<Employee> Employees { get; set; }
+
+        public List<EmployeeTimelineEntry> EmployeeTimelineEntries { get; set; }
     }
 }
