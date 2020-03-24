@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200324214039_InitialCreate")]
+    [Migration("20200324220614_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,6 +198,20 @@ namespace ExitSurveyAdmin.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeActionTypeEnum", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("EmployeeActionTypeEnums");
+                });
+
             modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeStatusEnum", b =>
                 {
                     b.Property<string>("Code")
@@ -228,12 +242,15 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("CreatedTs")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EmployeeActionTypeCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmployeeStatusCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ModifiedTs")
@@ -241,11 +258,13 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeActionTypeCode");
+
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("EmployeeStatusCode");
 
-                    b.ToTable("EmployeeTimelineEntry");
+                    b.ToTable("EmployeeTimelineEntries");
                 });
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.Employee", b =>
@@ -259,17 +278,22 @@ namespace ExitSurveyAdmin.Migrations
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeTimelineEntry", b =>
                 {
+                    b.HasOne("ExitSurveyAdmin.Models.EmployeeActionTypeEnum", "EmployeeActionType")
+                        .WithMany("TimelineEntries")
+                        .HasForeignKey("EmployeeActionTypeCode")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ExitSurveyAdmin.Models.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("TimelineEntries")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ExitSurveyAdmin.Models.EmployeeStatusEnum", "EmployeeStatus")
-                        .WithMany("EmployeeTimelineEntries")
+                        .WithMany("TimelineEntries")
                         .HasForeignKey("EmployeeStatusCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }
