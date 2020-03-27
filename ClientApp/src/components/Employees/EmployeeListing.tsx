@@ -4,13 +4,13 @@ import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 interface IProps ***REMOVED******REMOVED***
 
 interface IState ***REMOVED***
-  employees: Employee[]
+  employees?: Employee[]
 ***REMOVED***
 
 export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
   constructor(props: IProps) ***REMOVED***
     super(props)
-    this.state = ***REMOVED*** employees: [] ***REMOVED***
+    this.state = ***REMOVED*** employees: undefined ***REMOVED***
 ***REMOVED***
 
   componentDidMount(): void ***REMOVED***
@@ -48,7 +48,7 @@ export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED*
 
   render(): JSX.Element ***REMOVED***
     const contents =
-      this.state.employees.length === 0 ? (
+      this.state.employees === undefined ? (
         <p>
           <em>Loading...</em>
         </p>
