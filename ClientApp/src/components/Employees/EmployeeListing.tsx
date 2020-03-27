@@ -4,13 +4,13 @@ import { Employee } from '../../types/Employee'
 interface IProps {}
 
 interface IState {
-  employees: Employee[]
+  employees?: Employee[]
 }
 
 export class EmployeeListing extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
-    this.state = { employees: [] }
+    this.state = { employees: undefined }
   }
 
   componentDidMount(): void {
@@ -48,7 +48,7 @@ export class EmployeeListing extends React.Component<IProps, IState> {
 
   render(): JSX.Element {
     const contents =
-      this.state.employees.length === 0 ? (
+      this.state.employees === undefined ? (
         <p>
           <em>Loading...</em>
         </p>
