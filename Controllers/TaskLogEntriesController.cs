@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 
+public class TaskLogEntryPost
+{
+    public string Id { get; set; }
+    public string Comment { get; set; }
+    public string TaskCode { get; set; }
+    public string TaskOutcomeCode { get; set; }
+}
+
 namespace ExitSurveyAdmin.Controllers
 {
     [Route("api/[controller]")]
@@ -78,8 +86,14 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<TaskLogEntry>> PostTaskLogEntry(TaskLogEntry taskLogEntry)
+        public async Task<ActionResult<TaskLogEntry>> PostTaskLogEntry(TaskLogEntryPost post)
         {
+            // TODO: Do proper validation here.
+            var task = await _context.TaskEnums.FindAsync(post.TaskCode);
+            var taskOutcome = await _context.TaskOutcomeEnums.FindAsync(post.TaskOutcomeCode);
+
+            var taskLogEntry = new TaskLogEntry { Id = post.Id, Comment = post.Comment, Task = task, TaskOutcome = taskOutcome };
+
             _context.TaskLogEntries.Add(taskLogEntry);
             await _context.SaveChangesAsync();
 
