@@ -291,10 +291,6 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("CreatedTs")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("ModifiedTs")
                         .HasColumnType("TEXT");
 
@@ -307,8 +303,6 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("TaskCode");
 
@@ -362,12 +356,6 @@ namespace ExitSurveyAdmin.Migrations
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.TaskLogEntry", b =>
                 ***REMOVED***
-                    b.HasOne("ExitSurveyAdmin.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ExitSurveyAdmin.Models.TaskEnum", "Task")
                         .WithMany("TaskLogEntries")
                         .HasForeignKey("TaskCode")

@@ -127,6 +127,34 @@ namespace ExitSurveyAdmin.Migrations
               ***REMOVED***);
 
             migrationBuilder.CreateTable(
+                name: "TaskLogEntries",
+                columns: table => new
+                ***REMOVED***
+                    Id = table.Column<string>(nullable: false),
+                    CreatedTs = table.Column<DateTime>(nullable: false),
+                    ModifiedTs = table.Column<DateTime>(nullable: false),
+                    TaskCode = table.Column<string>(nullable: false),
+                    TaskOutcomeCode = table.Column<string>(nullable: false),
+                    Comment = table.Column<string>(nullable: false)
+              ***REMOVED***
+                constraints: table =>
+                ***REMOVED***
+                    table.PrimaryKey("PK_TaskLogEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskLogEntries_TaskEnums_TaskCode",
+                        column: x => x.TaskCode,
+                        principalTable: "TaskEnums",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TaskLogEntries_TaskOutcomeEnums_TaskOutcomeCode",
+                        column: x => x.TaskOutcomeCode,
+                        principalTable: "TaskOutcomeEnums",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+              ***REMOVED***);
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeTimelineEntries",
                 columns: table => new
                 ***REMOVED***
@@ -161,41 +189,6 @@ namespace ExitSurveyAdmin.Migrations
                         onDelete: ReferentialAction.Restrict);
               ***REMOVED***);
 
-            migrationBuilder.CreateTable(
-                name: "TaskLogEntries",
-                columns: table => new
-                ***REMOVED***
-                    Id = table.Column<string>(nullable: false),
-                    CreatedTs = table.Column<DateTime>(nullable: false),
-                    ModifiedTs = table.Column<DateTime>(nullable: false),
-                    EmployeeId = table.Column<string>(nullable: false),
-                    TaskCode = table.Column<string>(nullable: false),
-                    TaskOutcomeCode = table.Column<string>(nullable: false),
-                    Comment = table.Column<string>(nullable: false)
-              ***REMOVED***
-                constraints: table =>
-                ***REMOVED***
-                    table.PrimaryKey("PK_TaskLogEntries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TaskLogEntries_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TaskLogEntries_TaskEnums_TaskCode",
-                        column: x => x.TaskCode,
-                        principalTable: "TaskEnums",
-                        principalColumn: "Code",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TaskLogEntries_TaskOutcomeEnums_TaskOutcomeCode",
-                        column: x => x.TaskOutcomeCode,
-                        principalTable: "TaskOutcomeEnums",
-                        principalColumn: "Code",
-                        onDelete: ReferentialAction.Restrict);
-              ***REMOVED***);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CurrentEmployeeStatusCode",
                 table: "Employees",
@@ -215,11 +208,6 @@ namespace ExitSurveyAdmin.Migrations
                 name: "IX_EmployeeTimelineEntries_EmployeeStatusCode",
                 table: "EmployeeTimelineEntries",
                 column: "EmployeeStatusCode");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskLogEntries_EmployeeId",
-                table: "TaskLogEntries",
-                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskLogEntries_TaskCode",
