@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
@@ -16,8 +17,10 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Description ***REMOVED*** get; set; ***REMOVED***
 
+        [JsonIgnore]
         public List<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
 
+        [JsonIgnore]
         public List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
