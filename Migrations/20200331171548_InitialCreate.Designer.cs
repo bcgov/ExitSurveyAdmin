@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200331170502_InitialCreate")]
+    [Migration("20200331171548_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -293,10 +293,6 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("CreatedTs")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("ModifiedTs")
                         .HasColumnType("TEXT");
 
@@ -309,8 +305,6 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("TaskCode");
 
@@ -364,12 +358,6 @@ namespace ExitSurveyAdmin.Migrations
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.TaskLogEntry", b =>
                 {
-                    b.HasOne("ExitSurveyAdmin.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ExitSurveyAdmin.Models.TaskEnum", "Task")
                         .WithMany("TaskLogEntries")
                         .HasForeignKey("TaskCode")
