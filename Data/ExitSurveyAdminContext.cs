@@ -14,10 +14,10 @@ namespace ExitSurveyAdmin.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<AdminUser> AdminUsers { get; set; }
         public DbSet<EmployeeStatusEnum> EmployeeStatusEnums { get; set; }
-        public DbSet<EmployeeActionTypeEnum> EmployeeActionTypeEnums { get; set; }
+        public DbSet<EmployeeActionEnum> EmployeeActionEnums { get; set; }
         public DbSet<EmployeeTimelineEntry> EmployeeTimelineEntries { get; set; }
         public DbSet<TaskLogEntry> TaskLogEntries { get; set; }
-        public DbSet<TaskTypeEnum> TaskTypeEnums { get; set; }
+        public DbSet<TaskEnum> TaskEnums { get; set; }
         public DbSet<TaskOutcomeEnum> TaskOutcomeEnums { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace ExitSurveyAdmin.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<EmployeeTimelineEntry>()
-                .HasOne(timelineEntry => timelineEntry.EmployeeActionType)
-                .WithMany(actionType => actionType.TimelineEntries)
+                .HasOne(timelineEntry => timelineEntry.EmployeeAction)
+                .WithMany(action => action.TimelineEntries)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<EmployeeTimelineEntry>()
@@ -45,8 +45,8 @@ namespace ExitSurveyAdmin.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TaskLogEntry>()
-                .HasOne(taskLogEntry => taskLogEntry.TaskType)
-                .WithMany(taskType => taskType.TaskLogEntries)
+                .HasOne(taskLogEntry => taskLogEntry.Task)
+                .WithMany(task => task.TaskLogEntries)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TaskLogEntry>()
