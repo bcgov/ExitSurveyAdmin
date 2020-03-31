@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExitSurveyAdmin.Models
 {
-    public class TaskTypeEnum
+    public class EmployeeActionEnum
     {
 
         [Key]
@@ -13,6 +13,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Description { get; set; }
 
-        public List<TaskLogEntry> TaskLogEntries { get; set; }
+        public List<EmployeeTimelineEntry> TimelineEntries { get; set; }
     }
 }
