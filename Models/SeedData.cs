@@ -53,36 +53,36 @@ namespace ExitSurveyAdmin.Models
                 );
 
                 // TODO: Add all the items.
-                context.EmployeeActionTypeEnums.AddRange(
-                    new EmployeeActionTypeEnum
+                context.EmployeeActionEnums.AddRange(
+                    new EmployeeActionEnum
                     ***REMOVED***
                         Code = "CreateFromCSV",
                         Description = "Employee created by the CSV import task."
                   ***REMOVED***
-                    new EmployeeActionTypeEnum
+                    new EmployeeActionEnum
                     ***REMOVED***
                         Code = "UpdateByTask",
                         Description = "Employee field(s) updated by a task."
                   ***REMOVED***
-                    new EmployeeActionTypeEnum
+                    new EmployeeActionEnum
                     ***REMOVED***
                         Code = "StatusChange",
                         Description = "Employee status was changed."
                   ***REMOVED***
                 );
 
-                context.TaskTypeEnums.AddRange(
-                    new TaskTypeEnum
+                context.TaskEnums.AddRange(
+                    new TaskEnum
                     ***REMOVED***
                         Code = "ReconcileCSV",
                         Description = "Task to reconcile CSV with database."
                   ***REMOVED***
-                    new TaskTypeEnum
+                    new TaskEnum
                     ***REMOVED***
                         Code = "EmailUsers",
                         Description = "Task to email users."
                   ***REMOVED***
-                    new TaskTypeEnum
+                    new TaskEnum
                     ***REMOVED***
                         Code = "RetrieveSurveyStatus",
                         Description = "Task to get survey status from Callweb."

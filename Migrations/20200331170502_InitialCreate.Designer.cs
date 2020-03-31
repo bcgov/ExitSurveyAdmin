@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 ***REMOVED***
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200324223924_InitialCreate")]
+    [Migration("20200331170502_InitialCreate")]
     partial class InitialCreate
     ***REMOVED***
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,7 +198,7 @@ namespace ExitSurveyAdmin.Migrations
                     b.ToTable("Employees");
               ***REMOVED***);
 
-            modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeActionTypeEnum", b =>
+            modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeActionEnum", b =>
                 ***REMOVED***
                     b.Property<string>("Code")
                         .HasColumnType("TEXT");
@@ -209,7 +209,7 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.HasKey("Code");
 
-                    b.ToTable("EmployeeActionTypeEnums");
+                    b.ToTable("EmployeeActionEnums");
               ***REMOVED***);
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeStatusEnum", b =>
@@ -242,7 +242,7 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("CreatedTs")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmployeeActionTypeCode")
+                    b.Property<string>("EmployeeActionCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -258,13 +258,27 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeActionTypeCode");
+                    b.HasIndex("EmployeeActionCode");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("EmployeeStatusCode");
 
                     b.ToTable("EmployeeTimelineEntries");
+              ***REMOVED***);
+
+            modelBuilder.Entity("ExitSurveyAdmin.Models.TaskEnum", b =>
+                ***REMOVED***
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("TaskEnums");
               ***REMOVED***);
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.TaskLogEntry", b =>
@@ -286,11 +300,11 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("ModifiedTs")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TaskOutcomeCode")
+                    b.Property<string>("TaskCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TaskTypeCode")
+                    b.Property<string>("TaskOutcomeCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -298,9 +312,9 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("TaskOutcomeCode");
+                    b.HasIndex("TaskCode");
 
-                    b.HasIndex("TaskTypeCode");
+                    b.HasIndex("TaskOutcomeCode");
 
                     b.ToTable("TaskLogEntries");
               ***REMOVED***);
@@ -319,20 +333,6 @@ namespace ExitSurveyAdmin.Migrations
                     b.ToTable("TaskOutcomeEnums");
               ***REMOVED***);
 
-            modelBuilder.Entity("ExitSurveyAdmin.Models.TaskTypeEnum", b =>
-                ***REMOVED***
-                    b.Property<string>("Code")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("TaskTypeEnums");
-              ***REMOVED***);
-
             modelBuilder.Entity("ExitSurveyAdmin.Models.Employee", b =>
                 ***REMOVED***
                     b.HasOne("ExitSurveyAdmin.Models.EmployeeStatusEnum", "CurrentEmployeeStatus")
@@ -344,9 +344,9 @@ namespace ExitSurveyAdmin.Migrations
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.EmployeeTimelineEntry", b =>
                 ***REMOVED***
-                    b.HasOne("ExitSurveyAdmin.Models.EmployeeActionTypeEnum", "EmployeeActionType")
+                    b.HasOne("ExitSurveyAdmin.Models.EmployeeActionEnum", "EmployeeAction")
                         .WithMany("TimelineEntries")
-                        .HasForeignKey("EmployeeActionTypeCode")
+                        .HasForeignKey("EmployeeActionCode")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -370,15 +370,15 @@ namespace ExitSurveyAdmin.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ExitSurveyAdmin.Models.TaskOutcomeEnum", "TaskOutcome")
+                    b.HasOne("ExitSurveyAdmin.Models.TaskEnum", "Task")
                         .WithMany("TaskLogEntries")
-                        .HasForeignKey("TaskOutcomeCode")
+                        .HasForeignKey("TaskCode")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ExitSurveyAdmin.Models.TaskTypeEnum", "TaskType")
+                    b.HasOne("ExitSurveyAdmin.Models.TaskOutcomeEnum", "TaskOutcome")
                         .WithMany("TaskLogEntries")
-                        .HasForeignKey("TaskTypeCode")
+                        .HasForeignKey("TaskOutcomeCode")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
               ***REMOVED***);

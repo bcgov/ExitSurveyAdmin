@@ -14,10 +14,10 @@ namespace ExitSurveyAdmin.Models
         public DbSet<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
         public DbSet<AdminUser> AdminUsers ***REMOVED*** get; set; ***REMOVED***
         public DbSet<EmployeeStatusEnum> EmployeeStatusEnums ***REMOVED*** get; set; ***REMOVED***
-        public DbSet<EmployeeActionTypeEnum> EmployeeActionTypeEnums ***REMOVED*** get; set; ***REMOVED***
+        public DbSet<EmployeeActionEnum> EmployeeActionEnums ***REMOVED*** get; set; ***REMOVED***
         public DbSet<EmployeeTimelineEntry> EmployeeTimelineEntries ***REMOVED*** get; set; ***REMOVED***
         public DbSet<TaskLogEntry> TaskLogEntries ***REMOVED*** get; set; ***REMOVED***
-        public DbSet<TaskTypeEnum> TaskTypeEnums ***REMOVED*** get; set; ***REMOVED***
+        public DbSet<TaskEnum> TaskEnums ***REMOVED*** get; set; ***REMOVED***
         public DbSet<TaskOutcomeEnum> TaskOutcomeEnums ***REMOVED*** get; set; ***REMOVED***
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace ExitSurveyAdmin.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<EmployeeTimelineEntry>()
-                .HasOne(timelineEntry => timelineEntry.EmployeeActionType)
-                .WithMany(actionType => actionType.TimelineEntries)
+                .HasOne(timelineEntry => timelineEntry.EmployeeAction)
+                .WithMany(action => action.TimelineEntries)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<EmployeeTimelineEntry>()
@@ -45,8 +45,8 @@ namespace ExitSurveyAdmin.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TaskLogEntry>()
-                .HasOne(taskLogEntry => taskLogEntry.TaskType)
-                .WithMany(taskType => taskType.TaskLogEntries)
+                .HasOne(taskLogEntry => taskLogEntry.Task)
+                .WithMany(task => task.TaskLogEntries)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<TaskLogEntry>()

@@ -13,7 +13,7 @@ namespace ExitSurveyAdmin.Models
         public Employee Employee ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public EmployeeActionTypeEnum EmployeeActionType ***REMOVED*** get; set; ***REMOVED***
+        public EmployeeActionEnum EmployeeAction ***REMOVED*** get; set; ***REMOVED***
 
         public EmployeeStatusEnum EmployeeStatus ***REMOVED*** get; set; ***REMOVED***
 
