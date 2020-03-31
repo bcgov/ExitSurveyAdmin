@@ -10,9 +10,6 @@ namespace ExitSurveyAdmin.Models
         public string Id { get; set; }
 
         [Required]
-        public Employee Employee { get; set; }
-
-        [Required]
         public TaskEnum Task { get; set; }
 
         [Required]
