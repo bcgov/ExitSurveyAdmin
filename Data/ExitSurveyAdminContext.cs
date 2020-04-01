@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Models
 {
@@ -60,6 +62,12 @@ namespace ExitSurveyAdmin.Models
             // Add timestamps whenever an entity is saved.
             AddTimestamps();
             return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AddTimestamps();
+            return base.SaveChangesAsync(true, cancellationToken);
         }
 
         // Automatically add timestamps to created / modified entities.Based on code from
