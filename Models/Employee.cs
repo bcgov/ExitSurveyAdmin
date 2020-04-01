@@ -62,7 +62,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Address1 { get; set; }
 
-        [Required]
         public string Address2 { get; set; }
 
         [Required]
@@ -115,8 +114,10 @@ namespace ExitSurveyAdmin.Models
         public string LocationGroup { get; set; }
 
         [Required]
-        public EmployeeStatusEnum CurrentEmployeeStatus { get; set; }
+        public string CurrentEmployeeStatusCode { get; set; }
 
-        public List<EmployeeTimelineEntry> TimelineEntries { get; set; }
+        public virtual EmployeeStatusEnum CurrentEmployeeStatus { get; set; }
+
+        public virtual List<EmployeeTimelineEntry> TimelineEntries { get; set; }
     }
 }

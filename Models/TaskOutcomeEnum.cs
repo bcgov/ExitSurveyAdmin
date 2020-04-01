@@ -15,6 +15,6 @@ namespace ExitSurveyAdmin.Models
         public string Description { get; set; }
 
         [JsonIgnore]
-        public List<TaskLogEntry> TaskLogEntries { get; set; }
+        public virtual List<TaskLogEntry> TaskLogEntries { get; set; }
     }
 }
