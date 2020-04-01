@@ -96,7 +96,7 @@ namespace ExitSurveyAdmin.Migrations
                     EffectiveDate = table.Column<DateTime>(nullable: false),
                     Reason = table.Column<string>(nullable: false),
                     Address1 = table.Column<string>(nullable: false),
-                    Address2 = table.Column<string>(nullable: false),
+                    Address2 = table.Column<string>(nullable: true),
                     AddressCity = table.Column<string>(nullable: false),
                     AddressProvince = table.Column<string>(nullable: false),
                     AddressPostCode = table.Column<string>(nullable: false),
@@ -163,7 +163,7 @@ namespace ExitSurveyAdmin.Migrations
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<string>(nullable: false),
                     EmployeeActionCode = table.Column<string>(nullable: false),
-                    EmployeeStatusCode = table.Column<string>(nullable: true),
+                    EmployeeStatusCode = table.Column<string>(nullable: false),
                     Comment = table.Column<string>(nullable: false)
                 },
                 constraints: table =>

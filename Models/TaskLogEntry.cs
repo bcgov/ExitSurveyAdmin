@@ -10,10 +10,12 @@ namespace ExitSurveyAdmin.Models
         public string Id { get; set; }
 
         [Required]
-        public TaskEnum Task { get; set; }
+        public string TaskCode { get; set; }
+        public virtual TaskEnum Task { get; set; }
 
         [Required]
-        public TaskOutcomeEnum TaskOutcome { get; set; }
+        public string TaskOutcomeCode { get; set; }
+        public virtual TaskOutcomeEnum TaskOutcome { get; set; }
 
         [Required]
         public string Comment { get; set; }
