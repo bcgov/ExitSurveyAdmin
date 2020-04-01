@@ -7,14 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 
-public class TaskLogEntryPost
-***REMOVED***
-    public string Id ***REMOVED*** get; set; ***REMOVED***
-    public string Comment ***REMOVED*** get; set; ***REMOVED***
-    public string TaskCode ***REMOVED*** get; set; ***REMOVED***
-    public string TaskOutcomeCode ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***
-
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
     [Route("api/[controller]")]
@@ -32,7 +24,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskLogEntry>>> GetTaskLogEntries()
         ***REMOVED***
-            return await _context.TaskLogEntries.ToListAsync();
+            return await _context.TaskLogEntries.Include(tle => tle.TaskOutcome).ToListAsync();
       ***REMOVED***
 
         // GET: api/TaskLogEntries/5
@@ -86,14 +78,9 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<TaskLogEntry>> PostTaskLogEntry(TaskLogEntryPost post)
+        public async Task<ActionResult<TaskLogEntry>> PostTaskLogEntry(TaskLogEntry taskLogEntry)
         ***REMOVED***
             // TODO: Do proper validation here.
-            var task = await _context.TaskEnums.FindAsync(post.TaskCode);
-            var taskOutcome = await _context.TaskOutcomeEnums.FindAsync(post.TaskOutcomeCode);
-
-            var taskLogEntry = new TaskLogEntry ***REMOVED*** Id = post.Id, Comment = post.Comment, Task = task, TaskOutcome = taskOutcome ***REMOVED***;
-
             _context.TaskLogEntries.Add(taskLogEntry);
             await _context.SaveChangesAsync();
 

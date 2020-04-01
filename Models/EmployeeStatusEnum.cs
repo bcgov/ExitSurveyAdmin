@@ -18,9 +18,9 @@ namespace ExitSurveyAdmin.Models
         public string Description ***REMOVED*** get; set; ***REMOVED***
 
         [JsonIgnore]
-        public List<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
+        public virtual List<Employee> Employees ***REMOVED*** get; set; ***REMOVED***
 
         [JsonIgnore]
-        public List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
+        public virtual List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***

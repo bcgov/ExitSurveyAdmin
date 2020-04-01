@@ -62,7 +62,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Address1 ***REMOVED*** get; set; ***REMOVED***
 
-        [Required]
         public string Address2 ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
@@ -115,8 +114,10 @@ namespace ExitSurveyAdmin.Models
         public string LocationGroup ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public EmployeeStatusEnum CurrentEmployeeStatus ***REMOVED*** get; set; ***REMOVED***
+        public string CurrentEmployeeStatusCode ***REMOVED*** get; set; ***REMOVED***
 
-        public List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
+        public virtual EmployeeStatusEnum CurrentEmployeeStatus ***REMOVED*** get; set; ***REMOVED***
+
+        public virtual List<EmployeeTimelineEntry> TimelineEntries ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***

@@ -57,7 +57,6 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Address2")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AddressCity")
@@ -249,6 +248,7 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmployeeStatusCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ModifiedTs")
@@ -351,7 +351,8 @@ namespace ExitSurveyAdmin.Migrations
                     b.HasOne("ExitSurveyAdmin.Models.EmployeeStatusEnum", "EmployeeStatus")
                         .WithMany("TimelineEntries")
                         .HasForeignKey("EmployeeStatusCode")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
               ***REMOVED***);
 
             modelBuilder.Entity("ExitSurveyAdmin.Models.TaskLogEntry", b =>
