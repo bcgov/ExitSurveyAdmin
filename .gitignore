@@ -238,3 +238,4 @@ _Pvt_Extensions
 
 # SampleInput
 SampleInput/*
+!SampleInput/.gitkeep
