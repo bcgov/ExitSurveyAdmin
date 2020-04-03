@@ -24,14 +24,20 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskLogEntry>>> GetTaskLogEntries()
         {
-            return await _context.TaskLogEntries.Include(tle => tle.TaskOutcome).ToListAsync();
+            return await _context.TaskLogEntries
+                .Include(tle => tle.Task)
+                .Include(tle => tle.TaskOutcome)
+                .ToListAsync();
         }
 
         // GET: api/TaskLogEntries/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(string id)
         {
-            var taskLogEntry = await _context.TaskLogEntries.FindAsync(id);
+            var taskLogEntry = await _context.TaskLogEntries
+                    .Include(tle => tle.Task)
+                    .Include(tle => tle.TaskOutcome)
+                    .FirstOrDefaultAsync(tle => tle.Id == id);
 
             if (taskLogEntry == null)
             {
@@ -40,39 +46,6 @@ namespace ExitSurveyAdmin.Controllers
 
             return taskLogEntry;
         }
-
-        // Disable PUT. We won't ever want to update a task log entry.
-        // PUT: api/TaskLogEntries/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutTaskLogEntry(string id, TaskLogEntry taskLogEntry)
-        // {
-        //     if (id != taskLogEntry.Id)
-        //     {
-        //         return BadRequest();
-        //     }
-
-        //     _context.Entry(taskLogEntry).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!TaskLogEntryExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
-
-        //     return NoContent();
-        // }
 
         // POST: api/TaskLogEntries
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -86,23 +59,6 @@ namespace ExitSurveyAdmin.Controllers
 
             return CreatedAtAction(nameof(GetTaskLogEntry), new { id = taskLogEntry.Id }, taskLogEntry);
         }
-
-        // Disable DELETE. We don't want to delete TaskLogEntries.
-        // DELETE: api/TaskLogEntries/5
-        // [HttpDelete("{id}")]
-        // public async Task<ActionResult<TaskLogEntry>> DeleteTaskLogEntry(string id)
-        // {
-        //     var taskLogEntry = await _context.TaskLogEntries.FindAsync(id);
-        //     if (taskLogEntry == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     _context.TaskLogEntries.Remove(taskLogEntry);
-        //     await _context.SaveChangesAsync();
-
-        //     return taskLogEntry;
-        // }
 
         private bool TaskLogEntryExists(string id)
         {
