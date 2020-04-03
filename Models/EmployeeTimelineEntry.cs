@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ExitSurveyAdmin.Models
 {
@@ -10,7 +11,10 @@ namespace ExitSurveyAdmin.Models
         public string Id { get; set; }
 
         [Required]
-        public Employee Employee { get; set; }
+        public string EmployeeId { get; set; }
+
+        [JsonIgnore]
+        public virtual Employee Employee { get; set; }
 
         [Required]
         public string EmployeeActionCode { get; set; }
