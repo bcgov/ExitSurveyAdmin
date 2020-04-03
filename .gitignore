@@ -235,3 +235,6 @@ _Pvt_Extensions
 
 # SQLite database
 *.db
+
+# SampleInput
+SampleInput/*
