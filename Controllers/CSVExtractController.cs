@@ -20,11 +20,15 @@ namespace ExitSurveyAdmin.Controllers
             _context = context;
         }
 
+        // GetCSV: Returns the raw, as-is text of the PSA CSV extract.
         // GET: api/CSVExtract/CSV
         [HttpGet("CSV")]
-        public ActionResult<string> GetCSV()
+        public async Task<ActionResult<string>> GetCSV()
         {
-            return Content("Test");
+            string text = await System.IO.File
+                .ReadAllTextAsync("./SampleInput/PSA-CSV-Sample.csv");
+
+            return Content(text);
         }
     }
 }
