@@ -12,7 +12,15 @@ The Exit Survey Administration Tool will assist BC Stats in administering the BC
 4. From the root project directory, run `dotnet ef database update`. This will run the migrations and set up your development database.
 5. On the command line / terminal, from the `ClientApp` directory (in the root project directory), run `yarn install`.
 6. Open the checked-out code in [Visual Studio Code](https://code.visualstudio.com).
-7. While in Visual Studio Code, press <kbd>CTRL</kbd> + <kbd>F5</kbd> to launch the project.
+7. Add the required sample documents (see below).
+8. While in Visual Studio Code, press <kbd>CTRL</kbd> + <kbd>F5</kbd> to launch the project.
+
+## Required sample input for development
+
+The following sample documents should be placed in the `/SampleInput` folder, and can be obtained from the project team.
+
+* `PSA-CSV-Sample.csv`
+* `CallWeb-Sample.csv`
 
 ## Quick database reset
 
