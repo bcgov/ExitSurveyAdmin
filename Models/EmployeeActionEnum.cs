@@ -6,47 +6,47 @@ namespace ExitSurveyAdmin.Models
 {
     public class EmployeeActionEnum
     {
-        public static readonly string CODE_CREATE_FROM_CSV = "CreateFromCSV";
-        public static readonly string CODE_CREATE_FROM_DATA_TRANSFER = "CreateFromDataTransfer";
-        public static readonly string CODE_UPDATE_BY_ADMIN = "UpdateByAdmin";
-        public static readonly string CODE_UPDATE_BY_TASK = "UpdateByTask";
-        public static readonly string CODE_STATUS_CHANGE = "StatusChange";
-        public static readonly string CODE_EMAIL_SENT = "EmailSent";
-        public static readonly string CODE_SURVEY_RETRIEVED = "SurveyRetrieved";
+        private static readonly string CodeCreateFromCSV = "CreateFromCSV";
+        private static readonly string CodeCreateFromDataTransfer = "CreateFromDataTransfer";
+        private static readonly string CodeUpdateByAdmin = "UpdateByAdmin";
+        private static readonly string CodeUpdateByTask = "UpdateByTask";
+        private static readonly string CodeStatusChange = "StatusChange";
+        private static readonly string CodeEmailSent = "EmailSent";
+        private static readonly string CodeSurveyRetrieved = "SurveyRetrieved";
 
-        public static readonly EmployeeActionEnum CREATE_FROM_CSV = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum CreateFromCSV = new EmployeeActionEnum
         {
-            Code = CODE_CREATE_FROM_CSV,
+            Code = CodeCreateFromCSV,
             Description = "The employee has been created by the CSV import task."
         };
-        public static readonly EmployeeActionEnum CREATE_FROM_DATA_TRANSFER = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum CreateFromDataTransfer = new EmployeeActionEnum
         {
-            Code = CODE_CREATE_FROM_DATA_TRANSFER,
+            Code = CodeCreateFromDataTransfer,
             Description = "The employee has been created via transfer from the old system."
         };
-        public static readonly EmployeeActionEnum UPDATE_BY_ADMIN = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum UpdateByAdmin = new EmployeeActionEnum
         {
-            Code = CODE_UPDATE_BY_ADMIN,
+            Code = CodeUpdateByAdmin,
             Description = "The employee has had one or more fields updated by an admin user."
         };
-        public static readonly EmployeeActionEnum UPDATE_BY_TASK = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum UpdateByTask = new EmployeeActionEnum
         {
-            Code = CODE_UPDATE_BY_TASK,
+            Code = CodeUpdateByTask,
             Description = "The employee has had one or more fields updated by the CSV import task."
         };
-        public static readonly EmployeeActionEnum STATUS_CHANGE = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum StatusChange = new EmployeeActionEnum
         {
-            Code = CODE_STATUS_CHANGE,
+            Code = CodeStatusChange,
             Description = "The employee has had their status changed (see StatusEnumeration)."
         };
-        public static readonly EmployeeActionEnum EMAIL_SENT = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum EmailSent = new EmployeeActionEnum
         {
-            Code = CODE_EMAIL_SENT,
+            Code = CodeEmailSent,
             Description = "An email was sent. This will normally be immediately followed by a StatusChange entry."
         };
-        public static readonly EmployeeActionEnum SURVEY_RETRIEVED = new EmployeeActionEnum
+        public static readonly EmployeeActionEnum SurveyRetrieved = new EmployeeActionEnum
         {
-            Code = CODE_SURVEY_RETRIEVED,
+            Code = CodeSurveyRetrieved,
             Description = "The survey value was retrieved. This will normally be immediately followed by a StatusChange entry."
         };
 
