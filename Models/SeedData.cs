@@ -30,81 +30,20 @@ namespace ExitSurveyAdmin.Models
                     }
                 );
 
-                // TODO: Add all the items.
                 context.EmployeeStatusEnums.AddRange(
-                    new EmployeeStatusEnum
-                    {
-                        Code = "New",
-                        State = "Initial",
-                        Description = "Newly added user; no email sent yet."
-                    },
-                    new EmployeeStatusEnum
-                    {
-                        Code = "WelcomeEmailSent",
-                        State = "InProgress",
-                        Description = "First email sent."
-                    },
-                    new EmployeeStatusEnum
-                    {
-                        Code = "SurveyComplete",
-                        State = "Final",
-                        Description = "Survey has been finished."
-                    }
+                    EmployeeStatusEnum.AllValues
                 );
 
-                // TODO: Add all the items.
                 context.EmployeeActionEnums.AddRange(
-                    new EmployeeActionEnum
-                    {
-                        Code = "CreateFromCSV",
-                        Description = "Employee created by the CSV import task."
-                    },
-                    new EmployeeActionEnum
-                    {
-                        Code = "UpdateByTask",
-                        Description = "Employee field(s) updated by a task."
-                    },
-                    new EmployeeActionEnum
-                    {
-                        Code = "StatusChange",
-                        Description = "Employee status was changed."
-                    }
+                    EmployeeActionEnum.AllValues
                 );
 
                 context.TaskEnums.AddRange(
-                    new TaskEnum
-                    {
-                        Code = "ReconcileCSV",
-                        Description = "Task to reconcile CSV with database."
-                    },
-                    new TaskEnum
-                    {
-                        Code = "EmailUsers",
-                        Description = "Task to email users."
-                    },
-                    new TaskEnum
-                    {
-                        Code = "RetrieveSurveyStatus",
-                        Description = "Task to get survey status from Callweb."
-                    }
+                    TaskEnum.AllValues
                 );
 
                 context.TaskOutcomeEnums.AddRange(
-                    new TaskOutcomeEnum
-                    {
-                        Code = "Success",
-                        Description = "The task was successful. No warnings."
-                    },
-                    new TaskOutcomeEnum
-                    {
-                        Code = "Warn",
-                        Description = "The task was successful, with warnings."
-                    },
-                    new TaskOutcomeEnum
-                    {
-                        Code = "Fail",
-                        Description = "The task failed."
-                    }
+                    TaskOutcomeEnum.AllValues
                 );
 
                 context.SaveChanges();
