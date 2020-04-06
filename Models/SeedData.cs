@@ -30,81 +30,20 @@ namespace ExitSurveyAdmin.Models
                   ***REMOVED***
                 );
 
-                // TODO: Add all the items.
                 context.EmployeeStatusEnums.AddRange(
-                    new EmployeeStatusEnum
-                    ***REMOVED***
-                        Code = "New",
-                        State = "Initial",
-                        Description = "Newly added user; no email sent yet."
-                  ***REMOVED***
-                    new EmployeeStatusEnum
-                    ***REMOVED***
-                        Code = "WelcomeEmailSent",
-                        State = "InProgress",
-                        Description = "First email sent."
-                  ***REMOVED***
-                    new EmployeeStatusEnum
-                    ***REMOVED***
-                        Code = "SurveyComplete",
-                        State = "Final",
-                        Description = "Survey has been finished."
-                  ***REMOVED***
+                    EmployeeStatusEnum.AllValues
                 );
 
-                // TODO: Add all the items.
                 context.EmployeeActionEnums.AddRange(
-                    new EmployeeActionEnum
-                    ***REMOVED***
-                        Code = "CreateFromCSV",
-                        Description = "Employee created by the CSV import task."
-                  ***REMOVED***
-                    new EmployeeActionEnum
-                    ***REMOVED***
-                        Code = "UpdateByTask",
-                        Description = "Employee field(s) updated by a task."
-                  ***REMOVED***
-                    new EmployeeActionEnum
-                    ***REMOVED***
-                        Code = "StatusChange",
-                        Description = "Employee status was changed."
-                  ***REMOVED***
+                    EmployeeActionEnum.AllValues
                 );
 
                 context.TaskEnums.AddRange(
-                    new TaskEnum
-                    ***REMOVED***
-                        Code = "ReconcileCSV",
-                        Description = "Task to reconcile CSV with database."
-                  ***REMOVED***
-                    new TaskEnum
-                    ***REMOVED***
-                        Code = "EmailUsers",
-                        Description = "Task to email users."
-                  ***REMOVED***
-                    new TaskEnum
-                    ***REMOVED***
-                        Code = "RetrieveSurveyStatus",
-                        Description = "Task to get survey status from Callweb."
-                  ***REMOVED***
+                    TaskEnum.AllValues
                 );
 
                 context.TaskOutcomeEnums.AddRange(
-                    new TaskOutcomeEnum
-                    ***REMOVED***
-                        Code = "Success",
-                        Description = "The task was successful. No warnings."
-                  ***REMOVED***
-                    new TaskOutcomeEnum
-                    ***REMOVED***
-                        Code = "Warn",
-                        Description = "The task was successful, with warnings."
-                  ***REMOVED***
-                    new TaskOutcomeEnum
-                    ***REMOVED***
-                        Code = "Fail",
-                        Description = "The task failed."
-                  ***REMOVED***
+                    TaskOutcomeEnum.AllValues
                 );
 
                 context.SaveChanges();
