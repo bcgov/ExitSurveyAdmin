@@ -20,59 +20,72 @@ namespace ExitSurveyAdmin.Models
         public static readonly string StateInProgress = "InProgress";
         public static readonly string StateFinal = "Final";
 
-        public static readonly EmployeeStatusEnum NEW = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum New = new EmployeeStatusEnum
         {
             Code = CodeNew,
             State = StateInitial,
             Description = "Newly-added. No email sent yet. Initial state for all employees."
         };
-        public static readonly EmployeeStatusEnum WELCOME_EMAIL_SENT = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum WelcomeEmailSent = new EmployeeStatusEnum
         {
             Code = CodeWelcomeEmailSent,
             State = StateInProgress,
             Description = "First email sent."
         };
-        public static readonly EmployeeStatusEnum REMINDER_1_SENT = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum Reminder1Sent = new EmployeeStatusEnum
         {
             Code = CodeReminder1Sent,
             State = StateInProgress,
             Description = "First reminder sent."
         };
-        public static readonly EmployeeStatusEnum REMINDER_2_SENT = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum Reminder2Sent = new EmployeeStatusEnum
         {
             Code = CodeReminder2Sent,
             State = StateInProgress,
             Description = "Second reminder sent."
         };
-        public static readonly EmployeeStatusEnum SURVEY_COMPLETE = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum SurveyComplete = new EmployeeStatusEnum
         {
             Code = CodeSurveyComplete,
             State = StateFinal,
             Description = "Survey has been finished."
         };
-        public static readonly EmployeeStatusEnum SNAIL_MAIL_SENT = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum SnailMailSent = new EmployeeStatusEnum
         {
             Code = CodeSnailMailSent,
             State = StateFinal,
             Description = "Snail mail has been sent."
         };
-        public static readonly EmployeeStatusEnum NOT_EXITING = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum NotExiting = new EmployeeStatusEnum
         {
             Code = CodeNotExiting,
             State = StateFinal,
             Description = "This employee is not actually exiting."
         };
-        public static readonly EmployeeStatusEnum INELIGIBLE_OTHER = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum IneligibleOther = new EmployeeStatusEnum
         {
             Code = CodeIneligibleOther,
             State = StateFinal,
             Description = "Other ineligibility reason."
         };
-        public static readonly EmployeeStatusEnum DECLINED = new EmployeeStatusEnum
+        public static readonly EmployeeStatusEnum Declined = new EmployeeStatusEnum
         {
             Code = CodeDeclined,
             State = StateFinal,
             Description = "The employee has asked not to complete the survey."
+        };
+
+        public static readonly List<EmployeeStatusEnum> AllValues = new List<EmployeeStatusEnum>
+        {
+            New,
+            WelcomeEmailSent,
+            Reminder1Sent,
+            Reminder2Sent,
+            SurveyComplete,
+            SnailMailSent,
+            NotExiting,
+            IneligibleOther,
+            Declined
         };
 
 
