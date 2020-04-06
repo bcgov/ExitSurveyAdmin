@@ -26,6 +26,13 @@ namespace ExitSurveyAdmin.Models
             Description = "The task to retrieve the survey completion statuses from CallWeb."
         };
 
+        public static readonly List<TaskEnum> AllValues = new List<TaskEnum>
+        {
+            ReconcileCSV,
+            EmailUsers,
+            RetrieveSurveyStatus
+        };
+
         [Key]
         [Required]
         public string Code { get; set; }
