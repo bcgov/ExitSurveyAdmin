@@ -13,28 +13,18 @@ using System.Net.Http;
 using Microsoft.VisualBasic.FileIO;
 using CsvHelper;
 
-namespace ExitSurveyAdmin.Controllers
+namespace ExitSurveyAdmin.Services
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CSVExtractController : ControllerBase
+    public class CSVExtractService
     {
-        private readonly ExitSurveyAdminContext _context;
 
-        public CSVExtractController(ExitSurveyAdminContext context)
-        {
-            _context = context;
-        }
 
         // GetCSV: Returns the raw, as-is text of the PSA CSV extract.
         // GET: api/CSVExtract/CSV
         [HttpGet("CSV")]
-        public async Task<ActionResult<string>> GetCSV()
+        public static Task<string> GetCSV(string csvPath)
         {
-            string text = await System.IO.File
-                .ReadAllTextAsync("./SampleInput/PSA-CSV-Sample.csv");
-
-            return Content(text);
+            return System.IO.File.ReadAllTextAsync(csvPath);
         }
 
         // GetCSV: Given the raw text of the PSA CSV extract (as obtained, for
@@ -43,12 +33,12 @@ namespace ExitSurveyAdmin.Controllers
         // NOT saved or otherwise processed by default.
         // POST: api/CSVExtract/EmployeesFromCSV
         [HttpPost("EmployeesFromCSV")]
-        public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
+        public static async Task<List<Employee>> EmployeesFromCSV(Stream csvTextStream, Encoding csvEncoding)
         {
             // By default the content will not be read if it is not form or JSON
             // type so we need to use a stream reader to read the request body.
             // CsvReader expects a StreamReader anyways so we will use that.
-            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            using (StreamReader reader = new StreamReader(csvTextStream, csvEncoding))
             using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
                 // Use the ClassMap to map the headers in the CSV to the fields
