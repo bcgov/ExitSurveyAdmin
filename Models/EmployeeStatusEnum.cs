@@ -6,72 +6,72 @@ namespace ExitSurveyAdmin.Models
 {
     public class EmployeeStatusEnum
     {
-        public static readonly string CODE_NEW = "New";
-        public static readonly string CODE_WELCOME_EMAIL_SENT = "WelcomeEmailSent";
-        public static readonly string CODE_REMINDER_1_SENT = "Reminder1Sent";
-        public static readonly string CODE_REMINDER_2_SENT = "Reminder2Sent";
-        public static readonly string CODE_SURVEY_COMPLETE = "SurveyComplete";
-        public static readonly string CODE_SNAIL_MAIL_SENT = "SnailMailSent";
-        public static readonly string CODE_NOT_EXITING = "NotExiting";
-        public static readonly string CODE_INELIGIBLE_OTHER = "IneligibleOther";
-        public static readonly string CODE_DECLINED = "Declined";
+        private static readonly string CodeNew = "New";
+        private static readonly string CodeWelcomeEmailSent = "WelcomeEmailSent";
+        private static readonly string CodeReminder1Sent = "Reminder1Sent";
+        private static readonly string CodeReminder2Sent = "Reminder2Sent";
+        private static readonly string CodeSurveyComplete = "SurveyComplete";
+        private static readonly string CodeSnailMailSent = "SnailMailSent";
+        private static readonly string CodeNotExiting = "NotExiting";
+        private static readonly string CodeIneligibleOther = "IneligibleOther";
+        private static readonly string CodeDeclined = "Declined";
 
-        public static readonly string STATE_INITIAL = "Initial";
-        public static readonly string STATE_IN_PROGRESS = "InProgress";
-        public static readonly string STATE_FINAL = "Final";
+        public static readonly string StateInitial = "Initial";
+        public static readonly string StateInProgress = "InProgress";
+        public static readonly string StateFinal = "Final";
 
         public static readonly EmployeeStatusEnum NEW = new EmployeeStatusEnum
         {
-            Code = CODE_NEW,
-            State = STATE_INITIAL,
+            Code = CodeNew,
+            State = StateInitial,
             Description = "Newly-added. No email sent yet. Initial state for all employees."
         };
         public static readonly EmployeeStatusEnum WELCOME_EMAIL_SENT = new EmployeeStatusEnum
         {
-            Code = CODE_WELCOME_EMAIL_SENT,
-            State = STATE_IN_PROGRESS,
+            Code = CodeWelcomeEmailSent,
+            State = StateInProgress,
             Description = "First email sent."
         };
         public static readonly EmployeeStatusEnum REMINDER_1_SENT = new EmployeeStatusEnum
         {
-            Code = CODE_REMINDER_1_SENT,
-            State = STATE_IN_PROGRESS,
+            Code = CodeReminder1Sent,
+            State = StateInProgress,
             Description = "First reminder sent."
         };
         public static readonly EmployeeStatusEnum REMINDER_2_SENT = new EmployeeStatusEnum
         {
-            Code = CODE_REMINDER_2_SENT,
-            State = STATE_IN_PROGRESS,
+            Code = CodeReminder2Sent,
+            State = StateInProgress,
             Description = "Second reminder sent."
         };
         public static readonly EmployeeStatusEnum SURVEY_COMPLETE = new EmployeeStatusEnum
         {
-            Code = CODE_SURVEY_COMPLETE,
-            State = STATE_FINAL,
+            Code = CodeSurveyComplete,
+            State = StateFinal,
             Description = "Survey has been finished."
         };
         public static readonly EmployeeStatusEnum SNAIL_MAIL_SENT = new EmployeeStatusEnum
         {
-            Code = CODE_SNAIL_MAIL_SENT,
-            State = STATE_FINAL,
+            Code = CodeSnailMailSent,
+            State = StateFinal,
             Description = "Snail mail has been sent."
         };
         public static readonly EmployeeStatusEnum NOT_EXITING = new EmployeeStatusEnum
         {
-            Code = CODE_NOT_EXITING,
-            State = STATE_FINAL,
+            Code = CodeNotExiting,
+            State = StateFinal,
             Description = "This employee is not actually exiting."
         };
         public static readonly EmployeeStatusEnum INELIGIBLE_OTHER = new EmployeeStatusEnum
         {
-            Code = CODE_INELIGIBLE_OTHER,
-            State = STATE_FINAL,
+            Code = CodeIneligibleOther,
+            State = StateFinal,
             Description = "Other ineligibility reason."
         };
         public static readonly EmployeeStatusEnum DECLINED = new EmployeeStatusEnum
         {
-            Code = CODE_DECLINED,
-            State = STATE_FINAL,
+            Code = CodeDeclined,
+            State = StateFinal,
             Description = "The employee has asked not to complete the survey."
         };
 
