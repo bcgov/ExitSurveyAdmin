@@ -6,6 +6,25 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class TaskEnum
     ***REMOVED***
+        private static readonly string CodeReconcileCSV = "ReconcileCSV";
+        private static readonly string CodeEmailUsers = "EmailUsers";
+        private static readonly string CodeRetrieveSurveyStatus = "RetrieveSurveyStatus";
+
+        public static readonly TaskEnum ReconcileCSV = new TaskEnum
+        ***REMOVED***
+            Code = CodeReconcileCSV,
+            Description = "The task to reconcile the new CSV with the existing database."
+      ***REMOVED***;
+        public static readonly TaskEnum EmailUsers = new TaskEnum
+        ***REMOVED***
+            Code = CodeEmailUsers,
+            Description = "The task to email employees."
+      ***REMOVED***;
+        public static readonly TaskEnum RetrieveSurveyStatus = new TaskEnum
+        ***REMOVED***
+            Code = CodeRetrieveSurveyStatus,
+            Description = "The task to retrieve the survey completion statuses from CallWeb."
+      ***REMOVED***;
 
         [Key]
         [Required]
