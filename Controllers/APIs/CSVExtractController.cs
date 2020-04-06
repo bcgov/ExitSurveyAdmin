@@ -12,6 +12,7 @@ using ExitSurveyAdmin.Models;
 using System.Net.Http;
 using Microsoft.VisualBasic.FileIO;
 using CsvHelper;
+using ExitSurveyAdmin.Services;
 
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
@@ -31,8 +32,8 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("CSV")]
         public async Task<ActionResult<string>> GetCSV()
         ***REMOVED***
-            string text = await System.IO.File
-                .ReadAllTextAsync("./SampleInput/PSA-CSV-Sample.csv");
+            string text = await CSVExtractService
+                .GetCSV("./SampleInput/PSA-CSV-Sample.csv");
 
             return Content(text);
       ***REMOVED***
@@ -45,25 +46,10 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost("EmployeesFromCSV")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
         ***REMOVED***
-            // By default the content will not be read if it is not form or JSON
-            // type so we need to use a stream reader to read the request body.
-            // CsvReader expects a StreamReader anyways so we will use that.
-            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
-            using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            ***REMOVED***
-                // Use the ClassMap to map the headers in the CSV to the fields
-                // of the Employee model.
-                csv.Configuration.RegisterClassMap<PSACSVMap>();
+            var employeeList = await CSVExtractService
+                .EmployeesFromCSV(Request.Body, Encoding.UTF8);
 
-                var employeeList = new List<Employee>();
-
-                await foreach (Employee e in csv.GetRecordsAsync<Employee>())
-                ***REMOVED***
-                    employeeList.Add(e);
-              ***REMOVED***
-
-                return employeeList;
-          ***REMOVED***
+            return employeeList;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
