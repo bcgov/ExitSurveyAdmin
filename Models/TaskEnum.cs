@@ -34,22 +34,6 @@ namespace ExitSurveyAdmin.Models
             RetrieveSurveyStatus
         };
 
-        public override bool Equals(object obj)
-        {
-            if (obj is string)
-            {
-                return Code == (string)obj;
-            }
-            else if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            else
-            {
-                return ((TaskEnum)obj).Code == Code;
-            }
-        }
-
         [Key]
         [Required]
         public string Code { get; set; }
