@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -32,6 +33,22 @@ namespace ExitSurveyAdmin.Models
             EmailUsers,
             RetrieveSurveyStatus
         };
+
+        public override bool Equals(object obj)
+        {
+            if (obj is string)
+            {
+                return Code == (string)obj;
+            }
+            else if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            else
+            {
+                return ((TaskEnum)obj).Code == Code;
+            }
+        }
 
         [Key]
         [Required]
