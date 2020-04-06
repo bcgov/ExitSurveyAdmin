@@ -6,6 +6,25 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class TaskOutcomeEnum
     ***REMOVED***
+        private static readonly string CodeSuccess = "Success";
+        private static readonly string CodeWarn = "Warn";
+        private static readonly string CodeFail = "Fail";
+
+        public static readonly TaskEnum Success = new TaskEnum
+        ***REMOVED***
+            Code = CodeSuccess,
+            Description = "The task was successful, with no warnings."
+      ***REMOVED***;
+        public static readonly TaskEnum Warn = new TaskEnum
+        ***REMOVED***
+            Code = CodeWarn,
+            Description = "The task was successful, but there were some warning messages."
+      ***REMOVED***;
+        public static readonly TaskEnum Fail = new TaskEnum
+        ***REMOVED***
+            Code = CodeFail,
+            Description = "The task failed before completing entirely. It may have been partially successful, but must be re-run to ensure a valid outcome."
+      ***REMOVED***;
 
         [Key]
         [Required]
