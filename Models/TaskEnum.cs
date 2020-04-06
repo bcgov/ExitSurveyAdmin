@@ -34,22 +34,6 @@ namespace ExitSurveyAdmin.Models
             RetrieveSurveyStatus
       ***REMOVED***;
 
-        public override bool Equals(object obj)
-        ***REMOVED***
-            if (obj is string)
-            ***REMOVED***
-                return Code == (string)obj;
-          ***REMOVED***
-            else if (obj == null || GetType() != obj.GetType())
-            ***REMOVED***
-                return false;
-          ***REMOVED***
-            else
-            ***REMOVED***
-                return ((TaskEnum)obj).Code == Code;
-          ***REMOVED***
-      ***REMOVED***
-
         [Key]
         [Required]
         public string Code ***REMOVED*** get; set; ***REMOVED***
