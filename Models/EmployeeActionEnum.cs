@@ -50,6 +50,17 @@ namespace ExitSurveyAdmin.Models
             Description = "The survey value was retrieved. This will normally be immediately followed by a StatusChange entry."
       ***REMOVED***;
 
+        public static readonly List<EmployeeActionEnum> AllValues = new List<EmployeeActionEnum>
+        ***REMOVED***
+            CreateFromCSV,
+            CreateFromDataTransfer,
+            UpdateByAdmin,
+            UpdateByTask,
+            StatusChange,
+            EmailSent,
+            SurveyRetrieved
+      ***REMOVED***;
+
         [Key]
         [Required]
         public string Code ***REMOVED*** get; set; ***REMOVED***
