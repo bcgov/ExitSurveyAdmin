@@ -51,5 +51,40 @@ namespace ExitSurveyAdmin.Controllers
 
             return employeeList;
       ***REMOVED***
+
+        [HttpPut("ReconcileEmployee/***REMOVED***id***REMOVED***")]
+        public async Task<ActionResult<Employee>> ReconcileEmployee(string id, Employee employee)
+        ***REMOVED***
+            // Reconciliation logic here.
+
+            // if (id != employee.Id)
+            // ***REMOVED***
+            //     return BadRequest();
+            // ***REMOVED***
+
+            // // if (Employee)
+
+            // _context.Entry(employee).State = EntityState.Modified;
+
+            // try
+            // ***REMOVED***
+            //     await _context.SaveChangesAsync();
+            // ***REMOVED***
+            // catch (DbUpdateConcurrencyException)
+            // ***REMOVED***
+            //     if (!EmployeeExists(employee))
+            //     ***REMOVED***
+            //         return NotFound();
+            //   ***REMOVED***
+            //     else
+            //     ***REMOVED***
+            //         throw;
+            //   ***REMOVED***
+            // ***REMOVED***
+
+            return employee;
+      ***REMOVED***
+
+
   ***REMOVED***
 ***REMOVED***
