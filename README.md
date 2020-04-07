@@ -13,6 +13,14 @@ The Exit Survey Administration Tool will assist BC Stats in administering the BC
 5. On the command line / terminal, from the `ClientApp` directory (in the root project directory), run `yarn install`.
 6. Open the checked-out code in [Visual Studio Code](https://code.visualstudio.com).
 7. Add the required sample documents (see below).
+8. Update the connection string to your local MS SQL Server instance in `appsettings.Development.json`, along the following lines:
+
+```
+  "ConnectionStrings": ***REMOVED***
+    "ExitSurveyAdmin": "Server=127.0.0.1,1433;Database=ExitSurveyAdmin;User Id=sa;Password=Y0urP4ssw0rd"
+***REMOVED***
+```
+
 8. While in Visual Studio Code, press <kbd>CTRL</kbd> + <kbd>F5</kbd> to launch the project.
 
 ## Required sample input for development
