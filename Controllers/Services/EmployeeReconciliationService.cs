@@ -17,28 +17,11 @@ namespace ExitSurveyAdmin.Services
 {
     public class EmployeeReconciliationService
     {
-        private static ExitSurveyAdminContext _context;
-
-        public static void SetContext(ExitSurveyAdminContext context)
-        {
-            _context = context;
-        }
-
-        public static bool HasContext()
-        {
-            return _context != null;
-        }
-
         // NB. Existence is determined by the combination of EmployeeId and
         // ExitCount.
-        private static Employee EmployeeExists(Employee candidate)
+        private static Employee EmployeeExists(ExitSurveyAdminContext context, Employee candidate)
         {
-            if (!HasContext())
-            {
-                throw new InvalidOperationException("Context has not been set.");
-            }
-
-            var query = _context.Employees
+            var query = context.Employees
                 .Where(e =>
                     e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
                     && e.ExitCount == candidate.ExitCount
@@ -54,13 +37,8 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
-        public async static Task<Employee> ReconcileEmployee(Employee employee)
+        public async static Task<Employee> ReconcileEmployee(ExitSurveyAdminContext context, Employee employee)
         {
-            if (!HasContext())
-            {
-                throw new InvalidOperationException("Context has not been set.");
-            }
-
             // The possible states of an employee.
 
             // How do we determine uniqueness?
@@ -70,30 +48,21 @@ namespace ExitSurveyAdmin.Services
             //   One, is THEIR employee in OUR database.
             //   Two, is OUR *active* employee in THEIR CSV.
 
-            var existingEmployee = EmployeeExists(employee);
-
-            Console.WriteLine("* * * * *");
-            Console.WriteLine(existingEmployee);
-            Console.WriteLine("* * * * *");
+            var existingEmployee = EmployeeExists(context, employee);
 
             if (existingEmployee == null)
             {
                 // A. The unique user does not exist in the database.
                 //      --> Insert into the database.
-                EmployeeTimelineEntry entry = new EmployeeTimelineEntry
+                context.Employees.Add(employee);
+                context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
                 {
-                    Id = "2",
                     EmployeeId = employee.Id,
                     EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
                     EmployeeStatusCode = EmployeeStatusEnum.New.Code,
                     Comment = "Created automatically by script."
-                };
-
-                // _context.Entry(employee).State = EntityState.Modified;
-
-                _context.Employees.Add(employee);
-                _context.EmployeeTimelineEntries.Add(entry);
-                await _context.SaveChangesAsync();
+                });
+                await context.SaveChangesAsync();
             }
             else
             {
@@ -101,19 +70,23 @@ namespace ExitSurveyAdmin.Services
                 // B10. No changes on any fields. Don't bother to update.
                 if (existingEmployee.FieldsAllEqual(employee))
                 {
-                    Console.WriteLine("A PERFECT MATCH");
+                    // No-op.
                 }
                 else
                 {
-                    Console.WriteLine("NOT A PERFECT MATCH");
+                    context.Entry(employee).State = EntityState.Modified;
+                    context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                    {
+                        EmployeeId = employee.Id,
+                        EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                        EmployeeStatusCode = employee.CurrentEmployeeStatusCode,
+                        Comment = "Updated automatically by script."
+                    });
+                    await context.SaveChangesAsync();
                 }
 
                 // B20. Changes on a "major" field. Update and log the change.
             }
-
-
-
-
 
 
             // C. The non-final-state employee exists in our database, but not
