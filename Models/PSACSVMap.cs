@@ -5,6 +5,6 @@ public class PSACSVMap : ClassMap<Employee>
 {
     public PSACSVMap()
     {
-        Map(m => m.EmployeeId).Name("EmplID");
+        Map(m => m.GovernmentEmployeeId).Name("EmplID");
     }
 }
