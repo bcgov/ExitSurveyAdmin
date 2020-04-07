@@ -28,7 +28,7 @@ namespace ExitSurveyAdmin
             if (Environment.IsDevelopment())
             {
                 services.AddDbContext<ExitSurveyAdminContext>(options =>
-                options.UseSqlite(
+                options.UseSqlServer(
                     Configuration.GetConnectionString("ExitSurveyAdmin")));
             }
             else
