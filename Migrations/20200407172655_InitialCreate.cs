@@ -80,7 +80,7 @@ namespace ExitSurveyAdmin.Migrations
                     Id = table.Column<string>(nullable: false),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
-                    EmployeeId = table.Column<string>(nullable: false),
+                    GovernmentEmployeeId = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),

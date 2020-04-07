@@ -62,7 +62,7 @@ namespace ExitSurveyAdmin.Controllers
             //     return BadRequest();
             // ***REMOVED***
 
-            // // if (Employee)
+            // if (Employee)
 
             // _context.Entry(employee).State = EntityState.Modified;
 
@@ -81,8 +81,12 @@ namespace ExitSurveyAdmin.Controllers
             //         throw;
             //   ***REMOVED***
             // ***REMOVED***
+            EmployeeReconciliationService.SetContext(_context);
 
-            return employee;
+            var newEmployee = await EmployeeReconciliationService
+                .ReconcileEmployee(employee);
+
+            return newEmployee;
       ***REMOVED***
 
 

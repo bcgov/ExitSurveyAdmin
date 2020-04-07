@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 ***REMOVED***
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200403165034_InitialCreate")]
+    [Migration("20200407172655_InitialCreate")]
     partial class InitialCreate
     ***REMOVED***
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,10 +114,6 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("EffectiveDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ExitCount")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -131,6 +127,10 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GovernmentEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GovernmentEmployeeId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
