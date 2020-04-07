@@ -7,12 +7,62 @@ namespace ExitSurveyAdmin.Models
 {
     public class Employee : BaseEntity
     {
+
+        public bool FieldsAllEqual(Employee candidate)
+        {
+            // Compare properties. Note the intentionally excluded properties
+            // commented out.
+            return (
+                // candidate.Id: Doesn't need to be equal
+                // candidate.CurrentEmployeeStatusCode: Doesn't need to be equal
+                candidate.GovernmentEmployeeId == GovernmentEmployeeId &&
+                candidate.FirstName == FirstName &&
+                candidate.LastName == LastName &&
+                candidate.BirthDate == BirthDate &&
+                candidate.Gender == Gender &&
+                candidate.GovernmentEmail == GovernmentEmail &&
+                candidate.Classification == Classification &&
+                candidate.Ministry == Ministry &&
+                candidate.DepartmentId == DepartmentId &&
+                candidate.JobFunctionCode == JobFunctionCode &&
+                candidate.LocationCity == LocationCity &&
+                candidate.OriginalHireDate == OriginalHireDate &&
+                candidate.LastDayWorkedDate == LastDayWorkedDate &&
+                candidate.EffectiveDate == EffectiveDate &&
+                candidate.Reason == Reason &&
+                candidate.Address1 == Address1 &&
+                candidate.Address2 == Address2 &&
+                candidate.AddressCity == AddressCity &&
+                candidate.AddressProvince == AddressProvince &&
+                candidate.AddressPostCode == AddressPostCode &&
+                candidate.Phone == Phone &&
+                candidate.AppointmentStatus == AppointmentStatus &&
+                candidate.PositionCode == PositionCode &&
+                candidate.Age == Age &&
+                candidate.LeaveDate == LeaveDate &&
+                candidate.ServiceYears == ServiceYears &&
+                candidate.JobCode == JobCode &&
+                candidate.BackDated == BackDated &&
+                candidate.ExitCount == ExitCount &&
+                candidate.AgeGroup == AgeGroup &&
+                candidate.ClassificationGroup == ClassificationGroup &&
+                candidate.ServiceGroup == ServiceGroup &&
+                candidate.LocationGroup == LocationGroup
+            );
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+
         [Key]
         [Required]
         public string Id { get; set; }
 
         [Required]
-        public string EmployeeId { get; set; }
+        public string GovernmentEmployeeId { get; set; }
 
         [Required]
         public string FirstName { get; set; }
