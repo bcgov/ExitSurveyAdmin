@@ -55,6 +55,10 @@ namespace ExitSurveyAdmin.Services
                 // A. The unique user does not exist in the database.
                 //      --> Insert into the database.
                 context.Employees.Add(employee);
+                await context.SaveChangesAsync();
+
+                await context.Entry(employee).ReloadAsync();
+
                 context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
                 ***REMOVED***
                     EmployeeId = employee.Id,
@@ -63,6 +67,8 @@ namespace ExitSurveyAdmin.Services
                     Comment = "Created automatically by script."
               ***REMOVED***);
                 await context.SaveChangesAsync();
+
+                return employee;
           ***REMOVED***
             else
             ***REMOVED***
@@ -77,7 +83,7 @@ namespace ExitSurveyAdmin.Services
                     context.Entry(employee).State = EntityState.Modified;
                     context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
                     ***REMOVED***
-                        EmployeeId = employee.Id,
+                        EmployeeId = existingEmployee.Id,
                         EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
                         EmployeeStatusCode = employee.CurrentEmployeeStatusCode,
                         Comment = "Updated automatically by script."
@@ -86,6 +92,7 @@ namespace ExitSurveyAdmin.Services
               ***REMOVED***
 
                 // B20. Changes on a "major" field. Update and log the change.
+                return existingEmployee;
           ***REMOVED***
 
 
@@ -93,7 +100,6 @@ namespace ExitSurveyAdmin.Services
             // in their CSV.
             //      --> Set status to Not Exiting.
 
-            return employee;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

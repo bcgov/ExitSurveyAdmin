@@ -52,8 +52,8 @@ namespace ExitSurveyAdmin.Controllers
             return employeeList;
       ***REMOVED***
 
-        [HttpPut("ReconcileEmployee/***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<Employee>> ReconcileEmployee(int id, Employee employee)
+        [HttpPut("ReconcileEmployee")]
+        public async Task<ActionResult<Employee>> ReconcileEmployee(Employee employee)
         ***REMOVED***
             // Reconciliation logic here.
 
