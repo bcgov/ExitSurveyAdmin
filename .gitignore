@@ -239,3 +239,6 @@ _Pvt_Extensions
 # SampleInput
 SampleInput/*
 !SampleInput/.gitkeep
+
+# App settings
+**/appsettings.Development.json
