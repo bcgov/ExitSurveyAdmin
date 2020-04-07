@@ -53,7 +53,7 @@ namespace ExitSurveyAdmin.Controllers
         }
 
         [HttpPut("ReconcileEmployee/{id}")]
-        public async Task<ActionResult<Employee>> ReconcileEmployee(string id, Employee employee)
+        public async Task<ActionResult<Employee>> ReconcileEmployee(int id, Employee employee)
         {
             // Reconciliation logic here.
 
@@ -81,10 +81,8 @@ namespace ExitSurveyAdmin.Controllers
             //         throw;
             //     }
             // }
-            EmployeeReconciliationService.SetContext(_context);
-
             var newEmployee = await EmployeeReconciliationService
-                .ReconcileEmployee(employee);
+                .ReconcileEmployee(_context, employee);
 
             return newEmployee;
         }

@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/EmployeeTimelineEntries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EmployeeTimelineEntry>> GetEmployeeTimelineEntry(string id)
+        public async Task<ActionResult<EmployeeTimelineEntry>> GetEmployeeTimelineEntry(int id)
         {
             var employeeTimelineEntry = await _context.EmployeeTimelineEntries
                     .Include(ete => ete.EmployeeAction)
@@ -60,7 +60,7 @@ namespace ExitSurveyAdmin.Controllers
             return CreatedAtAction(nameof(GetEmployeeTimelineEntry), new { id = employeeTimelineEntry.Id }, employeeTimelineEntry);
         }
 
-        private bool EmployeeTimelineEntryExists(string id)
+        private bool EmployeeTimelineEntryExists(int id)
         {
             return _context.EmployeeTimelineEntries.Any(e => e.Id == id);
         }

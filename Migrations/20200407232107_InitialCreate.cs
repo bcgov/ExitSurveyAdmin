@@ -11,7 +11,8 @@ namespace ExitSurveyAdmin.Migrations
                 name: "AdminUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<string>(nullable: false),
@@ -77,7 +78,8 @@ namespace ExitSurveyAdmin.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     GovernmentEmployeeId = table.Column<string>(nullable: false),
@@ -130,7 +132,8 @@ namespace ExitSurveyAdmin.Migrations
                 name: "TaskLogEntries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     TaskCode = table.Column<string>(nullable: false),
@@ -158,10 +161,11 @@ namespace ExitSurveyAdmin.Migrations
                 name: "EmployeeTimelineEntries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
-                    EmployeeId = table.Column<string>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
                     EmployeeActionCode = table.Column<string>(nullable: false),
                     EmployeeStatusCode = table.Column<string>(nullable: false),
                     Comment = table.Column<string>(nullable: false)
