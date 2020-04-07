@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -7,11 +8,11 @@ namespace ExitSurveyAdmin.Models
     public class EmployeeTimelineEntry : BaseEntity
     ***REMOVED***
         [Key]
-        [Required]
-        public string Id ***REMOVED*** get; set; ***REMOVED***
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public string EmployeeId ***REMOVED*** get; set; ***REMOVED***
+        public int EmployeeId ***REMOVED*** get; set; ***REMOVED***
 
         [JsonIgnore]
         public virtual Employee Employee ***REMOVED*** get; set; ***REMOVED***

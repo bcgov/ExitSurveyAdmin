@@ -23,7 +23,6 @@ namespace ExitSurveyAdmin.Models
                 context.AdminUsers.AddRange(
                     new AdminUser
                     ***REMOVED***
-                        Id = "000001",
                         EmployeeId = "FHANGLER",
                         Name = "Frank Hangler",
                         Email = "frank@plotandscatter.com"

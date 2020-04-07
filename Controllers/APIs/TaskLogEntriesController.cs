@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/TaskLogEntries/5
         [HttpGet("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(string id)
+        public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(int id)
         ***REMOVED***
             var taskLogEntry = await _context.TaskLogEntries
                     .Include(tle => tle.Task)
@@ -60,7 +60,7 @@ namespace ExitSurveyAdmin.Controllers
             return CreatedAtAction(nameof(GetTaskLogEntry), new ***REMOVED*** id = taskLogEntry.Id ***REMOVED***, taskLogEntry);
       ***REMOVED***
 
-        private bool TaskLogEntryExists(string id)
+        private bool TaskLogEntryExists(int id)
         ***REMOVED***
             return _context.TaskLogEntries.Any(e => e.Id == id);
       ***REMOVED***

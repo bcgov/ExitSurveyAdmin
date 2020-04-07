@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,8 +7,8 @@ namespace ExitSurveyAdmin.Models
     public class AdminUser : BaseEntity
     ***REMOVED***
         [Key]
-        [Required]
-        public string Id ***REMOVED*** get; set; ***REMOVED***
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string EmployeeId ***REMOVED*** get; set; ***REMOVED***

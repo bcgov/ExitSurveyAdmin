@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -58,8 +59,8 @@ namespace ExitSurveyAdmin.Models
 
 
         [Key]
-        [Required]
-        public string Id ***REMOVED*** get; set; ***REMOVED***
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***

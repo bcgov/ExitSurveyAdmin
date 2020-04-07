@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/EmployeeTimelineEntries/5
         [HttpGet("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<EmployeeTimelineEntry>> GetEmployeeTimelineEntry(string id)
+        public async Task<ActionResult<EmployeeTimelineEntry>> GetEmployeeTimelineEntry(int id)
         ***REMOVED***
             var employeeTimelineEntry = await _context.EmployeeTimelineEntries
                     .Include(ete => ete.EmployeeAction)
@@ -60,7 +60,7 @@ namespace ExitSurveyAdmin.Controllers
             return CreatedAtAction(nameof(GetEmployeeTimelineEntry), new ***REMOVED*** id = employeeTimelineEntry.Id ***REMOVED***, employeeTimelineEntry);
       ***REMOVED***
 
-        private bool EmployeeTimelineEntryExists(string id)
+        private bool EmployeeTimelineEntryExists(int id)
         ***REMOVED***
             return _context.EmployeeTimelineEntries.Any(e => e.Id == id);
       ***REMOVED***

@@ -29,7 +29,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/AdminUsers/5
         [HttpGet("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<AdminUser>> GetAdminUser(string id)
+        public async Task<ActionResult<AdminUser>> GetAdminUser(int id)
         ***REMOVED***
             var adminUser = await _context.AdminUsers.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("***REMOVED***id***REMOVED***")]
-        public async Task<IActionResult> PutAdminUser(string id, AdminUser adminUser)
+        public async Task<IActionResult> PutAdminUser(int id, AdminUser adminUser)
         ***REMOVED***
             if (id != adminUser.Id)
             ***REMOVED***
@@ -87,7 +87,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // DELETE: api/AdminUsers/5
         [HttpDelete("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<AdminUser>> DeleteAdminUser(string id)
+        public async Task<ActionResult<AdminUser>> DeleteAdminUser(int id)
         ***REMOVED***
             var adminUser = await _context.AdminUsers.FindAsync(id);
             if (adminUser == null)
@@ -101,7 +101,7 @@ namespace ExitSurveyAdmin.Controllers
             return adminUser;
       ***REMOVED***
 
-        private bool AdminUserExists(string id)
+        private bool AdminUserExists(int id)
         ***REMOVED***
             return _context.AdminUsers.Any(e => e.Id == id);
       ***REMOVED***
