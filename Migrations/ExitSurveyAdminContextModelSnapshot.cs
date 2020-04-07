@@ -112,10 +112,6 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<DateTime>("EffectiveDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ExitCount")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -129,6 +125,10 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GovernmentEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GovernmentEmployeeId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
