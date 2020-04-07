@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/TaskLogEntries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(string id)
+        public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(int id)
         {
             var taskLogEntry = await _context.TaskLogEntries
                     .Include(tle => tle.Task)
@@ -60,7 +60,7 @@ namespace ExitSurveyAdmin.Controllers
             return CreatedAtAction(nameof(GetTaskLogEntry), new { id = taskLogEntry.Id }, taskLogEntry);
         }
 
-        private bool TaskLogEntryExists(string id)
+        private bool TaskLogEntryExists(int id)
         {
             return _context.TaskLogEntries.Any(e => e.Id == id);
         }
