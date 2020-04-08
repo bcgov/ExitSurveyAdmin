@@ -84,12 +84,21 @@ namespace ExitSurveyAdmin.Services
                     // which property values get copied in. However, it is a bit
                     // complicated. We could also explore using something like
                     // entry.SetValues().
-                    foreach (PropertyVariance variance in differentProperties)
+
+                    // While updating fields, also keep track of which fields
+                    // were updated from old to new values.
+                    List<string> fieldsUpdatedList = new List<string>();
+                    foreach (PropertyVariance pv in differentProperties)
                     {
-                        var newValue = variance.PropertyInfo.GetValue(employee);
-                        variance.PropertyInfo.SetValue(existingEmployee, newValue);
+                        var newValue = pv.PropertyInfo.GetValue(employee);
+                        pv.PropertyInfo.SetValue(existingEmployee, newValue);
+                        fieldsUpdatedList
+                            .Add($"{pv.PropertyInfo.Name}: {pv.ValueA} -> {pv.ValueB}");
                     }
                     context.Entry(existingEmployee).State = EntityState.Modified;
+
+                    // Create a string out of the list.
+                    string fieldsUpdated = String.Join(", ", fieldsUpdatedList);
 
                     // Create a new timeline entry.
                     context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
@@ -97,7 +106,7 @@ namespace ExitSurveyAdmin.Services
                         EmployeeId = existingEmployee.Id,
                         EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
                         EmployeeStatusCode = employee.CurrentEmployeeStatusCode,
-                        Comment = "Updated automatically by script."
+                        Comment = $"Fields updated by script: {fieldsUpdated}."
                     });
 
                     // Save changes to employee and the new timeline entry.
