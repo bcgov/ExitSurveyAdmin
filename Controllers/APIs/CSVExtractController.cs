@@ -81,6 +81,15 @@ namespace ExitSurveyAdmin.Controllers
             //         throw;
             //   ***REMOVED***
             // ***REMOVED***
+
+            // The possible states of an employee.
+
+            // How do we determine uniqueness?
+            //      EmployeeId + ExitCount.
+
+            // We need to check two things.
+            //   One, is THEIR employee in OUR database.
+            //   Two, is OUR *active* employee in THEIR CSV.
             var newEmployee = await EmployeeReconciliationService
                 .ReconcileEmployee(_context, employee);
 
