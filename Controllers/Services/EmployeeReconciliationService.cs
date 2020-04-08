@@ -39,26 +39,21 @@ namespace ExitSurveyAdmin.Services
 
         public async static Task<Employee> ReconcileEmployee(ExitSurveyAdminContext context, Employee employee)
         {
-            // The possible states of an employee.
-
-            // How do we determine uniqueness?
-            //      EmployeeId + ExitCount.
-
-            // We need to check two things.
-            //   One, is THEIR employee in OUR database.
-            //   Two, is OUR *active* employee in THEIR CSV.
-
+            // Get the existing employee, if it exists.
             var existingEmployee = EmployeeExists(context, employee);
 
             if (existingEmployee == null)
             {
-                // A. The unique user does not exist in the database.
-                //      --> Insert into the database.
+                // Case A. The employee does not exist in the database.
+
+                // Insert the employee into the database.
                 context.Employees.Add(employee);
                 await context.SaveChangesAsync();
 
+                // Reload to get the automatically-created ID.
                 await context.Entry(employee).ReloadAsync();
 
+                // Create and save a new timeline entry.
                 context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
                 {
                     EmployeeId = employee.Id,
@@ -68,19 +63,35 @@ namespace ExitSurveyAdmin.Services
                 });
                 await context.SaveChangesAsync();
 
+                // End Case A. Return the employee.
                 return employee;
             }
             else
             {
-                // B. The unique user DOES exist in the database.
-                // B10. No changes on any fields. Don't bother to update.
-                if (existingEmployee.FieldsAllEqual(employee))
+                // Case B. The unique user DOES exist in the database.
+                var differentProperties = existingEmployee.PropertyCompare(employee);
+
+                if (differentProperties.Count() == 0)
                 {
-                    // No-op.
+                    // Case B1. No changes on any fields. Don't do anything.
+                    // Return the existing employee.
+                    return existingEmployee;
                 }
                 else
                 {
-                    context.Entry(employee).State = EntityState.Modified;
+                    // Case B2. Changes on some fields. Update the user.
+                    // TODO: This lets us have very discrete control over exactly
+                    // which property values get copied in. However, it is a bit
+                    // complicated. We could also explore using something like
+                    // entry.SetValues().
+                    foreach (PropertyVariance variance in differentProperties)
+                    {
+                        var newValue = variance.PropertyInfo.GetValue(employee);
+                        variance.PropertyInfo.SetValue(existingEmployee, newValue);
+                    }
+                    context.Entry(existingEmployee).State = EntityState.Modified;
+
+                    // Create a new timeline entry.
                     context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
                     {
                         EmployeeId = existingEmployee.Id,
@@ -88,18 +99,14 @@ namespace ExitSurveyAdmin.Services
                         EmployeeStatusCode = employee.CurrentEmployeeStatusCode,
                         Comment = "Updated automatically by script."
                     });
+
+                    // Save changes to employee and the new timeline entry.
                     await context.SaveChangesAsync();
+
+                    // Return the employee.
+                    return existingEmployee;
                 }
-
-                // B20. Changes on a "major" field. Update and log the change.
-                return existingEmployee;
             }
-
-
-            // C. The non-final-state employee exists in our database, but not
-            // in their CSV.
-            //      --> Set status to Not Exiting.
-
         }
     }
 }
