@@ -74,8 +74,6 @@ namespace ExitSurveyAdmin.Services
                 if (differentProperties.Count() == 0)
                 ***REMOVED***
                     // Case B1. No changes on any fields. Don't do anything.
-                    // Return the existing employee.
-                    return existingEmployee;
               ***REMOVED***
                 else
                 ***REMOVED***
@@ -111,10 +109,10 @@ namespace ExitSurveyAdmin.Services
 
                     // Save changes to employee and the new timeline entry.
                     await context.SaveChangesAsync();
-
-                    // Return the employee.
-                    return existingEmployee;
               ***REMOVED***
+
+                // End Case B. Return the existing employee.
+                return existingEmployee;
           ***REMOVED***
       ***REMOVED***
   ***REMOVED***
