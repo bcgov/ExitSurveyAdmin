@@ -46,56 +46,27 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost("EmployeesFromCSV")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
         ***REMOVED***
-            var employeeList = await CSVExtractService
+            // Get a list of candidate Employee objects based on the CSV.
+            var csvEmployeeList = await CSVExtractService
                 .EmployeesFromCSV(Request.Body, Encoding.UTF8);
 
-            return employeeList;
+            // foreach (Employee e in csvEmployeeList)
+            // ***REMOVED***
+            //     Console.WriteLine(e.Address1);
+            //     await EmployeeReconciliationService.ReconcileEmployee(_context, e);
+            // ***REMOVED***
+
+            // // Now, get a list of active Employees already in the database.
+            // var activeEmployeeList = _context.Employees
+            //     .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal);
+
+            // foreach (Employee e in activeEmployeeList)
+            // ***REMOVED***
+            //     Console.WriteLine(e.FirstName);
+            // ***REMOVED***
+
+
+            return csvEmployeeList;
       ***REMOVED***
-
-        [HttpPut("ReconcileEmployee")]
-        public async Task<ActionResult<Employee>> ReconcileEmployee(Employee employee)
-        ***REMOVED***
-            // Reconciliation logic here.
-
-            // if (id != employee.Id)
-            // ***REMOVED***
-            //     return BadRequest();
-            // ***REMOVED***
-
-            // if (Employee)
-
-            // _context.Entry(employee).State = EntityState.Modified;
-
-            // try
-            // ***REMOVED***
-            //     await _context.SaveChangesAsync();
-            // ***REMOVED***
-            // catch (DbUpdateConcurrencyException)
-            // ***REMOVED***
-            //     if (!EmployeeExists(employee))
-            //     ***REMOVED***
-            //         return NotFound();
-            //   ***REMOVED***
-            //     else
-            //     ***REMOVED***
-            //         throw;
-            //   ***REMOVED***
-            // ***REMOVED***
-
-            // The possible states of an employee.
-
-            // How do we determine uniqueness?
-            //      EmployeeId + ExitCount.
-
-            // We need to check two things.
-            //   One, is THEIR employee in OUR database.
-            //   Two, is OUR *active* employee in THEIR CSV.
-            var newEmployee = await EmployeeReconciliationService
-                .ReconcileEmployee(_context, employee);
-
-            return newEmployee;
-      ***REMOVED***
-
-
   ***REMOVED***
 ***REMOVED***

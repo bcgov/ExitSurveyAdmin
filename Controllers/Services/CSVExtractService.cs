@@ -43,6 +43,7 @@ namespace ExitSurveyAdmin.Services
             ***REMOVED***
                 // Use the ClassMap to map the headers in the CSV to the fields
                 // of the Employee model.
+                csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.Trim;
                 csv.Configuration.RegisterClassMap<PSACSVMap>();
 
                 var employeeList = new List<Employee>();
