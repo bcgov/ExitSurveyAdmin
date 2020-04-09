@@ -1,4 +1,5 @@
 using ExitSurveyAdmin.Models;
+using ExitSurveyAdmin.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -38,7 +39,15 @@ namespace ExitSurveyAdmin
                     Configuration.GetConnectionString("ExitSurveyAdmin")));
             }
 
-            // services.AddDbContext<ExitSurveyAdminContext>(opt => opt.UseInMemoryDatabase("ExitSurveyAdmin"));
+            // TODO: Verify this
+            services
+                .AddAuthentication(options => Authentication.SetAuthenticationOptions(options))
+                .AddJwtBearer(options => Authentication.SetJwtBearerOptions(options,
+                    Configuration.GetValue<string>("Authentication:Authority")));
+
+            // TODO: Verify this BC Dev Keycloack
+            services.AddAuthorization(options => Authentication.SetAuthorizationOptions(options,
+                Configuration.GetValue<string>("Authentication:RoleName")));
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
