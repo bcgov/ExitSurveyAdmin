@@ -92,6 +92,9 @@ namespace ExitSurveyAdmin
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            // app.UseAuthentication();
+            // app.UseAuthorization();
         }
     }
 }
