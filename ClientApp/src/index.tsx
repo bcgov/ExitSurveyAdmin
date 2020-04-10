@@ -9,6 +9,8 @@ import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import { OidcProvider } from 'redux-oidc'
+import userManager from './utils/userManager'
 
 const baseUrl = document
   .getElementsByTagName('base')[0]
@@ -48,11 +50,13 @@ const persistor = persistStore(store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={'Loading...'} persistor={persistor}>
-      <BrowserRouter basename={baseUrl}>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
+    <OidcProvider store={store} userManager={userManager}>
+      <PersistGate loading={'Loading...'} persistor={persistor}>
+        <BrowserRouter basename={baseUrl}>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </OidcProvider>
   </Provider>,
   rootElement
 )

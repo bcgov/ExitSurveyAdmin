@@ -1,4 +1,5 @@
 import React from 'react'
+import userManager from '../../utils/userManager'
 
 import { connect } from 'react-redux'
 
@@ -8,22 +9,20 @@ interface IStateProps {
 
 interface IProps extends IStateProps {}
 
-interface IState {
-  username?: string
-  password?: string
-  authorized: boolean
-}
+interface IState {}
 
 class Login extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
+
+    this.attemptLogin = this.attemptLogin.bind(this)
   }
 
   attemptLogin(): void {
     // console.log(this.state.username, this.state.password)
-    if (!this.state.authorized) {
-      window.location.href = `https://sso-dev.pathfinder.gov.bc.ca/auth/realms/ytaqhqia`
-    }
+    // window.location.href = `https://sso-dev.pathfinder.gov.bc.ca/auth/realms/ytaqhqia`
+    // event.preventDefault()
+    userManager.signinRedirect()
   }
 
   public render(): JSX.Element {
