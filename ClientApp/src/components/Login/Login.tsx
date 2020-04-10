@@ -1,4 +1,5 @@
 import React from 'react'
+import userManager from '../../utils/userManager'
 
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 
@@ -8,22 +9,20 @@ interface IStateProps ***REMOVED***
 
 interface IProps extends IStateProps ***REMOVED******REMOVED***
 
-interface IState ***REMOVED***
-  username?: string
-  password?: string
-  authorized: boolean
-***REMOVED***
+interface IState ***REMOVED******REMOVED***
 
 class Login extends React.Component<IProps, IState> ***REMOVED***
   constructor(props: IProps) ***REMOVED***
     super(props)
+
+    this.attemptLogin = this.attemptLogin.bind(this)
 ***REMOVED***
 
   attemptLogin(): void ***REMOVED***
     // console.log(this.state.username, this.state.password)
-    if (!this.state.authorized) ***REMOVED***
-      window.location.href = `https://sso-dev.pathfinder.gov.bc.ca/auth/realms/ytaqhqia`
-  ***REMOVED***
+    // window.location.href = `https://sso-dev.pathfinder.gov.bc.ca/auth/realms/ytaqhqia`
+    // event.preventDefault()
+    userManager.signinRedirect()
 ***REMOVED***
 
   public render(): JSX.Element ***REMOVED***
