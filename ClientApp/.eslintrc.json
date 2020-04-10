@@ -44,6 +44,7 @@
       "error",
       "never"
     ],
+    "no-console": "warn",
     "prettier/prettier": [
       "error",
       {
