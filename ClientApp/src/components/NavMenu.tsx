@@ -2,10 +2,12 @@ import React from 'react'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import './NavMenu.css'
 
+import userManager from '../store/utils/userManager'
+
 interface IProps ***REMOVED******REMOVED***
 
 interface IState ***REMOVED***
-  collapsed: boolean
+  name?: string
 ***REMOVED***
 
 export class NavMenu extends React.Component<IProps, IState> ***REMOVED***
@@ -14,19 +16,18 @@ export class NavMenu extends React.Component<IProps, IState> ***REMOVED***
   constructor(props: IProps) ***REMOVED***
     super(props)
 
-    this.toggleNavbar = this.toggleNavbar.bind(this)
     this.state = ***REMOVED***
-      collapsed: true
+      name: ''
   ***REMOVED***
 ***REMOVED***
 
-  toggleNavbar(): void ***REMOVED***
-    this.setState(***REMOVED***
-      collapsed: !this.state.collapsed
-  ***REMOVED***)
+  async componentDidMount(): Promise<void> ***REMOVED***
+    const user = await userManager.getUser()
+    this.setState(***REMOVED*** name: user?.profile.given_name ***REMOVED***)
 ***REMOVED***
 
   render(): JSX.Element ***REMOVED***
+    const name = this.state.name
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
         <Link to="/" className="navbar-brand">
@@ -44,6 +45,11 @@ export class NavMenu extends React.Component<IProps, IState> ***REMOVED***
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <small>Logged in as ***REMOVED***name***REMOVED***</small>
+            </li>
+          </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to="/" className="nav-link">

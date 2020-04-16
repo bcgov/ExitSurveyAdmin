@@ -3,7 +3,7 @@ import ***REMOVED*** Route ***REMOVED*** from 'react-router-dom'
 import ***REMOVED*** Layout ***REMOVED*** from './components/Layout'
 import ***REMOVED*** Home ***REMOVED*** from './components/Home'
 import Login from './components/Login/Login'
-import CallbackHandler from './components/Login/CallbackHandler.jsx'
+import CallbackHandler from './components/Login/CallbackHandler'
 import ***REMOVED*** EmployeeListing ***REMOVED*** from './components/Employees/EmployeeListing'
 
 import './custom.css'
