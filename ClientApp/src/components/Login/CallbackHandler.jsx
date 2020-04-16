@@ -5,8 +5,15 @@ import ***REMOVED*** push ***REMOVED*** from 'connected-react-router'
 import userManager from '../../utils/userManager'
 
 class CallbackPage extends React.Component ***REMOVED***
+  async componentDidMount() ***REMOVED***
+    const user = await userManager.getUser()
+
+    console.log(user)
+***REMOVED***
+
   render() ***REMOVED***
     // just redirect to '/' in both cases
+
     return (
       <CallbackComponent
         userManager=***REMOVED***userManager***REMOVED***
