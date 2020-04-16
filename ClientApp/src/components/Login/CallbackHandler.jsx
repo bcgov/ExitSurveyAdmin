@@ -2,7 +2,7 @@ import React from 'react'
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** CallbackComponent ***REMOVED*** from 'redux-oidc'
 import ***REMOVED*** push ***REMOVED*** from 'connected-react-router'
-import userManager from '../../utils/userManager'
+import userManager from '../../store/utils/userManager'
 
 class CallbackPage extends React.Component ***REMOVED***
   async componentDidMount() ***REMOVED***

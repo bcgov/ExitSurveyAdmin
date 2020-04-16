@@ -1,5 +1,5 @@
 import React from 'react'
-import userManager from '../../utils/userManager'
+import userManager from '../../store/utils/userManager'
 
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 

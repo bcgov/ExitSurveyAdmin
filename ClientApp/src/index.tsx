@@ -10,7 +10,7 @@ import ***REMOVED*** PersistGate ***REMOVED*** from 'redux-persist/integration/r
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import ***REMOVED*** OidcProvider ***REMOVED*** from 'redux-oidc'
-import userManager from './utils/userManager'
+import userManager from './store/utils/userManager'
 
 const baseUrl = document
   .getElementsByTagName('base')[0]
