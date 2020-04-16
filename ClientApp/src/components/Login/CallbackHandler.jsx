@@ -17,8 +17,12 @@ class CallbackPage extends React.Component {
     return (
       <CallbackComponent
         userManager={userManager}
-        successCallback={() => this.props.dispatch(push('/'))}
+        successCallback={() => {
+          console.log('There was a login success')
+          this.props.dispatch(push('/'))
+        }}
         errorCallback={error => {
+          console.log('There was an error')
           this.props.dispatch(push('/'))
           console.error(error)
         }}
