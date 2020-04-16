@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { CallbackComponent } from 'redux-oidc'
 import { push } from 'connected-react-router'
-import userManager from '../../utils/userManager'
+import userManager from '../../store/utils/userManager'
 
 class CallbackPage extends React.Component {
   async componentDidMount() {
