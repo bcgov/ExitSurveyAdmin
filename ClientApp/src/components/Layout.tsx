@@ -1,5 +1,4 @@
 import React from 'react'
-import ***REMOVED*** Container ***REMOVED*** from 'reactstrap'
 import ***REMOVED*** NavMenu ***REMOVED*** from './NavMenu'
 
 interface IProps ***REMOVED***
@@ -13,7 +12,7 @@ export class Layout extends React.Component<IProps> ***REMOVED***
     return (
       <div>
         <NavMenu />
-        <Container>***REMOVED***this.props.children***REMOVED***</Container>
+        <div className="container">***REMOVED***this.props.children***REMOVED***</div>
       </div>
     )
 ***REMOVED***

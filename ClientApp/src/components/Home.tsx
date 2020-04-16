@@ -1,16 +1,5 @@
 import React from 'react'
 
-import ***REMOVED***
-  Button,
-  Card,
-  CardBody,
-  CardDeck,
-  CardImg,
-  CardSubtitle,
-  CardText,
-  CardTitle
-***REMOVED*** from 'reactstrap'
-
 import './Home.scss'
 
 export class Home extends React.Component ***REMOVED***

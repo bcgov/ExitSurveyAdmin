@@ -1,13 +1,4 @@
 import React from 'react'
-import ***REMOVED***
-  Collapse,
-  Container,
-  NavItem,
-  NavLink,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler
-***REMOVED*** from 'reactstrap'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import './NavMenu.css'
 
@@ -37,47 +28,46 @@ export class NavMenu extends React.Component<IProps, IState> ***REMOVED***
 
   render(): JSX.Element ***REMOVED***
     return (
-      <header>
-        <Navbar
-          className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-          light
+      <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
+        <Link to="/" className="navbar-brand">
+          Exit Survey Admin
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          <Container>
-            <NavbarBrand tag=***REMOVED***Link***REMOVED*** to="/">
-              Exit Survey Admin
-            </NavbarBrand>
-            <NavbarToggler onClick=***REMOVED***this.toggleNavbar***REMOVED*** className="mr-2" />
-            <Collapse
-              className="d-sm-inline-flex flex-sm-row-reverse"
-              isOpen=***REMOVED***!this.state.collapsed***REMOVED***
-              navbar
-            >
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/">
-                    Home
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/login">
-                    Login
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/admin-users">
-                    Admin users
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag=***REMOVED***Link***REMOVED*** className="text-dark" to="/employees">
-                    Exiting employees
-                  </NavLink>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
-      </header>
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/" className="nav-link">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/login" className="nav-link">
+                Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/admin-users" className="nav-link">
+                Admin users
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/employees" className="nav-link">
+                Exiting employees
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
     )
 ***REMOVED***
 ***REMOVED***
