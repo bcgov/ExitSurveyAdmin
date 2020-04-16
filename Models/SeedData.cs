@@ -13,21 +13,12 @@ namespace ExitSurveyAdmin.Models
                 serviceProvider.GetRequiredService<DbContextOptions<ExitSurveyAdminContext>>())
             )
             {
-                // If the context contains any AdminUsers already, it has
+                // If the context contains any EmployeeStatuses already, it has
                 // been seeded. Don't re-seed it.
-                if (context.AdminUsers.Any())
+                if (context.EmployeeStatusEnums.Any())
                 {
                     return;   // DB has been seeded
                 }
-
-                context.AdminUsers.AddRange(
-                    new AdminUser
-                    {
-                        EmployeeId = "FHANGLER",
-                        Name = "Frank Hangler",
-                        Email = "frank@plotandscatter.com"
-                    }
-                );
 
                 context.EmployeeStatusEnums.AddRange(
                     EmployeeStatusEnum.AllValues

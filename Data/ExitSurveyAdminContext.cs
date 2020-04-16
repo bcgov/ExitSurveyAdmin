@@ -14,7 +14,6 @@ namespace ExitSurveyAdmin.Models
         }
 
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<AdminUser> AdminUsers { get; set; }
         public DbSet<EmployeeStatusEnum> EmployeeStatusEnums { get; set; }
         public DbSet<EmployeeActionEnum> EmployeeActionEnums { get; set; }
         public DbSet<EmployeeTimelineEntry> EmployeeTimelineEntries { get; set; }
