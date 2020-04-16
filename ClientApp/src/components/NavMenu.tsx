@@ -2,10 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './NavMenu.css'
 
+import userManager from '../store/utils/userManager'
+
 interface IProps {}
 
 interface IState {
-  collapsed: boolean
+  name?: string
 }
 
 export class NavMenu extends React.Component<IProps, IState> {
@@ -14,19 +16,18 @@ export class NavMenu extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
 
-    this.toggleNavbar = this.toggleNavbar.bind(this)
     this.state = {
-      collapsed: true
+      name: ''
     }
   }
 
-  toggleNavbar(): void {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
+  async componentDidMount(): Promise<void> {
+    const user = await userManager.getUser()
+    this.setState({ name: user?.profile.given_name })
   }
 
   render(): JSX.Element {
+    const name = this.state.name
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
         <Link to="/" className="navbar-brand">
@@ -44,6 +45,11 @@ export class NavMenu extends React.Component<IProps, IState> {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <small>Logged in as {name}</small>
+            </li>
+          </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to="/" className="nav-link">

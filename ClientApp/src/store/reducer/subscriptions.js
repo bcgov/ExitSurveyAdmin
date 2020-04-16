@@ -8,8 +8,10 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SESSION_TERMINATED:
-    case USER_EXPIRED:
+    case USER_EXPIRED: {
+      console.log('Session terminated or user expired')
       return Object.assign({}, state, { channels: [] })
+    }
     case LOAD_SUBSCRIPTIONS_SUCCESS:
       return Object.assign({}, state, { channels: action.payload })
     default:
