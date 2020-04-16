@@ -1,16 +1,5 @@
 import React from 'react'
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardDeck,
-  CardImg,
-  CardSubtitle,
-  CardText,
-  CardTitle
-} from 'reactstrap'
-
 import './Home.scss'
 
 export class Home extends React.Component {
