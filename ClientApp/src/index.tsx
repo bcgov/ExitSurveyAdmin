@@ -10,7 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import { OidcProvider } from 'redux-oidc'
-import userManager from './utils/userManager'
+import userManager from './store/utils/userManager'
 
 const baseUrl = document
   .getElementsByTagName('base')[0]
