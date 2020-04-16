@@ -1,27 +1,33 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
+import { AnyAction } from 'redux'
 import { connect } from 'react-redux'
 import { CallbackComponent } from 'redux-oidc'
 import { push } from 'connected-react-router'
 import userManager from '../../store/utils/userManager'
 
-class CallbackPage extends React.Component {
-  async componentDidMount() {
-    const user = await userManager.getUser()
+interface IDispatchProps {
+  dispatch: Dispatch<AnyAction>
+}
 
+interface IProps extends IDispatchProps {}
+
+class CallbackPage extends React.Component<IProps> {
+  async componentDidMount(): Promise<void> {
+    const user = await userManager.getUser()
     console.log(user)
   }
 
-  render() {
+  render(): JSX.Element {
     // just redirect to '/' in both cases
 
     return (
       <CallbackComponent
         userManager={userManager}
-        successCallback={() => {
+        successCallback={(): void => {
           console.log('There was a login success')
           this.props.dispatch(push('/'))
         }}
-        errorCallback={error => {
+        errorCallback={(error: any): void => {
           console.log('There was an error')
           this.props.dispatch(push('/'))
           console.error(error)
