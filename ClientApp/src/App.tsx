@@ -5,7 +5,6 @@ import ***REMOVED*** Home ***REMOVED*** from './components/Home'
 import Login from './components/Login/Login'
 import CallbackHandler from './components/Login/CallbackHandler.jsx'
 import ***REMOVED*** EmployeeListing ***REMOVED*** from './components/Employees/EmployeeListing'
-import ***REMOVED*** AdminUserListing ***REMOVED*** from './components/AdminUsers/AdminUserListing'
 
 import './custom.css'
 
@@ -19,7 +18,6 @@ export default class App extends React.Component ***REMOVED***
         <Route path="/login" component=***REMOVED***Login***REMOVED*** />
         <Route path="/callback" component=***REMOVED***CallbackHandler***REMOVED*** />
         <Route path="/employees" component=***REMOVED***EmployeeListing***REMOVED*** />
-        <Route path="/admin-users" component=***REMOVED***AdminUserListing***REMOVED*** />
       </Layout>
     )
 ***REMOVED***
