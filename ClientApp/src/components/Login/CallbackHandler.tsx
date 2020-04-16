@@ -4,12 +4,13 @@ import { connect } from 'react-redux'
 import { CallbackComponent } from 'redux-oidc'
 import { push } from 'connected-react-router'
 import userManager from '../../store/utils/userManager'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 interface IDispatchProps {
   dispatch: Dispatch<AnyAction>
 }
 
-interface IProps extends IDispatchProps {}
+interface IProps extends IDispatchProps, RouteComponentProps {}
 
 class CallbackPage extends React.Component<IProps> {
   async componentDidMount(): Promise<void> {
@@ -25,18 +26,17 @@ class CallbackPage extends React.Component<IProps> {
         userManager={userManager}
         successCallback={(): void => {
           console.log('There was a login success')
-          this.props.dispatch(push('/'))
+          this.props.history.push('/')
         }}
         errorCallback={(error: any): void => {
           console.log('There was an error')
-          this.props.dispatch(push('/'))
           console.error(error)
         }}
       >
-        <div>Redirecting...</div>
+        <div>Redirecting... if not, there was an error (see console)</div>
       </CallbackComponent>
     )
   }
 }
 
-export default connect()(CallbackPage)
+export default withRouter(connect()(CallbackPage))
