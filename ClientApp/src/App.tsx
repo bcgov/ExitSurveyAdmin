@@ -2,7 +2,6 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import Layout from './components/Wrappers/Layout'
 import Home from './components/Home'
-import Login from './components/Login/Login'
 import CallbackHandler from './components/Login/CallbackHandler'
 import EmployeeListing from './components/Employees/EmployeeListing'
 // import AuthWrapper from './AuthWrapper'
@@ -17,7 +16,6 @@ export default class App extends React.Component {
     return (
       <Layout>
         <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
         <Route path="/callback" component={CallbackHandler} />
         <AuthenticatedRoute path="/employees" component={EmployeeListing} />
       </Layout>
