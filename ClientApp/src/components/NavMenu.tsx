@@ -10,7 +10,7 @@ interface IState {
   name?: string
 }
 
-export class NavMenu extends React.Component<IProps, IState> {
+class NavMenu extends React.Component<IProps, IState> {
   static displayName = NavMenu.name
 
   constructor(props: IProps) {
@@ -72,3 +72,5 @@ export class NavMenu extends React.Component<IProps, IState> {
     )
   }
 }
+
+export default NavMenu

@@ -2,7 +2,7 @@ import React from 'react'
 
 import './Home.scss'
 
-export class Home extends React.Component {
+class Home extends React.Component {
   render(): JSX.Element {
     return (
       <div className="Home">
@@ -11,3 +11,5 @@ export class Home extends React.Component {
     )
   }
 }
+
+export default Home
