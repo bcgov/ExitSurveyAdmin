@@ -2,8 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './NavMenu.css'
 
-import userManager from '../store/utils/userManager'
-
 interface IProps {}
 
 interface IState {
@@ -15,19 +13,9 @@ class NavMenu extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props)
-
-    this.state = {
-      name: ''
-    }
-  }
-
-  async componentDidMount(): Promise<void> {
-    const user = await userManager.getUser()
-    this.setState({ name: user?.profile.given_name })
   }
 
   render(): JSX.Element {
-    const name = this.state.name
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
         <Link to="/" className="navbar-brand">
@@ -47,7 +35,7 @@ class NavMenu extends React.Component<IProps, IState> {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <small>Logged in as {name}</small>
+              {/* <small>Logged in as {name}</small> */}
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
