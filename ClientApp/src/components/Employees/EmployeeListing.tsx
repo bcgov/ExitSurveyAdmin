@@ -1,5 +1,6 @@
 import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 
 interface IOwnProps ***REMOVED******REMOVED***
 
@@ -37,9 +38,19 @@ class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
         <tbody>
           ***REMOVED***employees.map(employee => (
             <tr key=***REMOVED***employee.id***REMOVED***>
-              <td>***REMOVED***employee.id***REMOVED***</td>
-              <td>***REMOVED***employee.firstName***REMOVED***</td>
-              <td>***REMOVED***employee.lastName***REMOVED***</td>
+              <td>
+                <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>***REMOVED***employee.id***REMOVED***</Link>
+              </td>
+              <td>
+                <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>
+                  ***REMOVED***employee.firstName***REMOVED***
+                </Link>
+              </td>
+              <td>
+                <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>
+                  ***REMOVED***employee.lastName***REMOVED***
+                </Link>
+              </td>
               <td>
                 ***REMOVED***new Date(employee.birthDate).toLocaleDateString('en-CA', ***REMOVED***
                   timeZone: 'UTC'
