@@ -23,7 +23,6 @@ class AuthWrapper extends React.Component<IProps> {
 }
 
 const mapStateToProps = (state: any): IStateProps => {
-  console.log('state', state)
   if (state && state.oidc && state.oidc.user) {
     return { user: state.oidc.user }
   } else {
