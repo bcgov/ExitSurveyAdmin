@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import userManager from '../../store/utils/userManager'
+
 import Unauthorized from '../Login/Unauthorized'
 
 interface IOwnProps {
@@ -15,6 +17,29 @@ interface IDispatchProps {}
 interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
 
 class AuthWrapper extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props)
+    this.checkUser = this.checkUser.bind(this)
+  }
+
+  checkUser(): void {
+    const { user } = this.props
+    console.log('--> user', user)
+    if (!user || user.expired) {
+      userManager.signinRedirect()
+    }
+  }
+
+  componentDidMount(): void {
+    console.log('componentDidMount')
+    // this.checkUser()
+  }
+
+  componentDidUpdate(): void {
+    console.log('componentDidUpdate')
+    this.checkUser()
+  }
+
   render(): React.ReactNode {
     const { user } = this.props
 
