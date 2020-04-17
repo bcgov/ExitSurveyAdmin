@@ -2,12 +2,10 @@ import React from 'react'
 import NavMenu from '../NavMenu'
 
 interface IProps {
-  children: JSX.Element | JSX.Element[]
+  children: React.ReactNode
 }
 
 class Layout extends React.Component<IProps> {
-  static displayName = Layout.name
-
   render(): JSX.Element {
     return (
       <div>

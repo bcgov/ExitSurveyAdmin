@@ -17,11 +17,11 @@ class CallbackPage extends React.Component<IProps> {
       <CallbackComponent
         userManager={userManager}
         successCallback={(): void => {
-          console.log('There was a login success')
+          console.log('Login success')
           this.props.history.push('/')
         }}
         errorCallback={(error: any): void => {
-          console.log('There was an error')
+          console.log('Login error')
           console.error(error)
         }}
       >
