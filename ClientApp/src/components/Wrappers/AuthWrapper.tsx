@@ -23,7 +23,6 @@ class AuthWrapper extends React.Component<IProps> ***REMOVED***
 ***REMOVED***
 
 const mapStateToProps = (state: any): IStateProps => ***REMOVED***
-  console.log('state', state)
   if (state && state.oidc && state.oidc.user) ***REMOVED***
     return ***REMOVED*** user: state.oidc.user ***REMOVED***
 ***REMOVED*** else ***REMOVED***

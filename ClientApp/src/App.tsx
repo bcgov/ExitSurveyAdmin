@@ -8,6 +8,7 @@ import EmployeeListing from './components/Employees/EmployeeListing'
 // import AuthWrapper from './AuthWrapper'
 
 import './custom.css'
+import AuthenticatedRoute from './components/Wrappers/AuthenticatedRoute'
 
 export default class App extends React.Component ***REMOVED***
   static displayName = App.name
@@ -18,7 +19,7 @@ export default class App extends React.Component ***REMOVED***
         <Route exact path="/" component=***REMOVED***Home***REMOVED*** />
         <Route path="/login" component=***REMOVED***Login***REMOVED*** />
         <Route path="/callback" component=***REMOVED***CallbackHandler***REMOVED*** />
-        <Route path="/employees" component=***REMOVED***EmployeeListing***REMOVED*** />
+        <AuthenticatedRoute path="/employees" component=***REMOVED***EmployeeListing***REMOVED*** />
       </Layout>
     )
 ***REMOVED***
