@@ -12,14 +12,7 @@ interface IDispatchProps {
 interface IProps extends IDispatchProps, RouteComponentProps {}
 
 class CallbackPage extends React.Component<IProps> {
-  async componentDidMount(): Promise<void> {
-    const user = await userManager.getUser()
-    console.log(user)
-  }
-
   render(): JSX.Element {
-    // just redirect to '/' in both cases
-
     return (
       <CallbackComponent
         userManager={userManager}
@@ -30,10 +23,12 @@ class CallbackPage extends React.Component<IProps> {
         errorCallback={(error: any): void => {
           console.log('There was an error')
           console.error(error)
-          this.props.history.push('/')
         }}
       >
-        <div>Redirecting... if not, there was an error (see console)</div>
+        <div>
+          <h1>Completing login&hellip;</h1>
+          <p>If you are not redirected, there was an error (see the console)</p>
+        </div>
       </CallbackComponent>
     )
   }
