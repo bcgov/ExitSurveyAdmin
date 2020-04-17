@@ -1,13 +1,24 @@
 import React from 'react'
 import { Employee } from '../../types/Employee'
 
-interface IProps {}
+import { connect } from 'react-redux'
+// import Login from '../Login/Login'
+
+interface IOwnProps {}
+
+interface IStateProps {
+  user: any
+}
+
+interface IDispatchProps {}
+
+interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
 
 interface IState {
   employees?: Employee[]
 }
 
-export class EmployeeListing extends React.Component<IProps, IState> {
+class EmployeeListing extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = { employees: undefined }
@@ -47,6 +58,9 @@ export class EmployeeListing extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
+    const user = this.props.user
+    console.log(`--> ${user}`)
+
     const contents =
       this.state.employees === undefined ? (
         <p>
@@ -70,3 +84,14 @@ export class EmployeeListing extends React.Component<IProps, IState> {
     this.setState({ employees: data })
   }
 }
+
+const mapStateToProps = (state: any): IStateProps => {
+  console.log('--> state', state)
+  if (state && state.oidc && state.oidc.user) {
+    return { user: state.oidc.user }
+  } else {
+    return { user: undefined }
+  }
+}
+
+export default connect(mapStateToProps)(EmployeeListing)

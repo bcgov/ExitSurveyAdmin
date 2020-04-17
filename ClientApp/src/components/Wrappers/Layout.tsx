@@ -1,11 +1,11 @@
 import React from 'react'
-import { NavMenu } from './NavMenu'
+import NavMenu from '../NavMenu'
 
 interface IProps {
   children: JSX.Element | JSX.Element[]
 }
 
-export class Layout extends React.Component<IProps> {
+class Layout extends React.Component<IProps> {
   static displayName = Layout.name
 
   render(): JSX.Element {
@@ -17,3 +17,5 @@ export class Layout extends React.Component<IProps> {
     )
   }
 }
+
+export default Layout
