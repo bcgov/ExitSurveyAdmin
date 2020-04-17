@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Login from '../Login/Login'
+import Unauthorized from '../Login/Unauthorized'
+import userManager from '../../store/utils/userManager'
 
 interface IOwnProps {
   children: React.ReactNode
@@ -18,7 +19,7 @@ class AuthWrapper extends React.Component<IProps> {
   render(): React.ReactNode {
     const { user } = this.props
 
-    return !user || user.expired ? <Login /> : this.props.children
+    return !user || user.expired ? <Unauthorized /> : this.props.children
   }
 }
 

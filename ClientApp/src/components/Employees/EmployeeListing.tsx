@@ -1,14 +1,9 @@
 import React from 'react'
 import { Employee } from '../../types/Employee'
 
-import { connect } from 'react-redux'
-// import Login from '../Login/Login'
-
 interface IOwnProps {}
 
-interface IStateProps {
-  user: any
-}
+interface IStateProps {}
 
 interface IDispatchProps {}
 
@@ -58,9 +53,6 @@ class EmployeeListing extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
-    const user = this.props.user
-    console.log(`--> ${user}`)
-
     const contents =
       this.state.employees === undefined ? (
         <p>
@@ -85,13 +77,4 @@ class EmployeeListing extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any): IStateProps => {
-  console.log('--> state', state)
-  if (state && state.oidc && state.oidc.user) {
-    return { user: state.oidc.user }
-  } else {
-    return { user: undefined }
-  }
-}
-
-export default connect(mapStateToProps)(EmployeeListing)
+export default EmployeeListing
