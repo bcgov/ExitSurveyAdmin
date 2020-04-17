@@ -2,6 +2,9 @@ import React from 'react'
 import { Employee } from '../../types/Employee'
 import { RouteComponentProps } from 'react-router-dom'
 
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
+import ContentWrapper from '../Wrappers/ContentWrapper'
+
 interface IParams {
   employeeId: string
 }
@@ -27,7 +30,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
   }
 
   componentDidMount(): void {
-    this.populateData()
+    this.populateData(this.props.match.params.employeeId)
   }
 
   static renderEmployee(employee: Employee): JSX.Element {
@@ -49,21 +52,23 @@ class EmployeeDetail extends React.Component<IProps, IState> {
       )
 
     return (
-      <div>
+      <ContentWrapper>
         <h3 id="tabelLabel" className="text-muted">
           Employee
         </h3>
         {contents}
-      </div>
+      </ContentWrapper>
     )
   }
 
-  async populateData(): Promise<void> {
-    const response = await fetch(
-      `api/employees/${this.props.match.params.employeeId}`
+  async populateData(employeeId: string): Promise<void> {
+    await requestJSONWithErrorHandler(
+      `api/employees/${employeeId}`,
+      'get',
+      null,
+      'EMPLOYEE_NOT_FOUND',
+      (responseJSON: any): void => this.setState({ employee: responseJSON })
     )
-    const data = await response.json()
-    this.setState({ employee: data })
   }
 }
 
