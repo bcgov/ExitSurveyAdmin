@@ -12,14 +12,7 @@ interface IDispatchProps ***REMOVED***
 interface IProps extends IDispatchProps, RouteComponentProps ***REMOVED******REMOVED***
 
 class CallbackPage extends React.Component<IProps> ***REMOVED***
-  async componentDidMount(): Promise<void> ***REMOVED***
-    const user = await userManager.getUser()
-    console.log(user)
-***REMOVED***
-
   render(): JSX.Element ***REMOVED***
-    // just redirect to '/' in both cases
-
     return (
       <CallbackComponent
         userManager=***REMOVED***userManager***REMOVED***
@@ -30,10 +23,12 @@ class CallbackPage extends React.Component<IProps> ***REMOVED***
         errorCallback=***REMOVED***(error: any): void => ***REMOVED***
           console.log('There was an error')
           console.error(error)
-          this.props.history.push('/')
       ***REMOVED******REMOVED***
       >
-        <div>Redirecting... if not, there was an error (see console)</div>
+        <div>
+          <h1>Completing login&hellip;</h1>
+          <p>If you are not redirected, there was an error (see the console)</p>
+        </div>
       </CallbackComponent>
     )
 ***REMOVED***

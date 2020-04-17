@@ -1,7 +1,6 @@
 import React from 'react'
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import Unauthorized from '../Login/Unauthorized'
-import userManager from '../../store/utils/userManager'
 
 interface IOwnProps ***REMOVED***
   children: React.ReactNode

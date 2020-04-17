@@ -7,12 +7,12 @@ import userManager from './utils/userManager'
 const oidcMiddleware = createOidcMiddleware(userManager)
 
 const loggerMiddleware = store => next => action => ***REMOVED***
-  console.log('Action type:', action.type)
-  console.log('Action payload:', action.payload)
-  console.log('State before:', store.getState())
+  // console.log('Action type:', action.type)
+  // console.log('Action payload:', action.payload)
+  // console.log('State before:', store.getState())
   next(action)
-  console.log('State after:', store.getState())
-  console.log('---')
+  // console.log('State after:', store.getState())
+  // console.log('---')
 ***REMOVED***
 
 const initialState = ***REMOVED******REMOVED***

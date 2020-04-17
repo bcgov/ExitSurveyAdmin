@@ -36,7 +36,12 @@ class Unauthorized extends React.Component<IProps> ***REMOVED***
     this.checkUser()
 ***REMOVED***
   render(): JSX.Element ***REMOVED***
-    return <h1>Unauthorized. Redirecting you...</h1>
+    return (
+      <div>
+        <h1>Unauthorized.</h1>
+        <p>Redirecting you&hellip;</p>
+      </div>
+    )
 ***REMOVED***
 ***REMOVED***
 
