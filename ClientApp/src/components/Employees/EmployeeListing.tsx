@@ -1,5 +1,6 @@
 import React from 'react'
 import { Employee } from '../../types/Employee'
+import { Link } from 'react-router-dom'
 
 interface IOwnProps {}
 
@@ -37,9 +38,19 @@ class EmployeeListing extends React.Component<IProps, IState> {
         <tbody>
           {employees.map(employee => (
             <tr key={employee.id}>
-              <td>{employee.id}</td>
-              <td>{employee.firstName}</td>
-              <td>{employee.lastName}</td>
+              <td>
+                <Link to={`/employees/${employee.id}`}>{employee.id}</Link>
+              </td>
+              <td>
+                <Link to={`/employees/${employee.id}`}>
+                  {employee.firstName}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/employees/${employee.id}`}>
+                  {employee.lastName}
+                </Link>
+              </td>
               <td>
                 {new Date(employee.birthDate).toLocaleDateString('en-CA', {
                   timeZone: 'UTC'
