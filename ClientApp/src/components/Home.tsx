@@ -2,7 +2,7 @@ import React from 'react'
 
 import './Home.scss'
 
-export class Home extends React.Component ***REMOVED***
+class Home extends React.Component ***REMOVED***
   render(): JSX.Element ***REMOVED***
     return (
       <div className="Home">
@@ -11,3 +11,5 @@ export class Home extends React.Component ***REMOVED***
     )
 ***REMOVED***
 ***REMOVED***
+
+export default Home

@@ -1,10 +1,11 @@
 import React from 'react'
 import ***REMOVED*** Route ***REMOVED*** from 'react-router-dom'
-import ***REMOVED*** Layout ***REMOVED*** from './components/Layout'
-import ***REMOVED*** Home ***REMOVED*** from './components/Home'
+import Layout from './components/Wrappers/Layout'
+import Home from './components/Home'
 import Login from './components/Login/Login'
 import CallbackHandler from './components/Login/CallbackHandler'
-import ***REMOVED*** EmployeeListing ***REMOVED*** from './components/Employees/EmployeeListing'
+import EmployeeListing from './components/Employees/EmployeeListing'
+// import AuthWrapper from './AuthWrapper'
 
 import './custom.css'
 

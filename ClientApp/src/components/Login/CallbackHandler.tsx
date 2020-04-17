@@ -2,7 +2,6 @@ import React, ***REMOVED*** Dispatch ***REMOVED*** from 'react'
 import ***REMOVED*** AnyAction ***REMOVED*** from 'redux'
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** CallbackComponent ***REMOVED*** from 'redux-oidc'
-import ***REMOVED*** push ***REMOVED*** from 'connected-react-router'
 import userManager from '../../store/utils/userManager'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router-dom'
 
@@ -31,6 +30,7 @@ class CallbackPage extends React.Component<IProps> ***REMOVED***
         errorCallback=***REMOVED***(error: any): void => ***REMOVED***
           console.log('There was an error')
           console.error(error)
+          this.props.history.push('/')
       ***REMOVED******REMOVED***
       >
         <div>Redirecting... if not, there was an error (see console)</div>

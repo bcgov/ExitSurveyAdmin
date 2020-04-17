@@ -3,62 +3,33 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ***REMOVED*** BrowserRouter ***REMOVED*** from 'react-router-dom'
 import ***REMOVED*** Provider ***REMOVED*** from 'react-redux'
-import ***REMOVED*** createStore ***REMOVED*** from 'redux'
-import ***REMOVED*** persistReducer, persistStore ***REMOVED*** from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import ***REMOVED*** PersistGate ***REMOVED*** from 'redux-persist/integration/react'
+// import ***REMOVED*** persistStore ***REMOVED*** from 'redux-persist'
+// import ***REMOVED*** PersistGate ***REMOVED*** from 'redux-persist/integration/react'
 import App from './App'
-import registerServiceWorker from './registerServiceWorker'
+import ***REMOVED*** unregister ***REMOVED*** from './registerServiceWorker'
 import ***REMOVED*** OidcProvider ***REMOVED*** from 'redux-oidc'
 import userManager from './store/utils/userManager'
+import store from './store/store'
 
 const baseUrl = document
   .getElementsByTagName('base')[0]
   .getAttribute('href') as string
 const rootElement = document.getElementById('root')
 
-const initialState = ***REMOVED***
-  token: null
-***REMOVED***
-
-const persistConfig = ***REMOVED***
-  key: 'ExitSurveyAdmin',
-  storage
-***REMOVED***
-
-const reducer = (state = initialState, action: any): any => ***REMOVED***
-  switch (action.type) ***REMOVED***
-    case 'AUTH_SUCCESS': ***REMOVED***
-      const ***REMOVED*** token ***REMOVED*** = action
-      console.log('AUTH_SUCCESS token', token)
-      return Object.assign(***REMOVED******REMOVED***, state, ***REMOVED***
-        token
-    ***REMOVED***)
-  ***REMOVED***
-    case 'LOGOUT':
-      return Object.assign(***REMOVED******REMOVED***, initialState)
-    default:
-      return state
-***REMOVED***
-***REMOVED***
-
-const persistedReducer = persistReducer(persistConfig, reducer)
-
-export const store = createStore(persistedReducer)
-
-const persistor = persistStore(store)
+// const persistor = persistStore(store)
 
 ReactDOM.render(
   <Provider store=***REMOVED***store***REMOVED***>
     <OidcProvider store=***REMOVED***store***REMOVED*** userManager=***REMOVED***userManager***REMOVED***>
-      <PersistGate loading=***REMOVED***'Loading...'***REMOVED*** persistor=***REMOVED***persistor***REMOVED***>
-        <BrowserRouter basename=***REMOVED***baseUrl***REMOVED***>
-          <App />
-        </BrowserRouter>
-      </PersistGate>
+      ***REMOVED***/* <PersistGate loading=***REMOVED***'Loading...'***REMOVED*** persistor=***REMOVED***persistor***REMOVED***> */***REMOVED***
+      <BrowserRouter basename=***REMOVED***baseUrl***REMOVED***>
+        <App />
+      </BrowserRouter>
+      ***REMOVED***/* </PersistGate> */***REMOVED***
     </OidcProvider>
   </Provider>,
   rootElement
 )
 
-registerServiceWorker()
+// registerServiceWorker()
+unregister()

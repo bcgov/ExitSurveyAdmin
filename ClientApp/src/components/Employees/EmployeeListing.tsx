@@ -1,13 +1,24 @@
 import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 
-interface IProps ***REMOVED******REMOVED***
+import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
+// import Login from '../Login/Login'
+
+interface IOwnProps ***REMOVED******REMOVED***
+
+interface IStateProps ***REMOVED***
+  user: any
+***REMOVED***
+
+interface IDispatchProps ***REMOVED******REMOVED***
+
+interface IProps extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
 
 interface IState ***REMOVED***
   employees?: Employee[]
 ***REMOVED***
 
-export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
+class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
   constructor(props: IProps) ***REMOVED***
     super(props)
     this.state = ***REMOVED*** employees: undefined ***REMOVED***
@@ -47,6 +58,9 @@ export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED*
 ***REMOVED***
 
   render(): JSX.Element ***REMOVED***
+    const user = this.props.user
+    console.log(`--> $***REMOVED***user***REMOVED***`)
+
     const contents =
       this.state.employees === undefined ? (
         <p>
@@ -70,3 +84,14 @@ export class EmployeeListing extends React.Component<IProps, IState> ***REMOVED*
     this.setState(***REMOVED*** employees: data ***REMOVED***)
 ***REMOVED***
 ***REMOVED***
+
+const mapStateToProps = (state: any): IStateProps => ***REMOVED***
+  console.log('--> state', state)
+  if (state && state.oidc && state.oidc.user) ***REMOVED***
+    return ***REMOVED*** user: state.oidc.user ***REMOVED***
+***REMOVED*** else ***REMOVED***
+    return ***REMOVED*** user: undefined ***REMOVED***
+***REMOVED***
+***REMOVED***
+
+export default connect(mapStateToProps)(EmployeeListing)

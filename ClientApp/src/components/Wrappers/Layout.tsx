@@ -1,11 +1,11 @@
 import React from 'react'
-import ***REMOVED*** NavMenu ***REMOVED*** from './NavMenu'
+import NavMenu from '../NavMenu'
 
 interface IProps ***REMOVED***
   children: JSX.Element | JSX.Element[]
 ***REMOVED***
 
-export class Layout extends React.Component<IProps> ***REMOVED***
+class Layout extends React.Component<IProps> ***REMOVED***
   static displayName = Layout.name
 
   render(): JSX.Element ***REMOVED***
@@ -17,3 +17,5 @@ export class Layout extends React.Component<IProps> ***REMOVED***
     )
 ***REMOVED***
 ***REMOVED***
+
+export default Layout

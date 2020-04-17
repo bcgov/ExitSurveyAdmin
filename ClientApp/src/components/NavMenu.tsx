@@ -10,7 +10,7 @@ interface IState ***REMOVED***
   name?: string
 ***REMOVED***
 
-export class NavMenu extends React.Component<IProps, IState> ***REMOVED***
+class NavMenu extends React.Component<IProps, IState> ***REMOVED***
   static displayName = NavMenu.name
 
   constructor(props: IProps) ***REMOVED***
@@ -72,3 +72,5 @@ export class NavMenu extends React.Component<IProps, IState> ***REMOVED***
     )
 ***REMOVED***
 ***REMOVED***
+
+export default NavMenu
