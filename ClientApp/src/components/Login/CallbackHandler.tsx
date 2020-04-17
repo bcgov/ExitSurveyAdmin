@@ -17,11 +17,11 @@ class CallbackPage extends React.Component<IProps> ***REMOVED***
       <CallbackComponent
         userManager=***REMOVED***userManager***REMOVED***
         successCallback=***REMOVED***(): void => ***REMOVED***
-          console.log('There was a login success')
+          console.log('Login success')
           this.props.history.push('/')
       ***REMOVED******REMOVED***
         errorCallback=***REMOVED***(error: any): void => ***REMOVED***
-          console.log('There was an error')
+          console.log('Login error')
           console.error(error)
       ***REMOVED******REMOVED***
       >

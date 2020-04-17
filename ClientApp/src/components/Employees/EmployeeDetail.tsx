@@ -2,6 +2,9 @@ import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** RouteComponentProps ***REMOVED*** from 'react-router-dom'
 
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
+import ContentWrapper from '../Wrappers/ContentWrapper'
+
 interface IParams ***REMOVED***
   employeeId: string
 ***REMOVED***
@@ -27,7 +30,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   componentDidMount(): void ***REMOVED***
-    this.populateData()
+    this.populateData(this.props.match.params.employeeId)
 ***REMOVED***
 
   static renderEmployee(employee: Employee): JSX.Element ***REMOVED***
@@ -49,21 +52,23 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
       )
 
     return (
-      <div>
+      <ContentWrapper>
         <h3 id="tabelLabel" className="text-muted">
           Employee
         </h3>
         ***REMOVED***contents***REMOVED***
-      </div>
+      </ContentWrapper>
     )
 ***REMOVED***
 
-  async populateData(): Promise<void> ***REMOVED***
-    const response = await fetch(
-      `api/employees/$***REMOVED***this.props.match.params.employeeId***REMOVED***`
+  async populateData(employeeId: string): Promise<void> ***REMOVED***
+    await requestJSONWithErrorHandler(
+      `api/employees/$***REMOVED***employeeId***REMOVED***`,
+      'get',
+      null,
+      'EMPLOYEE_NOT_FOUND',
+      (responseJSON: any): void => this.setState(***REMOVED*** employee: responseJSON ***REMOVED***)
     )
-    const data = await response.json()
-    this.setState(***REMOVED*** employee: data ***REMOVED***)
 ***REMOVED***
 ***REMOVED***
 

@@ -24,19 +24,14 @@ class AuthWrapper extends React.Component<IProps> ***REMOVED***
 
   checkUser(): void ***REMOVED***
     const ***REMOVED*** user ***REMOVED*** = this.props
-    console.log('--> user', user)
-    if (!user || user.expired) ***REMOVED***
-      userManager.signinRedirect()
-  ***REMOVED***
+    if (!user || user.expired) userManager.signinRedirect()
 ***REMOVED***
 
   componentDidMount(): void ***REMOVED***
-    console.log('componentDidMount')
     // this.checkUser()
 ***REMOVED***
 
   componentDidUpdate(): void ***REMOVED***
-    console.log('componentDidUpdate')
     this.checkUser()
 ***REMOVED***
 
