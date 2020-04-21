@@ -4,6 +4,10 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import ContentWrapper from '../Wrappers/ContentWrapper'
+import CLText from '../DisplayHelpers/ColumnarLabelledText'
+import Date from '../DisplayHelpers/Date'
+import Address from '../DisplayHelpers/Address'
+import LabelledText from '../DisplayHelpers/LabelledText'
 
 interface IParams {
   employeeId: string
@@ -33,15 +37,85 @@ class EmployeeDetail extends React.Component<IProps, IState> {
     this.populateData(this.props.match.params.employeeId)
   }
 
-  static renderEmployee(employee: Employee): JSX.Element {
+  static renderEmployee(e: Employee): JSX.Element {
     return (
-      <h2>
-        {employee.firstName} {employee.lastName}
-      </h2>
+      <div>
+        <div className="row">
+          <div className="col">
+            <h3 className="text-muted">Employee</h3>
+            <h2>
+              {e.firstName} {e.lastName}
+            </h2>
+          </div>
+          <div className="col">
+            <LabelledText label={'Current status'}>
+              <h3>{e.currentEmployeeStatusCode}</h3>
+            </LabelledText>
+          </div>
+        </div>
+        <hr />
+        <div className="row">
+          <CLText label="Database ID">{e.id}</CLText>
+          <CLText label="Employee ID">{e.governmentEmployeeId}</CLText>
+          <CLText label="Email">{e.governmentEmail}</CLText>
+        </div>
+        <hr />
+        <div className="row">
+          <CLText label="First name">{e.firstName}</CLText>
+          <CLText label="Last name">{e.lastName}</CLText>
+          <CLText label="Gender">{e.gender}</CLText>
+          <CLText label="Birth date">
+            <Date dateString={e.birthDate} />
+          </CLText>
+          <CLText label="Age">{e.age}</CLText>
+          <CLText label="Age group">{e.ageGroup}</CLText>
+        </div>
+        <hr />
+        <div className="row">
+          <CLText label="Classification group">{e.classificationGroup}</CLText>
+          <CLText label="Classification">{e.classification}</CLText>
+          <CLText label="Service group">{e.serviceGroup}</CLText>
+          <CLText label="Ministry">{e.ministry}</CLText>
+          <CLText label="Department ID">{e.departmentId}</CLText>
+          <CLText label="Job function code">{e.jobFunctionCode}</CLText>
+          <CLText label="Job code">{e.jobCode}</CLText>
+          <CLText label="Location city">{e.locationCity}</CLText>
+          <CLText label="Location group">{e.locationGroup}</CLText>
+          <CLText label="Original hire date">
+            <Date dateString={e.originalHireDate} />
+          </CLText>
+          <CLText label="Leave date">
+            <Date dateString={e.leaveDate} />
+          </CLText>
+          <CLText label="Service years">{e.serviceYears}</CLText>
+          <CLText label="Appointment status">{e.appointmentStatus}</CLText>
+          <CLText label="Position code">{e.positionCode}</CLText>
+          <CLText label="Back dated">{e.backDated}</CLText>
+        </div>
+        <hr />
+        <div className="row">
+          <CLText label="Last day worked date">
+            <Date dateString={e.lastDayWorkedDate} />
+          </CLText>
+          <CLText label="Effective date">
+            <Date dateString={e.effectiveDate} />
+          </CLText>
+          <CLText label="Reason">{e.reason}</CLText>
+          <CLText label="Exit count">{e.exitCount}</CLText>
+        </div>
+        <hr />
+        <div className="row">
+          <CLText label={'Address'}>
+            <Address employee={e} />
+          </CLText>
+          <CLText label={'Phone'}>{e.phone}</CLText>
+        </div>
+      </div>
     )
   }
 
   render(): JSX.Element {
+    console.log(this.state.employee)
     const contents =
       this.state.employee === undefined ? (
         <p>
@@ -51,14 +125,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
         EmployeeDetail.renderEmployee(this.state.employee)
       )
 
-    return (
-      <ContentWrapper>
-        <h3 id="tabelLabel" className="text-muted">
-          Employee
-        </h3>
-        {contents}
-      </ContentWrapper>
-    )
+    return <ContentWrapper>{contents}</ContentWrapper>
   }
 
   async populateData(employeeId: string): Promise<void> {
