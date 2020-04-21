@@ -25,18 +25,15 @@ class ErrorPage extends React.Component<IProps> ***REMOVED***
           If you believe you have received this message in error, please contact
           us, copying and pasting the following data.
         </p>
-        <LabelledText
-          label="URL"
-          text=***REMOVED***smallCodeWrapper(window.location.href)***REMOVED***
-        />
-        <LabelledText
-          label="Timestamp"
-          text=***REMOVED***smallCodeWrapper(new Date().toString())***REMOVED***
-        />
-        <LabelledText
-          label="Current state"
-          text=***REMOVED***smallCodeWrapper(JSON.stringify(this.props, null, 2))***REMOVED***
-        />
+        <LabelledText label="URL">
+          ***REMOVED***smallCodeWrapper(window.location.href)***REMOVED***
+        </LabelledText>
+        <LabelledText label="Timestamp">
+          ***REMOVED***smallCodeWrapper(new Date().toString())***REMOVED***
+        </LabelledText>
+        <LabelledText label="Current state">
+          ***REMOVED***smallCodeWrapper(JSON.stringify(this.props, null, 2))***REMOVED***
+        </LabelledText>
       </div>
     )
 ***REMOVED***

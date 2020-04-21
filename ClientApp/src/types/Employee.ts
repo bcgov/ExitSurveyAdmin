@@ -1,6 +1,41 @@
 export type Employee = ***REMOVED***
   id: string
+  governmentEmployeeId: string
   firstName: string
   lastName: string
   birthDate: string
+  gender: string
+  governmentEmail: string
+  classification: string
+  ministry: string
+  departmentId: string
+  jobFunctionCode: string
+  locationCity: string
+  originalHireDate: string
+  lastDayWorkedDate: string
+  effectiveDate: string
+  reason: string
+  address1: string
+  address2: string
+  addressCity: string
+  addressProvince: string
+  addressPostCode: string
+  phone: string
+  appointmentStatus: string
+  positionCode: string
+  age: string
+  leaveDate: string
+  serviceYears: string
+  jobCode: string
+  backDated: string
+  exitCount: string
+  ageGroup: string
+  classificationGroup: string
+  serviceGroup: string
+  locationGroup: string
+  currentEmployeeStatusCode: string
+  currentEmployeeStatus: string
+  timelineEntries: string
+  createdTs: string
+  modifiedTs: string
 ***REMOVED***
