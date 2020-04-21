@@ -25,18 +25,15 @@ class ErrorPage extends React.Component<IProps> {
           If you believe you have received this message in error, please contact
           us, copying and pasting the following data.
         </p>
-        <LabelledText
-          label="URL"
-          text={smallCodeWrapper(window.location.href)}
-        />
-        <LabelledText
-          label="Timestamp"
-          text={smallCodeWrapper(new Date().toString())}
-        />
-        <LabelledText
-          label="Current state"
-          text={smallCodeWrapper(JSON.stringify(this.props, null, 2))}
-        />
+        <LabelledText label="URL">
+          {smallCodeWrapper(window.location.href)}
+        </LabelledText>
+        <LabelledText label="Timestamp">
+          {smallCodeWrapper(new Date().toString())}
+        </LabelledText>
+        <LabelledText label="Current state">
+          {smallCodeWrapper(JSON.stringify(this.props, null, 2))}
+        </LabelledText>
       </div>
     )
   }
