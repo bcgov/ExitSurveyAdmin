@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface IProps {
-  dateString: string
+  date?: Date
   showTime?: boolean
 }
 
@@ -9,12 +9,14 @@ const LOCALE = 'en-ca'
 
 class LabelledText extends React.Component<IProps> {
   render(): JSX.Element {
-    const date = new Date(this.props.dateString)
+    const date = this.props.date
     return (
       <div className="Date">
-        {this.props.showTime
+        {date && this.props.showTime
           ? date.toLocaleString(LOCALE)
-          : date.toLocaleDateString(LOCALE)}
+          : date
+          ? date.toLocaleDateString(LOCALE)
+          : ''}
       </div>
     )
   }
