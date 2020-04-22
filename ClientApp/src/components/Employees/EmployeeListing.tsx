@@ -1,6 +1,8 @@
 import React from 'react'
-import { Employee } from '../../types/Employee'
+import { Employee, IEmployeeJSON } from '../../types/Employee'
 import { Link } from 'react-router-dom'
+import Date from '../DisplayHelpers/Date'
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 
 interface IOwnProps {}
 
@@ -25,6 +27,7 @@ class EmployeeListing extends React.Component<IProps, IState> {
   }
 
   static renderEmployeesTable(employees: Employee[]): JSX.Element {
+    console.log('employees', employees)
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -52,9 +55,7 @@ class EmployeeListing extends React.Component<IProps, IState> {
                 </Link>
               </td>
               <td>
-                {new Date(employee.birthDate).toLocaleDateString('en-CA', {
-                  timeZone: 'UTC'
-                })}
+                <Date date={employee.birthDate} />
               </td>
             </tr>
           ))}
@@ -82,9 +83,14 @@ class EmployeeListing extends React.Component<IProps, IState> {
   }
 
   async populateData(): Promise<void> {
-    const response = await fetch('api/employees')
-    const data = await response.json()
-    this.setState({ employees: data })
+    await requestJSONWithErrorHandler(
+      `api/employees`,
+      'get',
+      null,
+      'EMPLOYEE_NOT_FOUND',
+      (responseJSON: IEmployeeJSON[]): void =>
+        this.setState({ employees: Employee.deserializeArray(responseJSON) })
+    )
   }
 }
 
