@@ -1,6 +1,6 @@
 import React from 'react'
 import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** RouteComponentProps ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ContentWrapper from '../Wrappers/ContentWrapper'
@@ -39,9 +39,11 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   static renderEmployee(e: Employee): JSX.Element ***REMOVED***
-    console.log('e', e)
     return (
       <div>
+        <div className="mb-3">
+          <Link to="/employees">&larr; Back to exiting employees list</Link>
+        </div>
         <div className="row">
           <div className="col">
             <h3 className="text-muted">Employee</h3>
