@@ -1,6 +1,6 @@
 import React from 'react'
 import { Employee, IEmployeeJSON } from '../../types/Employee'
-import { RouteComponentProps } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import ContentWrapper from '../Wrappers/ContentWrapper'
@@ -39,9 +39,11 @@ class EmployeeDetail extends React.Component<IProps, IState> {
   }
 
   static renderEmployee(e: Employee): JSX.Element {
-    console.log('e', e)
     return (
       <div>
+        <div className="mb-3">
+          <Link to="/employees">&larr; Back to exiting employees list</Link>
+        </div>
         <div className="row">
           <div className="col">
             <h3 className="text-muted">Employee</h3>
