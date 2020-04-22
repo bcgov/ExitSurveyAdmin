@@ -1,5 +1,5 @@
 import React from 'react'
-import { Employee } from '../../types/Employee'
+import { Employee, IEmployeeJSON } from '../../types/Employee'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
@@ -65,7 +65,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
           <CLText label="Last name">{e.lastName}</CLText>
           <CLText label="Gender">{e.gender}</CLText>
           <CLText label="Birth date">
-            <Date dateString={e.birthDate} />
+            <Date date={e.birthDate} />
           </CLText>
           <CLText label="Age">{e.age}</CLText>
           <CLText label="Age group">{e.ageGroup}</CLText>
@@ -82,10 +82,10 @@ class EmployeeDetail extends React.Component<IProps, IState> {
           <CLText label="Location city">{e.locationCity}</CLText>
           <CLText label="Location group">{e.locationGroup}</CLText>
           <CLText label="Original hire date">
-            <Date dateString={e.originalHireDate} />
+            <Date date={e.originalHireDate} />
           </CLText>
           <CLText label="Leave date">
-            <Date dateString={e.leaveDate} />
+            <Date date={e.leaveDate} />
           </CLText>
           <CLText label="Service years">{e.serviceYears}</CLText>
           <CLText label="Appointment status">{e.appointmentStatus}</CLText>
@@ -95,10 +95,10 @@ class EmployeeDetail extends React.Component<IProps, IState> {
         <hr />
         <div className="row">
           <CLText label="Last day worked date">
-            <Date dateString={e.lastDayWorkedDate} />
+            <Date date={e.lastDayWorkedDate} />
           </CLText>
           <CLText label="Effective date">
-            <Date dateString={e.effectiveDate} />
+            <Date date={e.effectiveDate} />
           </CLText>
           <CLText label="Reason">{e.reason}</CLText>
           <CLText label="Exit count">{e.exitCount}</CLText>
@@ -115,7 +115,6 @@ class EmployeeDetail extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
-    console.log(this.state.employee)
     const contents =
       this.state.employee === undefined ? (
         <p>
@@ -134,7 +133,8 @@ class EmployeeDetail extends React.Component<IProps, IState> {
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: any): void => this.setState({ employee: responseJSON })
+      (responseJSON: IEmployeeJSON): void =>
+        this.setState({ employee: new Employee(responseJSON) })
     )
   }
 }
