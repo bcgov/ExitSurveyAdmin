@@ -8,6 +8,7 @@ import CLText from '../DisplayHelpers/ColumnarLabelledText'
 import Date from '../DisplayHelpers/Date'
 import Address from '../DisplayHelpers/Address'
 import LabelledText from '../DisplayHelpers/LabelledText'
+import TimelineEntryList from './TimelineEntryList'
 
 interface IParams {
   employeeId: string
@@ -38,6 +39,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
   }
 
   static renderEmployee(e: Employee): JSX.Element {
+    console.log('e', e)
     return (
       <div>
         <div className="row">
@@ -55,60 +57,72 @@ class EmployeeDetail extends React.Component<IProps, IState> {
         </div>
         <hr />
         <div className="row">
-          <CLText label="Database ID">{e.id}</CLText>
-          <CLText label="Employee ID">{e.governmentEmployeeId}</CLText>
-          <CLText label="Email">{e.governmentEmail}</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label="First name">{e.firstName}</CLText>
-          <CLText label="Last name">{e.lastName}</CLText>
-          <CLText label="Gender">{e.gender}</CLText>
-          <CLText label="Birth date">
-            <Date date={e.birthDate} />
-          </CLText>
-          <CLText label="Age">{e.age}</CLText>
-          <CLText label="Age group">{e.ageGroup}</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label="Classification group">{e.classificationGroup}</CLText>
-          <CLText label="Classification">{e.classification}</CLText>
-          <CLText label="Service group">{e.serviceGroup}</CLText>
-          <CLText label="Ministry">{e.ministry}</CLText>
-          <CLText label="Department ID">{e.departmentId}</CLText>
-          <CLText label="Job function code">{e.jobFunctionCode}</CLText>
-          <CLText label="Job code">{e.jobCode}</CLText>
-          <CLText label="Location city">{e.locationCity}</CLText>
-          <CLText label="Location group">{e.locationGroup}</CLText>
-          <CLText label="Original hire date">
-            <Date date={e.originalHireDate} />
-          </CLText>
-          <CLText label="Leave date">
-            <Date date={e.leaveDate} />
-          </CLText>
-          <CLText label="Service years">{e.serviceYears}</CLText>
-          <CLText label="Appointment status">{e.appointmentStatus}</CLText>
-          <CLText label="Position code">{e.positionCode}</CLText>
-          <CLText label="Back dated">{e.backDated}</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label="Last day worked date">
-            <Date date={e.lastDayWorkedDate} />
-          </CLText>
-          <CLText label="Effective date">
-            <Date date={e.effectiveDate} />
-          </CLText>
-          <CLText label="Reason">{e.reason}</CLText>
-          <CLText label="Exit count">{e.exitCount}</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label={'Address'}>
-            <Address employee={e} />
-          </CLText>
-          <CLText label={'Phone'}>{e.phone}</CLText>
+          <div className="col-8">
+            <div className="row">
+              <CLText label="Database ID">{e.id}</CLText>
+              <CLText label="Employee ID">{e.governmentEmployeeId}</CLText>
+              <CLText label="Email">{e.governmentEmail}</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label="First name">{e.firstName}</CLText>
+              <CLText label="Last name">{e.lastName}</CLText>
+              <CLText label="Gender">{e.gender}</CLText>
+              <CLText label="Birth date">
+                <Date date={e.birthDate} />
+              </CLText>
+              <CLText label="Age">{e.age}</CLText>
+              <CLText label="Age group">{e.ageGroup}</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label="Classification group">
+                {e.classificationGroup}
+              </CLText>
+              <CLText label="Classification">{e.classification}</CLText>
+              <CLText label="Service group">{e.serviceGroup}</CLText>
+              <CLText label="Ministry">{e.ministry}</CLText>
+              <CLText label="Department ID">{e.departmentId}</CLText>
+              <CLText label="Job function code">{e.jobFunctionCode}</CLText>
+              <CLText label="Job code">{e.jobCode}</CLText>
+              <CLText label="Location city">{e.locationCity}</CLText>
+              <CLText label="Location group">{e.locationGroup}</CLText>
+              <CLText label="Original hire date">
+                <Date date={e.originalHireDate} />
+              </CLText>
+              <CLText label="Leave date">
+                <Date date={e.leaveDate} />
+              </CLText>
+              <CLText label="Service years">{e.serviceYears}</CLText>
+              <CLText label="Appointment status">{e.appointmentStatus}</CLText>
+              <CLText label="Position code">{e.positionCode}</CLText>
+              <CLText label="Back dated">{e.backDated}</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label="Last day worked date">
+                <Date date={e.lastDayWorkedDate} />
+              </CLText>
+              <CLText label="Effective date">
+                <Date date={e.effectiveDate} />
+              </CLText>
+              <CLText label="Reason">{e.reason}</CLText>
+              <CLText label="Exit count">{e.exitCount}</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label={'Address'}>
+                <Address employee={e} />
+              </CLText>
+              <CLText label={'Phone'}>{e.phone}</CLText>
+            </div>
+          </div>
+          <div className="col-4">
+            <h3>Timeline</h3>
+            {e.timelineEntries && (
+              <TimelineEntryList timelineEntries={e.timelineEntries} />
+            )}
+          </div>
         </div>
       </div>
     )
