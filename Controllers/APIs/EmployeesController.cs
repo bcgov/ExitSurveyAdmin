@@ -31,7 +31,8 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         ***REMOVED***
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees
+                .Include(e => e.TimelineEntries).FirstOrDefaultAsync(i => i.Id == id);
 
             if (employee == null)
             ***REMOVED***

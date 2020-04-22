@@ -1,6 +1,6 @@
 import IJSONSerializable from '../helpers/IJSONSerializable'
 import ***REMOVED*** NullableString ***REMOVED*** from './NullableString'
-import ***REMOVED*** undefinedIfNull ***REMOVED*** from '../helpers/objectHelper'
+import ***REMOVED*** dateOrUndefined, undefinedIfNull ***REMOVED*** from '../helpers/objectHelper'
 
 export interface IEmployeeTimelineEntryJSON ***REMOVED***
   id: NullableString
@@ -8,6 +8,8 @@ export interface IEmployeeTimelineEntryJSON ***REMOVED***
   employeeActionCode: NullableString
   employeeStatusCode: NullableString
   comment: NullableString
+  createdTs: NullableString
+  modifiedTs: NullableString
 ***REMOVED***
 
 export class EmployeeTimelineEntry
@@ -18,6 +20,8 @@ export class EmployeeTimelineEntry
   employeeActionCode?: string
   employeeStatusCode?: string
   comment?: string
+  createdTs?: Date
+  modifiedTs?: Date
 
   constructor(input: IEmployeeTimelineEntryJSON) ***REMOVED***
     this.deserialize(input)
@@ -29,6 +33,8 @@ export class EmployeeTimelineEntry
     this.employeeStatusCode = undefinedIfNull(input.employeeStatusCode)
     this.employeeStatusCode = undefinedIfNull(input.employeeStatusCode)
     this.comment = undefinedIfNull(input.comment)
+    this.createdTs = dateOrUndefined(input.createdTs)
+    this.modifiedTs = dateOrUndefined(input.modifiedTs)
 
     return this
 ***REMOVED***

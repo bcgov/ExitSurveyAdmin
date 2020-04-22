@@ -8,6 +8,7 @@ import CLText from '../DisplayHelpers/ColumnarLabelledText'
 import Date from '../DisplayHelpers/Date'
 import Address from '../DisplayHelpers/Address'
 import LabelledText from '../DisplayHelpers/LabelledText'
+import TimelineEntryList from './TimelineEntryList'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -38,6 +39,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   static renderEmployee(e: Employee): JSX.Element ***REMOVED***
+    console.log('e', e)
     return (
       <div>
         <div className="row">
@@ -55,60 +57,72 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
         </div>
         <hr />
         <div className="row">
-          <CLText label="Database ID">***REMOVED***e.id***REMOVED***</CLText>
-          <CLText label="Employee ID">***REMOVED***e.governmentEmployeeId***REMOVED***</CLText>
-          <CLText label="Email">***REMOVED***e.governmentEmail***REMOVED***</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label="First name">***REMOVED***e.firstName***REMOVED***</CLText>
-          <CLText label="Last name">***REMOVED***e.lastName***REMOVED***</CLText>
-          <CLText label="Gender">***REMOVED***e.gender***REMOVED***</CLText>
-          <CLText label="Birth date">
-            <Date date=***REMOVED***e.birthDate***REMOVED*** />
-          </CLText>
-          <CLText label="Age">***REMOVED***e.age***REMOVED***</CLText>
-          <CLText label="Age group">***REMOVED***e.ageGroup***REMOVED***</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label="Classification group">***REMOVED***e.classificationGroup***REMOVED***</CLText>
-          <CLText label="Classification">***REMOVED***e.classification***REMOVED***</CLText>
-          <CLText label="Service group">***REMOVED***e.serviceGroup***REMOVED***</CLText>
-          <CLText label="Ministry">***REMOVED***e.ministry***REMOVED***</CLText>
-          <CLText label="Department ID">***REMOVED***e.departmentId***REMOVED***</CLText>
-          <CLText label="Job function code">***REMOVED***e.jobFunctionCode***REMOVED***</CLText>
-          <CLText label="Job code">***REMOVED***e.jobCode***REMOVED***</CLText>
-          <CLText label="Location city">***REMOVED***e.locationCity***REMOVED***</CLText>
-          <CLText label="Location group">***REMOVED***e.locationGroup***REMOVED***</CLText>
-          <CLText label="Original hire date">
-            <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
-          </CLText>
-          <CLText label="Leave date">
-            <Date date=***REMOVED***e.leaveDate***REMOVED*** />
-          </CLText>
-          <CLText label="Service years">***REMOVED***e.serviceYears***REMOVED***</CLText>
-          <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
-          <CLText label="Position code">***REMOVED***e.positionCode***REMOVED***</CLText>
-          <CLText label="Back dated">***REMOVED***e.backDated***REMOVED***</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label="Last day worked date">
-            <Date date=***REMOVED***e.lastDayWorkedDate***REMOVED*** />
-          </CLText>
-          <CLText label="Effective date">
-            <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
-          </CLText>
-          <CLText label="Reason">***REMOVED***e.reason***REMOVED***</CLText>
-          <CLText label="Exit count">***REMOVED***e.exitCount***REMOVED***</CLText>
-        </div>
-        <hr />
-        <div className="row">
-          <CLText label=***REMOVED***'Address'***REMOVED***>
-            <Address employee=***REMOVED***e***REMOVED*** />
-          </CLText>
-          <CLText label=***REMOVED***'Phone'***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
+          <div className="col-8">
+            <div className="row">
+              <CLText label="Database ID">***REMOVED***e.id***REMOVED***</CLText>
+              <CLText label="Employee ID">***REMOVED***e.governmentEmployeeId***REMOVED***</CLText>
+              <CLText label="Email">***REMOVED***e.governmentEmail***REMOVED***</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label="First name">***REMOVED***e.firstName***REMOVED***</CLText>
+              <CLText label="Last name">***REMOVED***e.lastName***REMOVED***</CLText>
+              <CLText label="Gender">***REMOVED***e.gender***REMOVED***</CLText>
+              <CLText label="Birth date">
+                <Date date=***REMOVED***e.birthDate***REMOVED*** />
+              </CLText>
+              <CLText label="Age">***REMOVED***e.age***REMOVED***</CLText>
+              <CLText label="Age group">***REMOVED***e.ageGroup***REMOVED***</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label="Classification group">
+                ***REMOVED***e.classificationGroup***REMOVED***
+              </CLText>
+              <CLText label="Classification">***REMOVED***e.classification***REMOVED***</CLText>
+              <CLText label="Service group">***REMOVED***e.serviceGroup***REMOVED***</CLText>
+              <CLText label="Ministry">***REMOVED***e.ministry***REMOVED***</CLText>
+              <CLText label="Department ID">***REMOVED***e.departmentId***REMOVED***</CLText>
+              <CLText label="Job function code">***REMOVED***e.jobFunctionCode***REMOVED***</CLText>
+              <CLText label="Job code">***REMOVED***e.jobCode***REMOVED***</CLText>
+              <CLText label="Location city">***REMOVED***e.locationCity***REMOVED***</CLText>
+              <CLText label="Location group">***REMOVED***e.locationGroup***REMOVED***</CLText>
+              <CLText label="Original hire date">
+                <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
+              </CLText>
+              <CLText label="Leave date">
+                <Date date=***REMOVED***e.leaveDate***REMOVED*** />
+              </CLText>
+              <CLText label="Service years">***REMOVED***e.serviceYears***REMOVED***</CLText>
+              <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
+              <CLText label="Position code">***REMOVED***e.positionCode***REMOVED***</CLText>
+              <CLText label="Back dated">***REMOVED***e.backDated***REMOVED***</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label="Last day worked date">
+                <Date date=***REMOVED***e.lastDayWorkedDate***REMOVED*** />
+              </CLText>
+              <CLText label="Effective date">
+                <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
+              </CLText>
+              <CLText label="Reason">***REMOVED***e.reason***REMOVED***</CLText>
+              <CLText label="Exit count">***REMOVED***e.exitCount***REMOVED***</CLText>
+            </div>
+            <hr />
+            <div className="row">
+              <CLText label=***REMOVED***'Address'***REMOVED***>
+                <Address employee=***REMOVED***e***REMOVED*** />
+              </CLText>
+              <CLText label=***REMOVED***'Phone'***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
+            </div>
+          </div>
+          <div className="col-4">
+            <h3>Timeline</h3>
+            ***REMOVED***e.timelineEntries && (
+              <TimelineEntryList timelineEntries=***REMOVED***e.timelineEntries***REMOVED*** />
+            )***REMOVED***
+          </div>
         </div>
       </div>
     )

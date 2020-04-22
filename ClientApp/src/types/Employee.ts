@@ -89,7 +89,7 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
   locationGroup?: string
   currentEmployeeStatusCode?: string
   currentEmployeeStatus?: string
-  timelineEntries?: EmployeeTimelineEntry[]
+  timelineEntries!: EmployeeTimelineEntry[]
   createdTs?: Date
   modifiedTs?: Date
 
