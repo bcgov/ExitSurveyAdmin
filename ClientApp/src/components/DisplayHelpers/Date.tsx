@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface IProps ***REMOVED***
-  dateString: string
+  date?: Date
   showTime?: boolean
 ***REMOVED***
 
@@ -9,12 +9,14 @@ const LOCALE = 'en-ca'
 
 class LabelledText extends React.Component<IProps> ***REMOVED***
   render(): JSX.Element ***REMOVED***
-    const date = new Date(this.props.dateString)
+    const date = this.props.date
     return (
       <div className="Date">
-        ***REMOVED***this.props.showTime
+        ***REMOVED***date && this.props.showTime
           ? date.toLocaleString(LOCALE)
-          : date.toLocaleDateString(LOCALE)***REMOVED***
+          : date
+          ? date.toLocaleDateString(LOCALE)
+          : ''***REMOVED***
       </div>
     )
 ***REMOVED***

@@ -1,6 +1,8 @@
 import React from 'react'
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
+import Date from '../DisplayHelpers/Date'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 
 interface IOwnProps ***REMOVED******REMOVED***
 
@@ -25,6 +27,7 @@ class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   static renderEmployeesTable(employees: Employee[]): JSX.Element ***REMOVED***
+    console.log('employees', employees)
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -52,9 +55,7 @@ class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
                 </Link>
               </td>
               <td>
-                ***REMOVED***new Date(employee.birthDate).toLocaleDateString('en-CA', ***REMOVED***
-                  timeZone: 'UTC'
-              ***REMOVED***)***REMOVED***
+                <Date date=***REMOVED***employee.birthDate***REMOVED*** />
               </td>
             </tr>
           ))***REMOVED***
@@ -82,9 +83,14 @@ class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   async populateData(): Promise<void> ***REMOVED***
-    const response = await fetch('api/employees')
-    const data = await response.json()
-    this.setState(***REMOVED*** employees: data ***REMOVED***)
+    await requestJSONWithErrorHandler(
+      `api/employees`,
+      'get',
+      null,
+      'EMPLOYEE_NOT_FOUND',
+      (responseJSON: IEmployeeJSON[]): void =>
+        this.setState(***REMOVED*** employees: Employee.deserializeArray(responseJSON) ***REMOVED***)
+    )
 ***REMOVED***
 ***REMOVED***
 

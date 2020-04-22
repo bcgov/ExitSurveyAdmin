@@ -1,5 +1,5 @@
 import React from 'react'
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** RouteComponentProps ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
@@ -65,7 +65,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           <CLText label="Last name">***REMOVED***e.lastName***REMOVED***</CLText>
           <CLText label="Gender">***REMOVED***e.gender***REMOVED***</CLText>
           <CLText label="Birth date">
-            <Date dateString=***REMOVED***e.birthDate***REMOVED*** />
+            <Date date=***REMOVED***e.birthDate***REMOVED*** />
           </CLText>
           <CLText label="Age">***REMOVED***e.age***REMOVED***</CLText>
           <CLText label="Age group">***REMOVED***e.ageGroup***REMOVED***</CLText>
@@ -82,10 +82,10 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           <CLText label="Location city">***REMOVED***e.locationCity***REMOVED***</CLText>
           <CLText label="Location group">***REMOVED***e.locationGroup***REMOVED***</CLText>
           <CLText label="Original hire date">
-            <Date dateString=***REMOVED***e.originalHireDate***REMOVED*** />
+            <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
           </CLText>
           <CLText label="Leave date">
-            <Date dateString=***REMOVED***e.leaveDate***REMOVED*** />
+            <Date date=***REMOVED***e.leaveDate***REMOVED*** />
           </CLText>
           <CLText label="Service years">***REMOVED***e.serviceYears***REMOVED***</CLText>
           <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
@@ -95,10 +95,10 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
         <hr />
         <div className="row">
           <CLText label="Last day worked date">
-            <Date dateString=***REMOVED***e.lastDayWorkedDate***REMOVED*** />
+            <Date date=***REMOVED***e.lastDayWorkedDate***REMOVED*** />
           </CLText>
           <CLText label="Effective date">
-            <Date dateString=***REMOVED***e.effectiveDate***REMOVED*** />
+            <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
           </CLText>
           <CLText label="Reason">***REMOVED***e.reason***REMOVED***</CLText>
           <CLText label="Exit count">***REMOVED***e.exitCount***REMOVED***</CLText>
@@ -115,7 +115,6 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   render(): JSX.Element ***REMOVED***
-    console.log(this.state.employee)
     const contents =
       this.state.employee === undefined ? (
         <p>
@@ -134,7 +133,8 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: any): void => this.setState(***REMOVED*** employee: responseJSON ***REMOVED***)
+      (responseJSON: IEmployeeJSON): void =>
+        this.setState(***REMOVED*** employee: new Employee(responseJSON) ***REMOVED***)
     )
 ***REMOVED***
 ***REMOVED***
