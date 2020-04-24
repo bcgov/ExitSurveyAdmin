@@ -8,24 +8,6 @@ namespace ExitSurveyAdmin.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AdminUsers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedTs = table.Column<DateTime>(nullable: false),
-                    ModifiedTs = table.Column<DateTime>(nullable: false),
-                    EmployeeId = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    LastLoginTs = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdminUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EmployeeActionEnums",
                 columns: table => new
                 {
@@ -94,7 +76,7 @@ namespace ExitSurveyAdmin.Migrations
                     JobFunctionCode = table.Column<string>(nullable: false),
                     LocationCity = table.Column<string>(nullable: false),
                     OriginalHireDate = table.Column<DateTime>(nullable: false),
-                    LastDayWorkedDate = table.Column<DateTime>(nullable: false),
+                    LastDayWorkedDate = table.Column<DateTime>(nullable: true),
                     EffectiveDate = table.Column<DateTime>(nullable: false),
                     Reason = table.Column<string>(nullable: false),
                     Address1 = table.Column<string>(nullable: false),
@@ -106,7 +88,7 @@ namespace ExitSurveyAdmin.Migrations
                     AppointmentStatus = table.Column<string>(nullable: false),
                     PositionCode = table.Column<string>(nullable: false),
                     Age = table.Column<string>(nullable: false),
-                    LeaveDate = table.Column<DateTime>(nullable: false),
+                    LeaveDate = table.Column<DateTime>(nullable: true),
                     ServiceYears = table.Column<string>(nullable: false),
                     JobCode = table.Column<string>(nullable: false),
                     BackDated = table.Column<string>(nullable: false),
@@ -226,9 +208,6 @@ namespace ExitSurveyAdmin.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AdminUsers");
-
             migrationBuilder.DropTable(
                 name: "EmployeeTimelineEntries");
 
