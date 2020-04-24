@@ -21,10 +21,12 @@ namespace ExitSurveyAdmin.Controllers
     public class CSVExtractController : ControllerBase
     {
         private readonly ExitSurveyAdminContext _context;
+        private readonly AppConfiguration _myConfiguration;
 
-        public CSVExtractController(ExitSurveyAdminContext context)
+        public CSVExtractController(ExitSurveyAdminContext context, AppConfiguration myConfiguration)
         {
             _context = context;
+            _myConfiguration = myConfiguration;
         }
 
         // GetCSV: Returns the raw, as-is text of the PSA CSV extract.
@@ -32,8 +34,8 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("CSV")]
         public async Task<ActionResult<string>> GetCSV()
         {
-            string text = await CSVExtractService
-                .GetCSV("./SampleInput/PSA-CSV-Sample.csv");
+            string text = await CSVService
+                .ReadCSV(_myConfiguration.SamplePSACSVFilePath);
 
             return Content(text);
         }
@@ -47,24 +49,8 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
         {
             // Get a list of candidate Employee objects based on the CSV.
-            var csvEmployeeList = await CSVExtractService
+            var csvEmployeeList = await CSVService
                 .EmployeesFromCSV(Request.Body, Encoding.UTF8);
-
-            // foreach (Employee e in csvEmployeeList)
-            // {
-            //     Console.WriteLine(e.Address1);
-            //     await EmployeeReconciliationService.ReconcileEmployee(_context, e);
-            // }
-
-            // // Now, get a list of active Employees already in the database.
-            // var activeEmployeeList = _context.Employees
-            //     .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal);
-
-            // foreach (Employee e in activeEmployeeList)
-            // {
-            //     Console.WriteLine(e.FirstName);
-            // }
-
 
             return csvEmployeeList;
         }
