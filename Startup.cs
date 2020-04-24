@@ -12,14 +12,14 @@ namespace ExitSurveyAdmin
 ***REMOVED***
     public class Startup
     ***REMOVED***
+        public IConfiguration Configuration ***REMOVED*** get; ***REMOVED***
+        public IWebHostEnvironment Environment ***REMOVED*** get; ***REMOVED***
+
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         ***REMOVED***
             Environment = env;
             Configuration = configuration;
       ***REMOVED***
-
-        public IConfiguration Configuration ***REMOVED*** get; ***REMOVED***
-        public IWebHostEnvironment Environment ***REMOVED*** get; ***REMOVED***
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,6 +38,8 @@ namespace ExitSurveyAdmin
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ExitSurveyAdmin")));
           ***REMOVED***
+
+            services.AddSingleton(Configuration.GetSection("FilePaths").Get<AppConfiguration>());
 
             // TODO: Verify this
             services
