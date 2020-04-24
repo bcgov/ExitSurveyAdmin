@@ -44,14 +44,48 @@ namespace ExitSurveyAdmin.Services
                 csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.Trim;
                 csv.Configuration.RegisterClassMap<PSACSVMap>();
 
-                var employeeList = new List<Employee>();
+                var goodRecords = new List<Employee>();
+                var badRecords = new List<string>();
+                var isRecordBad = false;
+                var line = 1;
 
-                await foreach (Employee e in csv.GetRecordsAsync<Employee>())
+                csv.Configuration.BadDataFound = context =>
                 ***REMOVED***
-                    employeeList.Add(e);
+                    isRecordBad = true;
+                    badRecords.Add(context.RawRecord);
+                    Console.WriteLine("* * *");
+                    Console.WriteLine(context.RawRecord);
+                    Console.WriteLine("* * *");
+              ***REMOVED***;
+
+                while (await csv.ReadAsync())
+                ***REMOVED***
+                    try
+                    ***REMOVED***
+                        var record = csv.GetRecord<Employee>();
+                        if (!isRecordBad)
+                        ***REMOVED***
+                            goodRecords.Add(record);
+                      ***REMOVED***
+                  ***REMOVED***
+                    catch (Exception e)
+                    ***REMOVED***
+                        var ExceptionText = $"Line ***REMOVED***line***REMOVED***: Exception: ***REMOVED***e***REMOVED***";
+                        badRecords.Add(ExceptionText);
+                        Console.WriteLine("* * *");
+                        Console.WriteLine(ExceptionText);
+                        Console.WriteLine("* * *");
+                  ***REMOVED***
+                    isRecordBad = false;
+                    line++;
               ***REMOVED***
 
-                return employeeList;
+                // await foreach (Employee e in csv.GetRecordsAsync<Employee>())
+                // ***REMOVED***
+                //     goodRecords.Add(e);
+                // ***REMOVED***
+
+                return goodRecords;
           ***REMOVED***
       ***REMOVED***
   ***REMOVED***
