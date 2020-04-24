@@ -52,7 +52,24 @@ namespace ExitSurveyAdmin.Controllers
             var csvEmployeeList = await CSVService
                 .EmployeesFromCSV(Request.Body, Encoding.UTF8);
 
+            foreach (Employee e in csvEmployeeList)
+            {
+                Console.WriteLine(e.FullName);
+                var employee = await EmployeeReconciliationService
+                    .ReconcileEmployee(_context, e);
+            }
+
             return csvEmployeeList;
+        }
+
+        [HttpPost("ReconcileEmployees")]
+        public async Task<ActionResult<List<Employee>>> ReconcileEmployees(List<Employee> employeeJSON)
+        {
+            var employees = new List<Employee>();
+
+            Console.WriteLine(employeeJSON);
+
+            return employees;
         }
     }
 }
