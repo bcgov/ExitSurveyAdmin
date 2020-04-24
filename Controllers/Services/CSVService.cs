@@ -44,14 +44,48 @@ namespace ExitSurveyAdmin.Services
                 csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.Trim;
                 csv.Configuration.RegisterClassMap<PSACSVMap>();
 
-                var employeeList = new List<Employee>();
+                var goodRecords = new List<Employee>();
+                var badRecords = new List<string>();
+                var isRecordBad = false;
+                var line = 1;
 
-                await foreach (Employee e in csv.GetRecordsAsync<Employee>())
+                csv.Configuration.BadDataFound = context =>
                 {
-                    employeeList.Add(e);
+                    isRecordBad = true;
+                    badRecords.Add(context.RawRecord);
+                    Console.WriteLine("* * *");
+                    Console.WriteLine(context.RawRecord);
+                    Console.WriteLine("* * *");
+                };
+
+                while (await csv.ReadAsync())
+                {
+                    try
+                    {
+                        var record = csv.GetRecord<Employee>();
+                        if (!isRecordBad)
+                        {
+                            goodRecords.Add(record);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        var ExceptionText = $"Line {line}: Exception: {e}";
+                        badRecords.Add(ExceptionText);
+                        Console.WriteLine("* * *");
+                        Console.WriteLine(ExceptionText);
+                        Console.WriteLine("* * *");
+                    }
+                    isRecordBad = false;
+                    line++;
                 }
 
-                return employeeList;
+                // await foreach (Employee e in csv.GetRecordsAsync<Employee>())
+                // {
+                //     goodRecords.Add(e);
+                // }
+
+                return goodRecords;
             }
         }
     }
