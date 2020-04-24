@@ -47,6 +47,7 @@ namespace ExitSurveyAdmin.Services
                 // Case A. The employee does not exist in the database.
 
                 // Insert the employee into the database.
+                employee.CurrentEmployeeStatusCode = EmployeeStatusEnum.New.Code;
                 context.Employees.Add(employee);
                 await context.SaveChangesAsync();
 
