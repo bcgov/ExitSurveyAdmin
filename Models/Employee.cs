@@ -32,6 +32,10 @@ namespace ExitSurveyAdmin.Models
             return base.GetHashCode();
         }
 
+        public string FullName
+        {
+            get { return $"{this.FirstName} {this.LastName}"; }
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -76,8 +80,7 @@ namespace ExitSurveyAdmin.Models
         public DateTime OriginalHireDate { get; set; }
 
         [DataType(DataType.Date)]
-        [Required]
-        public DateTime LastDayWorkedDate { get; set; }
+        public DateTime? LastDayWorkedDate { get; set; }
 
         [DataType(DataType.Date)]
         [Required]
@@ -113,8 +116,7 @@ namespace ExitSurveyAdmin.Models
         public string Age { get; set; }
 
         [DataType(DataType.Date)]
-        [Required]
-        public DateTime LeaveDate { get; set; }
+        public DateTime? LeaveDate { get; set; }
 
         [Required]
         public string ServiceYears { get; set; }
