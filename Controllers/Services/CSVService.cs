@@ -15,25 +15,23 @@ using CsvHelper;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
-    public class CSVExtractService
+    public class CSVService
     ***REMOVED***
 
 
-        // GetCSV: Returns the raw, as-is text of the PSA CSV extract.
-        // GET: api/CSVExtract/CSV
-        [HttpGet("CSV")]
-        public static Task<string> GetCSV(string csvPath)
+        // Returns the raw, as-is text of the PSA CSV extract.
+        public static Task<string> ReadCSV(string csvPath)
         ***REMOVED***
             return System.IO.File.ReadAllTextAsync(csvPath);
       ***REMOVED***
 
-        // GetCSV: Given the raw text of the PSA CSV extract (as obtained, for
-        // instance, from the GetCSV method), transform it into an array of
-        // nicely-formatted Employee JSON objects. Note that these Employees are
-        // NOT saved or otherwise processed by default.
-        // POST: api/CSVExtract/EmployeesFromCSV
-        [HttpPost("EmployeesFromCSV")]
-        public static async Task<List<Employee>> EmployeesFromCSV(Stream csvTextStream, Encoding csvEncoding)
+        // EmployeesFromCSV: Given the raw text of the PSA CSV extract (as
+        // obtained, for instance, from the GetCSV method), transform it into an
+        // array of nicely-formatted Employee JSON objects. Note that these
+        // Employees are NOT saved or otherwise processed by default.
+        public static async Task<List<Employee>> EmployeesFromCSV(
+            Stream csvTextStream, Encoding csvEncoding
+        )
         ***REMOVED***
             // By default the content will not be read if it is not form or JSON
             // type so we need to use a stream reader to read the request body.
