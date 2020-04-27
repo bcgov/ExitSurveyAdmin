@@ -22,7 +22,7 @@ namespace ExitSurveyAdmin.Services
         // Returns the raw, as-is text of the PSA CSV extract.
         public static Task<string> ReadCSV(string csvPath)
         {
-            return System.IO.File.ReadAllTextAsync(csvPath);
+            return FileService.ReadLocalFile(csvPath);
         }
 
         // EmployeesFromCSV: Given the raw text of the PSA CSV extract (as
