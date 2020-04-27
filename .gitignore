@@ -240,5 +240,9 @@ _Pvt_Extensions
 SampleInput/*
 !SampleInput/.gitkeep
 
+# EmailTemplates
+EmailTemplates/*
+!EmailTemplates/.gitkeep
+
 # App settings
 **/appsettings.Development.json
