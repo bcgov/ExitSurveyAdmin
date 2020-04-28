@@ -42,8 +42,19 @@ namespace ExitSurveyAdmin.Controllers
             _appConfiguration = appConfiguration;
         }
 
-        // GetCSV: Returns the raw, as-is text of the PSA CSV extract.
-        // GET: api/Email/Send
+        /// <summary>Sends an email.
+        /// <example>The body of the POST should be a JSON object:
+        /// <code>
+        /// {
+        ///    "toName": "Alice",
+        ///    "toAddress": "alice@domain.com",
+        ///    "subject": "Subject of the email",
+        ///    "body": "Email body."
+        /// }
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// GET: api/Email/Send
         [HttpPost("Send")]
         public async Task<ActionResult<string>> Send(EmailDTO emailDTO)
         {
