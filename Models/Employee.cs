@@ -7,62 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using static ObjectExtensions;
+using ExitSurveyAdmin.Services;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class Employee : BaseEntity
     ***REMOVED***
-        private static int Encode(int employeeIdAsInt)
-        ***REMOVED***
-            return employeeIdAsInt * 18 + 7222483;
-      ***REMOVED***
-
-        private static int Decode(int encodedEmployeeIdAsInt)
-        ***REMOVED***
-            return (encodedEmployeeIdAsInt - 7222483) / 18;
-      ***REMOVED***
-
-        // The telkey encoding function. Adapted directly from the previous
-        // codebase.
-        public static string GenerateTelkey(Employee e)
-        ***REMOVED***
-            // Get the two-digit (zero-padded) month.
-            string effectiveDateMonth = e.EffectiveDate.ToString("MM");
-
-            // Get the exit count + 10.
-            int exitCountAsInt = System.Convert.ToInt32(e.ExitCount);
-            int paddedExitCount = exitCountAsInt + 10;
-
-            // Manipulate the employee ID, and reverse.
-            int employeeIdAsInt = System.Convert.ToInt32(e.GovernmentEmployeeId);
-            int encodedEmployeeId = Employee.Encode(employeeIdAsInt);
-            string reversedEncodedEmployeeId = new string(
-                encodedEmployeeId.ToString().Reverse().ToArray()
-            );
-
-            return $"***REMOVED***paddedExitCount***REMOVED******REMOVED***reversedEncodedEmployeeId***REMOVED******REMOVED***effectiveDateMonth***REMOVED***";
-      ***REMOVED***
-
-
-        // The telkey decoding function. Adapted directly from the previous
-        // codebase. We want to get the employee ID from the telkey.
-        public static string EmployeeIdFromTelkey(string telkey)
-        ***REMOVED***
-            // The first two characters of the telkey are the padded exit
-            // count. The last two characters of the telkey are the month. So,
-            // strip those out to get the portion of the telkey that is the
-            // encoded employee ID.
-            string trimmedTelkey = telkey.Trim();
-            string encodedEmployeeId = trimmedTelkey
-                .Substring(2, trimmedTelkey.Length - 2);
-
-            // Now reverse the above process.
-            int encodedEmployeeIdAsInt = System.Convert.ToInt32(encodedEmployeeId);
-            int employeeIdAsInt = Employee.Decode(encodedEmployeeIdAsInt);
-
-            // Now to a string.
-            return $"***REMOVED***employeeIdAsInt***REMOVED***";
-      ***REMOVED***
 
         public IEnumerable<PropertyVariance> PropertyCompare(Employee candidate)
         ***REMOVED***
@@ -92,10 +42,28 @@ namespace ExitSurveyAdmin.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id ***REMOVED*** get; set; ***REMOVED***
 
-        public string Telkey ***REMOVED*** get; set; ***REMOVED***
+        public string Telkey
+        ***REMOVED***
+            get
+            ***REMOVED***
+                return TelkeyService.GenerateTelkey(this);
+          ***REMOVED***
+      ***REMOVED***
 
         [Required]
-        public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***
+        public string GovernmentEmployeeId
+        ***REMOVED***
+            get
+            ***REMOVED***
+                return _GovernmentEmployeeId;
+          ***REMOVED***
+            set
+            ***REMOVED***
+                _GovernmentEmployeeId = value;
+                // GenerateTelkey();
+          ***REMOVED***
+      ***REMOVED***
+        private string _GovernmentEmployeeId;
 
         [Required]
         public string FirstName ***REMOVED*** get; set; ***REMOVED***
@@ -137,7 +105,19 @@ namespace ExitSurveyAdmin.Models
 
         [DataType(DataType.Date)]
         [Required]
-        public DateTime EffectiveDate ***REMOVED*** get; set; ***REMOVED***
+        public DateTime EffectiveDate
+        ***REMOVED***
+            get
+            ***REMOVED***
+                return _EffectiveDate;
+          ***REMOVED***
+            set
+            ***REMOVED***
+                _EffectiveDate = value;
+                // GenerateTelkey();
+          ***REMOVED***
+      ***REMOVED***
+        private DateTime _EffectiveDate;
 
         [Required]
         public string Reason ***REMOVED*** get; set; ***REMOVED***
@@ -181,7 +161,19 @@ namespace ExitSurveyAdmin.Models
         public string BackDated ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public string ExitCount ***REMOVED*** get; set; ***REMOVED***
+        public string ExitCount
+        ***REMOVED***
+            get
+            ***REMOVED***
+                return _ExitCount;
+          ***REMOVED***
+            set
+            ***REMOVED***
+                _ExitCount = value;
+                // GenerateTelkey();
+          ***REMOVED***
+      ***REMOVED***
+        private string _ExitCount;
 
         [Required]
         public string AgeGroup ***REMOVED*** get; set; ***REMOVED***
