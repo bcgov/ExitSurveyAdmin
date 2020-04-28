@@ -39,7 +39,7 @@ namespace ExitSurveyAdmin
                     Configuration.GetConnectionString("ExitSurveyAdmin")));
           ***REMOVED***
 
-            services.AddSingleton(Configuration.GetSection("FilePaths").Get<AppConfiguration>());
+            services.AddSingleton(Configuration.GetSection("AppSettings").Get<AppConfiguration>());
 
             // TODO: Verify this
             services
