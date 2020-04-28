@@ -12,6 +12,7 @@ import ***REMOVED***
 
 export interface IEmployeeJSON ***REMOVED***
   id: NullableString
+  telkey: NullableString
   governmentEmployeeId: NullableString
   firstName: NullableString
   lastName: NullableString
@@ -54,6 +55,7 @@ export interface IEmployeeJSON ***REMOVED***
 
 export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***REMOVED***
   id?: string
+  telkey?: string
   governmentEmployeeId?: string
   firstName?: string
   lastName?: string
@@ -99,6 +101,7 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
 
   deserialize(input: IEmployeeJSON): Employee ***REMOVED***
     this.id = undefinedIfNull(input.id)
+    this.telkey = undefinedIfNull(input.telkey)
     this.governmentEmployeeId = undefinedIfNull(input.governmentEmployeeId)
     this.firstName = undefinedIfNull(input.firstName)
     this.lastName = undefinedIfNull(input.lastName)

@@ -12,6 +12,57 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class Employee : BaseEntity
     ***REMOVED***
+        private static int Encode(int employeeIdAsInt)
+        ***REMOVED***
+            return employeeIdAsInt * 18 + 7222483;
+      ***REMOVED***
+
+        private static int Decode(int encodedEmployeeIdAsInt)
+        ***REMOVED***
+            return (encodedEmployeeIdAsInt - 7222483) / 18;
+      ***REMOVED***
+
+        // The telkey encoding function. Adapted directly from the previous
+        // codebase.
+        public static string GenerateTelkey(Employee e)
+        ***REMOVED***
+            // Get the two-digit (zero-padded) month.
+            string effectiveDateMonth = e.EffectiveDate.ToString("MM");
+
+            // Get the exit count + 10.
+            int exitCountAsInt = System.Convert.ToInt32(e.ExitCount);
+            int paddedExitCount = exitCountAsInt + 10;
+
+            // Manipulate the employee ID, and reverse.
+            int employeeIdAsInt = System.Convert.ToInt32(e.GovernmentEmployeeId);
+            int encodedEmployeeId = Employee.Encode(employeeIdAsInt);
+            string reversedEncodedEmployeeId = new string(
+                encodedEmployeeId.ToString().Reverse().ToArray()
+            );
+
+            return $"***REMOVED***paddedExitCount***REMOVED******REMOVED***reversedEncodedEmployeeId***REMOVED******REMOVED***effectiveDateMonth***REMOVED***";
+      ***REMOVED***
+
+
+        // The telkey decoding function. Adapted directly from the previous
+        // codebase. We want to get the employee ID from the telkey.
+        public static string EmployeeIdFromTelkey(string telkey)
+        ***REMOVED***
+            // The first two characters of the telkey are the padded exit
+            // count. The last two characters of the telkey are the month. So,
+            // strip those out to get the portion of the telkey that is the
+            // encoded employee ID.
+            string trimmedTelkey = telkey.Trim();
+            string encodedEmployeeId = trimmedTelkey
+                .Substring(2, trimmedTelkey.Length - 2);
+
+            // Now reverse the above process.
+            int encodedEmployeeIdAsInt = System.Convert.ToInt32(encodedEmployeeId);
+            int employeeIdAsInt = Employee.Decode(encodedEmployeeIdAsInt);
+
+            // Now to a string.
+            return $"***REMOVED***employeeIdAsInt***REMOVED***";
+      ***REMOVED***
 
         public IEnumerable<PropertyVariance> PropertyCompare(Employee candidate)
         ***REMOVED***
@@ -40,6 +91,8 @@ namespace ExitSurveyAdmin.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id ***REMOVED*** get; set; ***REMOVED***
+
+        public string Telkey ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***
