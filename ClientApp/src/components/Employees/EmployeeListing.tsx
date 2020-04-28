@@ -27,7 +27,6 @@ class EmployeeListing extends React.Component<IProps, IState> {
   }
 
   static renderEmployeesTable(employees: Employee[]): JSX.Element {
-    console.log('employees', employees)
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
@@ -35,7 +34,8 @@ class EmployeeListing extends React.Component<IProps, IState> {
             <th>Id</th>
             <th>First name</th>
             <th>Last name</th>
-            <th>Birth date</th>
+            <th>Leave reason</th>
+            <th>Classification</th>
           </tr>
         </thead>
         <tbody>
@@ -54,9 +54,8 @@ class EmployeeListing extends React.Component<IProps, IState> {
                   {employee.lastName}
                 </Link>
               </td>
-              <td>
-                <Date date={employee.birthDate} />
-              </td>
+              <td>{employee.reason}</td>
+              <td>{employee.classification}</td>
             </tr>
           ))}
         </tbody>
