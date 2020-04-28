@@ -24,7 +24,9 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            return await _context.Employees.Include(e => e.TimelineEntries).ToListAsync();
+            return await _context.Employees
+                .Include(e => e.TimelineEntries)
+                .ToListAsync();
         }
 
         // GET: api/Employees/5
@@ -32,7 +34,8 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
             var employee = await _context.Employees
-                .Include(e => e.TimelineEntries).FirstOrDefaultAsync(i => i.Id == id);
+                .Include(e => e.TimelineEntries)
+                .FirstOrDefaultAsync(i => i.Id == id);
 
             if (employee == null)
             {
