@@ -27,23 +27,25 @@ class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   static renderEmployeesTable(employees: Employee[]): JSX.Element ***REMOVED***
+    console.log(employees)
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Id</th>
+            <th>Telkey</th>
             <th>First name</th>
             <th>Last name</th>
-            <th>Leave reason</th>
+            <th>Email</th>
             <th>Classification</th>
+            <th>Leave date</th>
+            <th>Leave reason</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           ***REMOVED***employees.map(employee => (
             <tr key=***REMOVED***employee.id***REMOVED***>
-              <td>
-                <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>***REMOVED***employee.id***REMOVED***</Link>
-              </td>
+              <td>***REMOVED***employee.telkey***REMOVED***</td>
               <td>
                 <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>
                   ***REMOVED***employee.firstName***REMOVED***
@@ -54,8 +56,13 @@ class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
                   ***REMOVED***employee.lastName***REMOVED***
                 </Link>
               </td>
-              <td>***REMOVED***employee.reason***REMOVED***</td>
+              <td>***REMOVED***employee.governmentEmail***REMOVED***</td>
               <td>***REMOVED***employee.classification***REMOVED***</td>
+              <td>
+                <Date date=***REMOVED***employee.effectiveDate***REMOVED*** />
+              </td>
+              <td>***REMOVED***employee.reason***REMOVED***</td>
+              <td>***REMOVED***employee.currentEmployeeStatusCode***REMOVED***</td>
             </tr>
           ))***REMOVED***
         </tbody>
