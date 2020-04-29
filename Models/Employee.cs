@@ -20,6 +20,7 @@ namespace ExitSurveyAdmin.Models
             return this.DetailedCompare(candidate)
                 .Where(d =>
                     d.PropertyInfo.Name != nameof(Id) &&
+                    d.PropertyInfo.Name != nameof(Telkey) &&
                     d.PropertyInfo.Name != nameof(CurrentEmployeeStatusCode) &&
                     d.PropertyInfo.Name != nameof(CurrentEmployeeStatus) &&
                     d.PropertyInfo.Name != nameof(TimelineEntries) &&
@@ -42,7 +43,7 @@ namespace ExitSurveyAdmin.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Telkey { get; set; }
+        public virtual string Telkey { get; set; }
 
         [Required]
         public string GovernmentEmployeeId { get; set; }
