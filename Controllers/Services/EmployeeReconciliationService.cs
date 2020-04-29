@@ -89,6 +89,16 @@ namespace ExitSurveyAdmin.Services
                     List<string> fieldsUpdatedList = new List<string>();
                     foreach (PropertyVariance pv in differentProperties)
                     {
+                        // Note: we don't log if the email address was set to
+                        // empty, because if it is empty, it will automatically
+                        // be reset when the user is saved.
+                        if (string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
+                            && string.IsNullOrWhiteSpace(pv.ValueB as string)
+                        )
+                        {
+                            continue;
+                        }
+
                         var newValue = pv.PropertyInfo.GetValue(employee);
                         pv.PropertyInfo.SetValue(existingEmployee, newValue);
                         fieldsUpdatedList
@@ -96,20 +106,25 @@ namespace ExitSurveyAdmin.Services
                     }
                     context.Entry(existingEmployee).State = EntityState.Modified;
 
-                    // Create a string out of the list.
-                    string fieldsUpdated = String.Join(", ", fieldsUpdatedList);
-
-                    // Create a new timeline entry.
-                    context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                    // If there is > 1 field updated, update the object (note
+                    // that if just email was set to ``, we might have no
+                    // updated fields).
+                    if (fieldsUpdatedList.Count > 0)
                     {
-                        EmployeeId = existingEmployee.Id,
-                        EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                        EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                        Comment = $"Fields updated by script: {fieldsUpdated}."
-                    });
+                        string fieldsUpdated = String.Join(", ", fieldsUpdatedList);
 
-                    // Save changes to employee and the new timeline entry.
-                    await context.SaveChangesAsync();
+                        // Create a new timeline entry.
+                        context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                        {
+                            EmployeeId = existingEmployee.Id,
+                            EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                            EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                            Comment = $"Fields updated by script: {fieldsUpdated}."
+                        });
+
+                        // Save changes to employee and the new timeline entry.
+                        await context.SaveChangesAsync();
+                    }
                 }
 
                 // End Case B. Return the existing employee.
