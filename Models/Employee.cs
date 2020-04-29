@@ -61,7 +61,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Gender { get; set; }
 
-        [Required]
         public string GovernmentEmail { get; set; }
 
         [Required]
