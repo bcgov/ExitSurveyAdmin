@@ -1,3 +1,4 @@
+using System;
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +20,8 @@ namespace ExitSurveyAdmin
         {
             Environment = env;
             Configuration = configuration;
+
+            AppConfiguration.MyAppConfiguration = Configuration.GetSection("AppSettings").Get<AppConfiguration>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
