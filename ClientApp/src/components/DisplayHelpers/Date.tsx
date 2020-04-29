@@ -13,9 +13,9 @@ class LabelledText extends React.Component<IProps> {
     return (
       <div className="Date">
         {date && this.props.showTime
-          ? date.toLocaleString(LOCALE)
+          ? date.toLocaleString(LOCALE, { timeZone: 'UTC' })
           : date
-          ? date.toLocaleDateString(LOCALE)
+          ? date.toLocaleDateString(LOCALE, { timeZone: 'UTC' })
           : ''}
       </div>
     )
