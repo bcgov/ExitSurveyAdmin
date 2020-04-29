@@ -70,7 +70,7 @@ namespace ExitSurveyAdmin.Migrations
                     LastName = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<string>(nullable: false),
-                    GovernmentEmail = table.Column<string>(nullable: false),
+                    GovernmentEmail = table.Column<string>(nullable: true),
                     Classification = table.Column<string>(nullable: false),
                     Ministry = table.Column<string>(nullable: false),
                     DepartmentId = table.Column<string>(nullable: false),
