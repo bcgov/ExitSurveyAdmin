@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200429155846_InitialCreate")]
+    [Migration("20200429183908_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,7 +101,6 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GovernmentEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GovernmentEmployeeId")
