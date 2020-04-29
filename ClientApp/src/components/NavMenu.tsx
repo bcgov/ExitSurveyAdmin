@@ -45,6 +45,11 @@ class NavMenu extends React.Component<IProps, IState> ***REMOVED***
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/task-log-entries" className="nav-link">
+                Task log
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/employees" className="nav-link">
                 Exiting employees
               </Link>
