@@ -162,6 +162,9 @@ namespace ExitSurveyAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Telkey")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentEmployeeStatusCode");

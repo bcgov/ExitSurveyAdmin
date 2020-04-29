@@ -42,28 +42,10 @@ namespace ExitSurveyAdmin.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Telkey
-        {
-            get
-            {
-                return TelkeyService.GenerateTelkey(this);
-            }
-        }
+        public string Telkey { get; set; }
 
         [Required]
-        public string GovernmentEmployeeId
-        {
-            get
-            {
-                return _GovernmentEmployeeId;
-            }
-            set
-            {
-                _GovernmentEmployeeId = value;
-                // GenerateTelkey();
-            }
-        }
-        private string _GovernmentEmployeeId;
+        public string GovernmentEmployeeId { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -105,19 +87,7 @@ namespace ExitSurveyAdmin.Models
 
         [DataType(DataType.Date)]
         [Required]
-        public DateTime EffectiveDate
-        {
-            get
-            {
-                return _EffectiveDate;
-            }
-            set
-            {
-                _EffectiveDate = value;
-                // GenerateTelkey();
-            }
-        }
-        private DateTime _EffectiveDate;
+        public DateTime EffectiveDate { get; set; }
 
         [Required]
         public string Reason { get; set; }
@@ -161,19 +131,7 @@ namespace ExitSurveyAdmin.Models
         public string BackDated { get; set; }
 
         [Required]
-        public string ExitCount
-        {
-            get
-            {
-                return _ExitCount;
-            }
-            set
-            {
-                _ExitCount = value;
-                // GenerateTelkey();
-            }
-        }
-        private string _ExitCount;
+        public string ExitCount { get; set; }
 
         [Required]
         public string AgeGroup { get; set; }
