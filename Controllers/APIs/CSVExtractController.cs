@@ -48,18 +48,42 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost("EmployeesFromCSV")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
         ***REMOVED***
-            // Get a list of candidate Employee objects based on the CSV.
-            var csvEmployeeList = await CSVService
-                .EmployeesFromCSV(Request.Body, Encoding.UTF8);
-
             var reconciledEmployeeList = new List<Employee>();
 
-            foreach (Employee e in csvEmployeeList)
+            try
             ***REMOVED***
-                Console.WriteLine(e.FullName);
-                var employee = await EmployeeReconciliationService
-                    .ReconcileEmployee(_context, e);
-                reconciledEmployeeList.Add(employee);
+                // Get a list of candidate Employee objects based on the CSV.
+                var csvEmployeeList = await CSVService
+                    .EmployeesFromCSV(Request.Body, Encoding.UTF8);
+
+                foreach (Employee e in csvEmployeeList)
+                ***REMOVED***
+                    var employee = await EmployeeReconciliationService
+                        .ReconcileEmployee(_context, e);
+                    reconciledEmployeeList.Add(employee);
+              ***REMOVED***
+
+                if (csvEmployeeList.Count == reconciledEmployeeList.Count)
+                ***REMOVED***
+                    await LoggingService.LogSuccess(_context, TaskEnum.ReconcileCSV,
+                        $"From a list of ***REMOVED***csvEmployeeList.Count***REMOVED*** records, " +
+                        $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees."
+                    );
+              ***REMOVED***
+                else
+                ***REMOVED***
+                    await LoggingService.LogWarning(_context, TaskEnum.ReconcileCSV,
+                        $"From a list of ***REMOVED***csvEmployeeList.Count***REMOVED*** records, " +
+                        $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees."
+                    );
+              ***REMOVED***
+          ***REMOVED***
+            catch (Exception e)
+            ***REMOVED***
+                await LoggingService.LogFailure(_context, TaskEnum.ReconcileCSV,
+                    $"Error reconciling employee records. Stacktrace:\r\n" +
+                    e.StackTrace
+                );
           ***REMOVED***
 
             return reconciledEmployeeList;
