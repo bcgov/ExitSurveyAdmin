@@ -42,8 +42,8 @@ namespace ExitSurveyAdmin.Controllers
 
         // GetCSV: Given the raw text of the PSA CSV extract (as obtained, for
         // instance, from the GetCSV method), transform it into an array of
-        // nicely-formatted Employee JSON objects. Note that these Employees are
-        // NOT saved or otherwise processed by default.
+        // nicely-formatted Employee JSON objects, then reconcile each of those
+        // Employees.
         // POST: api/CSVExtract/EmployeesFromCSV
         [HttpPost("EmployeesFromCSV")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
@@ -52,14 +52,17 @@ namespace ExitSurveyAdmin.Controllers
             var csvEmployeeList = await CSVService
                 .EmployeesFromCSV(Request.Body, Encoding.UTF8);
 
+            var reconciledEmployeeList = new List<Employee>();
+
             foreach (Employee e in csvEmployeeList)
             {
                 Console.WriteLine(e.FullName);
                 var employee = await EmployeeReconciliationService
                     .ReconcileEmployee(_context, e);
+                reconciledEmployeeList.Add(employee);
             }
 
-            return csvEmployeeList;
+            return reconciledEmployeeList;
         }
 
         [HttpPost("ReconcileEmployees")]
