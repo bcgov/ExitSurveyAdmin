@@ -3,19 +3,22 @@ import React from 'react'
 interface IProps {
   date?: Date
   showTime?: boolean
+  showLocalTimezone?: boolean
 }
 
 const LOCALE = 'en-ca'
 
 class LabelledText extends React.Component<IProps> {
   render(): JSX.Element {
-    const date = this.props.date
+    const { date, showTime, showLocalTimezone } = this.props
+    const options: Intl.DateTimeFormatOptions = {}
+    if (!showLocalTimezone) options.timeZone = 'UTC'
     return (
       <div className="Date">
-        {date && this.props.showTime
-          ? date.toLocaleString(LOCALE, { timeZone: 'UTC' })
+        {date && showTime
+          ? date.toLocaleString(LOCALE, options)
           : date
-          ? date.toLocaleDateString(LOCALE, { timeZone: 'UTC' })
+          ? date.toLocaleDateString(LOCALE, options)
           : ''}
       </div>
     )
