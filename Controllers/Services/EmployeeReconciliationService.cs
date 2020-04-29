@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Globalization;
 using System.Text;
 using System.IO;
@@ -128,6 +129,10 @@ namespace ExitSurveyAdmin.Services
               ***REMOVED***
 
                 // End Case B. Return the existing employee.
+                Console.WriteLine("* * *");
+                Console.WriteLine(existingEmployee.Id);
+                Console.WriteLine(existingEmployee.Telkey);
+                Console.WriteLine("* * *");
                 return existingEmployee;
           ***REMOVED***
       ***REMOVED***

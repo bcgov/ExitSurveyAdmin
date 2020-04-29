@@ -10,6 +10,8 @@ namespace ExitSurveyAdmin.Services
         public string EmailFromAddress ***REMOVED*** get; set; ***REMOVED***
         public string SMTPServer ***REMOVED*** get; set; ***REMOVED***
         public int SMTPPort ***REMOVED*** get; set; ***REMOVED***
+        public int TelkeyAddFactor ***REMOVED*** get; set; ***REMOVED***
+        public int TelkeyMultiplicationFactor ***REMOVED*** get; set; ***REMOVED***
 
         public static AppConfiguration MyAppConfiguration ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
