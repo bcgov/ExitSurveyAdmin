@@ -36,6 +36,7 @@
     "typescript-eslint": "^0.0.1-alpha.0"
 ***REMOVED***
   "devDependencies": ***REMOVED***
+    "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme/releases/download/v1.1.1/bcgov-bootstrap-theme-1.1.1.tgz",
     "ajv": "^6.9.1",
     "cross-env": "^5.2.0",
     "eslint": "^5.12.0",

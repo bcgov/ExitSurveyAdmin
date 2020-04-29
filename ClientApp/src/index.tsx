@@ -1,4 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import '@bcgov/bootstrap-theme/dist/scss/bootstrap-theme'
+import './App.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ***REMOVED*** BrowserRouter ***REMOVED*** from 'react-router-dom'
