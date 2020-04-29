@@ -1,6 +1,6 @@
 import React from 'react'
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from '../../types/EmployeeTimelineEntry'
-import LabelledText from '../DisplayHelpers/LabelledText'
+// import LabelledText from '../DisplayHelpers/LabelledText'
 import Date from '../DisplayHelpers/Date'
 
 interface IProps ***REMOVED***
@@ -13,10 +13,10 @@ class TimelineEntry extends React.Component<IProps> ***REMOVED***
     return (
       <div className="TimelineEntry">
         <hr />
-        <LabelledText label=***REMOVED***'Date'***REMOVED***>
+        <small className="text-muted">
           <Date showTime date=***REMOVED***tl.createdTs***REMOVED*** />
-        </LabelledText>
-        <LabelledText label=***REMOVED***'Comment'***REMOVED***>***REMOVED***tl.comment***REMOVED***</LabelledText>
+        </small>
+        <small>***REMOVED***tl.comment***REMOVED***</small>
       </div>
     )
 ***REMOVED***
