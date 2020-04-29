@@ -27,23 +27,25 @@ class EmployeeListing extends React.Component<IProps, IState> {
   }
 
   static renderEmployeesTable(employees: Employee[]): JSX.Element {
+    console.log(employees)
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Id</th>
+            <th>Telkey</th>
             <th>First name</th>
             <th>Last name</th>
-            <th>Leave reason</th>
+            <th>Email</th>
             <th>Classification</th>
+            <th>Leave date</th>
+            <th>Leave reason</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {employees.map(employee => (
             <tr key={employee.id}>
-              <td>
-                <Link to={`/employees/${employee.id}`}>{employee.id}</Link>
-              </td>
+              <td>{employee.telkey}</td>
               <td>
                 <Link to={`/employees/${employee.id}`}>
                   {employee.firstName}
@@ -54,8 +56,13 @@ class EmployeeListing extends React.Component<IProps, IState> {
                   {employee.lastName}
                 </Link>
               </td>
-              <td>{employee.reason}</td>
+              <td>{employee.governmentEmail}</td>
               <td>{employee.classification}</td>
+              <td>
+                <Date date={employee.effectiveDate} />
+              </td>
+              <td>{employee.reason}</td>
+              <td>{employee.currentEmployeeStatusCode}</td>
             </tr>
           ))}
         </tbody>
