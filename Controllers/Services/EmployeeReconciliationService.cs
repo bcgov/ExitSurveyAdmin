@@ -92,7 +92,7 @@ namespace ExitSurveyAdmin.Services
                         var newValue = pv.PropertyInfo.GetValue(employee);
                         pv.PropertyInfo.SetValue(existingEmployee, newValue);
                         fieldsUpdatedList
-                            .Add($"***REMOVED***pv.PropertyInfo.Name***REMOVED***: ***REMOVED***pv.ValueA***REMOVED*** -> ***REMOVED***pv.ValueB***REMOVED***");
+                            .Add($"***REMOVED***pv.PropertyInfo.Name***REMOVED***: `***REMOVED***pv.ValueA***REMOVED***` → `***REMOVED***pv.ValueB***REMOVED***`");
                   ***REMOVED***
                     context.Entry(existingEmployee).State = EntityState.Modified;
 
@@ -104,7 +104,7 @@ namespace ExitSurveyAdmin.Services
                     ***REMOVED***
                         EmployeeId = existingEmployee.Id,
                         EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                        EmployeeStatusCode = employee.CurrentEmployeeStatusCode,
+                        EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
                         Comment = $"Fields updated by script: ***REMOVED***fieldsUpdated***REMOVED***."
                   ***REMOVED***);
 

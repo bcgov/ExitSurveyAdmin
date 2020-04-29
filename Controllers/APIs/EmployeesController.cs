@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
+using ExitSurveyAdmin.Services;
 
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
@@ -56,11 +57,10 @@ namespace ExitSurveyAdmin.Controllers
                 return BadRequest();
           ***REMOVED***
 
-            _context.Entry(employee).State = EntityState.Modified;
-
             try
             ***REMOVED***
-                await _context.SaveChangesAsync();
+                Employee updatedEmployee = await EmployeeReconciliationService
+                    .ReconcileEmployee(_context, employee);
           ***REMOVED***
             catch (DbUpdateConcurrencyException)
             ***REMOVED***
@@ -83,10 +83,10 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         ***REMOVED***
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            Employee newEmployee = await EmployeeReconciliationService
+                .ReconcileEmployee(_context, employee);
 
-            return CreatedAtAction(nameof(GetEmployee), new ***REMOVED*** id = employee.Id ***REMOVED***, employee);
+            return CreatedAtAction(nameof(GetEmployee), new ***REMOVED*** id = newEmployee.Id ***REMOVED***, newEmployee);
       ***REMOVED***
 
         // DELETE: api/Employees/5
