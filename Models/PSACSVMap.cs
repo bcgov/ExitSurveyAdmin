@@ -1,6 +1,7 @@
 using System.IO;
 using CsvHelper.Configuration;
 using ExitSurveyAdmin.Models;
+using ExitSurveyAdmin.Services;
 
 public class PSACSVMap : ClassMap<Employee>
 ***REMOVED***
@@ -12,7 +13,6 @@ public class PSACSVMap : ClassMap<Employee>
         Map(m => m.FirstName).Name("First Name");
         Map(m => m.BirthDate).Name("Birthdate");
         Map(m => m.Gender).Name("Gender");
-        Map(m => m.GovernmentEmail).Name("Last Name"); // TODO: Fix this.
         Map(m => m.Classification).Name("Classification");
         Map(m => m.Ministry).Name("Ministry");
         Map(m => m.DepartmentId).Name("DeptID Desc");
