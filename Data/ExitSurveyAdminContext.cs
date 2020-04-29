@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using ExitSurveyAdmin.Services;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
@@ -60,12 +61,14 @@ namespace ExitSurveyAdmin.Models
         ***REMOVED***
             // Add timestamps whenever an entity is saved.
             AddTimestamps();
+            AddTelkeyToEmployee();
             return base.SaveChanges();
       ***REMOVED***
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         ***REMOVED***
             AddTimestamps();
+            AddTelkeyToEmployee();
             return base.SaveChangesAsync(true, cancellationToken);
       ***REMOVED***
 
@@ -90,6 +93,19 @@ namespace ExitSurveyAdmin.Models
 
               // In all cases, update the modified timestamp
               ((BaseEntity)entity.Entity).ModifiedTs = DateTime.UtcNow;
+          ***REMOVED***
+      ***REMOVED***
+
+        private void AddTelkeyToEmployee()
+        ***REMOVED***
+            var entities = ChangeTracker.Entries().Where(
+                x => x.Entity is Employee
+            );
+
+            foreach (var entity in entities)
+            ***REMOVED***
+                Employee e = ((Employee)entity.Entity);
+                e.Telkey = TelkeyService.GenerateTelkey(e);
           ***REMOVED***
       ***REMOVED***
 

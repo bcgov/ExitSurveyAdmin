@@ -64,6 +64,7 @@ namespace ExitSurveyAdmin.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
+                    Telkey = table.Column<string>(nullable: true),
                     GovernmentEmployeeId = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),

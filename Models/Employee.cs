@@ -42,28 +42,10 @@ namespace ExitSurveyAdmin.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id ***REMOVED*** get; set; ***REMOVED***
 
-        public string Telkey
-        ***REMOVED***
-            get
-            ***REMOVED***
-                return TelkeyService.GenerateTelkey(this);
-          ***REMOVED***
-      ***REMOVED***
+        public string Telkey ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public string GovernmentEmployeeId
-        ***REMOVED***
-            get
-            ***REMOVED***
-                return _GovernmentEmployeeId;
-          ***REMOVED***
-            set
-            ***REMOVED***
-                _GovernmentEmployeeId = value;
-                // GenerateTelkey();
-          ***REMOVED***
-      ***REMOVED***
-        private string _GovernmentEmployeeId;
+        public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string FirstName ***REMOVED*** get; set; ***REMOVED***
@@ -105,19 +87,7 @@ namespace ExitSurveyAdmin.Models
 
         [DataType(DataType.Date)]
         [Required]
-        public DateTime EffectiveDate
-        ***REMOVED***
-            get
-            ***REMOVED***
-                return _EffectiveDate;
-          ***REMOVED***
-            set
-            ***REMOVED***
-                _EffectiveDate = value;
-                // GenerateTelkey();
-          ***REMOVED***
-      ***REMOVED***
-        private DateTime _EffectiveDate;
+        public DateTime EffectiveDate ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string Reason ***REMOVED*** get; set; ***REMOVED***
@@ -161,19 +131,7 @@ namespace ExitSurveyAdmin.Models
         public string BackDated ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        public string ExitCount
-        ***REMOVED***
-            get
-            ***REMOVED***
-                return _ExitCount;
-          ***REMOVED***
-            set
-            ***REMOVED***
-                _ExitCount = value;
-                // GenerateTelkey();
-          ***REMOVED***
-      ***REMOVED***
-        private string _ExitCount;
+        public string ExitCount ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string AgeGroup ***REMOVED*** get; set; ***REMOVED***
