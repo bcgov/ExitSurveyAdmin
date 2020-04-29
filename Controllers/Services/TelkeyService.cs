@@ -7,8 +7,10 @@ namespace ExitSurveyAdmin.Services
 {
     public class TelkeyService
     {
-        private static readonly int AddFactor = 7222483;
-        private static readonly int MultiplicationFactor = 18;
+        private static readonly int AddFactor =
+            AppConfiguration.MyAppConfiguration.TelkeyAddFactor;
+        private static readonly int MultiplicationFactor =
+            AppConfiguration.MyAppConfiguration.TelkeyMultiplicationFactor;
         private static readonly int MonthStringLength = 2;
         private static readonly int ExitCountStringLength = 2;
         private static readonly int TelkeyMinimumLength =
