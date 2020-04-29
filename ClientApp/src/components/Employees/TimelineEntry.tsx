@@ -1,6 +1,6 @@
 import React from 'react'
 import { EmployeeTimelineEntry } from '../../types/EmployeeTimelineEntry'
-import LabelledText from '../DisplayHelpers/LabelledText'
+// import LabelledText from '../DisplayHelpers/LabelledText'
 import Date from '../DisplayHelpers/Date'
 
 interface IProps {
@@ -13,10 +13,10 @@ class TimelineEntry extends React.Component<IProps> {
     return (
       <div className="TimelineEntry">
         <hr />
-        <LabelledText label={'Date'}>
+        <small className="text-muted">
           <Date showTime date={tl.createdTs} />
-        </LabelledText>
-        <LabelledText label={'Comment'}>{tl.comment}</LabelledText>
+        </small>
+        <small>{tl.comment}</small>
       </div>
     )
   }
