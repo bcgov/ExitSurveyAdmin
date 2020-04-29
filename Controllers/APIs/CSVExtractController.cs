@@ -48,18 +48,42 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost("EmployeesFromCSV")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromCSV()
         {
-            // Get a list of candidate Employee objects based on the CSV.
-            var csvEmployeeList = await CSVService
-                .EmployeesFromCSV(Request.Body, Encoding.UTF8);
-
             var reconciledEmployeeList = new List<Employee>();
 
-            foreach (Employee e in csvEmployeeList)
+            try
             {
-                Console.WriteLine(e.FullName);
-                var employee = await EmployeeReconciliationService
-                    .ReconcileEmployee(_context, e);
-                reconciledEmployeeList.Add(employee);
+                // Get a list of candidate Employee objects based on the CSV.
+                var csvEmployeeList = await CSVService
+                    .EmployeesFromCSV(Request.Body, Encoding.UTF8);
+
+                foreach (Employee e in csvEmployeeList)
+                {
+                    var employee = await EmployeeReconciliationService
+                        .ReconcileEmployee(_context, e);
+                    reconciledEmployeeList.Add(employee);
+                }
+
+                if (csvEmployeeList.Count == reconciledEmployeeList.Count)
+                {
+                    await LoggingService.LogSuccess(_context, TaskEnum.ReconcileCSV,
+                        $"From a list of {csvEmployeeList.Count} records, " +
+                        $"reconciled {reconciledEmployeeList.Count} employees."
+                    );
+                }
+                else
+                {
+                    await LoggingService.LogWarning(_context, TaskEnum.ReconcileCSV,
+                        $"From a list of {csvEmployeeList.Count} records, " +
+                        $"reconciled {reconciledEmployeeList.Count} employees."
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                await LoggingService.LogFailure(_context, TaskEnum.ReconcileCSV,
+                    $"Error reconciling employee records. Stacktrace:\r\n" +
+                    e.StackTrace
+                );
             }
 
             return reconciledEmployeeList;
