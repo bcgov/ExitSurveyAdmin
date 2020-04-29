@@ -14,7 +14,7 @@ class TimelineEntry extends React.Component<IProps> ***REMOVED***
       <div className="TimelineEntry">
         <hr />
         <small className="text-muted">
-          <Date showTime date=***REMOVED***tl.createdTs***REMOVED*** />
+          <Date showTime showLocalTimezone date=***REMOVED***tl.createdTs***REMOVED*** />
         </small>
         <small>***REMOVED***tl.comment***REMOVED***</small>
       </div>
