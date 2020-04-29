@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
     public class AppConfiguration
@@ -8,5 +10,7 @@ namespace ExitSurveyAdmin.Services
         public string EmailFromAddress ***REMOVED*** get; set; ***REMOVED***
         public string SMTPServer ***REMOVED*** get; set; ***REMOVED***
         public int SMTPPort ***REMOVED*** get; set; ***REMOVED***
+
+        public static AppConfiguration MyAppConfiguration ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
