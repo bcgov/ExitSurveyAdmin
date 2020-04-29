@@ -99,7 +99,6 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GovernmentEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GovernmentEmployeeId")
