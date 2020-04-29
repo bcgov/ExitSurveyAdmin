@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200424233131_InitialCreate")]
+    [Migration("20200429155846_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,6 +162,9 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.Property<string>("ServiceYears")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telkey")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
