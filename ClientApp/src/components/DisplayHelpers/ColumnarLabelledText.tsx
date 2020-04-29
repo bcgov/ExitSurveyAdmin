@@ -12,7 +12,7 @@ interface IProps {
 
 class ColumnarLabelledText extends React.Component<IProps> {
   public static defaultProps = {
-    columnClass: 'col-3'
+    columnClass: 'col-4'
   }
 
   render(): JSX.Element {
