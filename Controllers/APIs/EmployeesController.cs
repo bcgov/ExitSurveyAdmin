@@ -23,10 +23,23 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(
+            int pageSize = 20, int page = 1
+        )
         {
+            if (pageSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("Page size must be >= 1.");
+            }
+            if (page < 1)
+            {
+                throw new ArgumentOutOfRangeException("Page must be >= 1.");
+            }
+
             return await _context.Employees
                 .Include(e => e.TimelineEntries)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
 
