@@ -1,8 +1,7 @@
 import React from 'react'
 import { Employee, IEmployeeJSON } from '../../types/Employee'
-import { Link } from 'react-router-dom'
-import Date from '../DisplayHelpers/Date'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
+import EmployeeTable from './EmployeeTable'
 
 interface IOwnProps {}
 
@@ -16,88 +15,82 @@ interface IState {
   employees?: Employee[]
 }
 
-class EmployeeListing extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props)
-    this.state = { employees: undefined }
-  }
+const EmployeeListing = (props: any): JSX.Element => {
+  // We'll start our table without any data
+  const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const [pageCount, setPageCount] = React.useState(0)
+  const fetchIdRef = React.useRef(0)
 
-  componentDidMount(): void {
-    this.populateData()
-  }
+  const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
+    // This will get called when the table needs new data
+    // You could fetch your data from literally anywhere,
+    // even a server. But for this example, we'll just fake it.
 
-  static renderEmployeesTable(employees: Employee[]): JSX.Element {
-    console.log(employees)
-    return (
-      <table className="table table-striped" aria-labelledby="tabelLabel">
-        <thead>
-          <tr>
-            <th>Telkey</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Classification</th>
-            <th>Leave date</th>
-            <th>Leave reason</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map(employee => (
-            <tr key={employee.id}>
-              <td>{employee.telkey}</td>
-              <td>
-                <Link to={`/employees/${employee.id}`}>
-                  {employee.firstName}
-                </Link>
-              </td>
-              <td>
-                <Link to={`/employees/${employee.id}`}>
-                  {employee.lastName}
-                </Link>
-              </td>
-              <td>{employee.governmentEmail}</td>
-              <td>{employee.classification}</td>
-              <td>
-                <Date date={employee.effectiveDate} />
-              </td>
-              <td>{employee.reason}</td>
-              <td>{employee.currentEmployeeStatusCode}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    )
-  }
+    // Give this fetch an ID
+    const fetchId = ++fetchIdRef.current
 
-  render(): JSX.Element {
-    const contents =
-      this.state.employees === undefined ? (
-        <p>
-          <em>Loading...</em>
-        </p>
-      ) : (
-        EmployeeListing.renderEmployeesTable(this.state.employees)
+    // Set the loading state
+    setLoading(true)
+
+    if (fetchId === fetchIdRef.current) {
+      requestJSONWithErrorHandler(
+        `api/employees?page=${pageIndex + 1}`,
+        'get',
+        null,
+        'EMPLOYEE_NOT_FOUND',
+        (responseJSON: any): void => {
+          const startRow = pageSize * pageIndex
+          const endRow = startRow + pageSize
+          setData(responseJSON)
+
+          // Your server could send back total page count.
+          // For now we'll just fake it, too
+          setPageCount(20)
+
+          setLoading(false)
+        }
       )
+    }
+  }, [])
 
-    return (
-      <div>
-        <h1 id="tabelLabel">Employees</h1>
-        {contents}
-      </div>
-    )
-  }
-
-  async populateData(): Promise<void> {
-    await requestJSONWithErrorHandler(
-      `api/employees`,
-      'get',
-      null,
-      'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON[]): void =>
-        this.setState({ employees: Employee.deserializeArray(responseJSON) })
-    )
-  }
+  return (
+    <EmployeeTable
+      data={data}
+      fetchData={fetchData}
+      loading={loading}
+      controlledPageCount={pageCount}
+    />
+  )
 }
+
+// render(): JSX.Element {
+//   const contents =
+//     this.state.employees === undefined ? (
+//       <p>
+//         <em>Loading...</em>
+//       </p>
+//     ) : (
+//       EmployeeListing.renderEmployeesTable(this.state.employees)
+//     )
+
+//   return (
+//     <div>
+//       <h1 id="tabelLabel">Employees</h1>
+//       {contents}
+//     </div>
+//   )
+// }
+
+// async populateData(): Promise<void> {
+//   await requestJSONWithErrorHandler(
+//     `api/employees`,
+//     'get',
+//     null,
+//     'EMPLOYEE_NOT_FOUND',
+//     (responseJSON: IEmployeeJSON[]): void =>
+//       this.setState({ employees: Employee.deserializeArray(responseJSON) })
+//   )
+// }
 
 export default EmployeeListing
