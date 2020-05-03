@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
+using Newtonsoft.Json;
 
 namespace ExitSurveyAdmin.Controllers
 {
@@ -23,7 +24,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(
+        public async Task<ActionResult<PagedList<Employee>>> GetEmployees(
             int pageSize = 20, int page = 1
         )
         {
@@ -36,11 +37,28 @@ namespace ExitSurveyAdmin.Controllers
                 throw new ArgumentOutOfRangeException("Page must be >= 1.");
             }
 
-            return await _context.Employees
-                .Include(e => e.TimelineEntries)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var employees = _context.Employees
+                .Include(e => e.TimelineEntries);
+            // .Skip((page - 1) * pageSize)
+            // .Take(pageSize)
+            // .ToListAsync();
+
+            var employeePage = PagedList<Employee>
+                .ToPagedList(employees, page, pageSize);
+
+            var metadata = new
+            {
+                employeePage.TotalCount,
+                employeePage.PageSize,
+                employeePage.CurrentPage,
+                employeePage.TotalPages,
+                employeePage.HasNext,
+                employeePage.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return employeePage;
         }
 
         // GET: api/Employees/5

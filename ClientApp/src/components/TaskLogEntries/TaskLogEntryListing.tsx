@@ -1,7 +1,7 @@
 import React from 'react'
 import { ITaskLogEntryJSON, TaskLogEntry } from '../../types/TaskLogEntry'
 import { Link } from 'react-router-dom'
-import Date from '../DisplayHelpers/Date'
+import Date from '../DisplayHelpers/FormattedDate'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 
 interface IOwnProps {}
