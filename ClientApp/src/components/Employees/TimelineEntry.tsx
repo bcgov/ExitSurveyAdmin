@@ -1,7 +1,7 @@
 import React from 'react'
 import { EmployeeTimelineEntry } from '../../types/EmployeeTimelineEntry'
 // import LabelledText from '../DisplayHelpers/LabelledText'
-import Date from '../DisplayHelpers/Date'
+import Date from '../DisplayHelpers/FormattedDate'
 
 interface IProps {
   timelineEntry: EmployeeTimelineEntry
