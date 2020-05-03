@@ -38,9 +38,12 @@ export const requestJSONWithErrorHandler = async (
     console.error('getJSONWithErrorHandler: Error decoding JSON from response.')
   }
 
+  const paginationHeader = response.headers.get('X-Pagination')
+  const pagination = paginationHeader ? JSON.parse(paginationHeader) : {}
+
   if (response.ok) {
     if (successCallback) {
-      successCallback(json)
+      successCallback(json, pagination)
     }
     return json
   } else {
