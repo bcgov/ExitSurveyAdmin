@@ -38,9 +38,12 @@ export const requestJSONWithErrorHandler = async (
     console.error('getJSONWithErrorHandler: Error decoding JSON from response.')
 ***REMOVED***
 
+  const paginationHeader = response.headers.get('X-Pagination')
+  const pagination = paginationHeader ? JSON.parse(paginationHeader) : ***REMOVED******REMOVED***
+
   if (response.ok) ***REMOVED***
     if (successCallback) ***REMOVED***
-      successCallback(json)
+      successCallback(json, pagination)
   ***REMOVED***
     return json
 ***REMOVED*** else ***REMOVED***

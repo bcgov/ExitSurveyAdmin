@@ -39,14 +39,15 @@ const EmployeeListing = (props: any): JSX.Element => ***REMOVED***
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
-        (responseJSON: any): void => ***REMOVED***
+        (responseJSON: any, pagination: any): void => ***REMOVED***
+          const pageCount = pagination.TotalPages
           const startRow = pageSize * pageIndex
           const endRow = startRow + pageSize
           setData(responseJSON)
 
           // Your server could send back total page count.
           // For now we'll just fake it, too
-          setPageCount(20)
+          setPageCount(pageCount)
 
           setLoading(false)
       ***REMOVED***
