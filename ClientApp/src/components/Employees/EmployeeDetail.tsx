@@ -5,7 +5,7 @@ import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ContentWrapper from '../Wrappers/ContentWrapper'
 import CLText from '../DisplayHelpers/ColumnarLabelledText'
-import Date from '../DisplayHelpers/Date'
+import Date from '../DisplayHelpers/FormattedDate'
 import Address from '../DisplayHelpers/Address'
 import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'

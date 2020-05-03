@@ -1,7 +1,7 @@
 import React from 'react'
 import ***REMOVED*** ITaskLogEntryJSON, TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
-import Date from '../DisplayHelpers/Date'
+import Date from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 
 interface IOwnProps ***REMOVED******REMOVED***

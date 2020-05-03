@@ -8,7 +8,7 @@ interface IProps ***REMOVED***
 
 const LOCALE = 'en-ca'
 
-class LabelledText extends React.Component<IProps> ***REMOVED***
+class FormattedDate extends React.Component<IProps> ***REMOVED***
   render(): JSX.Element ***REMOVED***
     const ***REMOVED*** date, showTime, showLocalTimezone ***REMOVED*** = this.props
     const options: Intl.DateTimeFormatOptions = ***REMOVED******REMOVED***
@@ -25,4 +25,4 @@ class LabelledText extends React.Component<IProps> ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-export default LabelledText
+export default FormattedDate

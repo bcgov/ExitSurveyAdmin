@@ -1,7 +1,7 @@
 import React from 'react'
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from '../../types/EmployeeTimelineEntry'
 // import LabelledText from '../DisplayHelpers/LabelledText'
-import Date from '../DisplayHelpers/Date'
+import Date from '../DisplayHelpers/FormattedDate'
 
 interface IProps ***REMOVED***
   timelineEntry: EmployeeTimelineEntry

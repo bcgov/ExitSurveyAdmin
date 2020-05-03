@@ -1,8 +1,7 @@
 import React from 'react'
 import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
-import Date from '../DisplayHelpers/Date'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
+import EmployeeTable from './EmployeeTable'
 
 interface IOwnProps ***REMOVED******REMOVED***
 
@@ -16,88 +15,82 @@ interface IState ***REMOVED***
   employees?: Employee[]
 ***REMOVED***
 
-class EmployeeListing extends React.Component<IProps, IState> ***REMOVED***
-  constructor(props: IProps) ***REMOVED***
-    super(props)
-    this.state = ***REMOVED*** employees: undefined ***REMOVED***
-***REMOVED***
+const EmployeeListing = (props: any): JSX.Element => ***REMOVED***
+  // We'll start our table without any data
+  const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  const [pageCount, setPageCount] = React.useState(0)
+  const fetchIdRef = React.useRef(0)
 
-  componentDidMount(): void ***REMOVED***
-    this.populateData()
-***REMOVED***
+  const fetchData = React.useCallback((***REMOVED*** pageSize, pageIndex ***REMOVED***) => ***REMOVED***
+    // This will get called when the table needs new data
+    // You could fetch your data from literally anywhere,
+    // even a server. But for this example, we'll just fake it.
 
-  static renderEmployeesTable(employees: Employee[]): JSX.Element ***REMOVED***
-    console.log(employees)
-    return (
-      <table className="table table-striped" aria-labelledby="tabelLabel">
-        <thead>
-          <tr>
-            <th>Telkey</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Classification</th>
-            <th>Leave date</th>
-            <th>Leave reason</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          ***REMOVED***employees.map(employee => (
-            <tr key=***REMOVED***employee.id***REMOVED***>
-              <td>***REMOVED***employee.telkey***REMOVED***</td>
-              <td>
-                <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>
-                  ***REMOVED***employee.firstName***REMOVED***
-                </Link>
-              </td>
-              <td>
-                <Link to=***REMOVED***`/employees/$***REMOVED***employee.id***REMOVED***`***REMOVED***>
-                  ***REMOVED***employee.lastName***REMOVED***
-                </Link>
-              </td>
-              <td>***REMOVED***employee.governmentEmail***REMOVED***</td>
-              <td>***REMOVED***employee.classification***REMOVED***</td>
-              <td>
-                <Date date=***REMOVED***employee.effectiveDate***REMOVED*** />
-              </td>
-              <td>***REMOVED***employee.reason***REMOVED***</td>
-              <td>***REMOVED***employee.currentEmployeeStatusCode***REMOVED***</td>
-            </tr>
-          ))***REMOVED***
-        </tbody>
-      </table>
-    )
-***REMOVED***
+    // Give this fetch an ID
+    const fetchId = ++fetchIdRef.current
 
-  render(): JSX.Element ***REMOVED***
-    const contents =
-      this.state.employees === undefined ? (
-        <p>
-          <em>Loading...</em>
-        </p>
-      ) : (
-        EmployeeListing.renderEmployeesTable(this.state.employees)
+    // Set the loading state
+    setLoading(true)
+
+    if (fetchId === fetchIdRef.current) ***REMOVED***
+      requestJSONWithErrorHandler(
+        `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***`,
+        'get',
+        null,
+        'EMPLOYEE_NOT_FOUND',
+        (responseJSON: any): void => ***REMOVED***
+          const startRow = pageSize * pageIndex
+          const endRow = startRow + pageSize
+          setData(responseJSON)
+
+          // Your server could send back total page count.
+          // For now we'll just fake it, too
+          setPageCount(20)
+
+          setLoading(false)
+      ***REMOVED***
       )
+  ***REMOVED***
+***REMOVED*** [])
 
-    return (
-      <div>
-        <h1 id="tabelLabel">Employees</h1>
-        ***REMOVED***contents***REMOVED***
-      </div>
-    )
+  return (
+    <EmployeeTable
+      data=***REMOVED***data***REMOVED***
+      fetchData=***REMOVED***fetchData***REMOVED***
+      loading=***REMOVED***loading***REMOVED***
+      controlledPageCount=***REMOVED***pageCount***REMOVED***
+    />
+  )
 ***REMOVED***
 
-  async populateData(): Promise<void> ***REMOVED***
-    await requestJSONWithErrorHandler(
-      `api/employees`,
-      'get',
-      null,
-      'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON[]): void =>
-        this.setState(***REMOVED*** employees: Employee.deserializeArray(responseJSON) ***REMOVED***)
-    )
-***REMOVED***
-***REMOVED***
+// render(): JSX.Element ***REMOVED***
+//   const contents =
+//     this.state.employees === undefined ? (
+//       <p>
+//         <em>Loading...</em>
+//       </p>
+//     ) : (
+//       EmployeeListing.renderEmployeesTable(this.state.employees)
+//     )
+
+//   return (
+//     <div>
+//       <h1 id="tabelLabel">Employees</h1>
+//       ***REMOVED***contents***REMOVED***
+//     </div>
+//   )
+// ***REMOVED***
+
+// async populateData(): Promise<void> ***REMOVED***
+//   await requestJSONWithErrorHandler(
+//     `api/employees`,
+//     'get',
+//     null,
+//     'EMPLOYEE_NOT_FOUND',
+//     (responseJSON: IEmployeeJSON[]): void =>
+//       this.setState(***REMOVED*** employees: Employee.deserializeArray(responseJSON) ***REMOVED***)
+//   )
+// ***REMOVED***
 
 export default EmployeeListing
