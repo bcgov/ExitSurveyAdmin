@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using static ObjectExtensions;
 using ExitSurveyAdmin.Services;
+using Sieve.Attributes;
 
 namespace ExitSurveyAdmin.Models
 {
@@ -43,14 +44,18 @@ namespace ExitSurveyAdmin.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public virtual string Telkey { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string GovernmentEmployeeId { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string FirstName { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string LastName { get; set; }
 
@@ -61,8 +66,10 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Gender { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public string GovernmentEmail { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string Classification { get; set; }
 
@@ -85,10 +92,12 @@ namespace ExitSurveyAdmin.Models
         [DataType(DataType.Date)]
         public DateTime? LastDayWorkedDate { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [DataType(DataType.Date)]
         [Required]
         public DateTime EffectiveDate { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string Reason { get; set; }
 
@@ -145,6 +154,7 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string LocationGroup { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string CurrentEmployeeStatusCode { get; set; }
 
