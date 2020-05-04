@@ -89,14 +89,13 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
     // Get the state from the instance
     state: { pageIndex, pageSize }
   }: any = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0 } as any, // Pass our hoisted table state
+      initialState: { pageIndex: 0, pageSize: 50 } as any, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
@@ -112,7 +111,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
 
   return (
     <>
-      <table className="table table-striped" {...getTableProps()}>
+      <table className="table table-sm table-striped" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup: any) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -156,16 +155,32 @@ const EmployeeTable = (props: IProps): JSX.Element => {
         </tbody>
       </table>
       <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+        <button
+          className="btn btn-primary mr-1"
+          onClick={(): void => gotoPage(0)}
+          disabled={!canPreviousPage}
+        >
           {'<<'}
         </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        <button
+          className="btn btn-primary mr-1"
+          onClick={(): void => previousPage()}
+          disabled={!canPreviousPage}
+        >
           {'<'}
         </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
+        <button
+          className="btn btn-primary mr-1"
+          onClick={(): void => nextPage()}
+          disabled={!canNextPage}
+        >
           {'>'}
         </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        <button
+          className="btn btn-primary mr-1"
+          onClick={(): void => gotoPage(pageCount - 1)}
+          disabled={!canNextPage}
+        >
           {'>>'}
         </button>{' '}
         <span>
@@ -179,14 +194,14 @@ const EmployeeTable = (props: IProps): JSX.Element => {
           <input
             type="number"
             defaultValue={pageIndex + 1}
-            onChange={e => {
+            onChange={(e): void => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               gotoPage(page)
             }}
             style={{ width: '100px' }}
           />
         </span>{' '}
-        <select
+        {/* <select
           value={pageSize}
           onChange={e => {
             setPageSize(Number(e.target.value))
@@ -197,7 +212,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
               Show {pageSize}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
     </>
   )
