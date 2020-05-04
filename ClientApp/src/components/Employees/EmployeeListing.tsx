@@ -40,7 +40,7 @@ const EmployeeListing = (props: any): JSX.Element => {
         null,
         'EMPLOYEE_NOT_FOUND',
         (responseJSON: any, pagination: any): void => {
-          const pageCount = pagination.TotalPages
+          const pageCount = pagination.PageCount
           const startRow = pageSize * pageIndex
           const endRow = startRow + pageSize
           setData(responseJSON)

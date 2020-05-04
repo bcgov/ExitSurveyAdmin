@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
 using Newtonsoft.Json;
+using Sieve.Services;
+using Sieve.Models;
+using static ISieveProcessorExtensions;
 
 namespace ExitSurveyAdmin.Controllers
 {
@@ -16,46 +19,48 @@ namespace ExitSurveyAdmin.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly ExitSurveyAdminContext _context;
+        private readonly SieveProcessor _sieveProcessor;
 
-        public EmployeesController(ExitSurveyAdminContext context)
+        public EmployeesController(
+            ExitSurveyAdminContext context,
+            SieveProcessor sieveProcessor
+        )
         {
             _context = context;
+            _sieveProcessor = sieveProcessor;
         }
 
         // GET: api/Employees
         [HttpGet]
-        public ActionResult<PagedList<Employee>> GetEmployees(
-            int pageSize = 50, int page = 1
+        public async Task<ActionResult<IList<Employee>>> GetEmployees(
+            [FromQuery] SieveModel sieveModel
         )
         {
-            if (pageSize < 1)
+
+
+            // Validate the page size and page.
+            if (sieveModel.PageSize < 1)
             {
                 throw new ArgumentOutOfRangeException("Page size must be >= 1.");
             }
-            if (page < 1)
+            if (sieveModel.Page < 1)
             {
                 throw new ArgumentOutOfRangeException("Page must be >= 1.");
             }
 
+            Console.WriteLine("* * *");
+            Console.WriteLine(sieveModel);
+            Console.WriteLine("* * *");
+
+            // Employee query.
             var employees = _context.Employees
+                .AsNoTracking()
                 .Include(e => e.TimelineEntries);
 
-            var employeePage = PagedList<Employee>
-                .ToPagedList(employees, page, pageSize);
+            var sievedEmployees = await _sieveProcessor.GetPagedAsync(employees, sieveModel);
+            Response.Headers.Add("X-Pagination", sievedEmployees.SerializeMetadataToJson());
 
-            var metadata = new
-            {
-                employeePage.TotalCount,
-                employeePage.PageSize,
-                employeePage.CurrentPage,
-                employeePage.TotalPages,
-                employeePage.HasNext,
-                employeePage.HasPrevious
-            };
-
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-            return employeePage;
+            return Ok(sievedEmployees.Results);
         }
 
         // GET: api/Employees/5
