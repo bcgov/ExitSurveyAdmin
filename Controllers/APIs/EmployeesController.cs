@@ -24,7 +24,7 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<PagedList<Employee>>> GetEmployees(
+        public ActionResult<PagedList<Employee>> GetEmployees(
             int pageSize = 50, int page = 1
         )
         ***REMOVED***
@@ -39,9 +39,6 @@ namespace ExitSurveyAdmin.Controllers
 
             var employees = _context.Employees
                 .Include(e => e.TimelineEntries);
-            // .Skip((page - 1) * pageSize)
-            // .Take(pageSize)
-            // .ToListAsync();
 
             var employeePage = PagedList<Employee>
                 .ToPagedList(employees, page, pageSize);
