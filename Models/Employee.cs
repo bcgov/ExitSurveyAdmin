@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using static ObjectExtensions;
 using ExitSurveyAdmin.Services;
+using Sieve.Attributes;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
@@ -43,14 +44,18 @@ namespace ExitSurveyAdmin.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public virtual string Telkey ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string FirstName ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string LastName ***REMOVED*** get; set; ***REMOVED***
 
@@ -61,8 +66,10 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string Gender ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public string GovernmentEmail ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string Classification ***REMOVED*** get; set; ***REMOVED***
 
@@ -85,10 +92,12 @@ namespace ExitSurveyAdmin.Models
         [DataType(DataType.Date)]
         public DateTime? LastDayWorkedDate ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [DataType(DataType.Date)]
         [Required]
         public DateTime EffectiveDate ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string Reason ***REMOVED*** get; set; ***REMOVED***
 
@@ -145,6 +154,7 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string LocationGroup ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string CurrentEmployeeStatusCode ***REMOVED*** get; set; ***REMOVED***
 

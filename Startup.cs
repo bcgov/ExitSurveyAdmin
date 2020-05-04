@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sieve.Services;
+using Sieve.Models;
 
 namespace ExitSurveyAdmin
 ***REMOVED***
@@ -43,6 +45,8 @@ namespace ExitSurveyAdmin
           ***REMOVED***
 
             services.AddSingleton(Configuration.GetSection("AppSettings").Get<AppConfiguration>());
+            services.Configure<SieveOptions>(Configuration.GetSection("Sieve"));
+            services.AddScoped<SieveProcessor>();
 
             // TODO: Verify this
             services

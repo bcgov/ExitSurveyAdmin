@@ -1,9 +1,10 @@
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 // Code adapted from https://code-maze.com/paging-aspnet-core-webapi/
-public class PagedList<T> : List<T>
+public class PageMetadata
 ***REMOVED***
     public int CurrentPage ***REMOVED*** get; private set; ***REMOVED***
     public int TotalPages ***REMOVED*** get; private set; ***REMOVED***
@@ -13,21 +14,26 @@ public class PagedList<T> : List<T>
     public bool HasPrevious => CurrentPage > 1;
     public bool HasNext => CurrentPage < TotalPages;
 
-    public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+    public PageMetadata(int count, int pageNumber, int pageSize)
     ***REMOVED***
         TotalCount = count;
         PageSize = pageSize;
         CurrentPage = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-        AddRange(items);
+        TotalPages = (TotalCount + PageSize - 1) / PageSize;
   ***REMOVED***
 
-    public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
+    public string SerializeToJson()
     ***REMOVED***
-        var count = source.Count();
-        var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        var metadata = new
+        ***REMOVED***
+            TotalCount,
+            PageSize,
+            CurrentPage,
+            TotalPages,
+            HasPrevious,
+            HasNext
+      ***REMOVED***;
 
-        return new PagedList<T>(items, count, pageNumber, pageSize);
+        return JsonConvert.SerializeObject(metadata);
   ***REMOVED***
 ***REMOVED***
