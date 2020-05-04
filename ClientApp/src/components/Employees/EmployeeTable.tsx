@@ -89,14 +89,13 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
     // Get the state from the instance
     state: ***REMOVED*** pageIndex, pageSize ***REMOVED***
 ***REMOVED***: any = useTable(
     ***REMOVED***
       columns,
       data,
-      initialState: ***REMOVED*** pageIndex: 0 ***REMOVED*** as any, // Pass our hoisted table state
+      initialState: ***REMOVED*** pageIndex: 0, pageSize: 50 ***REMOVED*** as any, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
@@ -112,7 +111,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
 
   return (
     <>
-      <table className="table table-striped" ***REMOVED***...getTableProps()***REMOVED***>
+      <table className="table table-sm table-striped" ***REMOVED***...getTableProps()***REMOVED***>
         <thead>
           ***REMOVED***headerGroups.map((headerGroup: any) => (
             <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>
@@ -156,16 +155,32 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
         </tbody>
       </table>
       <div className="pagination">
-        <button onClick=***REMOVED***() => gotoPage(0)***REMOVED*** disabled=***REMOVED***!canPreviousPage***REMOVED***>
+        <button
+          className="btn btn-primary mr-1"
+          onClick=***REMOVED***(): void => gotoPage(0)***REMOVED***
+          disabled=***REMOVED***!canPreviousPage***REMOVED***
+        >
           ***REMOVED***'<<'***REMOVED***
         </button>***REMOVED***' '***REMOVED***
-        <button onClick=***REMOVED***() => previousPage()***REMOVED*** disabled=***REMOVED***!canPreviousPage***REMOVED***>
+        <button
+          className="btn btn-primary mr-1"
+          onClick=***REMOVED***(): void => previousPage()***REMOVED***
+          disabled=***REMOVED***!canPreviousPage***REMOVED***
+        >
           ***REMOVED***'<'***REMOVED***
         </button>***REMOVED***' '***REMOVED***
-        <button onClick=***REMOVED***() => nextPage()***REMOVED*** disabled=***REMOVED***!canNextPage***REMOVED***>
+        <button
+          className="btn btn-primary mr-1"
+          onClick=***REMOVED***(): void => nextPage()***REMOVED***
+          disabled=***REMOVED***!canNextPage***REMOVED***
+        >
           ***REMOVED***'>'***REMOVED***
         </button>***REMOVED***' '***REMOVED***
-        <button onClick=***REMOVED***() => gotoPage(pageCount - 1)***REMOVED*** disabled=***REMOVED***!canNextPage***REMOVED***>
+        <button
+          className="btn btn-primary mr-1"
+          onClick=***REMOVED***(): void => gotoPage(pageCount - 1)***REMOVED***
+          disabled=***REMOVED***!canNextPage***REMOVED***
+        >
           ***REMOVED***'>>'***REMOVED***
         </button>***REMOVED***' '***REMOVED***
         <span>
@@ -179,14 +194,14 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
           <input
             type="number"
             defaultValue=***REMOVED***pageIndex + 1***REMOVED***
-            onChange=***REMOVED***e => ***REMOVED***
+            onChange=***REMOVED***(e): void => ***REMOVED***
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               gotoPage(page)
           ***REMOVED******REMOVED***
             style=***REMOVED******REMOVED*** width: '100px' ***REMOVED******REMOVED***
           />
         </span>***REMOVED***' '***REMOVED***
-        <select
+        ***REMOVED***/* <select
           value=***REMOVED***pageSize***REMOVED***
           onChange=***REMOVED***e => ***REMOVED***
             setPageSize(Number(e.target.value))
@@ -197,7 +212,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
               Show ***REMOVED***pageSize***REMOVED***
             </option>
           ))***REMOVED***
-        </select>
+        </select> */***REMOVED***
       </div>
     </>
   )

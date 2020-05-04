@@ -25,7 +25,7 @@ namespace ExitSurveyAdmin.Controllers
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<PagedList<Employee>>> GetEmployees(
-            int pageSize = 20, int page = 1
+            int pageSize = 50, int page = 1
         )
         ***REMOVED***
             if (pageSize < 1)
