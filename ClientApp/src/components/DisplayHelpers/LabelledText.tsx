@@ -8,18 +8,16 @@ interface IProps ***REMOVED***
   label: string
 ***REMOVED***
 
-class LabelledText extends React.Component<IProps> ***REMOVED***
-  render(): JSX.Element ***REMOVED***
-    return (
-      <div className="LabelledText">
-        <span className="Label">***REMOVED***this.props.label***REMOVED***</span>
-        ***REMOVED***this.props.helperText && (
-          <span className="HelperText">***REMOVED***this.props.helperText***REMOVED***</span>
-        )***REMOVED***
-        <span className="Text">***REMOVED***this.props.children***REMOVED***</span>
-      </div>
-    )
-***REMOVED***
+const LabelledText = (props: IProps): JSX.Element => ***REMOVED***
+  return (
+    <div className="LabelledText">
+      <span className="Label">***REMOVED***props.label***REMOVED***</span>
+      ***REMOVED***props.helperText && (
+        <span className="HelperText">***REMOVED***props.helperText***REMOVED***</span>
+      )***REMOVED***
+      <span className="Text">***REMOVED***props.children***REMOVED***</span>
+    </div>
+  )
 ***REMOVED***
 
 export default LabelledText
