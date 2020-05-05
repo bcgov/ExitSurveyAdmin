@@ -19,6 +19,7 @@ import { dateOrUndefined } from '../../helpers/objectHelper'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
+import LoadingRow from '../DisplayHelpers/LoadingRow'
 
 interface IProps {
   data: Employee[]
@@ -99,7 +100,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: { pageIndex, sortBy }
+    state: { pageIndex, pageSize, sortBy }
   }: FixTypeLater = useTable(
     {
       columns,
@@ -144,17 +145,15 @@ const EmployeeTable = (props: IProps): JSX.Element => {
               </tr>
             )
           })}
-          <tr>
-            {loading ? (
-              // Use our custom loading state to show a loading indicator
-              <td colSpan={10000}>Loading...</td>
-            ) : (
-              <td colSpan={10000}>
-                Showing {page.length} of {recordCount} results
-              </td>
-            )}
-          </tr>
         </tbody>
+        <tfoot>
+          <LoadingRow
+            loading={loading}
+            pageIndex={pageIndex}
+            pageSize={pageSize}
+            recordCount={recordCount}
+          />
+        </tfoot>
       </table>
       <Pagination
         gotoPage={gotoPage}
