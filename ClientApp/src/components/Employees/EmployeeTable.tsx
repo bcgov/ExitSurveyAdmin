@@ -16,10 +16,11 @@ import {
 import { Link } from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { dateOrUndefined } from '../../helpers/objectHelper'
+import { FixTypeLater } from '../../types/FixTypeLater'
 
 interface IProps {
   data: Employee[]
-  fetchData: (options: any) => any
+  fetchData: (options: FixTypeLater) => FixTypeLater
   loading: boolean
   controlledPageCount: number
   recordCount: number
@@ -97,35 +98,32 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy }
-  }: any = useTable(
+    state: { pageIndex, sortBy }
+  }: FixTypeLater = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 20 } as any, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
+      initialState: { pageIndex: 0, pageSize: 20 } as FixTypeLater,
+      manualPagination: true,
       pageCount: controlledPageCount,
       manualSortBy: true,
       autoResetSortBy: false
-    } as any,
+    } as FixTypeLater,
     useSortBy,
     usePagination
   )
 
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy })
-  }, [fetchData, pageIndex, pageSize, sortBy])
+    fetchData({ pageIndex, sortBy })
+  }, [fetchData, pageIndex, sortBy])
 
   return (
     <>
       <table className="table table-sm table-striped" {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup: any) => (
+          {headerGroups.map((headerGroup: FixTypeLater) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column: any) => (
+              {headerGroup.headers.map((column: FixTypeLater) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                   <span>
@@ -141,11 +139,11 @@ const EmployeeTable = (props: IProps): JSX.Element => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row: any, i: number) => {
+          {page.map((row: FixTypeLater) => {
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map((cell: any) => {
+                {row.cells.map((cell: FixTypeLater) => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
               </tr>

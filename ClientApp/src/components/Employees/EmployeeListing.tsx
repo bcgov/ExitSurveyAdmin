@@ -2,50 +2,36 @@ import React from 'react'
 import { Employee, IEmployeeJSON } from '../../types/Employee'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
+import { FixTypeLater } from '../../types/FixTypeLater'
 
-interface IOwnProps {}
-
-interface IStateProps {}
-
-interface IDispatchProps {}
-
-interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
-
-interface IState {
-  employees?: Employee[]
-}
-
-const processSorts = (sortBy: any) => {
+const processSorts = (sortBy: FixTypeLater): string => {
   return sortBy.length
     ? `&sorts=${sortBy
-        .map((s: any) => `${s.desc ? '-' : ''}${s.id}`)
+        .map((s: FixTypeLater) => `${s.desc ? '-' : ''}${s.id}`)
         .join(',')}`
     : ''
 }
 
-const EmployeeListing = (props: any): JSX.Element => {
-  // We'll start our table without any data
+const EmployeeListing = (): JSX.Element => {
+  // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
-  const [loading, setLoading] = React.useState(false)
-  const [pageCount, setPageCount] = React.useState(0)
-  const [recordCount, setRecordCount] = React.useState(0)
-  const fetchIdRef = React.useRef(0)
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [pageCount, setPageCount] = React.useState<number>(0)
+  const [recordCount, setRecordCount] = React.useState<number>(0)
+  const fetchIdRef = React.useRef<number>(0)
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy }) => {
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
-
-    console.log('sortBy', sortBy)
+  // Called when the table needs new data
+  const fetchData = React.useCallback(({ pageIndex, sortBy }) => {
     // console.log('filters', filters)
 
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
 
+    // Get the sorts argument for the server
     const sorts = processSorts(sortBy)
 
     // Set the loading state
-    // setLoading(true)
+    setLoading(true)
 
     if (fetchId === fetchIdRef.current) {
       requestJSONWithErrorHandler(
@@ -53,7 +39,7 @@ const EmployeeListing = (props: any): JSX.Element => {
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
-        (responseJSON: IEmployeeJSON[], pagination: any): void => {
+        (responseJSON: IEmployeeJSON[], pagination: FixTypeLater): void => {
           const pageCount = pagination.PageCount
           const recordCount = pagination.RecordCount
 
@@ -76,34 +62,5 @@ const EmployeeListing = (props: any): JSX.Element => {
     />
   )
 }
-
-// render(): JSX.Element {
-//   const contents =
-//     this.state.employees === undefined ? (
-//       <p>
-//         <em>Loading...</em>
-//       </p>
-//     ) : (
-//       EmployeeListing.renderEmployeesTable(this.state.employees)
-//     )
-
-//   return (
-//     <div>
-//       <h1 id="tabelLabel">Employees</h1>
-//       {contents}
-//     </div>
-//   )
-// }
-
-// async populateData(): Promise<void> {
-//   await requestJSONWithErrorHandler(
-//     `api/employees`,
-//     'get',
-//     null,
-//     'EMPLOYEE_NOT_FOUND',
-//     (responseJSON: IEmployeeJSON[]): void =>
-//       this.setState({ employees: Employee.deserializeArray(responseJSON) })
-//   )
-// }
 
 export default EmployeeListing
