@@ -17,6 +17,8 @@ import { Link } from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { dateOrUndefined } from '../../helpers/objectHelper'
 import { FixTypeLater } from '../../types/FixTypeLater'
+import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
+import Pagination from '../DisplayHelpers/Pagination'
 
 interface IProps {
   data: Employee[]
@@ -92,7 +94,6 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
     nextPage,
@@ -126,13 +127,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
               {headerGroup.headers.map((column: FixTypeLater) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
+                  <ColumnSortIndicator column={column} />
                 </th>
               ))}
             </tr>
@@ -161,54 +156,15 @@ const EmployeeTable = (props: IProps): JSX.Element => {
           </tr>
         </tbody>
       </table>
-      <div className="pagination">
-        <button
-          className="btn btn-primary mr-1"
-          onClick={(): void => gotoPage(0)}
-          disabled={!canPreviousPage}
-        >
-          {'<<'}
-        </button>{' '}
-        <button
-          className="btn btn-primary mr-1"
-          onClick={(): void => previousPage()}
-          disabled={!canPreviousPage}
-        >
-          {'<'}
-        </button>{' '}
-        <button
-          className="btn btn-primary mr-1"
-          onClick={(): void => nextPage()}
-          disabled={!canNextPage}
-        >
-          {'>'}
-        </button>{' '}
-        <button
-          className="btn btn-primary mr-1"
-          onClick={(): void => gotoPage(pageCount - 1)}
-          disabled={!canNextPage}
-        >
-          {'>>'}
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <span>
-          | Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={(e): void => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
-            }}
-            style={{ width: '100px' }}
-          />
-        </span>{' '}
-      </div>
+      <Pagination
+        gotoPage={gotoPage}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        canNextPage={canNextPage}
+        canPreviousPage={canPreviousPage}
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+      />
     </>
   )
 }
