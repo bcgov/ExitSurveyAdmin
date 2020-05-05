@@ -19,6 +19,7 @@ import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHel
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
+import LoadingRow from '../DisplayHelpers/LoadingRow'
 
 interface IProps ***REMOVED***
   data: Employee[]
@@ -99,7 +100,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: ***REMOVED*** pageIndex, sortBy ***REMOVED***
+    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***
 ***REMOVED***: FixTypeLater = useTable(
     ***REMOVED***
       columns,
@@ -144,17 +145,15 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
               </tr>
             )
         ***REMOVED***)***REMOVED***
-          <tr>
-            ***REMOVED***loading ? (
-              // Use our custom loading state to show a loading indicator
-              <td colSpan=***REMOVED***10000***REMOVED***>Loading...</td>
-            ) : (
-              <td colSpan=***REMOVED***10000***REMOVED***>
-                Showing ***REMOVED***page.length***REMOVED*** of ***REMOVED***recordCount***REMOVED*** results
-              </td>
-            )***REMOVED***
-          </tr>
         </tbody>
+        <tfoot>
+          <LoadingRow
+            loading=***REMOVED***loading***REMOVED***
+            pageIndex=***REMOVED***pageIndex***REMOVED***
+            pageSize=***REMOVED***pageSize***REMOVED***
+            recordCount=***REMOVED***recordCount***REMOVED***
+          />
+        </tfoot>
       </table>
       <Pagination
         gotoPage=***REMOVED***gotoPage***REMOVED***
