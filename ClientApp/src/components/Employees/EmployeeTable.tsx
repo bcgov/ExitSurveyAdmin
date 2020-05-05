@@ -96,7 +96,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 50 } as any, // Pass our hoisted table state
+      initialState: { pageIndex: 0, pageSize: 20 } as any, // Pass our hoisted table state
       manualPagination: true, // Tell the usePagination
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
