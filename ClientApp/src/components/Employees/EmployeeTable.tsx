@@ -25,10 +25,6 @@ type EmployeeCellProps = React.PropsWithChildren<
 const EmployeeTable = (props: IProps): JSX.Element => {
   const { data, fetchData, loading, controlledPageCount, recordCount } = props
 
-  console.log(data)
-
-  // const data = React.useMemo(() => data, [])
-
   const columns = React.useMemo(
     (): Column<Employee>[] => [
       {
@@ -38,14 +34,18 @@ const EmployeeTable = (props: IProps): JSX.Element => {
       {
         Header: 'First name',
         Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to={`/employees/${props.value}`}>{props.value}</Link>
+          <Link to={`/employees/${props.cell.row.original.id}`}>
+            {props.value}
+          </Link>
         ),
         accessor: 'firstName'
       },
       {
         Header: 'Last name',
         Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to={`/employees/${props.value}`}>{props.value}</Link>
+          <Link to={`/employees/${props.cell.row.original.id}`}>
+            {props.value}
+          </Link>
         ),
         accessor: 'lastName'
       },
