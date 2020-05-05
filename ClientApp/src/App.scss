@@ -1,1 +1,10 @@
 @import "~@bcgov/bootstrap-theme/dist/scss/bootstrap-theme";
+
+.table-sm {
+  font-size: 0.85rem;
+  thead {
+    input {
+      max-width: 120px;
+    }
+  }
+}
