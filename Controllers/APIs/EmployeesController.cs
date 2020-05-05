@@ -37,7 +37,6 @@ namespace ExitSurveyAdmin.Controllers
         )
         ***REMOVED***
 
-
             // Validate the page size and page.
             if (sieveModel.PageSize < 1)
             ***REMOVED***
@@ -47,10 +46,6 @@ namespace ExitSurveyAdmin.Controllers
             ***REMOVED***
                 throw new ArgumentOutOfRangeException("Page must be >= 1.");
           ***REMOVED***
-
-            Console.WriteLine("* * *");
-            Console.WriteLine(sieveModel);
-            Console.WriteLine("* * *");
 
             // Employee query.
             var employees = _context.Employees
@@ -70,6 +65,9 @@ namespace ExitSurveyAdmin.Controllers
             var employee = await _context.Employees
                 .Include(e => e.TimelineEntries)
                 .FirstOrDefaultAsync(i => i.Id == id);
+
+            var email = EmployeeInformationService
+                .EmailByEmployeeId(employee.GovernmentEmployeeId);
 
             if (employee == null)
             ***REMOVED***

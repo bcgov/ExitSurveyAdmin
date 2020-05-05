@@ -12,6 +12,12 @@ namespace ExitSurveyAdmin.Services
         public int SMTPPort ***REMOVED*** get; set; ***REMOVED***
         public int TelkeyAddFactor ***REMOVED*** get; set; ***REMOVED***
         public int TelkeyMultiplicationFactor ***REMOVED*** get; set; ***REMOVED***
+        public string LDAPHost ***REMOVED*** get; set; ***REMOVED***
+        public int LDAPPort ***REMOVED*** get; set; ***REMOVED***
+        public string LDAPBase ***REMOVED*** get; set; ***REMOVED***
+        public string LDAPUsername ***REMOVED*** get; set; ***REMOVED***
+        public string LDAPPassword ***REMOVED*** get; set; ***REMOVED***
+        public string LDAPOverrideEmail ***REMOVED*** get; set; ***REMOVED***
 
         public static AppConfiguration MyAppConfiguration ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
