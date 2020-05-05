@@ -1,10 +1,6 @@
 import IJSONSerializable from '../helpers/IJSONSerializable'
 import { NullableString } from './NullableString'
-import {
-  dateOrUndefined,
-  emptyStringIfNull,
-  undefinedIfNull
-} from '../helpers/objectHelper'
+import { dateOrUndefined, undefinedIfNull } from '../helpers/objectHelper'
 import {
   EmployeeTimelineEntry,
   IEmployeeTimelineEntryJSON

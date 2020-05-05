@@ -25,7 +25,7 @@ const processSorts = (sortBy: any) => {
 
 const EmployeeListing = (props: any): JSX.Element => {
   // We'll start our table without any data
-  const [data, setData] = React.useState([])
+  const [data, setData] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
   const [recordCount, setRecordCount] = React.useState(0)
@@ -53,18 +53,13 @@ const EmployeeListing = (props: any): JSX.Element => {
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
-        (responseJSON: any, pagination: any): void => {
+        (responseJSON: IEmployeeJSON[], pagination: any): void => {
           const pageCount = pagination.PageCount
-          const startRow = pageSize * pageIndex
-          const endRow = startRow + pageSize
           const recordCount = pagination.RecordCount
-          setData(responseJSON)
 
-          // Your server could send back total page count.
-          // For now we'll just fake it, too
+          setData(Employee.deserializeArray(responseJSON))
           setPageCount(pageCount)
           setRecordCount(recordCount)
-
           setLoading(false)
         }
       )
