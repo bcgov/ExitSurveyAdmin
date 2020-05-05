@@ -16,10 +16,11 @@ import ***REMOVED***
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
 interface IProps ***REMOVED***
   data: Employee[]
-  fetchData: (options: any) => any
+  fetchData: (options: FixTypeLater) => FixTypeLater
   loading: boolean
   controlledPageCount: number
   recordCount: number
@@ -97,35 +98,32 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***
-***REMOVED***: any = useTable(
+    state: ***REMOVED*** pageIndex, sortBy ***REMOVED***
+***REMOVED***: FixTypeLater = useTable(
     ***REMOVED***
       columns,
       data,
-      initialState: ***REMOVED*** pageIndex: 0, pageSize: 20 ***REMOVED*** as any, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
+      initialState: ***REMOVED*** pageIndex: 0, pageSize: 20 ***REMOVED*** as FixTypeLater,
+      manualPagination: true,
       pageCount: controlledPageCount,
       manualSortBy: true,
       autoResetSortBy: false
-  ***REMOVED*** as any,
+  ***REMOVED*** as FixTypeLater,
     useSortBy,
     usePagination
   )
 
   React.useEffect(() => ***REMOVED***
-    fetchData(***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***)
-***REMOVED*** [fetchData, pageIndex, pageSize, sortBy])
+    fetchData(***REMOVED*** pageIndex, sortBy ***REMOVED***)
+***REMOVED*** [fetchData, pageIndex, sortBy])
 
   return (
     <>
       <table className="table table-sm table-striped" ***REMOVED***...getTableProps()***REMOVED***>
         <thead>
-          ***REMOVED***headerGroups.map((headerGroup: any) => (
+          ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => (
             <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>
-              ***REMOVED***headerGroup.headers.map((column: any) => (
+              ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => (
                 <th ***REMOVED***...column.getHeaderProps(column.getSortByToggleProps())***REMOVED***>
                   ***REMOVED***column.render('Header')***REMOVED***
                   <span>
@@ -141,11 +139,11 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
           ))***REMOVED***
         </thead>
         <tbody ***REMOVED***...getTableBodyProps()***REMOVED***>
-          ***REMOVED***page.map((row: any, i: number) => ***REMOVED***
+          ***REMOVED***page.map((row: FixTypeLater) => ***REMOVED***
             prepareRow(row)
             return (
               <tr ***REMOVED***...row.getRowProps()***REMOVED***>
-                ***REMOVED***row.cells.map((cell: any) => ***REMOVED***
+                ***REMOVED***row.cells.map((cell: FixTypeLater) => ***REMOVED***
                   return <td ***REMOVED***...cell.getCellProps()***REMOVED***>***REMOVED***cell.render('Cell')***REMOVED***</td>
               ***REMOVED***)***REMOVED***
               </tr>

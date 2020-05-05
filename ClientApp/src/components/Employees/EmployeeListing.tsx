@@ -2,50 +2,36 @@ import React from 'react'
 import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
-interface IOwnProps ***REMOVED******REMOVED***
-
-interface IStateProps ***REMOVED******REMOVED***
-
-interface IDispatchProps ***REMOVED******REMOVED***
-
-interface IProps extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
-
-interface IState ***REMOVED***
-  employees?: Employee[]
-***REMOVED***
-
-const processSorts = (sortBy: any) => ***REMOVED***
+const processSorts = (sortBy: FixTypeLater): string => ***REMOVED***
   return sortBy.length
     ? `&sorts=$***REMOVED***sortBy
-        .map((s: any) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
+        .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
         .join(',')***REMOVED***`
     : ''
 ***REMOVED***
 
-const EmployeeListing = (props: any): JSX.Element => ***REMOVED***
-  // We'll start our table without any data
+const EmployeeListing = (): JSX.Element => ***REMOVED***
+  // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
-  const [loading, setLoading] = React.useState(false)
-  const [pageCount, setPageCount] = React.useState(0)
-  const [recordCount, setRecordCount] = React.useState(0)
-  const fetchIdRef = React.useRef(0)
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [pageCount, setPageCount] = React.useState<number>(0)
+  const [recordCount, setRecordCount] = React.useState<number>(0)
+  const fetchIdRef = React.useRef<number>(0)
 
-  const fetchData = React.useCallback((***REMOVED*** pageSize, pageIndex, sortBy ***REMOVED***) => ***REMOVED***
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
-
-    console.log('sortBy', sortBy)
+  // Called when the table needs new data
+  const fetchData = React.useCallback((***REMOVED*** pageIndex, sortBy ***REMOVED***) => ***REMOVED***
     // console.log('filters', filters)
 
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
 
+    // Get the sorts argument for the server
     const sorts = processSorts(sortBy)
 
     // Set the loading state
-    // setLoading(true)
+    setLoading(true)
 
     if (fetchId === fetchIdRef.current) ***REMOVED***
       requestJSONWithErrorHandler(
@@ -53,7 +39,7 @@ const EmployeeListing = (props: any): JSX.Element => ***REMOVED***
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
-        (responseJSON: IEmployeeJSON[], pagination: any): void => ***REMOVED***
+        (responseJSON: IEmployeeJSON[], pagination: FixTypeLater): void => ***REMOVED***
           const pageCount = pagination.PageCount
           const recordCount = pagination.RecordCount
 
@@ -76,34 +62,5 @@ const EmployeeListing = (props: any): JSX.Element => ***REMOVED***
     />
   )
 ***REMOVED***
-
-// render(): JSX.Element ***REMOVED***
-//   const contents =
-//     this.state.employees === undefined ? (
-//       <p>
-//         <em>Loading...</em>
-//       </p>
-//     ) : (
-//       EmployeeListing.renderEmployeesTable(this.state.employees)
-//     )
-
-//   return (
-//     <div>
-//       <h1 id="tabelLabel">Employees</h1>
-//       ***REMOVED***contents***REMOVED***
-//     </div>
-//   )
-// ***REMOVED***
-
-// async populateData(): Promise<void> ***REMOVED***
-//   await requestJSONWithErrorHandler(
-//     `api/employees`,
-//     'get',
-//     null,
-//     'EMPLOYEE_NOT_FOUND',
-//     (responseJSON: IEmployeeJSON[]): void =>
-//       this.setState(***REMOVED*** employees: Employee.deserializeArray(responseJSON) ***REMOVED***)
-//   )
-// ***REMOVED***
 
 export default EmployeeListing
