@@ -40,33 +40,36 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
   const fetchIdRef = React.useRef<number>(0)
 
   // Called when the table needs new data
-  const fetchData = React.useCallback((***REMOVED*** pageIndex, sortBy, filters ***REMOVED***) => ***REMOVED***
-    // Give this fetch an ID and set the loading state
-    const fetchId = ++fetchIdRef.current
-    setLoading(true)
+  const fetchData = React.useCallback(
+    (***REMOVED*** pageIndex, sortBy, filters ***REMOVED***) => ***REMOVED***
+      // Give this fetch an ID and set the loading state
+      const fetchId = ++fetchIdRef.current
+      setLoading(true)
 
-    // Get the sort and filter querystrings for the server call
-    setSortQuery(processSorts(sortBy))
-    setFilterQuery(processFilters(filters))
+      // Get the sort and filter querystrings for the server call
+      setSortQuery(processSorts(sortBy))
+      setFilterQuery(processFilters(filters))
 
-    if (fetchId === fetchIdRef.current) ***REMOVED***
-      requestJSONWithErrorHandler(
-        `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
-        'get',
-        null,
-        'EMPLOYEE_NOT_FOUND',
-        (responseJSON: IEmployeeJSON[], pagination: FixTypeLater): void => ***REMOVED***
-          const pageCount = pagination.PageCount
-          const recordCount = pagination.RecordCount
+      if (fetchId === fetchIdRef.current) ***REMOVED***
+        requestJSONWithErrorHandler(
+          `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
+          'get',
+          null,
+          'EMPLOYEE_NOT_FOUND',
+          (responseJSON: IEmployeeJSON[], pagination: FixTypeLater): void => ***REMOVED***
+            const pageCount = pagination.PageCount
+            const recordCount = pagination.RecordCount
 
-          setData(Employee.deserializeArray(responseJSON))
-          setPageCount(pageCount)
-          setRecordCount(recordCount)
-          setLoading(false)
-      ***REMOVED***
-      )
+            setData(Employee.deserializeArray(responseJSON))
+            setPageCount(pageCount)
+            setRecordCount(recordCount)
+            setLoading(false)
+        ***REMOVED***
+        )
+    ***REMOVED***
   ***REMOVED***
-***REMOVED*** [])
+    [sortQuery, filterQuery]
+  )
 
   return (
     <>

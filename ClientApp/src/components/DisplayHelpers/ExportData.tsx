@@ -31,7 +31,7 @@ const ExportData = (props: IProps): JSX.Element => ***REMOVED***
         ;(csvLinkRef.current as FixTypeLater).link.click()
     ***REMOVED***
     )
-***REMOVED*** [])
+***REMOVED*** [sortQuery, filterQuery])
 
   return (
     <div>
