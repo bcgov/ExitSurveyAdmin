@@ -20,9 +20,29 @@ interface IProps ***REMOVED***
   recordCount: number
 ***REMOVED***
 
+const DefaultColumnFilter = (***REMOVED***
+  column: ***REMOVED*** filterValue, setFilter ***REMOVED***
+***REMOVED***: FixTypeLater): JSX.Element => ***REMOVED***
+  // const count = preFilteredRows.length
+
+  return (
+    <input
+      value=***REMOVED***filterValue || ''***REMOVED***
+      onChange=***REMOVED***(e: React.ChangeEvent<HTMLInputElement>): void => ***REMOVED***
+        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+    ***REMOVED******REMOVED***
+      placeholder=***REMOVED***`Search $***REMOVED***/*count*/ ''***REMOVED*** records...`***REMOVED***
+    />
+  )
+***REMOVED***
+
 const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED*** data, fetchData, loading, controlledPageCount, recordCount ***REMOVED*** = props
 
+  const defaultColumn = React.useMemo(
+    () => (***REMOVED*** Filter: DefaultColumnFilter ***REMOVED***),
+    []
+  )
   const columns = React.useMemo(employeeTableColumns, [])
 
   const ***REMOVED***
@@ -38,24 +58,29 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***
+    state: ***REMOVED*** pageIndex, pageSize, sortBy, filters ***REMOVED***
 ***REMOVED***: FixTypeLater = useTable(
     ***REMOVED***
       columns,
       data,
+      defaultColumn,
       initialState: ***REMOVED*** pageIndex: 0, pageSize: 20 ***REMOVED*** as FixTypeLater,
       manualPagination: true,
       pageCount: controlledPageCount,
       manualSortBy: true,
-      autoResetSortBy: false
+      manualFilters: true,
+      defaultCanFilter: true,
+      autoResetSortBy: false,
+      autoResetFilters: false
   ***REMOVED*** as FixTypeLater,
+    useFilters,
     useSortBy,
     usePagination
   )
 
   React.useEffect(() => ***REMOVED***
-    fetchData(***REMOVED*** pageIndex, sortBy ***REMOVED***)
-***REMOVED*** [fetchData, pageIndex, sortBy])
+    fetchData(***REMOVED*** pageIndex, sortBy, filters ***REMOVED***)
+***REMOVED*** [fetchData, pageIndex, sortBy, filters])
 
   return (
     <>
@@ -64,9 +89,12 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
           ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => (
             <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>
               ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => (
-                <th ***REMOVED***...column.getHeaderProps(column.getSortByToggleProps())***REMOVED***>
-                  ***REMOVED***column.render('Header')***REMOVED***
-                  <ColumnSortIndicator column=***REMOVED***column***REMOVED*** />
+                <th ***REMOVED***...column.getHeaderProps()***REMOVED***>
+                  <span ***REMOVED***...column.getSortByToggleProps()***REMOVED***>
+                    ***REMOVED***column.render('Header')***REMOVED***
+                    <ColumnSortIndicator column=***REMOVED***column***REMOVED*** />
+                  </span>
+                  <div>***REMOVED***column.canFilter ? column.render('Filter') : null***REMOVED***</div>
                 </th>
               ))***REMOVED***
             </tr>

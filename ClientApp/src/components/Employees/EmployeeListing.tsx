@@ -15,6 +15,14 @@ const processSorts = (sortBy: FixTypeLater): string => ***REMOVED***
     : ''
 ***REMOVED***
 
+const processFilters = (filters: FixTypeLater): string => ***REMOVED***
+  return filters.length
+    ? `&filters=$***REMOVED***filters
+        .map((f: FixTypeLater) => `$***REMOVED***f.id***REMOVED***@=$***REMOVED***f.value***REMOVED***`)
+        .join(',')***REMOVED***`
+    : ''
+***REMOVED***
+
 const EmployeeListing = (): JSX.Element => ***REMOVED***
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
@@ -24,7 +32,7 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
   const fetchIdRef = React.useRef<number>(0)
 
   // Called when the table needs new data
-  const fetchData = React.useCallback((***REMOVED*** pageIndex, sortBy ***REMOVED***) => ***REMOVED***
+  const fetchData = React.useCallback((***REMOVED*** pageIndex, sortBy, filters ***REMOVED***) => ***REMOVED***
     // console.log('filters', filters)
 
     // Give this fetch an ID
@@ -32,13 +40,16 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
 
     // Get the sorts argument for the server
     const sorts = processSorts(sortBy)
+    const filterQs = processFilters(filters)
+
+    // console.log(filterQs)
 
     // Set the loading state
     setLoading(true)
 
     if (fetchId === fetchIdRef.current) ***REMOVED***
       requestJSONWithErrorHandler(
-        `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sorts***REMOVED***`,
+        `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sorts***REMOVED***$***REMOVED***filterQs***REMOVED***`,
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
