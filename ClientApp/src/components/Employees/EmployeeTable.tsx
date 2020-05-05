@@ -15,6 +15,7 @@ interface IProps ***REMOVED***
   fetchData: (data: any) => any
   loading: any
   controlledPageCount: number
+  recordCount: number
 ***REMOVED***
 
 type EmployeeCellProps = React.PropsWithChildren<
@@ -22,7 +23,7 @@ type EmployeeCellProps = React.PropsWithChildren<
 >
 
 const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED*** data, fetchData, loading, controlledPageCount ***REMOVED*** = props
+  const ***REMOVED*** data, fetchData, loading, controlledPageCount, recordCount ***REMOVED*** = props
 
   console.log(data)
 
@@ -147,8 +148,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
               <td colSpan=***REMOVED***10000***REMOVED***>Loading...</td>
             ) : (
               <td colSpan=***REMOVED***10000***REMOVED***>
-                Showing ***REMOVED***page.length***REMOVED*** of ~***REMOVED***controlledPageCount * pageSize***REMOVED******REMOVED***' '***REMOVED***
-                results
+                Showing ***REMOVED***page.length***REMOVED*** of ***REMOVED***recordCount***REMOVED*** results
               </td>
             )***REMOVED***
           </tr>
