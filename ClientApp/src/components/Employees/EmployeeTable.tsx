@@ -19,8 +19,8 @@ import { dateOrUndefined } from '../../helpers/objectHelper'
 
 interface IProps {
   data: Employee[]
-  fetchData: (data: any) => any
-  loading: any
+  fetchData: (options: any) => any
+  loading: boolean
   controlledPageCount: number
   recordCount: number
 }
@@ -62,7 +62,6 @@ const EmployeeTable = (props: IProps): JSX.Element => {
       },
       {
         Header: 'Classification',
-
         accessor: 'classification'
       },
       {
@@ -211,18 +210,6 @@ const EmployeeTable = (props: IProps): JSX.Element => {
             style={{ width: '100px' }}
           />
         </span>{' '}
-        {/* <select
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {[10, 20, 30, 40, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select> */}
       </div>
     </>
   )
