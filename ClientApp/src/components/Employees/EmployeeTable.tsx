@@ -5,7 +5,14 @@
 
 import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** CellProps, Column, usePagination, useTable ***REMOVED*** from 'react-table'
+import ***REMOVED***
+  CellProps,
+  Column,
+  useFilters,
+  usePagination,
+  useSortBy,
+  useTable
+***REMOVED*** from 'react-table'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
@@ -91,7 +98,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: ***REMOVED*** pageIndex, pageSize ***REMOVED***
+    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***
 ***REMOVED***: any = useTable(
     ***REMOVED***
       columns,
@@ -101,14 +108,17 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
       // pageCount.
-      pageCount: controlledPageCount
+      pageCount: controlledPageCount,
+      manualSortBy: true,
+      autoResetSortBy: false
   ***REMOVED*** as any,
+    useSortBy,
     usePagination
   )
 
   React.useEffect(() => ***REMOVED***
-    fetchData(***REMOVED*** pageIndex, pageSize ***REMOVED***)
-***REMOVED*** [fetchData, pageIndex, pageSize])
+    fetchData(***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***)
+***REMOVED*** [fetchData, pageIndex, pageSize, sortBy])
 
   return (
     <>
@@ -117,7 +127,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
           ***REMOVED***headerGroups.map((headerGroup: any) => (
             <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>
               ***REMOVED***headerGroup.headers.map((column: any) => (
-                <th ***REMOVED***...column.getHeaderProps()***REMOVED***>
+                <th ***REMOVED***...column.getHeaderProps(column.getSortByToggleProps())***REMOVED***>
                   ***REMOVED***column.render('Header')***REMOVED***
                   <span>
                     ***REMOVED***column.isSorted
