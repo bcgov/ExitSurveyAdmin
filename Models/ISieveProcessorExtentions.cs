@@ -34,7 +34,7 @@ public static class ISieveProcessorExtensions
     private static async Task<(IQueryable<T> pagedQuery, int page, int pageSize, int recordCount, int pageCount)> GetPagedResultAsync<T>(ISieveProcessor sieveProcessor, IQueryable<T> query, SieveModel sieveModel = null) where T : class
     ***REMOVED***
         var page = sieveModel?.Page ?? 1;
-        var pageSize = sieveModel?.PageSize ?? 50;
+        var pageSize = sieveModel?.PageSize ?? 20;
 
         if (sieveModel != null)
         ***REMOVED***
