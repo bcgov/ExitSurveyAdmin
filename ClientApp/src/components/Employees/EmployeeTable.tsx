@@ -27,11 +27,12 @@ const DefaultColumnFilter = (***REMOVED***
 
   return (
     <input
+      className="form-control form-control-sm"
       value=***REMOVED***filterValue || ''***REMOVED***
       onChange=***REMOVED***(e: React.ChangeEvent<HTMLInputElement>): void => ***REMOVED***
         setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
     ***REMOVED******REMOVED***
-      placeholder=***REMOVED***`Search $***REMOVED***/*count*/ ''***REMOVED*** records...`***REMOVED***
+      placeholder=***REMOVED***`Search$***REMOVED***/*count*/ ''***REMOVED***...`***REMOVED***
     />
   )
 ***REMOVED***
