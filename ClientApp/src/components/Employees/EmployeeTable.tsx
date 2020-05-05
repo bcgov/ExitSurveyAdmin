@@ -17,6 +17,8 @@ import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
+import Pagination from '../DisplayHelpers/Pagination'
 
 interface IProps ***REMOVED***
   data: Employee[]
@@ -92,7 +94,6 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
     nextPage,
@@ -126,13 +127,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
               ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => (
                 <th ***REMOVED***...column.getHeaderProps(column.getSortByToggleProps())***REMOVED***>
                   ***REMOVED***column.render('Header')***REMOVED***
-                  <span>
-                    ***REMOVED***column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''***REMOVED***
-                  </span>
+                  <ColumnSortIndicator column=***REMOVED***column***REMOVED*** />
                 </th>
               ))***REMOVED***
             </tr>
@@ -161,54 +156,15 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
           </tr>
         </tbody>
       </table>
-      <div className="pagination">
-        <button
-          className="btn btn-primary mr-1"
-          onClick=***REMOVED***(): void => gotoPage(0)***REMOVED***
-          disabled=***REMOVED***!canPreviousPage***REMOVED***
-        >
-          ***REMOVED***'<<'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <button
-          className="btn btn-primary mr-1"
-          onClick=***REMOVED***(): void => previousPage()***REMOVED***
-          disabled=***REMOVED***!canPreviousPage***REMOVED***
-        >
-          ***REMOVED***'<'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <button
-          className="btn btn-primary mr-1"
-          onClick=***REMOVED***(): void => nextPage()***REMOVED***
-          disabled=***REMOVED***!canNextPage***REMOVED***
-        >
-          ***REMOVED***'>'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <button
-          className="btn btn-primary mr-1"
-          onClick=***REMOVED***(): void => gotoPage(pageCount - 1)***REMOVED***
-          disabled=***REMOVED***!canNextPage***REMOVED***
-        >
-          ***REMOVED***'>>'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <span>
-          Page***REMOVED***' '***REMOVED***
-          <strong>
-            ***REMOVED***pageIndex + 1***REMOVED*** of ***REMOVED***pageOptions.length***REMOVED***
-          </strong>***REMOVED***' '***REMOVED***
-        </span>
-        <span>
-          | Go to page:***REMOVED***' '***REMOVED***
-          <input
-            type="number"
-            defaultValue=***REMOVED***pageIndex + 1***REMOVED***
-            onChange=***REMOVED***(e): void => ***REMOVED***
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
-          ***REMOVED******REMOVED***
-            style=***REMOVED******REMOVED*** width: '100px' ***REMOVED******REMOVED***
-          />
-        </span>***REMOVED***' '***REMOVED***
-      </div>
+      <Pagination
+        gotoPage=***REMOVED***gotoPage***REMOVED***
+        nextPage=***REMOVED***nextPage***REMOVED***
+        previousPage=***REMOVED***previousPage***REMOVED***
+        canNextPage=***REMOVED***canNextPage***REMOVED***
+        canPreviousPage=***REMOVED***canPreviousPage***REMOVED***
+        pageCount=***REMOVED***pageCount***REMOVED***
+        pageIndex=***REMOVED***pageIndex***REMOVED***
+      />
     </>
   )
 ***REMOVED***
