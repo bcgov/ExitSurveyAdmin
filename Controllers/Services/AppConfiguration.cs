@@ -12,6 +12,12 @@ namespace ExitSurveyAdmin.Services
         public int SMTPPort { get; set; }
         public int TelkeyAddFactor { get; set; }
         public int TelkeyMultiplicationFactor { get; set; }
+        public string LDAPHost { get; set; }
+        public int LDAPPort { get; set; }
+        public string LDAPBase { get; set; }
+        public string LDAPUsername { get; set; }
+        public string LDAPPassword { get; set; }
+        public string LDAPOverrideEmail { get; set; }
 
         public static AppConfiguration MyAppConfiguration { get; set; }
     }
