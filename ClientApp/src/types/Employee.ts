@@ -1,10 +1,6 @@
 import IJSONSerializable from '../helpers/IJSONSerializable'
 import ***REMOVED*** NullableString ***REMOVED*** from './NullableString'
-import ***REMOVED***
-  dateOrUndefined,
-  emptyStringIfNull,
-  undefinedIfNull
-***REMOVED*** from '../helpers/objectHelper'
+import ***REMOVED*** dateOrUndefined, undefinedIfNull ***REMOVED*** from '../helpers/objectHelper'
 import ***REMOVED***
   EmployeeTimelineEntry,
   IEmployeeTimelineEntryJSON

@@ -11,10 +11,6 @@ interface IState ***REMOVED***
 class NavMenu extends React.Component<IProps, IState> ***REMOVED***
   static displayName = NavMenu.name
 
-  constructor(props: IProps) ***REMOVED***
-    super(props)
-***REMOVED***
-
   render(): JSX.Element ***REMOVED***
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">

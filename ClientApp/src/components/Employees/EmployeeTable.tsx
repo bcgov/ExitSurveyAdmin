@@ -19,8 +19,8 @@ import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHel
 
 interface IProps ***REMOVED***
   data: Employee[]
-  fetchData: (data: any) => any
-  loading: any
+  fetchData: (options: any) => any
+  loading: boolean
   controlledPageCount: number
   recordCount: number
 ***REMOVED***
@@ -62,7 +62,6 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     ***REMOVED***
       ***REMOVED***
         Header: 'Classification',
-
         accessor: 'classification'
     ***REMOVED***
       ***REMOVED***
@@ -211,18 +210,6 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
             style=***REMOVED******REMOVED*** width: '100px' ***REMOVED******REMOVED***
           />
         </span>***REMOVED***' '***REMOVED***
-        ***REMOVED***/* <select
-          value=***REMOVED***pageSize***REMOVED***
-          onChange=***REMOVED***e => ***REMOVED***
-            setPageSize(Number(e.target.value))
-        ***REMOVED******REMOVED***
-        >
-          ***REMOVED***[10, 20, 30, 40, 50].map(pageSize => (
-            <option key=***REMOVED***pageSize***REMOVED*** value=***REMOVED***pageSize***REMOVED***>
-              Show ***REMOVED***pageSize***REMOVED***
-            </option>
-          ))***REMOVED***
-        </select> */***REMOVED***
       </div>
     </>
   )
