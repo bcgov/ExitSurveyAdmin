@@ -15,6 +15,14 @@ const processSorts = (sortBy: FixTypeLater): string => {
     : ''
 }
 
+const processFilters = (filters: FixTypeLater): string => {
+  return filters.length
+    ? `&filters=${filters
+        .map((f: FixTypeLater) => `${f.id}@=${f.value}`)
+        .join(',')}`
+    : ''
+}
+
 const EmployeeListing = (): JSX.Element => {
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
@@ -24,7 +32,7 @@ const EmployeeListing = (): JSX.Element => {
   const fetchIdRef = React.useRef<number>(0)
 
   // Called when the table needs new data
-  const fetchData = React.useCallback(({ pageIndex, sortBy }) => {
+  const fetchData = React.useCallback(({ pageIndex, sortBy, filters }) => {
     // console.log('filters', filters)
 
     // Give this fetch an ID
@@ -32,13 +40,16 @@ const EmployeeListing = (): JSX.Element => {
 
     // Get the sorts argument for the server
     const sorts = processSorts(sortBy)
+    const filterQs = processFilters(filters)
+
+    // console.log(filterQs)
 
     // Set the loading state
     setLoading(true)
 
     if (fetchId === fetchIdRef.current) {
       requestJSONWithErrorHandler(
-        `api/employees?page=${pageIndex + 1}${sorts}`,
+        `api/employees?page=${pageIndex + 1}${sorts}${filterQs}`,
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',

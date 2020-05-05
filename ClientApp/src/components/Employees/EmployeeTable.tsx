@@ -20,9 +20,29 @@ interface IProps {
   recordCount: number
 }
 
+const DefaultColumnFilter = ({
+  column: { filterValue, setFilter }
+}: FixTypeLater): JSX.Element => {
+  // const count = preFilteredRows.length
+
+  return (
+    <input
+      value={filterValue || ''}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      }}
+      placeholder={`Search ${/*count*/ ''} records...`}
+    />
+  )
+}
+
 const EmployeeTable = (props: IProps): JSX.Element => {
   const { data, fetchData, loading, controlledPageCount, recordCount } = props
 
+  const defaultColumn = React.useMemo(
+    () => ({ Filter: DefaultColumnFilter }),
+    []
+  )
   const columns = React.useMemo(employeeTableColumns, [])
 
   const {
@@ -38,24 +58,29 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy }
+    state: { pageIndex, pageSize, sortBy, filters }
   }: FixTypeLater = useTable(
     {
       columns,
       data,
+      defaultColumn,
       initialState: { pageIndex: 0, pageSize: 20 } as FixTypeLater,
       manualPagination: true,
       pageCount: controlledPageCount,
       manualSortBy: true,
-      autoResetSortBy: false
+      manualFilters: true,
+      defaultCanFilter: true,
+      autoResetSortBy: false,
+      autoResetFilters: false
     } as FixTypeLater,
+    useFilters,
     useSortBy,
     usePagination
   )
 
   React.useEffect(() => {
-    fetchData({ pageIndex, sortBy })
-  }, [fetchData, pageIndex, sortBy])
+    fetchData({ pageIndex, sortBy, filters })
+  }, [fetchData, pageIndex, sortBy, filters])
 
   return (
     <>
@@ -64,9 +89,12 @@ const EmployeeTable = (props: IProps): JSX.Element => {
           {headerGroups.map((headerGroup: FixTypeLater) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column: FixTypeLater) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  <ColumnSortIndicator column={column} />
+                <th {...column.getHeaderProps()}>
+                  <span {...column.getSortByToggleProps()}>
+                    {column.render('Header')}
+                    <ColumnSortIndicator column={column} />
+                  </span>
+                  <div>{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
