@@ -11,10 +11,6 @@ interface IState {
 class NavMenu extends React.Component<IProps, IState> {
   static displayName = NavMenu.name
 
-  constructor(props: IProps) {
-    super(props)
-  }
-
   render(): JSX.Element {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
