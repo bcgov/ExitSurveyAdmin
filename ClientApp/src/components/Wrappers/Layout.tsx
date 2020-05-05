@@ -10,7 +10,7 @@ class Layout extends React.Component<IProps> ***REMOVED***
     return (
       <div>
         <NavMenu />
-        <div className="container">***REMOVED***this.props.children***REMOVED***</div>
+        <div className="container-fluid">***REMOVED***this.props.children***REMOVED***</div>
       </div>
     )
 ***REMOVED***
