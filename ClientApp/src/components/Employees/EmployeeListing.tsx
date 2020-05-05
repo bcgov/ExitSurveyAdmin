@@ -15,6 +15,14 @@ interface IState {
   employees?: Employee[]
 }
 
+const processSorts = (sortBy: any) => {
+  return sortBy.length
+    ? `&sorts=${sortBy
+        .map((s: any) => `${s.desc ? '-' : ''}${s.id}`)
+        .join(',')}`
+    : ''
+}
+
 const EmployeeListing = (props: any): JSX.Element => {
   // We'll start our table without any data
   const [data, setData] = React.useState([])
@@ -23,20 +31,25 @@ const EmployeeListing = (props: any): JSX.Element => {
   const [recordCount, setRecordCount] = React.useState(0)
   const fetchIdRef = React.useRef(0)
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
+  const fetchData = React.useCallback(({ pageSize, pageIndex, sortBy }) => {
     // This will get called when the table needs new data
     // You could fetch your data from literally anywhere,
     // even a server. But for this example, we'll just fake it.
 
+    console.log('sortBy', sortBy)
+    // console.log('filters', filters)
+
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
 
+    const sorts = processSorts(sortBy)
+
     // Set the loading state
-    setLoading(true)
+    // setLoading(true)
 
     if (fetchId === fetchIdRef.current) {
       requestJSONWithErrorHandler(
-        `api/employees?page=${pageIndex + 1}`,
+        `api/employees?page=${pageIndex + 1}${sorts}`,
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
