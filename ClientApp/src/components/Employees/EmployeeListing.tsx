@@ -3,6 +3,7 @@ import { Employee, IEmployeeJSON } from '../../types/Employee'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
 import { FixTypeLater } from '../../types/FixTypeLater'
+import { CSVLink } from 'react-csv'
 
 // Maps the sortBy array produced by the react-table to a string that can be
 // used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
@@ -29,18 +30,22 @@ const EmployeeListing = (): JSX.Element => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
+  const [sortsQs, setSortsQs] = React.useState<string>('')
+  const [filtersQs, setFiltersQs] = React.useState<string>('')
+  const [downloadedData, setDownloadedData] = React.useState<Employee[]>([])
   const fetchIdRef = React.useRef<number>(0)
+  const csvLinkRef = React.useRef(null)
 
   // Called when the table needs new data
   const fetchData = React.useCallback(({ pageIndex, sortBy, filters }) => {
-    // console.log('filters', filters)
+    console.log('filters', filters)
 
     // Give this fetch an ID
     const fetchId = ++fetchIdRef.current
 
     // Get the sorts argument for the server
-    const sorts = processSorts(sortBy)
-    const filterQs = processFilters(filters)
+    const sortsQsTmp = processSorts(sortBy)
+    const filtersQsTmp = processFilters(filters)
 
     // console.log(filterQs)
 
@@ -49,7 +54,7 @@ const EmployeeListing = (): JSX.Element => {
 
     if (fetchId === fetchIdRef.current) {
       requestJSONWithErrorHandler(
-        `api/employees?page=${pageIndex + 1}${sorts}${filterQs}`,
+        `api/employees?page=${pageIndex + 1}${sortsQsTmp}${filtersQsTmp}`,
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
@@ -61,19 +66,49 @@ const EmployeeListing = (): JSX.Element => {
           setPageCount(pageCount)
           setRecordCount(recordCount)
           setLoading(false)
+          setSortsQs(sortsQsTmp)
+          setFiltersQs(filtersQsTmp)
         }
       )
     }
   }, [])
 
+  const downloadData = (): void => {
+    requestJSONWithErrorHandler(
+      `api/employees?pageSize=${100000}${sortsQs}${filtersQs}`,
+      'get',
+      null,
+      'EMPLOYEE_NOT_FOUND',
+      (responseJSON: IEmployeeJSON[]): void => {
+        console.log(responseJSON)
+        setDownloadedData(Employee.deserializeArray(responseJSON))
+        ;(csvLinkRef.current as FixTypeLater).link.click()
+      }
+    )
+  }
+
   return (
-    <EmployeeTable
-      data={data}
-      fetchData={fetchData}
-      loading={loading}
-      controlledPageCount={pageCount}
-      recordCount={recordCount}
-    />
+    <>
+      <EmployeeTable
+        data={data}
+        fetchData={fetchData}
+        loading={loading}
+        controlledPageCount={pageCount}
+        recordCount={recordCount}
+      />
+      <div>
+        <button className="btn btn-primary mt-2" onClick={downloadData}>
+          Export data
+        </button>
+        <CSVLink
+          data={downloadedData}
+          filename="ExitSurveyAdminData.csv"
+          className="hidden"
+          ref={csvLinkRef}
+          target="_blank"
+        />
+      </div>
+    </>
   )
 }
 
