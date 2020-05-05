@@ -5,21 +5,12 @@
 
 import React from 'react'
 import { Employee } from '../../types/Employee'
-import {
-  CellProps,
-  Column,
-  useFilters,
-  usePagination,
-  useSortBy,
-  useTable
-} from 'react-table'
-import { Link } from 'react-router-dom'
-import FormattedDate from '../DisplayHelpers/FormattedDate'
-import { dateOrUndefined } from '../../helpers/objectHelper'
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
 import LoadingRow from '../DisplayHelpers/LoadingRow'
+import { employeeTableColumns } from './employeeTableColumns'
 
 interface IProps {
   data: Employee[]
@@ -29,63 +20,10 @@ interface IProps {
   recordCount: number
 }
 
-type EmployeeCellProps = React.PropsWithChildren<
-  CellProps<Employee, string | undefined>
->
-
 const EmployeeTable = (props: IProps): JSX.Element => {
   const { data, fetchData, loading, controlledPageCount, recordCount } = props
 
-  const columns = React.useMemo(
-    (): Column<Employee>[] => [
-      {
-        Header: 'Telkey',
-        accessor: 'telkey'
-      },
-      {
-        Header: 'First name',
-        Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to={`/employees/${props.cell.row.original.id}`}>
-            {props.value}
-          </Link>
-        ),
-        accessor: 'firstName'
-      },
-      {
-        Header: 'Last name',
-        Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to={`/employees/${props.cell.row.original.id}`}>
-            {props.value}
-          </Link>
-        ),
-        accessor: 'lastName'
-      },
-      {
-        Header: 'Email',
-        accessor: 'governmentEmail'
-      },
-      {
-        Header: 'Classification',
-        accessor: 'classification'
-      },
-      {
-        Header: 'Leave date',
-        Cell: (props: EmployeeCellProps): JSX.Element => (
-          <FormattedDate date={dateOrUndefined(props.value as string)} />
-        ),
-        accessor: 'effectiveDate'
-      },
-      {
-        Header: 'Leave reason',
-        accessor: 'reason'
-      },
-      {
-        Header: 'Status',
-        accessor: 'currentEmployeeStatusCode'
-      }
-    ],
-    []
-  )
+  const columns = React.useMemo(employeeTableColumns, [])
 
   const {
     getTableProps,
