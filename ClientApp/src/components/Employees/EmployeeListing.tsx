@@ -1,13 +1,14 @@
 import React from 'react'
+
 import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
-import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
+import ExportData from '../DisplayHelpers/ExportData'
 
-// Maps the sortBy array produced by the react-table to a string that can be
-// used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
-// a desc sort. If the sortBy array is empty, return the empty string.
+/** Maps the sortBy array produced by the react-table to a string that can be
+used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
+a desc sort. If the sortBy array is empty, return the empty string. */
 const processSorts = (sortBy: FixTypeLater): string => ***REMOVED***
   return sortBy.length
     ? `&sorts=$***REMOVED***sortBy
@@ -16,6 +17,10 @@ const processSorts = (sortBy: FixTypeLater): string => ***REMOVED***
     : ''
 ***REMOVED***
 
+/** Maps the filters array produced by the react-table to a string that can be
+used by the server API, of the kind &filters=Col1@=someString. The @=
+operator means 'Col1 contains someString'. For a full list of operators see
+the documentation for Sieve: https://github.com/Biarity/Sieve/#operators */
 const processFilters = (filters: FixTypeLater): string => ***REMOVED***
   return filters.length
     ? `&filters=$***REMOVED***filters
@@ -30,31 +35,23 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
-  const [sortsQs, setSortsQs] = React.useState<string>('')
-  const [filtersQs, setFiltersQs] = React.useState<string>('')
-  const [downloadedData, setDownloadedData] = React.useState<Employee[]>([])
+  const [sortQuery, setSortQuery] = React.useState<string>('')
+  const [filterQuery, setFilterQuery] = React.useState<string>('')
   const fetchIdRef = React.useRef<number>(0)
-  const csvLinkRef = React.useRef(null)
 
   // Called when the table needs new data
   const fetchData = React.useCallback((***REMOVED*** pageIndex, sortBy, filters ***REMOVED***) => ***REMOVED***
-    console.log('filters', filters)
-
-    // Give this fetch an ID
+    // Give this fetch an ID and set the loading state
     const fetchId = ++fetchIdRef.current
-
-    // Get the sorts argument for the server
-    const sortsQsTmp = processSorts(sortBy)
-    const filtersQsTmp = processFilters(filters)
-
-    // console.log(filterQs)
-
-    // Set the loading state
     setLoading(true)
+
+    // Get the sort and filter querystrings for the server call
+    setSortQuery(processSorts(sortBy))
+    setFilterQuery(processFilters(filters))
 
     if (fetchId === fetchIdRef.current) ***REMOVED***
       requestJSONWithErrorHandler(
-        `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortsQsTmp***REMOVED***$***REMOVED***filtersQsTmp***REMOVED***`,
+        `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
         'get',
         null,
         'EMPLOYEE_NOT_FOUND',
@@ -66,26 +63,10 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
           setPageCount(pageCount)
           setRecordCount(recordCount)
           setLoading(false)
-          setSortsQs(sortsQsTmp)
-          setFiltersQs(filtersQsTmp)
       ***REMOVED***
       )
   ***REMOVED***
 ***REMOVED*** [])
-
-  const downloadData = (): void => ***REMOVED***
-    requestJSONWithErrorHandler(
-      `api/employees?pageSize=$***REMOVED***100000***REMOVED***$***REMOVED***sortsQs***REMOVED***$***REMOVED***filtersQs***REMOVED***`,
-      'get',
-      null,
-      'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON[]): void => ***REMOVED***
-        console.log(responseJSON)
-        setDownloadedData(Employee.deserializeArray(responseJSON))
-        ;(csvLinkRef.current as FixTypeLater).link.click()
-    ***REMOVED***
-    )
-***REMOVED***
 
   return (
     <>
@@ -96,18 +77,7 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
         controlledPageCount=***REMOVED***pageCount***REMOVED***
         recordCount=***REMOVED***recordCount***REMOVED***
       />
-      <div>
-        <button className="btn btn-primary mt-2" onClick=***REMOVED***downloadData***REMOVED***>
-          Export data
-        </button>
-        <CSVLink
-          data=***REMOVED***downloadedData***REMOVED***
-          filename="ExitSurveyAdminData.csv"
-          className="hidden"
-          ref=***REMOVED***csvLinkRef***REMOVED***
-          target="_blank"
-        />
-      </div>
+      <ExportData sortQuery=***REMOVED***sortQuery***REMOVED*** filterQuery=***REMOVED***filterQuery***REMOVED*** />
     </>
   )
 ***REMOVED***
