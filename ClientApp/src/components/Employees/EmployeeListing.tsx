@@ -20,6 +20,7 @@ const EmployeeListing = (props: any): JSX.Element => {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [pageCount, setPageCount] = React.useState(0)
+  const [recordCount, setRecordCount] = React.useState(0)
   const fetchIdRef = React.useRef(0)
 
   const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
@@ -43,11 +44,13 @@ const EmployeeListing = (props: any): JSX.Element => {
           const pageCount = pagination.PageCount
           const startRow = pageSize * pageIndex
           const endRow = startRow + pageSize
+          const recordCount = pagination.RecordCount
           setData(responseJSON)
 
           // Your server could send back total page count.
           // For now we'll just fake it, too
           setPageCount(pageCount)
+          setRecordCount(recordCount)
 
           setLoading(false)
         }
@@ -61,6 +64,7 @@ const EmployeeListing = (props: any): JSX.Element => {
       fetchData={fetchData}
       loading={loading}
       controlledPageCount={pageCount}
+      recordCount={recordCount}
     />
   )
 }
