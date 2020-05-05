@@ -4,6 +4,9 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
 import { FixTypeLater } from '../../types/FixTypeLater'
 
+// Maps the sortBy array produced by the react-table to a string that can be
+// used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
+// a desc sort. If the sortBy array is empty, return the empty string.
 const processSorts = (sortBy: FixTypeLater): string => {
   return sortBy.length
     ? `&sorts=${sortBy
