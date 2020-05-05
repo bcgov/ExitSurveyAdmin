@@ -8,21 +8,19 @@ interface IProps {
 
 const LOCALE = 'en-ca'
 
-class FormattedDate extends React.Component<IProps> {
-  render(): JSX.Element {
-    const { date, showTime, showLocalTimezone } = this.props
-    const options: Intl.DateTimeFormatOptions = {}
-    if (!showLocalTimezone) options.timeZone = 'UTC'
-    return (
-      <div className="Date">
-        {date && showTime
-          ? date.toLocaleString(LOCALE, options)
-          : date
-          ? date.toLocaleDateString(LOCALE, options)
-          : ''}
-      </div>
-    )
-  }
+const FormattedDate = (props: IProps): JSX.Element => {
+  const { date, showTime, showLocalTimezone } = props
+  const options: Intl.DateTimeFormatOptions = {}
+  if (!showLocalTimezone) options.timeZone = 'UTC'
+  return (
+    <div className="Date">
+      {date && showTime
+        ? date.toLocaleString(LOCALE, options)
+        : date
+        ? date.toLocaleDateString(LOCALE, options)
+        : ''}
+    </div>
+  )
 }
 
 export default FormattedDate
