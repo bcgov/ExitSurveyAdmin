@@ -1,16 +1,10 @@
-using System;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Sieve.Models;
+using Sieve.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ExitSurveyAdmin.Models;
-using ExitSurveyAdmin.Services;
-using Newtonsoft.Json;
-using Sieve.Services;
-using Sieve.Models;
-using Newtonsoft.Json;
 
 // Extension code for Sieve from https://github.com/Biarity/Sieve/issues/53.
 public static class ISieveProcessorExtensions
