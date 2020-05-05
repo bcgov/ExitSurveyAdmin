@@ -25,10 +25,6 @@ type EmployeeCellProps = React.PropsWithChildren<
 const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED*** data, fetchData, loading, controlledPageCount, recordCount ***REMOVED*** = props
 
-  console.log(data)
-
-  // const data = React.useMemo(() => data, [])
-
   const columns = React.useMemo(
     (): Column<Employee>[] => [
       ***REMOVED***
@@ -38,14 +34,18 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
       ***REMOVED***
         Header: 'First name',
         Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to=***REMOVED***`/employees/$***REMOVED***props.value***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
+          <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>
+            ***REMOVED***props.value***REMOVED***
+          </Link>
         ),
         accessor: 'firstName'
     ***REMOVED***
       ***REMOVED***
         Header: 'Last name',
         Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to=***REMOVED***`/employees/$***REMOVED***props.value***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
+          <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>
+            ***REMOVED***props.value***REMOVED***
+          </Link>
         ),
         accessor: 'lastName'
     ***REMOVED***
