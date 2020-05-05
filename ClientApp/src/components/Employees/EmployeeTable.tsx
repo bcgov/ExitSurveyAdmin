@@ -5,21 +5,12 @@
 
 import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED***
-  CellProps,
-  Column,
-  useFilters,
-  usePagination,
-  useSortBy,
-  useTable
-***REMOVED*** from 'react-table'
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
-import FormattedDate from '../DisplayHelpers/FormattedDate'
-import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
+import ***REMOVED*** useFilters, usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
 import LoadingRow from '../DisplayHelpers/LoadingRow'
+import ***REMOVED*** employeeTableColumns ***REMOVED*** from './employeeTableColumns'
 
 interface IProps ***REMOVED***
   data: Employee[]
@@ -29,63 +20,10 @@ interface IProps ***REMOVED***
   recordCount: number
 ***REMOVED***
 
-type EmployeeCellProps = React.PropsWithChildren<
-  CellProps<Employee, string | undefined>
->
-
 const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED*** data, fetchData, loading, controlledPageCount, recordCount ***REMOVED*** = props
 
-  const columns = React.useMemo(
-    (): Column<Employee>[] => [
-      ***REMOVED***
-        Header: 'Telkey',
-        accessor: 'telkey'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'First name',
-        Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>
-            ***REMOVED***props.value***REMOVED***
-          </Link>
-        ),
-        accessor: 'firstName'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'Last name',
-        Cell: (props: EmployeeCellProps): JSX.Element => (
-          <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>
-            ***REMOVED***props.value***REMOVED***
-          </Link>
-        ),
-        accessor: 'lastName'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'Email',
-        accessor: 'governmentEmail'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'Classification',
-        accessor: 'classification'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'Leave date',
-        Cell: (props: EmployeeCellProps): JSX.Element => (
-          <FormattedDate date=***REMOVED***dateOrUndefined(props.value as string)***REMOVED*** />
-        ),
-        accessor: 'effectiveDate'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'Leave reason',
-        accessor: 'reason'
-    ***REMOVED***
-      ***REMOVED***
-        Header: 'Status',
-        accessor: 'currentEmployeeStatusCode'
-    ***REMOVED***
-    ],
-    []
-  )
+  const columns = React.useMemo(employeeTableColumns, [])
 
   const ***REMOVED***
     getTableProps,
