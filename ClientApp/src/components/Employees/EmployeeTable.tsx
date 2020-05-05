@@ -5,7 +5,14 @@
 
 import React from 'react'
 import { Employee } from '../../types/Employee'
-import { CellProps, Column, usePagination, useTable } from 'react-table'
+import {
+  CellProps,
+  Column,
+  useFilters,
+  usePagination,
+  useSortBy,
+  useTable
+} from 'react-table'
 import { Link } from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { dateOrUndefined } from '../../helpers/objectHelper'
@@ -91,7 +98,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: { pageIndex, pageSize }
+    state: { pageIndex, pageSize, sortBy }
   }: any = useTable(
     {
       columns,
@@ -101,14 +108,17 @@ const EmployeeTable = (props: IProps): JSX.Element => {
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
       // pageCount.
-      pageCount: controlledPageCount
+      pageCount: controlledPageCount,
+      manualSortBy: true,
+      autoResetSortBy: false
     } as any,
+    useSortBy,
     usePagination
   )
 
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize })
-  }, [fetchData, pageIndex, pageSize])
+    fetchData({ pageIndex, pageSize, sortBy })
+  }, [fetchData, pageIndex, pageSize, sortBy])
 
   return (
     <>
@@ -117,7 +127,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
           {headerGroups.map((headerGroup: any) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column: any) => (
-                <th {...column.getHeaderProps()}>
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
                   <span>
                     {column.isSorted
