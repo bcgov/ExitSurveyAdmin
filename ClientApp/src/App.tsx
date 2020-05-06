@@ -6,7 +6,7 @@ import CallbackHandler from './components/Login/CallbackHandler'
 import EmployeeDetail from './components/Employees/EmployeeDetail'
 import EmployeeListing from './components/Employees/EmployeeListing'
 import TaskLogEntryListing from './components/TaskLogEntries/TaskLogEntryListing'
-// import AuthenticatedRoute from './components/Wrappers/AuthenticatedRoute'
+import AuthenticatedRoute from './components/Wrappers/AuthenticatedRoute'
 
 import './custom.css'
 
@@ -18,9 +18,21 @@ export default class App extends React.Component {
       <Layout>
         <Route exact path="/" component={Home} />
         <Route path="/callback" component={CallbackHandler} />
-        <Route exact path="/employees/:employeeId" component={EmployeeDetail} />
-        <Route exact path="/employees" component={EmployeeListing} />
-        <Route exact path="/task-log-entries" component={TaskLogEntryListing} />
+        <AuthenticatedRoute
+          exact
+          path="/employees/:employeeId"
+          component={EmployeeDetail}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/employees"
+          component={EmployeeListing}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/task-log-entries"
+          component={TaskLogEntryListing}
+        />
       </Layout>
     )
   }
