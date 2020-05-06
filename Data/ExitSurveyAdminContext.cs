@@ -27,6 +27,9 @@ namespace ExitSurveyAdmin.Models
             // Do not permit cascade deletes should either the Employee or the
             // EmployeeStatusEnum be deleted.
             modelBuilder.Entity<Employee>()
+                .HasIndex(e => new { e.GovernmentEmployeeId, e.ExitCount });
+
+            modelBuilder.Entity<Employee>()
                 .HasOne(e => e.CurrentEmployeeStatus)
                 .WithMany(s => s.Employees)
                 .OnDelete(DeleteBehavior.Restrict);

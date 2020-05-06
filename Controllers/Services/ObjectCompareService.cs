@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
@@ -20,9 +21,28 @@ public class PropertyVariance
 public static class ObjectExtensions
 {
 
+    public static T TrimAllStrings<T>(this T input)
+    {
+        var stringProperties = input
+            .GetType()
+            .GetProperties()
+            .Where(p => p.PropertyType == typeof(string) && p.CanWrite);
+
+        foreach (var stringProp in stringProperties)
+        {
+            string currentValue = (string)stringProp.GetValue(input, null);
+            if (currentValue != null)
+            {
+                stringProp.SetValue(input, currentValue.Trim(), null);
+            }
+        }
+
+        return input;
+    }
+
     public static List<PropertyVariance> DetailedCompare<T>(this T val1, T val2)
     {
-        var propertyInfo = val1.GetType().GetProperties();
+        var propertyInfo = val1.GetType().GetProperties().Where(p => p.CanWrite);
         return propertyInfo
         .Select(f => new PropertyVariance
         {
