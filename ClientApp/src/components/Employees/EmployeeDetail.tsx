@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import React from 'react'
 import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
@@ -9,6 +11,7 @@ import Date from '../DisplayHelpers/FormattedDate'
 import Address from '../DisplayHelpers/Address'
 import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
+import AddComment from './AddComment'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -35,10 +38,10 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
 ***REMOVED***
 
   componentDidMount(): void ***REMOVED***
-    this.populateData(this.props.match.params.employeeId)
+    this.populateData()
 ***REMOVED***
 
-  static renderEmployee(e: Employee): JSX.Element ***REMOVED***
+  renderEmployee(e: Employee): JSX.Element ***REMOVED***
     return (
       <div>
         <div className="mb-3">
@@ -122,6 +125,11 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           </div>
           <div className="col-4">
             <h3>Timeline</h3>
+            <AddComment
+              employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+              employeeStatusCode=***REMOVED***e.currentEmployeeStatusCode!***REMOVED***
+              refreshDataCallback=***REMOVED***this.populateData***REMOVED***
+            />
             ***REMOVED***e.timelineEntries && (
               <TimelineEntryList timelineEntries=***REMOVED***e.timelineEntries***REMOVED*** />
             )***REMOVED***
@@ -138,15 +146,16 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           <em>Loading...</em>
         </p>
       ) : (
-        EmployeeDetail.renderEmployee(this.state.employee)
+        this.renderEmployee(this.state.employee)
       )
 
     return <ContentWrapper>***REMOVED***contents***REMOVED***</ContentWrapper>
 ***REMOVED***
 
-  async populateData(employeeId: string): Promise<void> ***REMOVED***
+  async populateData(): Promise<void> ***REMOVED***
+    console.log('here we are')
     await requestJSONWithErrorHandler(
-      `api/employees/$***REMOVED***employeeId***REMOVED***`,
+      `api/employees/$***REMOVED***this.props.match.params.employeeId***REMOVED***`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
