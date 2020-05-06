@@ -31,6 +31,31 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
+        private async static Task<Employee> UpdateStatusAndAddTimelineEntry(
+            ExitSurveyAdminContext context, Employee employee,
+            EmployeeStatusEnum newStatus
+        )
+        {
+            var newStatusCode = newStatus.Code;
+
+            // Update employee status.
+            employee.CurrentEmployeeStatusCode = newStatusCode;
+
+            // Create a new timeline entry.
+            employee.TimelineEntries.Add(new EmployeeTimelineEntry
+            {
+                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                EmployeeStatusCode = newStatusCode,
+                Comment = $"Status updated by script: " +
+                    $"{employee.CurrentEmployeeStatusCode} → {newStatusCode}."
+            });
+            context.Entry(employee).State = EntityState.Modified;
+
+            await context.SaveChangesAsync();
+
+            return employee;
+        }
+
         public async static Task<List<Employee>> ReconcileEmployees(
             ExitSurveyAdminContext context, List<Employee> employees
         )
@@ -157,24 +182,20 @@ namespace ExitSurveyAdmin.Services
             ExitSurveyAdminContext context, Employee employee
         )
         {
-            if (employee.EffectiveDate < DateTime.UtcNow)
+            // First, check if the employee has completed the survey.
+            if (CallWebService.IsSurveyComplete(employee.GovernmentEmployeeId))
             {
-                var newStatus = EmployeeStatusEnum.Expired.Code;
+                return await UpdateStatusAndAddTimelineEntry(context, employee,
+                    EmployeeStatusEnum.SurveyComplete);
+            }
 
-                // Update employee status
-                employee.CurrentEmployeeStatusCode = newStatus;
-                context.Entry(employee).State = EntityState.Modified;
-
-                // Create a new timeline entry.
-                employee.TimelineEntries.Add(new EmployeeTimelineEntry
-                {
-                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                    EmployeeStatusCode = newStatus,
-                    Comment = $"Status updated by script: {employee.CurrentEmployeeStatusCode} → {newStatus}."
-                });
-
-                // Save changes to employee and the new timeline entry.
-                await context.SaveChangesAsync();
+            // An employee only has a set amount of time to complete a survey.
+            // If that time has expired, then expire the user.
+            // TODO: What is the appropriate amount of time to wait for a user?
+            if (employee.EffectiveDate.AddMonths(6) < DateTime.UtcNow)
+            {
+                return await UpdateStatusAndAddTimelineEntry(context, employee,
+                    EmployeeStatusEnum.Expired);
             }
 
             return employee;
