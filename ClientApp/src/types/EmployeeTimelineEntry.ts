@@ -30,7 +30,7 @@ export class EmployeeTimelineEntry
   deserialize(input: IEmployeeTimelineEntryJSON): EmployeeTimelineEntry ***REMOVED***
     this.id = undefinedIfNull(input.id)
     this.employeeId = undefinedIfNull(input.employeeId)
-    this.employeeStatusCode = undefinedIfNull(input.employeeStatusCode)
+    this.employeeActionCode = undefinedIfNull(input.employeeActionCode)
     this.employeeStatusCode = undefinedIfNull(input.employeeStatusCode)
     this.comment = undefinedIfNull(input.comment)
     this.createdTs = dateOrUndefined(input.createdTs)
