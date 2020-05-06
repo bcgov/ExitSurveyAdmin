@@ -37,6 +37,7 @@ namespace ExitSurveyAdmin.Services
         )
         ***REMOVED***
             var newStatusCode = newStatus.Code;
+            var oldStatusCode = employee.CurrentEmployeeStatusCode;
 
             // Update employee status.
             employee.CurrentEmployeeStatusCode = newStatusCode;
@@ -47,7 +48,7 @@ namespace ExitSurveyAdmin.Services
                 EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
                 EmployeeStatusCode = newStatusCode,
                 Comment = $"Status updated by script: " +
-                    $"***REMOVED***employee.CurrentEmployeeStatusCode***REMOVED*** → ***REMOVED***newStatusCode***REMOVED***."
+                    $"***REMOVED***oldStatusCode***REMOVED*** → ***REMOVED***newStatusCode***REMOVED***."
           ***REMOVED***);
             context.Entry(employee).State = EntityState.Modified;
 
