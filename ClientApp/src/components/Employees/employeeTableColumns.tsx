@@ -37,7 +37,7 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'classification'
   },
   {
-    Header: 'Leave date',
+    Header: 'Exit effective date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate date={dateOrUndefined(props.value as string)} />
     ),
