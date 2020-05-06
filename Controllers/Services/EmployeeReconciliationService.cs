@@ -47,22 +47,19 @@ namespace ExitSurveyAdmin.Services
             {
                 // Case A. The employee does not exist in the database.
 
-                // Insert the employee into the database.
+                // Insert the employee into the database, along with an
+                // appropriate timeline entry. Note that Ids are auto-generated.
                 employee.CurrentEmployeeStatusCode = EmployeeStatusEnum.New.Code;
-                context.Employees.Add(employee);
-                await context.SaveChangesAsync();
 
-                // Reload to get the automatically-created ID.
-                await context.Entry(employee).ReloadAsync();
-
-                // Create and save a new timeline entry.
-                context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                employee.TimelineEntries = new List<EmployeeTimelineEntry>();
+                employee.TimelineEntries.Add(new EmployeeTimelineEntry
                 {
-                    EmployeeId = employee.Id,
                     EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
                     EmployeeStatusCode = EmployeeStatusEnum.New.Code,
                     Comment = "Created automatically by script."
                 });
+
+                context.Employees.Add(employee);
                 await context.SaveChangesAsync();
 
                 // End Case A. Return the employee.

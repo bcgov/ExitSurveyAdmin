@@ -53,28 +53,33 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 // Get a list of candidate Employee objects based on the CSV.
-                var csvEmployeeList = await CSVService
+                var csvServiceTuple = await CSVService
                     .EmployeesFromCSV(Request.Body, Encoding.UTF8);
+                var goodRecords = csvServiceTuple.Item1;
+                var badRecords = csvServiceTuple.Item2;
+                var totalRecordCount = goodRecords.Count + badRecords.Count;
 
-                foreach (Employee e in csvEmployeeList)
+                foreach (Employee e in goodRecords)
                 {
                     var employee = await EmployeeReconciliationService
                         .ReconcileEmployee(_context, e);
                     reconciledEmployeeList.Add(employee);
                 }
 
-                if (csvEmployeeList.Count == reconciledEmployeeList.Count)
+                if (goodRecords.Count == totalRecordCount)
                 {
                     await LoggingService.LogSuccess(_context, TaskEnum.ReconcileCSV,
-                        $"From a list of {csvEmployeeList.Count} records, " +
+                        $"From a list of {goodRecords.Count} records, " +
                         $"reconciled {reconciledEmployeeList.Count} employees."
                     );
                 }
                 else
                 {
                     await LoggingService.LogWarning(_context, TaskEnum.ReconcileCSV,
-                        $"From a list of {csvEmployeeList.Count} records, " +
-                        $"reconciled {reconciledEmployeeList.Count} employees."
+                        $"From a list of {totalRecordCount} records, " +
+                        $"reconciled {reconciledEmployeeList.Count} employees. " +
+                        $"However, there were {badRecords.Count} bad records " +
+                        $"encountered: {string.Join(';', badRecords)}"
                     );
                 }
             }
