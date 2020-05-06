@@ -12,6 +12,7 @@ using ExitSurveyAdmin.Models;
 using System.Net.Http;
 using Microsoft.VisualBasic.FileIO;
 using CsvHelper;
+using CsvHelper.TypeConversion;
 
 namespace ExitSurveyAdmin.Services
 {
@@ -29,7 +30,7 @@ namespace ExitSurveyAdmin.Services
         // obtained, for instance, from the GetCSV method), transform it into an
         // array of nicely-formatted Employee JSON objects. Note that these
         // Employees are NOT saved or otherwise processed by default.
-        public static async Task<List<Employee>> EmployeesFromCSV(
+        public static async Task<Tuple<List<Employee>, List<string>>> EmployeesFromCSV(
             Stream csvTextStream, Encoding csvEncoding
         )
         {
@@ -41,7 +42,14 @@ namespace ExitSurveyAdmin.Services
             {
                 // Use the ClassMap to map the headers in the CSV to the fields
                 // of the Employee model.
-                csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.Trim;
+                // TODO: Note there is a bug with CsvHelper when trimming fields
+                // on an async read, hence the line commented out below. Until
+                // this issue is fixed in a future release, we have had to add a
+                // TrimAllStrings() extension, which is called below.
+                // https://github.com/JoshClose/CsvHelper/issues/1400
+                // csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.InsideQuotes;
+                csv.Configuration.TypeConverterCache.RemoveConverter<DateTime>();
+                csv.Configuration.TypeConverterCache.AddConverter<DateTime>(new CustomDateTimeConverter());
                 csv.Configuration.RegisterClassMap<PSACSVMap>();
 
                 var goodRecords = new List<Employee>();
@@ -50,13 +58,13 @@ namespace ExitSurveyAdmin.Services
                 var line = 1;
 
                 csv.Configuration.BadDataFound = context =>
-                {
-                    isRecordBad = true;
-                    badRecords.Add(context.RawRecord);
-                    Console.WriteLine("* * *");
-                    Console.WriteLine(context.RawRecord);
-                    Console.WriteLine("* * *");
-                };
+                        {
+                            isRecordBad = true;
+                            badRecords.Add(context.RawRecord);
+                            Console.WriteLine("* * *");
+                            Console.WriteLine(context.RawRecord);
+                            Console.WriteLine("* * *");
+                        };
 
                 while (await csv.ReadAsync())
                 {
@@ -65,6 +73,10 @@ namespace ExitSurveyAdmin.Services
                         var record = csv.GetRecord<Employee>();
                         if (!isRecordBad)
                         {
+                            // TODO: Remove this line (and possibly the whole
+                            // implementation) if the bug with CsvHelper
+                            // TrimOptions is resolved.
+                            record.TrimAllStrings();
                             goodRecords.Add(record);
                         }
                     }
@@ -85,7 +97,7 @@ namespace ExitSurveyAdmin.Services
                 //     goodRecords.Add(e);
                 // }
 
-                return goodRecords;
+                return Tuple.Create(goodRecords, badRecords);
             }
         }
     }

@@ -88,7 +88,7 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.Property<string>("ExitCount")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -103,7 +103,7 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.Property<string>("GovernmentEmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("JobCode")
                         .IsRequired()
@@ -167,6 +167,8 @@ namespace ExitSurveyAdmin.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentEmployeeStatusCode");
+
+                    b.HasIndex("GovernmentEmployeeId", "ExitCount");
 
                     b.ToTable("Employees");
                 });

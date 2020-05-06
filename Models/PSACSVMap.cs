@@ -1,7 +1,28 @@
 using System.IO;
 using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
+using CsvHelper;
 using ExitSurveyAdmin.Models;
-using ExitSurveyAdmin.Services;
+using System;
+using System.Globalization;
+
+public class CustomDateTimeConverter : DateTimeConverter
+{
+    public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return null;
+        }
+
+        var formatProvider = (IFormatProvider)memberMapData.TypeConverterOptions.CultureInfo.GetFormat(typeof(DateTimeFormatInfo)) ?? memberMapData.TypeConverterOptions.CultureInfo;
+        var dateTimeStyle = memberMapData.TypeConverterOptions.DateTimeStyle ?? DateTimeStyles.None;
+
+        return memberMapData.TypeConverterOptions.Formats == null || memberMapData.TypeConverterOptions.Formats.Length == 0
+            ? DateTime.Parse(text, formatProvider, dateTimeStyle)
+            : DateTime.ParseExact(text, memberMapData.TypeConverterOptions.Formats, formatProvider, dateTimeStyle);
+    }
+}
 
 public class PSACSVMap : ClassMap<Employee>
 {
