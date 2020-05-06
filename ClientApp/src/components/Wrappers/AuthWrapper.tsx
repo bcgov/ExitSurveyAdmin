@@ -23,22 +23,37 @@ class AuthWrapper extends React.Component<IProps> {
   }
 
   checkUser(): void {
+    console.log('AuthWrapper: checkUser')
     const { user } = this.props
     if (!user || user.expired) userManager.signinRedirect()
   }
 
   componentDidMount(): void {
+    console.log('AuthWrapper: componentDidMount')
     // this.checkUser()
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate(prevProps: IProps): void {
+    console.log(
+      'AuthWrapper: componentDidUpdate',
+      prevProps.user,
+      this.props.user
+    )
     this.checkUser()
   }
 
   render(): React.ReactNode {
     const { user } = this.props
 
-    return !user || user.expired ? <Unauthorized /> : this.props.children
+    const returnToUrl = window.location.href
+
+    console.log('returnToUrl', returnToUrl)
+
+    return !user || user.expired ? (
+      <Unauthorized returnToUrl={returnToUrl} />
+    ) : (
+      this.props.children
+    )
   }
 }
 

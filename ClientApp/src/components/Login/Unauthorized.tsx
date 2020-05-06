@@ -1,7 +1,9 @@
 import React from 'react'
 import userManager from '../../store/utils/userManager'
 
-interface IOwnProps {}
+interface IOwnProps {
+  returnToUrl: string
+}
 
 interface IStateProps {}
 
@@ -10,8 +12,18 @@ interface IDispatchProps {}
 interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
 
 class Unauthorized extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props)
+
+    this.loginClick = this.loginClick.bind(this)
+  }
+
   loginClick(): void {
-    userManager.signinRedirect()
+    userManager.signinRedirect({
+      data: {
+        path: this.props.returnToUrl || window.location.href
+      }
+    })
   }
 
   render(): JSX.Element {
