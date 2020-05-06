@@ -53,28 +53,33 @@ namespace ExitSurveyAdmin.Controllers
             try
             ***REMOVED***
                 // Get a list of candidate Employee objects based on the CSV.
-                var csvEmployeeList = await CSVService
+                var csvServiceTuple = await CSVService
                     .EmployeesFromCSV(Request.Body, Encoding.UTF8);
+                var goodRecords = csvServiceTuple.Item1;
+                var badRecords = csvServiceTuple.Item2;
+                var totalRecordCount = goodRecords.Count + badRecords.Count;
 
-                foreach (Employee e in csvEmployeeList)
+                foreach (Employee e in goodRecords)
                 ***REMOVED***
                     var employee = await EmployeeReconciliationService
                         .ReconcileEmployee(_context, e);
                     reconciledEmployeeList.Add(employee);
               ***REMOVED***
 
-                if (csvEmployeeList.Count == reconciledEmployeeList.Count)
+                if (goodRecords.Count == totalRecordCount)
                 ***REMOVED***
                     await LoggingService.LogSuccess(_context, TaskEnum.ReconcileCSV,
-                        $"From a list of ***REMOVED***csvEmployeeList.Count***REMOVED*** records, " +
+                        $"From a list of ***REMOVED***goodRecords.Count***REMOVED*** records, " +
                         $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees."
                     );
               ***REMOVED***
                 else
                 ***REMOVED***
                     await LoggingService.LogWarning(_context, TaskEnum.ReconcileCSV,
-                        $"From a list of ***REMOVED***csvEmployeeList.Count***REMOVED*** records, " +
-                        $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees."
+                        $"From a list of ***REMOVED***totalRecordCount***REMOVED*** records, " +
+                        $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees. " +
+                        $"However, there were ***REMOVED***badRecords.Count***REMOVED*** bad records " +
+                        $"encountered: ***REMOVED***string.Join(';', badRecords)***REMOVED***"
                     );
               ***REMOVED***
           ***REMOVED***

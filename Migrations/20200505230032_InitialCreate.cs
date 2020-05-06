@@ -182,6 +182,11 @@ namespace ExitSurveyAdmin.Migrations
                 column: "CurrentEmployeeStatusCode");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employees_GovernmentEmployeeId_ExitCount",
+                table: "Employees",
+                columns: new[] ***REMOVED*** "GovernmentEmployeeId", "ExitCount" ***REMOVED***);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeeTimelineEntries_EmployeeActionCode",
                 table: "EmployeeTimelineEntries",
                 column: "EmployeeActionCode");
