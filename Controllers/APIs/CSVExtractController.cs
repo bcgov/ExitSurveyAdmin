@@ -59,12 +59,8 @@ namespace ExitSurveyAdmin.Controllers
                 var badRecords = csvServiceTuple.Item2;
                 var totalRecordCount = goodRecords.Count + badRecords.Count;
 
-                foreach (Employee e in goodRecords)
-                {
-                    var employee = await EmployeeReconciliationService
-                        .ReconcileEmployee(_context, e);
-                    reconciledEmployeeList.Add(employee);
-                }
+                reconciledEmployeeList = await EmployeeReconciliationService
+                    .ReconcileEmployees(_context, goodRecords);
 
                 if (goodRecords.Count == totalRecordCount)
                 {
