@@ -29,6 +29,7 @@ const AddComment = (props: IProps): JSX.Element => ***REMOVED***
       (responseJSON: AnyJson): void => ***REMOVED***
         console.log(responseJSON)
         props.refreshDataCallback()
+        setComment('')
     ***REMOVED***
     )
 ***REMOVED***
