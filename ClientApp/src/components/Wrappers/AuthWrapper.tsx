@@ -25,7 +25,12 @@ class AuthWrapper extends React.Component<IProps> {
   checkUser(): void {
     console.log('AuthWrapper: checkUser')
     const { user } = this.props
-    if (!user || user.expired) userManager.signinRedirect()
+    if (!user || user.expired)
+      userManager.signinRedirect({
+        data: {
+          path: window.location.pathname
+        }
+      })
   }
 
   componentDidMount(): void {
@@ -45,12 +50,10 @@ class AuthWrapper extends React.Component<IProps> {
   render(): React.ReactNode {
     const { user } = this.props
 
-    const returnToUrl = window.location.href
-
-    console.log('returnToUrl', returnToUrl)
+    const returnToPath = window.location.pathname
 
     return !user || user.expired ? (
-      <Unauthorized returnToUrl={returnToUrl} />
+      <Unauthorized returnToPath={returnToPath} />
     ) : (
       this.props.children
     )
