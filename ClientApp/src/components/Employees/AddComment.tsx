@@ -29,6 +29,7 @@ const AddComment = (props: IProps): JSX.Element => {
       (responseJSON: AnyJson): void => {
         console.log(responseJSON)
         props.refreshDataCallback()
+        setComment('')
       }
     )
   }
