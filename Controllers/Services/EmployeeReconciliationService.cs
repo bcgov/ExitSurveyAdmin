@@ -1,18 +1,9 @@
-using System.Runtime.CompilerServices;
-using System.Globalization;
-using System.Text;
-using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
-using System.Net.Http;
-using Microsoft.VisualBasic.FileIO;
-using CsvHelper;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
@@ -20,7 +11,9 @@ namespace ExitSurveyAdmin.Services
     ***REMOVED***
         // NB. Existence is determined by the combination of EmployeeId and
         // ExitCount.
-        private static Employee EmployeeExists(ExitSurveyAdminContext context, Employee candidate)
+        private static Employee EmployeeExists(
+            ExitSurveyAdminContext context, Employee candidate
+        )
         ***REMOVED***
             var query = context.Employees
                 .Where(e =>
@@ -38,7 +31,35 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        public async static Task<Employee> ReconcileEmployee(ExitSurveyAdminContext context, Employee employee)
+        public async static Task<List<Employee>> ReconcileEmployees(
+            ExitSurveyAdminContext context, List<Employee> employees
+        )
+        ***REMOVED***
+            var reconciledEmployeeList = new List<Employee>();
+
+            foreach (Employee e in employees)
+            ***REMOVED***
+                var employee = await ReconcileEmployee(context, e);
+                reconciledEmployeeList.Add(e);
+          ***REMOVED***
+
+            var nonFinalEmployees = context.Employees
+                .Include(e => e.TimelineEntries)
+                .Include(e => e.CurrentEmployeeStatus)
+                .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
+                .ToList();
+
+            foreach (Employee e in nonFinalEmployees)
+            ***REMOVED***
+                var employee = await UpdateEmployeeStatus(context, e);
+          ***REMOVED***
+
+            return reconciledEmployeeList;
+      ***REMOVED***
+
+        public async static Task<Employee> ReconcileEmployee(
+            ExitSurveyAdminContext context, Employee employee
+        )
         ***REMOVED***
             // Get the existing employee, if it exists.
             var existingEmployee = EmployeeExists(context, employee);
@@ -60,6 +81,7 @@ namespace ExitSurveyAdmin.Services
               ***REMOVED***);
 
                 context.Employees.Add(employee);
+
                 await context.SaveChangesAsync();
 
                 // End Case A. Return the employee.
@@ -102,7 +124,6 @@ namespace ExitSurveyAdmin.Services
                         fieldsUpdatedList
                             .Add($"***REMOVED***pv.PropertyInfo.Name***REMOVED***: `***REMOVED***pv.ValueA***REMOVED***` → `***REMOVED***pv.ValueB***REMOVED***`");
                   ***REMOVED***
-                    context.Entry(existingEmployee).State = EntityState.Modified;
 
                     // If there is > 1 field updated, update the object (note
                     // that if just email was set to ``, we might have no
@@ -121,17 +142,42 @@ namespace ExitSurveyAdmin.Services
                       ***REMOVED***);
 
                         // Save changes to employee and the new timeline entry.
+                        context.Entry(existingEmployee).State = EntityState.Modified;
+
                         await context.SaveChangesAsync();
                   ***REMOVED***
               ***REMOVED***
 
-                // End Case B. Return the existing employee.
-                Console.WriteLine("* * *");
-                Console.WriteLine(existingEmployee.Id);
-                Console.WriteLine(existingEmployee.Telkey);
-                Console.WriteLine("* * *");
                 return existingEmployee;
           ***REMOVED***
+      ***REMOVED***
+
+
+        public async static Task<Employee> UpdateEmployeeStatus(
+            ExitSurveyAdminContext context, Employee employee
+        )
+        ***REMOVED***
+            if (employee.EffectiveDate < DateTime.UtcNow)
+            ***REMOVED***
+                var newStatus = EmployeeStatusEnum.Expired.Code;
+
+                // Update employee status
+                employee.CurrentEmployeeStatusCode = newStatus;
+                context.Entry(employee).State = EntityState.Modified;
+
+                // Create a new timeline entry.
+                employee.TimelineEntries.Add(new EmployeeTimelineEntry
+                ***REMOVED***
+                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                    EmployeeStatusCode = newStatus,
+                    Comment = $"Status updated by script: ***REMOVED***employee.CurrentEmployeeStatusCode***REMOVED*** → ***REMOVED***newStatus***REMOVED***."
+              ***REMOVED***);
+
+                // Save changes to employee and the new timeline entry.
+                await context.SaveChangesAsync();
+          ***REMOVED***
+
+            return employee;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

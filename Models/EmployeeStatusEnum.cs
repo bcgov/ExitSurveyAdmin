@@ -15,6 +15,7 @@ namespace ExitSurveyAdmin.Models
         private static readonly string CodeNotExiting = "NotExiting";
         private static readonly string CodeIneligibleOther = "IneligibleOther";
         private static readonly string CodeDeclined = "Declined";
+        private static readonly string CodeExpired = "Expired";
 
         public static readonly string StateInitial = "Initial";
         public static readonly string StateInProgress = "InProgress";
@@ -75,6 +76,13 @@ namespace ExitSurveyAdmin.Models
             Description = "The employee has asked not to complete the survey."
       ***REMOVED***;
 
+        public static readonly EmployeeStatusEnum Expired = new EmployeeStatusEnum
+        ***REMOVED***
+            Code = CodeExpired,
+            State = StateFinal,
+            Description = "The employee's effective date has passed without completing the survey."
+      ***REMOVED***;
+
         public static readonly List<EmployeeStatusEnum> AllValues = new List<EmployeeStatusEnum>
         ***REMOVED***
             New,
@@ -85,7 +93,8 @@ namespace ExitSurveyAdmin.Models
             SnailMailSent,
             NotExiting,
             IneligibleOther,
-            Declined
+            Declined,
+            Expired
       ***REMOVED***;
 
 

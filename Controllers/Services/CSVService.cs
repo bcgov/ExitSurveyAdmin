@@ -47,24 +47,25 @@ namespace ExitSurveyAdmin.Services
                 // this issue is fixed in a future release, we have had to add a
                 // TrimAllStrings() extension, which is called below.
                 // https://github.com/JoshClose/CsvHelper/issues/1400
-                // csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.InsideQuotes;
-                csv.Configuration.TypeConverterCache.RemoveConverter<DateTime>();
-                csv.Configuration.TypeConverterCache.AddConverter<DateTime>(new CustomDateTimeConverter());
+                // csv.Configuration.TrimOptions = CsvHelper.Configuration
+                //                                    .TrimOptions.InsideQuotes;
+                csv.Configuration.TypeConverterCache
+                    .RemoveConverter<DateTime>();
+                csv.Configuration.TypeConverterCache
+                    .AddConverter<DateTime>(new CustomDateTimeConverter());
                 csv.Configuration.RegisterClassMap<PSACSVMap>();
 
                 var goodRecords = new List<Employee>();
                 var badRecords = new List<string>();
+
                 var isRecordBad = false;
                 var line = 1;
 
                 csv.Configuration.BadDataFound = context =>
-                        ***REMOVED***
-                            isRecordBad = true;
-                            badRecords.Add(context.RawRecord);
-                            Console.WriteLine("* * *");
-                            Console.WriteLine(context.RawRecord);
-                            Console.WriteLine("* * *");
-                      ***REMOVED***;
+                ***REMOVED***
+                    isRecordBad = true;
+                    badRecords.Add(context.RawRecord);
+              ***REMOVED***;
 
                 while (await csv.ReadAsync())
                 ***REMOVED***
@@ -84,18 +85,10 @@ namespace ExitSurveyAdmin.Services
                     ***REMOVED***
                         var ExceptionText = $"Line ***REMOVED***line***REMOVED***: Exception: ***REMOVED***e***REMOVED***";
                         badRecords.Add(ExceptionText);
-                        Console.WriteLine("* * *");
-                        Console.WriteLine(ExceptionText);
-                        Console.WriteLine("* * *");
                   ***REMOVED***
                     isRecordBad = false;
                     line++;
               ***REMOVED***
-
-                // await foreach (Employee e in csv.GetRecordsAsync<Employee>())
-                // ***REMOVED***
-                //     goodRecords.Add(e);
-                // ***REMOVED***
 
                 return Tuple.Create(goodRecords, badRecords);
           ***REMOVED***
