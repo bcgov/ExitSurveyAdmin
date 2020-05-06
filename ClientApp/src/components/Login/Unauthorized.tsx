@@ -2,7 +2,7 @@ import React from 'react'
 import userManager from '../../store/utils/userManager'
 
 interface IOwnProps ***REMOVED***
-  returnToUrl: string
+  returnToPath: string
 ***REMOVED***
 
 interface IStateProps ***REMOVED******REMOVED***
@@ -21,7 +21,7 @@ class Unauthorized extends React.Component<IProps> ***REMOVED***
   loginClick(): void ***REMOVED***
     userManager.signinRedirect(***REMOVED***
       data: ***REMOVED***
-        path: this.props.returnToUrl || window.location.href
+        path: this.props.returnToPath || window.location.pathname
     ***REMOVED***
   ***REMOVED***)
 ***REMOVED***
