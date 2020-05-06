@@ -13,13 +13,13 @@ const FormattedDate = (props: IProps): JSX.Element => {
   const options: Intl.DateTimeFormatOptions = {}
   if (!showLocalTimezone) options.timeZone = 'UTC'
   return (
-    <div className="Date">
+    <span className="Date">
       {date && showTime
         ? date.toLocaleString(LOCALE, options)
         : date
         ? date.toLocaleDateString(LOCALE, options)
         : ''}
-    </div>
+    </span>
   )
 }
 
