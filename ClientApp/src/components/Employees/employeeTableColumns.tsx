@@ -51,4 +51,22 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     Header: 'Status',
     accessor: 'currentEmployeeStatusCode'
 ***REMOVED***
+  ***REMOVED***
+    Header: 'Last modified date',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <FormattedDate
+        date=***REMOVED***dateOrUndefined(props.value as string)***REMOVED***
+        showTime
+        showLocalTimezone
+      />
+    ),
+    accessor: 'modifiedTs'
+***REMOVED***
+  ***REMOVED***
+    Header: 'Timeline Entries',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <span>***REMOVED***props.value ? props.value.length : 0***REMOVED***</span>
+    ),
+    accessor: 'timelineEntries'
+***REMOVED***
 ]

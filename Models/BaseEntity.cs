@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sieve.Attributes;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
@@ -8,6 +9,7 @@ namespace ExitSurveyAdmin.Models
     ***REMOVED***
         public DateTime CreatedTs ***REMOVED*** get; set; ***REMOVED***
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public DateTime ModifiedTs ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
