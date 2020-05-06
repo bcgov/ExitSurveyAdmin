@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { createUserManager } from 'redux-oidc'
+import { WebStorageStateStore } from 'oidc-client'
 
 const userManagerConfig = {
   client_id: 'ExitSurveyAdmin',
@@ -15,7 +16,8 @@ const userManagerConfig = {
   }${window.location.port ? `:${window.location.port}` : ''}/silent_renew.html`,
   automaticSilentRenew: true,
   filterProtocolClaims: true,
-  loadUserInfo: true
+  loadUserInfo: true,
+  userStore: new WebStorageStateStore({ store: window.localStorage })
 }
 
 const userManager = createUserManager(userManagerConfig)

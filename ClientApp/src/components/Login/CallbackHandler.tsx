@@ -23,6 +23,7 @@ class CallbackPage extends React.Component<IProps> {
         errorCallback={(error: any): void => {
           console.log('Login error')
           console.error(error)
+          this.props.history.push('/')
         }}
       >
         <div>
