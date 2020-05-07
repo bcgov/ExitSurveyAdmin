@@ -31,7 +31,7 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        private async static Task<Employee> UpdateStatusAndAddTimelineEntry(
+        public async static Task<Employee> SaveStatusAndAddTimelineEntry(
             ExitSurveyAdminContext context, Employee employee,
             EmployeeStatusEnum newStatus
         )
@@ -63,27 +63,35 @@ namespace ExitSurveyAdmin.Services
         ***REMOVED***
             var reconciledEmployeeList = new List<Employee>();
 
+            // Step 1. Insert and update employees from the CSV.
             foreach (Employee e in employees)
             ***REMOVED***
-                var employee = await ReconcileEmployee(context, e);
+                var employee = await ReconcileWithDatabase(context, e);
                 reconciledEmployeeList.Add(e);
-          ***REMOVED***
-
-            var nonFinalEmployees = context.Employees
-                .Include(e => e.TimelineEntries)
-                .Include(e => e.CurrentEmployeeStatus)
-                .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
-                .ToList();
-
-            foreach (Employee e in nonFinalEmployees)
-            ***REMOVED***
-                var employee = await UpdateEmployeeStatus(context, e);
           ***REMOVED***
 
             return reconciledEmployeeList;
       ***REMOVED***
 
+        /*** Reconcile a single employee. NB! By default, this will NOT invoke
+        other methods (such as status updating) that affect multiple other
+        employees, unlike ReconcileEmployees which does so by default.
+        */
         public async static Task<Employee> ReconcileEmployee(
+            ExitSurveyAdminContext context, Employee employee
+        )
+        ***REMOVED***
+            // Simply call the main ReconcileEmployees function, with this
+            // single employee as the sole element of a list; then get the
+            // employee from the resulting list.
+            var reconciledEmployee = (await ReconcileEmployees(
+                context, new List<Employee>() ***REMOVED*** employee ***REMOVED***
+            )).ElementAt(0);
+
+            return reconciledEmployee;
+      ***REMOVED***
+
+        private async static Task<Employee> ReconcileWithDatabase(
             ExitSurveyAdminContext context, Employee employee
         )
         ***REMOVED***
@@ -186,7 +194,7 @@ namespace ExitSurveyAdmin.Services
             // First, check if the employee has completed the survey.
             if (CallWebService.IsSurveyComplete(employee.GovernmentEmployeeId))
             ***REMOVED***
-                return await UpdateStatusAndAddTimelineEntry(context, employee,
+                return await SaveStatusAndAddTimelineEntry(context, employee,
                     EmployeeStatusEnum.SurveyComplete);
           ***REMOVED***
 
@@ -195,7 +203,7 @@ namespace ExitSurveyAdmin.Services
             // TODO: What is the appropriate amount of time to wait for a user?
             if (employee.EffectiveDate.AddMonths(6) < DateTime.UtcNow)
             ***REMOVED***
-                return await UpdateStatusAndAddTimelineEntry(context, employee,
+                return await SaveStatusAndAddTimelineEntry(context, employee,
                     EmployeeStatusEnum.Expired);
           ***REMOVED***
 
