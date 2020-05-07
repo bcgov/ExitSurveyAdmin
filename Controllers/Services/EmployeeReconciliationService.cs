@@ -67,7 +67,7 @@ namespace ExitSurveyAdmin.Services
             foreach (Employee e in employees)
             {
                 var employee = await ReconcileWithDatabase(context, e);
-                reconciledEmployeeList.Add(e);
+                reconciledEmployeeList.Add(employee);
             }
 
             return reconciledEmployeeList;
