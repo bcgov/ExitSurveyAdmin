@@ -35,7 +35,7 @@ const ExportData = (props: IProps): JSX.Element => ***REMOVED***
 
   return (
     <div>
-      <button className="btn btn-primary mt-2" onClick=***REMOVED***downloadData***REMOVED***>
+      <button className="btn btn-primary mt-3" onClick=***REMOVED***downloadData***REMOVED***>
         Export data
       </button>
       <CSVLink
