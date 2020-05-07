@@ -50,15 +50,18 @@ namespace ExitSurveyAdmin.Controllers
         {
             var reconciledEmployeeList = new List<Employee>();
 
+            // TODO: Break apart this functionality.
             try
             {
-                // Get a list of candidate Employee objects based on the CSV.
+                // Step 1. Get a list of candidate Employee objects based on the
+                // CSV.
                 var csvServiceTuple = await CSVService
                     .EmployeesFromCSV(Request.Body, Encoding.UTF8);
                 var goodRecords = csvServiceTuple.Item1;
                 var badRecords = csvServiceTuple.Item2;
                 var totalRecordCount = goodRecords.Count + badRecords.Count;
 
+                // Step 2. Reconcile the employees with the database.
                 reconciledEmployeeList = await EmployeeReconciliationService
                     .ReconcileEmployees(_context, goodRecords);
 
@@ -77,6 +80,37 @@ namespace ExitSurveyAdmin.Controllers
                         $"However, there were {badRecords.Count} bad records " +
                         $"encountered: {string.Join(';', badRecords)}"
                     );
+                }
+
+                // Step 3. Update existing user statues.
+                // TODO: What if a user re-appears in the CSV after having been
+                // marked as exiting?
+                var nonFinalEmployees = _context.Employees
+                    .Include(e => e.TimelineEntries)
+                    .Include(e => e.CurrentEmployeeStatus)
+                    .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
+                    .ToList();
+
+                foreach (Employee e in nonFinalEmployees)
+                {
+                    var employee = await EmployeeReconciliationService
+                        .UpdateEmployeeStatus(_context, e);
+                }
+
+                // Step 3. For all ACTIVE users in the DB who are NOT in the
+                // CSV, set them to exiting.
+                var activeDBEmployeesNotInCSV = nonFinalEmployees
+                    .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) // Reproject this as the status might have changed
+
+                    .Where(e => reconciledEmployeeList.All(e2 => e2.Id != e.Id)) // This finds all nonFinalEmployees whose Id is not in the reconciledEmployeeList
+                    .ToList();
+
+                foreach (Employee e in activeDBEmployeesNotInCSV)
+                {
+                    var employee = await EmployeeReconciliationService
+                        .SaveStatusAndAddTimelineEntry(
+                            _context, e, EmployeeStatusEnum.NotExiting
+                        );
                 }
             }
             catch (Exception e)
