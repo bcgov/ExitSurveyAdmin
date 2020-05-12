@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using ExitSurveyAdmin.Services;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
@@ -10,7 +11,8 @@ namespace ExitSurveyAdmin.Models
         public static void Initialize(IServiceProvider serviceProvider)
         ***REMOVED***
             using (var context = new ExitSurveyAdminContext(
-                serviceProvider.GetRequiredService<DbContextOptions<ExitSurveyAdminContext>>())
+                serviceProvider.GetRequiredService<DbContextOptions<ExitSurveyAdminContext>>(),
+                serviceProvider.GetRequiredService<EmployeeInfoLookupService>())
             )
             ***REMOVED***
                 // If the context contains any EmployeeStatuses already, it has

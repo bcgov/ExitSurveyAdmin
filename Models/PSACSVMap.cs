@@ -24,9 +24,9 @@ public class CustomDateTimeConverter : DateTimeConverter
   ***REMOVED***
 ***REMOVED***
 
-public class PSACSVMap : ClassMap<Employee>
+public class PsaCsvMap : ClassMap<Employee>
 ***REMOVED***
-    public PSACSVMap()
+    public PsaCsvMap()
     ***REMOVED***
         // Ordered as they appear in the CSV extract.
         Map(m => m.GovernmentEmployeeId).Name("EmplID");

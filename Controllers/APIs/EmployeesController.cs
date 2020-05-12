@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
-using Newtonsoft.Json;
 using Sieve.Services;
 using Sieve.Models;
 using static ISieveProcessorExtensions;
@@ -18,16 +17,22 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     ***REMOVED***
-        private readonly ExitSurveyAdminContext _context;
-        private readonly SieveProcessor _sieveProcessor;
+        private readonly ExitSurveyAdminContext Context;
+        private readonly SieveProcessor SieveProcessor;
+        private readonly EmployeeInfoLookupService EmployeeInfoLookup;
+        private readonly EmployeeReconciliationService EmployeeReconciler;
 
         public EmployeesController(
             ExitSurveyAdminContext context,
-            SieveProcessor sieveProcessor
+            SieveProcessor sieveProcessor,
+            EmployeeInfoLookupService employeeInfoLookup,
+            EmployeeReconciliationService employeeReconciler
         )
         ***REMOVED***
-            _context = context;
-            _sieveProcessor = sieveProcessor;
+            Context = context;
+            SieveProcessor = sieveProcessor;
+            EmployeeInfoLookup = employeeInfoLookup;
+            EmployeeReconciler = employeeReconciler;
       ***REMOVED***
 
         // GET: api/Employees
@@ -48,11 +53,11 @@ namespace ExitSurveyAdmin.Controllers
           ***REMOVED***
 
             // Employee query.
-            var employees = _context.Employees
+            var employees = Context.Employees
                 .AsNoTracking()
                 .Include(e => e.TimelineEntries);
 
-            var sievedEmployees = await _sieveProcessor.GetPagedAsync(employees, sieveModel);
+            var sievedEmployees = await SieveProcessor.GetPagedAsync(employees, sieveModel);
             Response.Headers.Add("X-Pagination", sievedEmployees.SerializeMetadataToJson());
 
             return Ok(sievedEmployees.Results);
@@ -62,11 +67,11 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         ***REMOVED***
-            var employee = await _context.Employees
+            var employee = await Context.Employees
                 .Include(e => e.TimelineEntries)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
-            var email = EmployeeInformationService
+            var email = EmployeeInfoLookup
                 .EmailByEmployeeId(employee.GovernmentEmployeeId);
 
             if (employee == null)
@@ -90,8 +95,8 @@ namespace ExitSurveyAdmin.Controllers
 
             try
             ***REMOVED***
-                Employee updatedEmployee = await EmployeeReconciliationService
-                    .ReconcileEmployee(_context, employee);
+                Employee updatedEmployee = await EmployeeReconciler
+                    .ReconcileEmployee(Context, employee);
           ***REMOVED***
             catch (DbUpdateConcurrencyException)
             ***REMOVED***
@@ -114,8 +119,8 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         ***REMOVED***
-            Employee newEmployee = await EmployeeReconciliationService
-                .ReconcileEmployee(_context, employee);
+            Employee newEmployee = await EmployeeReconciler
+                .ReconcileEmployee(Context, employee);
 
             return CreatedAtAction(nameof(GetEmployee), new ***REMOVED*** id = newEmployee.Id ***REMOVED***, newEmployee);
       ***REMOVED***
@@ -124,21 +129,21 @@ namespace ExitSurveyAdmin.Controllers
         [HttpDelete("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         ***REMOVED***
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await Context.Employees.FindAsync(id);
             if (employee == null)
             ***REMOVED***
                 return NotFound();
           ***REMOVED***
 
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            Context.Employees.Remove(employee);
+            await Context.SaveChangesAsync();
 
             return employee;
       ***REMOVED***
 
         private bool EmployeeExists(int id)
         ***REMOVED***
-            return _context.Employees.Any(e => e.Id == id);
+            return Context.Employees.Any(e => e.Id == id);
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

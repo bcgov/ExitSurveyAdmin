@@ -1,50 +1,47 @@
-using System.Globalization;
-using System.Text;
-using System.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ExitSurveyAdmin.Models;
-using System.Net.Http;
-using Microsoft.VisualBasic.FileIO;
-using CsvHelper;
-using MailKit;
-using MailKit.Net.Smtp;
-using MimeKit;
+using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
-
-
-    public class EmployeeInformationService
+    public class EmployeeInfoLookupService
     ***REMOVED***
-        // Obtains an email address, given an employee ID.
-        public static string EmailByEmployeeId(string employeeId)
-        ***REMOVED***
-            var config = AppConfiguration.MyAppConfiguration;
+        private string Host ***REMOVED*** get; set; ***REMOVED***
+        private int Port ***REMOVED*** get; set; ***REMOVED***
+        private string Base ***REMOVED*** get; set; ***REMOVED***
+        private string Username ***REMOVED*** get; set; ***REMOVED***
+        private string Password ***REMOVED*** get; set; ***REMOVED***
+        private string OverrideEmail ***REMOVED*** get; set; ***REMOVED***
 
-            // If the LDAPOverrideEmail config setting is set to a string, then
+        public EmployeeInfoLookupService(IOptions<EmployeeInfoLookupServiceOptions> options)
+        ***REMOVED***
+            Host = options.Value.Host;
+            Port = options.Value.Port;
+            Base = options.Value.Base;
+            Username = options.Value.Username;
+            Password = options.Value.Password;
+            OverrideEmail = options.Value.OverrideEmail;
+      ***REMOVED***
+
+        // Obtains an email address, given an employee ID.
+        public string EmailByEmployeeId(string employeeId)
+        ***REMOVED***
+            // If the OverrideEmail config setting is set to a string, then
             // we just return it. It will be the user email instead of looking
             // up their email.
-            if (!string.IsNullOrWhiteSpace(config.LDAPOverrideEmail))
+            if (!string.IsNullOrWhiteSpace(OverrideEmail))
             ***REMOVED***
-                return config.LDAPOverrideEmail;
+                return OverrideEmail;
           ***REMOVED***
 
             // Otherwise, continue on, using the LDAP connection to filter by
             // the employee ID and find the user's mail (email) attribute.
             using (var ldapConnection = new LdapConnection())
             ***REMOVED***
-                ldapConnection.Connect(config.LDAPHost, config.LDAPPort);
-                ldapConnection.Bind(config.LDAPUsername, config.LDAPPassword);
+                ldapConnection.Connect(Host, Port);
+                ldapConnection.Bind(Username, Password);
 
                 ILdapSearchResults results = ldapConnection.Search(
-                    config.LDAPBase,
+                    Base,
                     LdapConnection.ScopeSub,
                     $"(employeeID=***REMOVED***employeeId***REMOVED***)",
                     new string[] ***REMOVED*** "mail" ***REMOVED***,

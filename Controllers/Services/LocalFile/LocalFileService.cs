@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
-    public class FileService
+    public class LocalFileService
     ***REMOVED***
         // Read a local file from the project.
         public static Task<string> ReadLocalFile(string filePath)
