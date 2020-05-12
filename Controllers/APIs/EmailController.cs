@@ -21,13 +21,10 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class EmailController : ControllerBase
     {
-        private readonly ExitSurveyAdminContext _context;
-        private readonly AppConfiguration _appConfiguration;
-
-        public EmailController(ExitSurveyAdminContext context, AppConfiguration appConfiguration)
+        private readonly ExitSurveyAdminContext Context;
+        public EmailController(ExitSurveyAdminContext context)
         {
-            _context = context;
-            _appConfiguration = appConfiguration;
+            Context = context;
         }
 
         /// <summary>Sends an email.
