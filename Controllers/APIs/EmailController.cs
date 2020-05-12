@@ -1,22 +1,10 @@
-using System.Globalization;
-using System.Text;
-using System.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
-using System.Net.Http;
-using Microsoft.VisualBasic.FileIO;
-using CsvHelper;
 using ExitSurveyAdmin.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExitSurveyAdmin.Controllers
 {
-    public class EmailDTO
+    public class EmailDto
     {
         public string ToName { get; set; }
         public string ToAddress { get; set; }
@@ -56,19 +44,19 @@ namespace ExitSurveyAdmin.Controllers
         /// </summary>
         /// GET: api/Email/Send
         [HttpPost("Send")]
-        public async Task<ActionResult<string>> Send(EmailDTO emailDTO)
+        public ActionResult<string> Send(EmailDto emailDto)
         {
             // TODO: Validation
 
             // EmailService.SendEmail(
             //     this._appConfiguration,
-            //     emailDTO.ToName,
-            //     emailDTO.ToAddress,
-            //     emailDTO.Subject,
-            //     emailDTO.Body
+            //     emailDto.ToName,
+            //     emailDto.ToAddress,
+            //     emailDto.Subject,
+            //     emailDto.Body
             // );
 
-            return Content(emailDTO.ToString());
+            return Content(emailDto.ToString());
         }
     }
 }
