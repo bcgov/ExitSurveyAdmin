@@ -50,10 +50,6 @@ namespace ExitSurveyAdmin
             options.UseSqlServer(
                 Configuration.GetConnectionString("ExitSurveyAdmin")));
 
-            services.AddSingleton(
-                Configuration.GetSection("AppSettings").Get<AppConfiguration>()
-            );
-
             services.Configure<SieveOptions>(Configuration.GetSection("Sieve"));
             services.AddScoped<SieveProcessor>();
 
