@@ -203,7 +203,7 @@ namespace ExitSurveyAdmin.Services
         )
         {
             var callWebStatusCode = CallWeb
-                .GetSurveyStatus(employee.GovernmentEmployeeId);
+                .GetSurveyStatusCode(employee.Telkey);
 
             // First, check if the employee has completed the survey.
             if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
