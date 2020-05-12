@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using static ObjectExtensions;
+using static ObjectCompareExtension;
+using static TrimAllStringsExtension;
 using ExitSurveyAdmin.Services;
 using Sieve.Attributes;
 

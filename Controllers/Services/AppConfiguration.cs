@@ -19,6 +19,8 @@ namespace ExitSurveyAdmin.Services
         public string LDAPPassword { get; set; }
         public string LDAPOverrideEmail { get; set; }
 
-        public static AppConfiguration MyAppConfiguration { get; set; }
+        public string CallWebApiBaseUrl { get; set; }
+
+        // public static AppConfiguration MyAppConfiguration { get; set; }
     }
 }

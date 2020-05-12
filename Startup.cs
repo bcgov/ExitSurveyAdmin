@@ -22,41 +22,63 @@ namespace ExitSurveyAdmin
         {
             Environment = env;
             Configuration = configuration;
-
-            AppConfiguration.MyAppConfiguration = Configuration.GetSection("AppSettings").Get<AppConfiguration>();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add
+        // services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-            if (Environment.IsDevelopment())
-            {
-                services.AddDbContext<ExitSurveyAdminContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("ExitSurveyAdmin")));
-            }
-            else
-            {
-                services.AddDbContext<ExitSurveyAdminContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("ExitSurveyAdmin")));
-            }
+            services.Configure<CallWebServiceOptions>(Configuration.GetSection("CallWebApi"));
+            services.AddSingleton<CallWebService>();
 
-            services.AddSingleton(Configuration.GetSection("AppSettings").Get<AppConfiguration>());
+            services.Configure<CsvServiceOptions>(Configuration.GetSection("Csv"));
+            services.AddSingleton<CsvService>();
+
+            services.Configure<EmailServiceOptions>(Configuration.GetSection("Email"));
+            services.AddSingleton<EmailService>();
+
+            services.Configure<EmployeeInfoLookupServiceOptions>(Configuration.GetSection("LdapLookup"));
+            services.AddSingleton<EmployeeInfoLookupService>();
+
+            services.AddScoped<EmployeeReconciliationService>();
+
+            services.AddSingleton<LocalFileService>();
+
+            services.AddDbContext<ExitSurveyAdminContext>(options =>
+            options.UseSqlServer(
+                Configuration.GetConnectionString("ExitSurveyAdmin")));
+
+            services.AddSingleton(
+                Configuration.GetSection("AppSettings").Get<AppConfiguration>()
+            );
+
             services.Configure<SieveOptions>(Configuration.GetSection("Sieve"));
             services.AddScoped<SieveProcessor>();
 
             // TODO: Verify this
             services
-                .AddAuthentication(options => Authentication.SetAuthenticationOptions(options))
-                .AddJwtBearer(options => Authentication.SetJwtBearerOptions(options,
-                    Configuration.GetValue<string>("Authentication:Authority")));
+                .AddAuthentication(options =>
+                    Authentication.SetAuthenticationOptions(options))
+                .AddJwtBearer(options =>
+                    Authentication.SetJwtBearerOptions(
+                        options,
+                        Configuration.GetValue<string>("Authentication:Authority")
+                    )
+                );
 
             // TODO: Verify this BC Dev Keycloack
-            services.AddAuthorization(options => Authentication.SetAuthorizationOptions(options,
-                Configuration.GetValue<string>("Authentication:RoleName")));
+            services
+                .AddAuthorization(options =>
+                    Authentication.SetAuthorizationOptions(
+                        options,
+                        Configuration.GetValue<string>("Authentication:RoleName")
+                    )
+                );
+
+
+            services.AddHttpClient();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -65,7 +87,8 @@ namespace ExitSurveyAdmin
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure
+        // the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -75,7 +98,9 @@ namespace ExitSurveyAdmin
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // The default HSTS value is 30 days. You may want to change
+                // this for production scenarios, see
+                // https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
