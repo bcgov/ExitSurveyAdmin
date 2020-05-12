@@ -9,9 +9,12 @@ namespace ExitSurveyAdmin.Models
 {
     public class ExitSurveyAdminContext : DbContext
     {
-        public ExitSurveyAdminContext(DbContextOptions<ExitSurveyAdminContext> options)
+        private EmployeeInfoLookupService EmployeeInfoLookup;
+
+        public ExitSurveyAdminContext(DbContextOptions<ExitSurveyAdminContext> options, EmployeeInfoLookupService employeeInfoLookup)
             : base(options)
         {
+            EmployeeInfoLookup = employeeInfoLookup;
         }
 
         public DbSet<Employee> Employees { get; set; }
@@ -108,12 +111,11 @@ namespace ExitSurveyAdmin.Models
             foreach (var entity in entities)
             {
                 Employee e = ((Employee)entity.Entity);
-                e.Telkey = TelkeyService.GenerateTelkey(e);
 
                 // Add the email to the user if it's missing.
                 if (string.IsNullOrWhiteSpace(e.GovernmentEmail))
                 {
-                    e.GovernmentEmail = EmployeeInformationService
+                    e.GovernmentEmail = EmployeeInfoLookup
                         .EmailByEmployeeId(e.GovernmentEmployeeId);
                 }
             }

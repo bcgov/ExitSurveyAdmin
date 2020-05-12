@@ -20,13 +20,15 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class CallWebController : ControllerBase
     {
-        private readonly ExitSurveyAdminContext _context;
-        private readonly AppConfiguration _myConfiguration;
+        private readonly ExitSurveyAdminContext Context;
+        private readonly CsvService Csv;
 
-        public CallWebController(ExitSurveyAdminContext context, AppConfiguration myConfiguration)
+        public CallWebController(
+            ExitSurveyAdminContext context, CsvService csv
+        )
         {
-            _context = context;
-            _myConfiguration = myConfiguration;
+            Context = context;
+            Csv = csv;
         }
 
         // GetCSV: Returns the raw, as-is text of the PSA CSV extract.
@@ -34,8 +36,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("CSV")]
         public async Task<ActionResult<string>> GetCSV()
         {
-            string text = await CSVService
-                .ReadCSV(_myConfiguration.SampleCallWebCSVFilePath);
+            string text = await Csv.ReadCsv();
 
             return Content(text);
         }

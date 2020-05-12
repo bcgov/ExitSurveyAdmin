@@ -4,14 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
+using Microsoft.Extensions.Options;
 
 namespace ExitSurveyAdmin.Services
 {
     public class EmployeeReconciliationService
     {
-        // NB. Existence is determined by the combination of EmployeeId and
-        // ExitCount.
-        private static Employee EmployeeExists(
+        private CallWebService CallWeb;
+        private ExitSurveyAdminContext Context;
+
+        public EmployeeReconciliationService(ExitSurveyAdminContext context, CallWebService callWeb)
+        {
+            Context = context;
+            CallWeb = callWeb;
+        }
+
+        // NB. Existence is determined by the combination of EmployeeId,
+        // ExitCount, and month of the EffectiveDate.
+        private Employee EmployeeExists(
             ExitSurveyAdminContext context, Employee candidate
         )
         {
@@ -19,6 +29,7 @@ namespace ExitSurveyAdmin.Services
                 .Where(e =>
                     e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
                     && e.ExitCount == candidate.ExitCount
+                    && e.EffectiveDate.Month == candidate.EffectiveDate.Month
                 );
 
             if (query.Count() > 0)
@@ -31,7 +42,7 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
-        public async static Task<Employee> SaveStatusAndAddTimelineEntry(
+        public async Task<Employee> SaveStatusAndAddTimelineEntry(
             ExitSurveyAdminContext context, Employee employee,
             EmployeeStatusEnum newStatus
         )
@@ -57,7 +68,7 @@ namespace ExitSurveyAdmin.Services
             return employee;
         }
 
-        public async static Task<List<Employee>> ReconcileEmployees(
+        public async Task<List<Employee>> ReconcileEmployees(
             ExitSurveyAdminContext context, List<Employee> employees
         )
         {
@@ -77,7 +88,7 @@ namespace ExitSurveyAdmin.Services
         other methods (such as status updating) that affect multiple other
         employees, unlike ReconcileEmployees which does so by default.
         */
-        public async static Task<Employee> ReconcileEmployee(
+        public async Task<Employee> ReconcileEmployee(
             ExitSurveyAdminContext context, Employee employee
         )
         {
@@ -91,7 +102,7 @@ namespace ExitSurveyAdmin.Services
             return reconciledEmployee;
         }
 
-        private async static Task<Employee> ReconcileWithDatabase(
+        private async Task<Employee> ReconcileWithDatabase(
             ExitSurveyAdminContext context, Employee employee
         )
         {
@@ -187,12 +198,15 @@ namespace ExitSurveyAdmin.Services
         }
 
 
-        public async static Task<Employee> UpdateEmployeeStatus(
+        public async Task<Employee> UpdateEmployeeStatus(
             ExitSurveyAdminContext context, Employee employee
         )
         {
+            var callWebStatusCode = CallWeb
+                .GetSurveyStatus(employee.GovernmentEmployeeId);
+
             // First, check if the employee has completed the survey.
-            if (CallWebService.IsSurveyComplete(employee.GovernmentEmployeeId))
+            if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
             {
                 return await SaveStatusAndAddTimelineEntry(context, employee,
                     EmployeeStatusEnum.SurveyComplete);
