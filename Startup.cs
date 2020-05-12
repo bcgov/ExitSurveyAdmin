@@ -28,6 +28,8 @@ namespace ExitSurveyAdmin
         // services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             services.AddControllersWithViews();
 
             services.Configure<CallWebServiceOptions>(Configuration.GetSection("CallWebApi"));
