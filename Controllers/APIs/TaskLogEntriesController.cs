@@ -11,18 +11,18 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class TaskLogEntriesController : ControllerBase
     ***REMOVED***
-        private readonly ExitSurveyAdminContext _context;
+        private readonly ExitSurveyAdminContext context;
 
         public TaskLogEntriesController(ExitSurveyAdminContext context)
         ***REMOVED***
-            _context = context;
+            this.context = context;
       ***REMOVED***
 
         // GET: api/TaskLogEntries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskLogEntry>>> GetTaskLogEntries()
         ***REMOVED***
-            return await _context.TaskLogEntries
+            return await context.TaskLogEntries
                 .Include(tle => tle.Task)
                 .Include(tle => tle.TaskOutcome)
                 .ToListAsync();
@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(int id)
         ***REMOVED***
-            var taskLogEntry = await _context.TaskLogEntries
+            var taskLogEntry = await context.TaskLogEntries
                     .Include(tle => tle.Task)
                     .Include(tle => tle.TaskOutcome)
                     .FirstOrDefaultAsync(tle => tle.Id == id);
@@ -52,15 +52,15 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<TaskLogEntry>> PostTaskLogEntry(TaskLogEntry taskLogEntry)
         ***REMOVED***
             // TODO: Do proper validation here.
-            _context.TaskLogEntries.Add(taskLogEntry);
-            await _context.SaveChangesAsync();
+            context.TaskLogEntries.Add(taskLogEntry);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTaskLogEntry), new ***REMOVED*** id = taskLogEntry.Id ***REMOVED***, taskLogEntry);
       ***REMOVED***
 
         private bool TaskLogEntryExists(int id)
         ***REMOVED***
-            return _context.TaskLogEntries.Any(e => e.Id == id);
+            return context.TaskLogEntries.Any(e => e.Id == id);
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
