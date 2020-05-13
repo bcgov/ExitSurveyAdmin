@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 using Microsoft.Extensions.Options;
-using CallWebApi.Models;
+using ExitSurveyAdmin.Services.CallWeb;
 
 namespace ExitSurveyAdmin.Services
 {

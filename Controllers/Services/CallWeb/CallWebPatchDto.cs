@@ -1,4 +1,4 @@
-namespace CallWebApi.Models
+namespace ExitSurveyAdmin.Services.CallWeb
 {
     // The data transfer object to use when sending a PATCH request.
     public class CallWebPatchDto
