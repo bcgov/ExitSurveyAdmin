@@ -5,9 +5,14 @@ namespace ExitSurveyAdmin.Services
 ***REMOVED***
     public class LoggingService
     ***REMOVED***
-        // Read a local file from the project.
-        public async static Task<TaskLogEntry> Log(
-            ExitSurveyAdminContext context,
+        private readonly ExitSurveyAdminContext context;
+
+        public LoggingService(ExitSurveyAdminContext context)
+        ***REMOVED***
+            this.context = context;
+      ***REMOVED***
+
+        public async Task<TaskLogEntry> Log(
             TaskEnum task, TaskOutcomeEnum taskOutcome, string comment
         )
         ***REMOVED***
@@ -24,28 +29,19 @@ namespace ExitSurveyAdmin.Services
             return entry;
       ***REMOVED***
 
-        public static Task<TaskLogEntry> LogSuccess(
-            ExitSurveyAdminContext context,
-            TaskEnum task, string comment
-        )
+        public Task<TaskLogEntry> LogSuccess(TaskEnum task, string comment)
         ***REMOVED***
-            return Log(context, task, TaskOutcomeEnum.Success, comment);
+            return Log(task, TaskOutcomeEnum.Success, comment);
       ***REMOVED***
 
-        public static Task<TaskLogEntry> LogWarning(
-            ExitSurveyAdminContext context,
-            TaskEnum task, string comment
-        )
+        public Task<TaskLogEntry> LogWarning(TaskEnum task, string comment)
         ***REMOVED***
-            return Log(context, task, TaskOutcomeEnum.Warn, comment);
+            return Log(task, TaskOutcomeEnum.Warn, comment);
       ***REMOVED***
 
-        public static Task<TaskLogEntry> LogFailure(
-            ExitSurveyAdminContext context,
-            TaskEnum task, string comment
-        )
+        public Task<TaskLogEntry> LogFailure(TaskEnum task, string comment)
         ***REMOVED***
-            return Log(context, task, TaskOutcomeEnum.Fail, comment);
+            return Log(task, TaskOutcomeEnum.Fail, comment);
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

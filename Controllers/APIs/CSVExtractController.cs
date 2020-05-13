@@ -14,19 +14,22 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class CsvExtractController : ControllerBase
     ***REMOVED***
-        private readonly ExitSurveyAdminContext Context;
-        private readonly CsvService Csv;
-        private readonly EmployeeReconciliationService EmployeeReconciler;
+        private readonly ExitSurveyAdminContext context;
+        private readonly CsvService csv;
+        private readonly EmployeeReconciliationService employeeReconciler;
+        private readonly LoggingService logger;
 
         public CsvExtractController(
             ExitSurveyAdminContext context,
             CsvService csv,
-            EmployeeReconciliationService employeeReconciler
+            EmployeeReconciliationService employeeReconciler,
+            LoggingService logger
         )
         ***REMOVED***
-            Context = context;
-            Csv = csv;
-            EmployeeReconciler = employeeReconciler;
+            this.context = context;
+            this.csv = csv;
+            this.employeeReconciler = employeeReconciler;
+            this.logger = logger;
       ***REMOVED***
 
         // GetCsv: Returns the raw, as-is text of the PSA Csv extract.
@@ -34,7 +37,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("Csv")]
         public async Task<ActionResult<string>> GetCsv()
         ***REMOVED***
-            string text = await Csv.ReadCsv();
+            string text = await csv.ReadCsv();
 
             return Content(text);
       ***REMOVED***
@@ -54,26 +57,26 @@ namespace ExitSurveyAdmin.Controllers
             ***REMOVED***
                 // Step 1. Get a list of candidate Employee objects based on the
                 // Csv.
-                var csvServiceTuple = await Csv
+                var csvServiceTuple = await csv
                     .EmployeesFromCsv(Request.Body, Encoding.UTF8);
                 var goodRecords = csvServiceTuple.Item1;
                 var badRecords = csvServiceTuple.Item2;
                 var totalRecordCount = goodRecords.Count + badRecords.Count;
 
                 // Step 2. Reconcile the employees with the database.
-                reconciledEmployeeList = await EmployeeReconciler
-                    .ReconcileEmployees(Context, goodRecords);
+                reconciledEmployeeList = await employeeReconciler
+                    .ReconcileEmployees(goodRecords);
 
                 if (goodRecords.Count == totalRecordCount)
                 ***REMOVED***
-                    await LoggingService.LogSuccess(Context, TaskEnum.ReconcileCsv,
+                    await logger.LogSuccess(TaskEnum.ReconcileCsv,
                         $"From a list of ***REMOVED***goodRecords.Count***REMOVED*** records, " +
                         $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees."
                     );
               ***REMOVED***
                 else
                 ***REMOVED***
-                    await LoggingService.LogWarning(Context, TaskEnum.ReconcileCsv,
+                    await logger.LogWarning(TaskEnum.ReconcileCsv,
                         $"From a list of ***REMOVED***totalRecordCount***REMOVED*** records, " +
                         $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees. " +
                         $"However, there were ***REMOVED***badRecords.Count***REMOVED*** bad records " +
@@ -84,7 +87,7 @@ namespace ExitSurveyAdmin.Controllers
                 // Step 3. Update existing user statues.
                 // TODO: What if a user re-appears in the Csv after having been
                 // marked as exiting?
-                var nonFinalEmployees = Context.Employees
+                var nonFinalEmployees = context.Employees
                     .Include(e => e.TimelineEntries)
                     .Include(e => e.CurrentEmployeeStatus)
                     .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
@@ -92,13 +95,13 @@ namespace ExitSurveyAdmin.Controllers
 
                 foreach (Employee e in nonFinalEmployees)
                 ***REMOVED***
-                    var employee = await EmployeeReconciler
-                        .UpdateEmployeeStatus(Context, e);
+                    var employee = await employeeReconciler
+                        .UpdateEmployeeStatus(e);
               ***REMOVED***
 
                 // Step 3. For all ACTIVE users in the DB who are NOT in the
                 // Csv, set them to exiting.
-                var activeDBEmployeesNotInCsv = Context.Employees
+                var activeDBEmployeesNotInCsv = context.Employees
                     .Include(e => e.TimelineEntries)
                     .Include(e => e.CurrentEmployeeStatus)
                     .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) // Reproject this as the status might have changed
@@ -108,15 +111,15 @@ namespace ExitSurveyAdmin.Controllers
 
                 foreach (Employee e in activeDBEmployeesNotInCsv)
                 ***REMOVED***
-                    var employee = await EmployeeReconciler
+                    var employee = await employeeReconciler
                         .SaveStatusAndAddTimelineEntry(
-                            Context, e, EmployeeStatusEnum.NotExiting
+                            e, EmployeeStatusEnum.NotExiting
                         );
               ***REMOVED***
           ***REMOVED***
             catch (Exception e)
             ***REMOVED***
-                await LoggingService.LogFailure(Context, TaskEnum.ReconcileCsv,
+                await logger.LogFailure(TaskEnum.ReconcileCsv,
                     $"Error reconciling employee records. Stacktrace:\r\n" +
                     e.StackTrace
                 );

@@ -10,10 +10,10 @@ namespace ExitSurveyAdmin.Services
 ***REMOVED***
     public class EmployeeReconciliationService
     ***REMOVED***
-        private CallWebService CallWeb;
-        private ExitSurveyAdminContext Context;
+        private CallWebService callWeb;
+        private ExitSurveyAdminContext context;
 
-        private EmployeeInfoLookupService InfoLookupService;
+        private EmployeeInfoLookupService infoLookupService;
 
         public EmployeeReconciliationService(
             ExitSurveyAdminContext context,
@@ -21,15 +21,15 @@ namespace ExitSurveyAdmin.Services
             EmployeeInfoLookupService infoLookupService
         )
         ***REMOVED***
-            Context = context;
-            CallWeb = callWeb;
-            InfoLookupService = infoLookupService;
+            this.context = context;
+            this.callWeb = callWeb;
+            this.infoLookupService = infoLookupService;
       ***REMOVED***
 
         // NB. Existence is determined by the combination of EmployeeId,
         // ExitCount, and month of the EffectiveDate.
         private Employee EmployeeExists(
-            ExitSurveyAdminContext context, Employee candidate
+            Employee candidate
         )
         ***REMOVED***
             var query = context.Employees
@@ -50,7 +50,7 @@ namespace ExitSurveyAdmin.Services
       ***REMOVED***
 
         public async Task<Employee> SaveStatusAndAddTimelineEntry(
-            ExitSurveyAdminContext context, Employee employee,
+            Employee employee,
             EmployeeStatusEnum newStatus
         )
         ***REMOVED***
@@ -76,7 +76,7 @@ namespace ExitSurveyAdmin.Services
       ***REMOVED***
 
         public async Task<List<Employee>> ReconcileEmployees(
-            ExitSurveyAdminContext context, List<Employee> employees
+            List<Employee> employees
         )
         ***REMOVED***
             var reconciledEmployeeList = new List<Employee>();
@@ -84,7 +84,7 @@ namespace ExitSurveyAdmin.Services
             // Step 1. Insert and update employees from the CSV.
             foreach (Employee e in employees)
             ***REMOVED***
-                var employee = await ReconcileWithDatabase(context, e);
+                var employee = await ReconcileWithDatabase(e);
                 reconciledEmployeeList.Add(employee);
           ***REMOVED***
 
@@ -96,25 +96,23 @@ namespace ExitSurveyAdmin.Services
         employees, unlike ReconcileEmployees which does so by default.
         */
         public async Task<Employee> ReconcileEmployee(
-            ExitSurveyAdminContext context, Employee employee
+            Employee employee
         )
         ***REMOVED***
             // Simply call the main ReconcileEmployees function, with this
             // single employee as the sole element of a list; then get the
             // employee from the resulting list.
             var reconciledEmployee = (await ReconcileEmployees(
-                context, new List<Employee>() ***REMOVED*** employee ***REMOVED***
+                new List<Employee>() ***REMOVED*** employee ***REMOVED***
             )).ElementAt(0);
 
             return reconciledEmployee;
       ***REMOVED***
 
-        private async Task<Employee> ReconcileWithDatabase(
-            ExitSurveyAdminContext context, Employee employee
-        )
+        private async Task<Employee> ReconcileWithDatabase(Employee employee)
         ***REMOVED***
             // Get the existing employee, if it exists.
-            var existingEmployee = EmployeeExists(context, employee);
+            var existingEmployee = EmployeeExists(employee);
 
             if (existingEmployee == null)
             ***REMOVED***
@@ -125,12 +123,12 @@ namespace ExitSurveyAdmin.Services
                 employee.CurrentEmployeeStatusCode = newStatusCode;
 
                 // Set the email.
-                employee.UpdateEmail(InfoLookupService);
+                employee.UpdateEmail(infoLookupService);
 
                 // Try to insert a row into CallWeb, and set the telkey.
                 try
                 ***REMOVED***
-                    employee.Telkey = await CallWeb.CreateSurvey(employee);
+                    employee.Telkey = await callWeb.CreateSurvey(employee);
               ***REMOVED***
                 catch (Exception e)
                 ***REMOVED***
@@ -223,16 +221,16 @@ namespace ExitSurveyAdmin.Services
 
 
         public async Task<Employee> UpdateEmployeeStatus(
-            ExitSurveyAdminContext context, Employee employee
+            Employee employee
         )
         ***REMOVED***
-            var callWebStatusCode = await CallWeb
+            var callWebStatusCode = await callWeb
                 .GetSurveyStatusCode(employee);
 
             // First, check if the employee has completed the survey.
             if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
             ***REMOVED***
-                return await SaveStatusAndAddTimelineEntry(context, employee,
+                return await SaveStatusAndAddTimelineEntry(employee,
                     EmployeeStatusEnum.SurveyComplete);
           ***REMOVED***
 
@@ -241,7 +239,7 @@ namespace ExitSurveyAdmin.Services
             // TODO: What is the appropriate amount of time to wait for a user?
             if (employee.EffectiveDate.AddMonths(6) < DateTime.UtcNow)
             ***REMOVED***
-                return await SaveStatusAndAddTimelineEntry(context, employee,
+                return await SaveStatusAndAddTimelineEntry(employee,
                     EmployeeStatusEnum.Expired);
           ***REMOVED***
 
