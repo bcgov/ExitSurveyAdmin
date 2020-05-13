@@ -52,6 +52,8 @@ namespace ExitSurveyAdmin
 
             services.AddSingleton<LocalFileService>();
 
+            services.AddScoped<LoggingService>();
+
             services.AddDbContext<ExitSurveyAdminContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("ExitSurveyAdmin")));
