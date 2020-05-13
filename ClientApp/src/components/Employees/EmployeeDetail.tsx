@@ -68,6 +68,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label="Telkey">{e.telkey}</CLText>
               <CLText label="Employee ID">{e.governmentEmployeeId}</CLText>
               <CLText label="Email">{e.governmentEmail}</CLText>
+              <CLText label="Record count">{e.recordCount}</CLText>
             </div>
             <hr />
             <div className="row">

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
 using Microsoft.Extensions.Options;
+using CallWebApi.Models;
 
 namespace ExitSurveyAdmin.Services
 {
@@ -13,10 +14,17 @@ namespace ExitSurveyAdmin.Services
         private CallWebService CallWeb;
         private ExitSurveyAdminContext Context;
 
-        public EmployeeReconciliationService(ExitSurveyAdminContext context, CallWebService callWeb)
+        private EmployeeInfoLookupService InfoLookupService;
+
+        public EmployeeReconciliationService(
+            ExitSurveyAdminContext context,
+            CallWebService callWeb,
+            EmployeeInfoLookupService infoLookupService
+        )
         {
             Context = context;
             CallWeb = callWeb;
+            InfoLookupService = infoLookupService;
         }
 
         // NB. Existence is determined by the combination of EmployeeId,
@@ -113,15 +121,32 @@ namespace ExitSurveyAdmin.Services
             {
                 // Case A. The employee does not exist in the database.
 
+                // Set the status code for a new employee.
+                var newStatusCode = EmployeeStatusEnum.New.Code;
+                employee.CurrentEmployeeStatusCode = newStatusCode;
+
+                // Set the email.
+                employee.UpdateEmail(InfoLookupService);
+
+                // Try to insert a row into CallWeb, and set the telkey.
+                try
+                {
+                    employee.Telkey = await CallWeb.CreateSurvey(employee);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException(
+                        "Inserting a row into CallWeb failed.", e
+                    );
+                }
+
                 // Insert the employee into the database, along with an
                 // appropriate timeline entry. Note that Ids are auto-generated.
-                employee.CurrentEmployeeStatusCode = EmployeeStatusEnum.New.Code;
-
                 employee.TimelineEntries = new List<EmployeeTimelineEntry>();
                 employee.TimelineEntries.Add(new EmployeeTimelineEntry
                 {
                     EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
-                    EmployeeStatusCode = EmployeeStatusEnum.New.Code,
+                    EmployeeStatusCode = newStatusCode,
                     Comment = "Created automatically by script."
                 });
 
@@ -202,8 +227,8 @@ namespace ExitSurveyAdmin.Services
             ExitSurveyAdminContext context, Employee employee
         )
         {
-            var callWebStatusCode = CallWeb
-                .GetSurveyStatusCode(employee.Telkey);
+            var callWebStatusCode = await CallWeb
+                .GetSurveyStatusCode(employee);
 
             // First, check if the employee has completed the survey.
             if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
