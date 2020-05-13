@@ -112,12 +112,8 @@ namespace ExitSurveyAdmin.Models
             {
                 Employee e = ((Employee)entity.Entity);
 
-                // Add the email to the user if it's missing.
-                if (string.IsNullOrWhiteSpace(e.GovernmentEmail))
-                {
-                    e.GovernmentEmail = EmployeeInfoLookup
-                        .EmailByEmployeeId(e.GovernmentEmployeeId);
-                }
+                // Add the email to the user, but only if it's null/empty.
+                e.UpdateEmail(EmployeeInfoLookup, true);
             }
         }
 

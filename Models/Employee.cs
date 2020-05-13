@@ -60,6 +60,9 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string LastName { get; set; }
 
+        [Required]
+        public string RecordCount { get; set; }
+
         [DataType(DataType.Date)]
         [Required]
         public DateTime BirthDate { get; set; }
@@ -162,5 +165,24 @@ namespace ExitSurveyAdmin.Models
         public virtual EmployeeStatusEnum CurrentEmployeeStatus { get; set; }
 
         public virtual List<EmployeeTimelineEntry> TimelineEntries { get; set; }
+
+        public void UpdateEmail(
+            EmployeeInfoLookupService infoLookupService,
+            bool onlyIfNullOrWhitespace = false
+        )
+        {
+            // If the onlyIfNullOrWhitespace flag is set, and the email is
+            // NOT null or whitespace, i.e. is set already, just return; the
+            // function is a no-op in this case.
+            if (onlyIfNullOrWhitespace &&
+                !string.IsNullOrWhiteSpace(GovernmentEmail))
+            {
+                return;
+            }
+
+            // Otherwise, set the email.
+            GovernmentEmail = infoLookupService
+                .EmailByEmployeeId(GovernmentEmployeeId);
+        }
     }
 }
