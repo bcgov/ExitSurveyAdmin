@@ -1,6 +1,6 @@
 using ExitSurveyAdmin.Models;
 
-namespace CallWebApi.Models
+namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
     public class CallWebPostDto
     ***REMOVED***

@@ -1,4 +1,4 @@
-namespace CallWebApi.Models
+namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
     public partial class CallWebRowDto
     ***REMOVED***

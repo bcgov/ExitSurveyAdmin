@@ -1,4 +1,4 @@
-namespace ExitSurveyAdmin.Services
+namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
     public class CallWebServiceOptions
     ***REMOVED***

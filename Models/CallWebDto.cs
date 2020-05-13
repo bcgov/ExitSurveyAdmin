@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace CallWebApi.Models
+namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
     // The data transfer object to use when communicating with the CallWeb API.
     public partial class CallWebDto
