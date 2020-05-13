@@ -94,7 +94,7 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 Employee updatedEmployee = await EmployeeReconciler
-                    .ReconcileEmployee(Context, employee);
+                    .ReconcileEmployee(employee);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -118,7 +118,7 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
             Employee newEmployee = await EmployeeReconciler
-                .ReconcileEmployee(Context, employee);
+                .ReconcileEmployee(employee);
 
             return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
         }
