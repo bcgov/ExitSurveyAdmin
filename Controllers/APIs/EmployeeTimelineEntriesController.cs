@@ -11,18 +11,18 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class EmployeeTimelineEntriesController : ControllerBase
     {
-        private readonly ExitSurveyAdminContext _context;
+        private readonly ExitSurveyAdminContext context;
 
         public EmployeeTimelineEntriesController(ExitSurveyAdminContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: api/EmployeeTimelineEntries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeTimelineEntry>>> GetEmployeeTimelineEntries()
         {
-            return await _context.EmployeeTimelineEntries
+            return await context.EmployeeTimelineEntries
                 .Include(ete => ete.EmployeeAction)
                 .Include(ete => ete.EmployeeStatus)
                 .ToListAsync();
@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeTimelineEntry>> GetEmployeeTimelineEntry(int id)
         {
-            var employeeTimelineEntry = await _context.EmployeeTimelineEntries
+            var employeeTimelineEntry = await context.EmployeeTimelineEntries
                     .Include(ete => ete.EmployeeAction)
                     .Include(ete => ete.EmployeeStatus)
                     .FirstOrDefaultAsync(ete => ete.Id == id);
@@ -52,15 +52,15 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<EmployeeTimelineEntry>> PostEmployeeTimelineEntry(EmployeeTimelineEntry employeeTimelineEntry)
         {
             // TODO: Do proper validation here.
-            _context.EmployeeTimelineEntries.Add(employeeTimelineEntry);
-            await _context.SaveChangesAsync();
+            context.EmployeeTimelineEntries.Add(employeeTimelineEntry);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetEmployeeTimelineEntry), new { id = employeeTimelineEntry.Id }, employeeTimelineEntry);
         }
 
         private bool EmployeeTimelineEntryExists(int id)
         {
-            return _context.EmployeeTimelineEntries.Any(e => e.Id == id);
+            return context.EmployeeTimelineEntries.Any(e => e.Id == id);
         }
     }
 }

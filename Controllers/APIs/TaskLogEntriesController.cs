@@ -11,18 +11,18 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class TaskLogEntriesController : ControllerBase
     {
-        private readonly ExitSurveyAdminContext _context;
+        private readonly ExitSurveyAdminContext context;
 
         public TaskLogEntriesController(ExitSurveyAdminContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: api/TaskLogEntries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskLogEntry>>> GetTaskLogEntries()
         {
-            return await _context.TaskLogEntries
+            return await context.TaskLogEntries
                 .Include(tle => tle.Task)
                 .Include(tle => tle.TaskOutcome)
                 .ToListAsync();
@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(int id)
         {
-            var taskLogEntry = await _context.TaskLogEntries
+            var taskLogEntry = await context.TaskLogEntries
                     .Include(tle => tle.Task)
                     .Include(tle => tle.TaskOutcome)
                     .FirstOrDefaultAsync(tle => tle.Id == id);
@@ -52,15 +52,15 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<TaskLogEntry>> PostTaskLogEntry(TaskLogEntry taskLogEntry)
         {
             // TODO: Do proper validation here.
-            _context.TaskLogEntries.Add(taskLogEntry);
-            await _context.SaveChangesAsync();
+            context.TaskLogEntries.Add(taskLogEntry);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTaskLogEntry), new { id = taskLogEntry.Id }, taskLogEntry);
         }
 
         private bool TaskLogEntryExists(int id)
         {
-            return _context.TaskLogEntries.Any(e => e.Id == id);
+            return context.TaskLogEntries.Any(e => e.Id == id);
         }
     }
 }
