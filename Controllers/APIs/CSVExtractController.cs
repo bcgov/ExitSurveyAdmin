@@ -105,6 +105,7 @@ namespace ExitSurveyAdmin.Controllers
                     .Include(e => e.TimelineEntries)
                     .Include(e => e.CurrentEmployeeStatus)
                     .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) // Reproject this as the status might have changed
+                    .ToList()
                     .Where(e => reconciledEmployeeList.All(e2 => e2.Id != e.Id)) // This finds all nonFinalEmployees whose Id is not in the reconciledEmployeeList
                     .ToList();
 
