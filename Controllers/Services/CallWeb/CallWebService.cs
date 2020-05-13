@@ -38,5 +38,13 @@ namespace ExitSurveyAdmin.Services.CallWeb
 
             return callWebDto.Telkey;
       ***REMOVED***
+
+        public async Task<CallWebRowDto> UpdateSurvey(Employee employee)
+        ***REMOVED***
+            var callWebPatchDto = CallWebPatchDto.FromEmployee(employee);
+            var callWebDto = await CallWebApi.Patch(callWebPatchDto);
+
+            return callWebDto;
+      ***REMOVED***
   ***REMOVED***
 ***REMOVED***
