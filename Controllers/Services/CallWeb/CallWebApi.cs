@@ -63,5 +63,15 @@ namespace ExitSurveyAdmin.Services.CallWeb
 
             return callWebDto;
         }
+
+        public async Task<CallWebRowDto> Patch(CallWebPatchDto patchDto)
+        {
+            var content = ToJsonContent(patchDto);
+
+            var response = await GetClient().PatchAsync(BaseUrl, content);
+            var callWebDto = await CallWebRowFromResponse(response);
+
+            return callWebDto;
+        }
     }
 }

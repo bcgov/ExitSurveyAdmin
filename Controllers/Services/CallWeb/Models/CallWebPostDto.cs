@@ -25,7 +25,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
-                EffectiveDate = employee.EffectiveDate.ToString("yyyy/MM/dd"),
+                EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 ExitCount = employee.ExitCount,
                 AdditionalJobCount = employee.RecordCount,
                 CurrentStatus = employee.CurrentEmployeeStatusCode
