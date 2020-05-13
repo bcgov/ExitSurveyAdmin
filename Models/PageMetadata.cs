@@ -1,6 +1,3 @@
-using System.Linq;
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 // Code adapted from https://code-maze.com/paging-aspnet-core-webapi/

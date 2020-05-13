@@ -1,7 +1,6 @@
-using System.IO;
+using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
-using CsvHelper;
 using ExitSurveyAdmin.Models;
 using System;
 using System.Globalization;
