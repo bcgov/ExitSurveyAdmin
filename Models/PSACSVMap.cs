@@ -30,6 +30,7 @@ public class PsaCsvMap : ClassMap<Employee>
     ***REMOVED***
         // Ordered as they appear in the CSV extract.
         Map(m => m.GovernmentEmployeeId).Name("EmplID");
+        Map(m => m.RecordCount).Name("Empl Rcd");
         Map(m => m.LastName).Name("Last Name");
         Map(m => m.FirstName).Name("First Name");
         Map(m => m.BirthDate).Name("Birthdate");

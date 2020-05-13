@@ -68,6 +68,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label="Telkey">***REMOVED***e.telkey***REMOVED***</CLText>
               <CLText label="Employee ID">***REMOVED***e.governmentEmployeeId***REMOVED***</CLText>
               <CLText label="Email">***REMOVED***e.governmentEmail***REMOVED***</CLText>
+              <CLText label="Record count">***REMOVED***e.recordCount***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">

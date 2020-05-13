@@ -153,6 +153,10 @@ namespace ExitSurveyAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecordCount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ServiceGroup")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
