@@ -1,12 +1,7 @@
-using System.Net;
-using System;
-using System.Text;
-using System.Net.Http;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
 using ExitSurveyAdmin.Models;
-using ExitSurveyAdmin;
+using Microsoft.Extensions.Options;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
