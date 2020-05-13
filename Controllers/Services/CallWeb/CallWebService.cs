@@ -38,5 +38,13 @@ namespace ExitSurveyAdmin.Services.CallWeb
 
             return callWebDto.Telkey;
         }
+
+        public async Task<CallWebRowDto> UpdateSurvey(Employee employee)
+        {
+            var callWebPatchDto = CallWebPatchDto.FromEmployee(employee);
+            var callWebDto = await CallWebApi.Patch(callWebPatchDto);
+
+            return callWebDto;
+        }
     }
 }
