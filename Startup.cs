@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System;
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
@@ -15,6 +16,8 @@ namespace ExitSurveyAdmin
 {
     public class Startup
     {
+        public static readonly string HttpClientName = "HttpClient";
+
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Environment { get; }
 
@@ -75,8 +78,19 @@ namespace ExitSurveyAdmin
                     )
                 );
 
-
-            services.AddHttpClient();
+            // Add an HttpClient.
+            services.AddHttpClient(HttpClientName)
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                var handler = new HttpClientHandler();
+                // Ignore certificate errors ON DEV ONLY.
+                if (Environment.IsDevelopment())
+                {
+                    handler.ServerCertificateCustomValidationCallback +=
+                    (httpRequestMessage, cert, cetChain, policyErrors) => true;
+                }
+                return handler;
+            });
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

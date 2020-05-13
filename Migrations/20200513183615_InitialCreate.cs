@@ -68,6 +68,7 @@ namespace ExitSurveyAdmin.Migrations
                     GovernmentEmployeeId = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
+                    RecordCount = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<string>(nullable: false),
                     GovernmentEmail = table.Column<string>(nullable: true),

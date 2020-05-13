@@ -1,3 +1,5 @@
+using ExitSurveyAdmin.Models;
+
 namespace CallWebApi.Models
 {
     public class CallWebPostDto
@@ -11,5 +13,23 @@ namespace CallWebApi.Models
         public string EffectiveDate { get; set; }
         public string ExitCount { get; set; }
         public string AdditionalJobCount { get; set; }
+        public string CurrentStatus { get; set; }
+
+        public static CallWebPostDto FromEmployee(Employee employee)
+        {
+            return new CallWebPostDto()
+            {
+                EmployeeId = employee.GovernmentEmployeeId,
+                Email = employee.GovernmentEmail,
+                Ministry = employee.Ministry,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                LeaveReason = employee.Reason,
+                EffectiveDate = employee.EffectiveDate.ToString("yyyy/MM/dd"),
+                ExitCount = employee.ExitCount,
+                AdditionalJobCount = employee.RecordCount,
+                CurrentStatus = employee.CurrentEmployeeStatusCode
+            };
+        }
     }
 }

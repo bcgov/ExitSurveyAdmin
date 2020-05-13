@@ -9,6 +9,7 @@ import {
 export interface IEmployeeJSON {
   id: NullableString
   telkey: NullableString
+  recordCount: NullableString
   governmentEmployeeId: NullableString
   firstName: NullableString
   lastName: NullableString
@@ -52,6 +53,7 @@ export interface IEmployeeJSON {
 export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> {
   id?: string
   telkey?: string
+  recordCount?: string
   governmentEmployeeId?: string
   firstName?: string
   lastName?: string
@@ -98,6 +100,7 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> {
   deserialize(input: IEmployeeJSON): Employee {
     this.id = undefinedIfNull(input.id)
     this.telkey = undefinedIfNull(input.telkey)
+    this.recordCount = undefinedIfNull(input.recordCount)
     this.governmentEmployeeId = undefinedIfNull(input.governmentEmployeeId)
     this.firstName = undefinedIfNull(input.firstName)
     this.lastName = undefinedIfNull(input.lastName)
