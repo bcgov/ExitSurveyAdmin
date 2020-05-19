@@ -87,7 +87,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                   fieldName=***REMOVED***'governmentEmail'***REMOVED***
                   fieldValue=***REMOVED***e.governmentEmail!***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
-                ></EditableStringField>
+                />
               </CLText>
               <CLText label=***REMOVED***'Address'***REMOVED***>
                 <Address employee=***REMOVED***e***REMOVED*** />
