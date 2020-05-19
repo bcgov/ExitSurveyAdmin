@@ -79,7 +79,6 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 <Date date=***REMOVED***e.birthDate***REMOVED*** />
               </CLText>
               <CLText label="Age">***REMOVED***e.age***REMOVED***</CLText>
-              <CLText label="Age group">***REMOVED***e.ageGroup***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">
@@ -87,18 +86,13 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 ***REMOVED***e.classificationGroup***REMOVED***
               </CLText>
               <CLText label="Classification">***REMOVED***e.classification***REMOVED***</CLText>
-              <CLText label="Service group">***REMOVED***e.serviceGroup***REMOVED***</CLText>
               <CLText label="Ministry">***REMOVED***e.ministry***REMOVED***</CLText>
               <CLText label="Department ID">***REMOVED***e.departmentId***REMOVED***</CLText>
               <CLText label="Job function code">***REMOVED***e.jobFunctionCode***REMOVED***</CLText>
               <CLText label="Job code">***REMOVED***e.jobCode***REMOVED***</CLText>
               <CLText label="Location city">***REMOVED***e.locationCity***REMOVED***</CLText>
-              <CLText label="Location group">***REMOVED***e.locationGroup***REMOVED***</CLText>
               <CLText label="Original hire date">
                 <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
-              </CLText>
-              <CLText label="Leave date">
-                <Date date=***REMOVED***e.leaveDate***REMOVED*** />
               </CLText>
               <CLText label="Service years">***REMOVED***e.serviceYears***REMOVED***</CLText>
               <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
