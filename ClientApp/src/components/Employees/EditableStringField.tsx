@@ -71,7 +71,9 @@ const EditableStringField = (props: IProps): JSX.Element => {
           />
         </form>
       ) : (
-        <span onClick={toggleEditable}>{fieldValue}</span>
+        <span className="Editable" onClick={toggleEditable}>
+          {fieldValue}
+        </span>
       )}
     </div>
   )
