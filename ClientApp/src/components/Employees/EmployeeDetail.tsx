@@ -71,7 +71,14 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             </div>
             <hr />
             <div className="row">
-              <CLText label="First name">***REMOVED***e.firstName***REMOVED***</CLText>
+              <CLText label="First name">
+                <EditableStringField
+                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  fieldName=***REMOVED***'firstName'***REMOVED***
+                  fieldValue=***REMOVED***e.firstName!***REMOVED***
+                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
+                />
+              </CLText>
               <CLText label="Last name">***REMOVED***e.lastName***REMOVED***</CLText>
               <CLText label="Gender">***REMOVED***e.gender***REMOVED***</CLText>
               <CLText label="Birth date">
