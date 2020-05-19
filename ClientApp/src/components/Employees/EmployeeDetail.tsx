@@ -13,6 +13,7 @@ import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
+import { EEXIST } from 'constants'
 
 interface IParams {
   employeeId: string
@@ -136,6 +137,14 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label="Position code">{e.positionCode}</CLText>
             </div>
             <hr />
+            <div className="row text-muted">
+              <CLText label="Created date">
+                <Date date={e.createdTs} showTime showLocalTimezone />
+              </CLText>
+              <CLText label="Last modified date">
+                <Date date={e.modifiedTs} showTime showLocalTimezone />
+              </CLText>
+            </div>
           </div>
           <div className="col-4">
             <h3>Timeline</h3>
@@ -172,8 +181,10 @@ class EmployeeDetail extends React.Component<IProps, IState> {
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON): void =>
+      (responseJSON: IEmployeeJSON): void => {
+        console.log(responseJSON)
         this.setState({ employee: new Employee(responseJSON) })
+      }
     )
   }
 }
