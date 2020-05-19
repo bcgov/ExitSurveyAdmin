@@ -67,8 +67,6 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label="Database ID">***REMOVED***e.id***REMOVED***</CLText>
               <CLText label="Telkey">***REMOVED***e.telkey***REMOVED***</CLText>
               <CLText label="Employee ID">***REMOVED***e.governmentEmployeeId***REMOVED***</CLText>
-              <CLText label="Email">***REMOVED***e.governmentEmail***REMOVED***</CLText>
-              <CLText label="Record count">***REMOVED***e.recordCount***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">
@@ -82,25 +80,17 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             </div>
             <hr />
             <div className="row">
-              <CLText label="Classification group">
-                ***REMOVED***e.classificationGroup***REMOVED***
+              <CLText label="Email">***REMOVED***e.governmentEmail***REMOVED***</CLText>
+              <CLText label=***REMOVED***'Address'***REMOVED***>
+                <Address employee=***REMOVED***e***REMOVED*** />
               </CLText>
-              <CLText label="Classification">***REMOVED***e.classification***REMOVED***</CLText>
-              <CLText label="Ministry">***REMOVED***e.ministry***REMOVED***</CLText>
-              <CLText label="Department ID">***REMOVED***e.departmentId***REMOVED***</CLText>
-              <CLText label="Job function code">***REMOVED***e.jobFunctionCode***REMOVED***</CLText>
-              <CLText label="Job code">***REMOVED***e.jobCode***REMOVED***</CLText>
-              <CLText label="Location city">***REMOVED***e.locationCity***REMOVED***</CLText>
-              <CLText label="Original hire date">
-                <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
-              </CLText>
-              <CLText label="Service years">***REMOVED***e.serviceYears***REMOVED***</CLText>
-              <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
-              <CLText label="Position code">***REMOVED***e.positionCode***REMOVED***</CLText>
-              <CLText label="Back dated">***REMOVED***e.backDated***REMOVED***</CLText>
+              <CLText label=***REMOVED***'Phone'***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">
+              <CLText label="Original hire date">
+                <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
+              </CLText>
               <CLText label="Last day worked date">
                 <Date date=***REMOVED***e.lastDayWorkedDate***REMOVED*** />
               </CLText>
@@ -109,14 +99,25 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               </CLText>
               <CLText label="Reason">***REMOVED***e.reason***REMOVED***</CLText>
               <CLText label="Exit count">***REMOVED***e.exitCount***REMOVED***</CLText>
+              <CLText label="Record count">***REMOVED***e.recordCount***REMOVED***</CLText>
+              <CLText label="Back dated">***REMOVED***e.backDated***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***'Address'***REMOVED***>
-                <Address employee=***REMOVED***e***REMOVED*** />
+              <CLText label="Ministry">***REMOVED***e.ministry***REMOVED***</CLText>
+              <CLText label="Department ID">***REMOVED***e.departmentId***REMOVED***</CLText>
+              <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
+              <CLText label="Classification group">
+                ***REMOVED***e.classificationGroup***REMOVED***
               </CLText>
-              <CLText label=***REMOVED***'Phone'***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
+              <CLText label="Classification">***REMOVED***e.classification***REMOVED***</CLText>
+              <CLText label="Job function code">***REMOVED***e.jobFunctionCode***REMOVED***</CLText>
+              <CLText label="Job code">***REMOVED***e.jobCode***REMOVED***</CLText>
+              <CLText label="Location city">***REMOVED***e.locationCity***REMOVED***</CLText>
+              <CLText label="Service years">***REMOVED***e.serviceYears***REMOVED***</CLText>
+              <CLText label="Position code">***REMOVED***e.positionCode***REMOVED***</CLText>
             </div>
+            <hr />
           </div>
           <div className="col-4">
             <h3>Timeline</h3>
