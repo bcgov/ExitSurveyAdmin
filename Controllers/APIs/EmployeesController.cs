@@ -15,7 +15,7 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     ***REMOVED***
-        private readonly ExitSurveyAdminContext Context;
+        private readonly ExitSurveyAdminContext context;
         private readonly SieveProcessor SieveProcessor;
         private readonly EmployeeInfoLookupService EmployeeInfoLookup;
         private readonly EmployeeReconciliationService EmployeeReconciler;
@@ -27,7 +27,7 @@ namespace ExitSurveyAdmin.Controllers
             EmployeeReconciliationService employeeReconciler
         )
         ***REMOVED***
-            Context = context;
+            this.context = context;
             SieveProcessor = sieveProcessor;
             EmployeeInfoLookup = employeeInfoLookup;
             EmployeeReconciler = employeeReconciler;
@@ -51,7 +51,7 @@ namespace ExitSurveyAdmin.Controllers
           ***REMOVED***
 
             // Employee query.
-            var employees = Context.Employees
+            var employees = context.Employees
                 .AsNoTracking()
                 .Include(e => e.TimelineEntries);
 
@@ -65,12 +65,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         ***REMOVED***
-            var employee = await Context.Employees
-                .Include(e => e.TimelineEntries)
-                .FirstOrDefaultAsync(i => i.Id == id);
-
-            var email = EmployeeInfoLookup
-                .EmailByEmployeeId(employee.GovernmentEmployeeId);
+            var employee = await FindById(id);
 
             if (employee == null)
             ***REMOVED***
@@ -80,21 +75,23 @@ namespace ExitSurveyAdmin.Controllers
             return employee;
       ***REMOVED***
 
-        // PUT: api/Employees/5
+        // PATCH: api/Employees/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("***REMOVED***id***REMOVED***")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        [HttpPatch("***REMOVED***id***REMOVED***")]
+        public async Task<IActionResult> PatchEmployee(int id, EmployeePatchDto employeePatchDto)
         ***REMOVED***
-            if (id != employee.Id)
-            ***REMOVED***
-                return BadRequest();
-          ***REMOVED***
+            var existingEmployee = await FindById(id);
+
+            var updatedEmployee = employeePatchDto
+                .ApplyPatch(existingEmployee);
+
+            context.Entry(updatedEmployee).State = EntityState.Modified;
 
             try
             ***REMOVED***
-                Employee updatedEmployee = await EmployeeReconciler
-                    .ReconcileEmployee(employee);
+                await context.SaveChangesAsync();
+                return Ok(updatedEmployee);
           ***REMOVED***
             catch (DbUpdateConcurrencyException)
             ***REMOVED***
@@ -107,8 +104,6 @@ namespace ExitSurveyAdmin.Controllers
                     throw;
               ***REMOVED***
           ***REMOVED***
-
-            return NoContent();
       ***REMOVED***
 
         // POST: api/Employees
@@ -127,21 +122,30 @@ namespace ExitSurveyAdmin.Controllers
         [HttpDelete("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         ***REMOVED***
-            var employee = await Context.Employees.FindAsync(id);
+            var employee = await context.Employees.FindAsync(id);
             if (employee == null)
             ***REMOVED***
                 return NotFound();
           ***REMOVED***
 
-            Context.Employees.Remove(employee);
-            await Context.SaveChangesAsync();
+            context.Employees.Remove(employee);
+            await context.SaveChangesAsync();
 
             return employee;
       ***REMOVED***
 
         private bool EmployeeExists(int id)
         ***REMOVED***
-            return Context.Employees.Any(e => e.Id == id);
+            return context.Employees.Any(e => e.Id == id);
+      ***REMOVED***
+
+        private async Task<Employee> FindById(int id)
+        ***REMOVED***
+            var employee = await context.Employees
+                .Include(e => e.TimelineEntries)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            return employee;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

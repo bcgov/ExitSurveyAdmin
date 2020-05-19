@@ -12,6 +12,7 @@ import Address from '../DisplayHelpers/Address'
 import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
+import EditableStringField from './EditableStringField'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -80,7 +81,14 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             </div>
             <hr />
             <div className="row">
-              <CLText label="Email">***REMOVED***e.governmentEmail***REMOVED***</CLText>
+              <CLText label=***REMOVED***'Email'***REMOVED***>
+                <EditableStringField
+                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  fieldName=***REMOVED***'governmentEmail'***REMOVED***
+                  fieldValue=***REMOVED***e.governmentEmail!***REMOVED***
+                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
+                ></EditableStringField>
+              </CLText>
               <CLText label=***REMOVED***'Address'***REMOVED***>
                 <Address employee=***REMOVED***e***REMOVED*** />
               </CLText>
