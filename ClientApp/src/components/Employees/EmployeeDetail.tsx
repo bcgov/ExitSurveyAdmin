@@ -13,6 +13,7 @@ import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
+import ***REMOVED*** EEXIST ***REMOVED*** from 'constants'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -136,6 +137,14 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label="Position code">***REMOVED***e.positionCode***REMOVED***</CLText>
             </div>
             <hr />
+            <div className="row text-muted">
+              <CLText label="Created date">
+                <Date date=***REMOVED***e.createdTs***REMOVED*** showTime showLocalTimezone />
+              </CLText>
+              <CLText label="Last modified date">
+                <Date date=***REMOVED***e.modifiedTs***REMOVED*** showTime showLocalTimezone />
+              </CLText>
+            </div>
           </div>
           <div className="col-4">
             <h3>Timeline</h3>
@@ -172,8 +181,10 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON): void =>
+      (responseJSON: IEmployeeJSON): void => ***REMOVED***
+        console.log(responseJSON)
         this.setState(***REMOVED*** employee: new Employee(responseJSON) ***REMOVED***)
+    ***REMOVED***
     )
 ***REMOVED***
 ***REMOVED***

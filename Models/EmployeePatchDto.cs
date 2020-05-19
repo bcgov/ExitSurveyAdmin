@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ExitSurveyAdmin.Models
 ***REMOVED***
-    public class EmployeePatchDto : BaseEntity
+    public class EmployeePatchDto
     ***REMOVED***
         public string GovernmentEmail ***REMOVED*** get; set; ***REMOVED***
         public string FirstName ***REMOVED*** get; set; ***REMOVED***
@@ -22,10 +22,14 @@ namespace ExitSurveyAdmin.Models
         public string Reason ***REMOVED*** get; set; ***REMOVED***
 
 
+        // TODO: Very similar code exists in EmployeeReconciliationService.
+        // Factor it out.
         public Employee ApplyPatch(Employee existingEmployee)
         ***REMOVED***
             var existingProperties = existingEmployee.GetType().GetProperties();
             var newProperties = this.GetType().GetProperties();
+
+            List<string> fieldsUpdatedList = new List<string>();
 
             foreach (var newProperty in newProperties)
             ***REMOVED***
@@ -39,11 +43,14 @@ namespace ExitSurveyAdmin.Models
 
                 if (existingProperty != null)
                 ***REMOVED***
+                    var existingValue = existingProperty.GetValue(existingEmployee);
                     if (patchedValue != null)
                     ***REMOVED***
                         // Only set the value if it's not null.
                         existingProperty
                             .SetValue(existingEmployee, patchedValue);
+                        fieldsUpdatedList
+                            .Add($"***REMOVED***newProperty.Name***REMOVED***: `***REMOVED***existingValue***REMOVED***` → `***REMOVED***patchedValue***REMOVED***`");
                   ***REMOVED***
               ***REMOVED***
                 else
@@ -54,6 +61,18 @@ namespace ExitSurveyAdmin.Models
                     );
               ***REMOVED***
           ***REMOVED***
+
+            string fieldsUpdated = String.Join(", ", fieldsUpdatedList);
+
+            // Create a new timeline entry.
+            existingEmployee.TimelineEntries.Add(new EmployeeTimelineEntry
+            ***REMOVED***
+                EmployeeId = existingEmployee.Id,
+                EmployeeActionCode = EmployeeActionEnum.UpdateByAdmin.Code,
+                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                Comment = $"Fields updated by admin: ***REMOVED***fieldsUpdated***REMOVED***."
+          ***REMOVED***);
+
 
             return existingEmployee;
       ***REMOVED***
