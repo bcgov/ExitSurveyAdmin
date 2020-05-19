@@ -79,7 +79,6 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <Date date={e.birthDate} />
               </CLText>
               <CLText label="Age">{e.age}</CLText>
-              <CLText label="Age group">{e.ageGroup}</CLText>
             </div>
             <hr />
             <div className="row">
@@ -87,18 +86,13 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 {e.classificationGroup}
               </CLText>
               <CLText label="Classification">{e.classification}</CLText>
-              <CLText label="Service group">{e.serviceGroup}</CLText>
               <CLText label="Ministry">{e.ministry}</CLText>
               <CLText label="Department ID">{e.departmentId}</CLText>
               <CLText label="Job function code">{e.jobFunctionCode}</CLText>
               <CLText label="Job code">{e.jobCode}</CLText>
               <CLText label="Location city">{e.locationCity}</CLText>
-              <CLText label="Location group">{e.locationGroup}</CLText>
               <CLText label="Original hire date">
                 <Date date={e.originalHireDate} />
-              </CLText>
-              <CLText label="Leave date">
-                <Date date={e.leaveDate} />
               </CLText>
               <CLText label="Service years">{e.serviceYears}</CLText>
               <CLText label="Appointment status">{e.appointmentStatus}</CLText>
