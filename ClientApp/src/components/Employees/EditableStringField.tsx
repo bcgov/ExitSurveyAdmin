@@ -71,7 +71,9 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
           />
         </form>
       ) : (
-        <span onClick=***REMOVED***toggleEditable***REMOVED***>***REMOVED***fieldValue***REMOVED***</span>
+        <span className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
+          ***REMOVED***fieldValue***REMOVED***
+        </span>
       )***REMOVED***
     </div>
   )

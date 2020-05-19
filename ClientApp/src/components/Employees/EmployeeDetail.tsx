@@ -8,7 +8,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ContentWrapper from '../Wrappers/ContentWrapper'
 import CLText from '../DisplayHelpers/ColumnarLabelledText'
 import Date from '../DisplayHelpers/FormattedDate'
-import Address from '../DisplayHelpers/Address'
+import EditableAddress from './EditableAddress'
 import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
@@ -97,7 +97,10 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 />
               </CLText>
               <CLText label=***REMOVED***'Address'***REMOVED***>
-                <Address employee=***REMOVED***e***REMOVED*** />
+                <EditableAddress
+                  employee=***REMOVED***e***REMOVED***
+                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
+                />
               </CLText>
               <CLText label=***REMOVED***'Phone'***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
             </div>
