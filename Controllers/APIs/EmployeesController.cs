@@ -15,7 +15,7 @@ namespace ExitSurveyAdmin.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly ExitSurveyAdminContext Context;
+        private readonly ExitSurveyAdminContext context;
         private readonly SieveProcessor SieveProcessor;
         private readonly EmployeeInfoLookupService EmployeeInfoLookup;
         private readonly EmployeeReconciliationService EmployeeReconciler;
@@ -27,7 +27,7 @@ namespace ExitSurveyAdmin.Controllers
             EmployeeReconciliationService employeeReconciler
         )
         {
-            Context = context;
+            this.context = context;
             SieveProcessor = sieveProcessor;
             EmployeeInfoLookup = employeeInfoLookup;
             EmployeeReconciler = employeeReconciler;
@@ -51,7 +51,7 @@ namespace ExitSurveyAdmin.Controllers
             }
 
             // Employee query.
-            var employees = Context.Employees
+            var employees = context.Employees
                 .AsNoTracking()
                 .Include(e => e.TimelineEntries);
 
@@ -65,12 +65,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
-            var employee = await Context.Employees
-                .Include(e => e.TimelineEntries)
-                .FirstOrDefaultAsync(i => i.Id == id);
-
-            var email = EmployeeInfoLookup
-                .EmailByEmployeeId(employee.GovernmentEmployeeId);
+            var employee = await FindById(id);
 
             if (employee == null)
             {
@@ -80,21 +75,23 @@ namespace ExitSurveyAdmin.Controllers
             return employee;
         }
 
-        // PUT: api/Employees/5
+        // PATCH: api/Employees/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchEmployee(int id, EmployeePatchDto employeePatchDto)
         {
-            if (id != employee.Id)
-            {
-                return BadRequest();
-            }
+            var existingEmployee = await FindById(id);
+
+            var updatedEmployee = employeePatchDto
+                .ApplyPatch(existingEmployee);
+
+            context.Entry(updatedEmployee).State = EntityState.Modified;
 
             try
             {
-                Employee updatedEmployee = await EmployeeReconciler
-                    .ReconcileEmployee(employee);
+                await context.SaveChangesAsync();
+                return Ok(updatedEmployee);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -107,8 +104,6 @@ namespace ExitSurveyAdmin.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Employees
@@ -127,21 +122,30 @@ namespace ExitSurveyAdmin.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         {
-            var employee = await Context.Employees.FindAsync(id);
+            var employee = await context.Employees.FindAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
-            Context.Employees.Remove(employee);
-            await Context.SaveChangesAsync();
+            context.Employees.Remove(employee);
+            await context.SaveChangesAsync();
 
             return employee;
         }
 
         private bool EmployeeExists(int id)
         {
-            return Context.Employees.Any(e => e.Id == id);
+            return context.Employees.Any(e => e.Id == id);
+        }
+
+        private async Task<Employee> FindById(int id)
+        {
+            var employee = await context.Employees
+                .Include(e => e.TimelineEntries)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            return employee;
         }
     }
 }
