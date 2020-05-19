@@ -87,7 +87,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                   fieldName={'governmentEmail'}
                   fieldValue={e.governmentEmail!}
                   refreshDataCallback={this.populateData}
-                ></EditableStringField>
+                />
               </CLText>
               <CLText label={'Address'}>
                 <Address employee={e} />
