@@ -67,8 +67,6 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label="Database ID">{e.id}</CLText>
               <CLText label="Telkey">{e.telkey}</CLText>
               <CLText label="Employee ID">{e.governmentEmployeeId}</CLText>
-              <CLText label="Email">{e.governmentEmail}</CLText>
-              <CLText label="Record count">{e.recordCount}</CLText>
             </div>
             <hr />
             <div className="row">
@@ -82,25 +80,17 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             </div>
             <hr />
             <div className="row">
-              <CLText label="Classification group">
-                {e.classificationGroup}
+              <CLText label="Email">{e.governmentEmail}</CLText>
+              <CLText label={'Address'}>
+                <Address employee={e} />
               </CLText>
-              <CLText label="Classification">{e.classification}</CLText>
-              <CLText label="Ministry">{e.ministry}</CLText>
-              <CLText label="Department ID">{e.departmentId}</CLText>
-              <CLText label="Job function code">{e.jobFunctionCode}</CLText>
-              <CLText label="Job code">{e.jobCode}</CLText>
-              <CLText label="Location city">{e.locationCity}</CLText>
-              <CLText label="Original hire date">
-                <Date date={e.originalHireDate} />
-              </CLText>
-              <CLText label="Service years">{e.serviceYears}</CLText>
-              <CLText label="Appointment status">{e.appointmentStatus}</CLText>
-              <CLText label="Position code">{e.positionCode}</CLText>
-              <CLText label="Back dated">{e.backDated}</CLText>
+              <CLText label={'Phone'}>{e.phone}</CLText>
             </div>
             <hr />
             <div className="row">
+              <CLText label="Original hire date">
+                <Date date={e.originalHireDate} />
+              </CLText>
               <CLText label="Last day worked date">
                 <Date date={e.lastDayWorkedDate} />
               </CLText>
@@ -109,14 +99,25 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               </CLText>
               <CLText label="Reason">{e.reason}</CLText>
               <CLText label="Exit count">{e.exitCount}</CLText>
+              <CLText label="Record count">{e.recordCount}</CLText>
+              <CLText label="Back dated">{e.backDated}</CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label={'Address'}>
-                <Address employee={e} />
+              <CLText label="Ministry">{e.ministry}</CLText>
+              <CLText label="Department ID">{e.departmentId}</CLText>
+              <CLText label="Appointment status">{e.appointmentStatus}</CLText>
+              <CLText label="Classification group">
+                {e.classificationGroup}
               </CLText>
-              <CLText label={'Phone'}>{e.phone}</CLText>
+              <CLText label="Classification">{e.classification}</CLText>
+              <CLText label="Job function code">{e.jobFunctionCode}</CLText>
+              <CLText label="Job code">{e.jobCode}</CLText>
+              <CLText label="Location city">{e.locationCity}</CLText>
+              <CLText label="Service years">{e.serviceYears}</CLText>
+              <CLText label="Position code">{e.positionCode}</CLText>
             </div>
+            <hr />
           </div>
           <div className="col-4">
             <h3>Timeline</h3>
