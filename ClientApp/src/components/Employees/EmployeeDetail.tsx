@@ -149,7 +149,6 @@ class EmployeeDetail extends React.Component<IProps, IState> {
   }
 
   async populateData(): Promise<void> {
-    console.log('here we are')
     await requestJSONWithErrorHandler(
       `api/employees/${this.props.match.params.employeeId}`,
       'get',
