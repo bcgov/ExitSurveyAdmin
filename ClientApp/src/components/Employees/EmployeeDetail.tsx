@@ -139,10 +139,14 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             <hr />
             <div className="row text-muted">
               <CLText label="Created date">
-                <Date date=***REMOVED***e.createdTs***REMOVED*** showTime showLocalTimezone />
+                <small>
+                  <Date date=***REMOVED***e.createdTs***REMOVED*** showTime showLocalTimezone />
+                </small>
               </CLText>
               <CLText label="Last modified date">
-                <Date date=***REMOVED***e.modifiedTs***REMOVED*** showTime showLocalTimezone />
+                <small>
+                  <Date date=***REMOVED***e.modifiedTs***REMOVED*** showTime showLocalTimezone />
+                </small>
               </CLText>
             </div>
           </div>
