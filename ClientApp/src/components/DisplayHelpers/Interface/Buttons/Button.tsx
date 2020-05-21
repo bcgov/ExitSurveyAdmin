@@ -1,0 +1,34 @@
+import React from 'react'
+
+export interface ICommonButtonProps {
+  colorType?: string
+  classes?: string
+  marginClasses?: string
+  onClick?: () => void
+  size?: string
+}
+
+interface IProps extends ICommonButtonProps {
+  children: React.ReactNode
+  icon?: string
+}
+
+class Button extends React.Component<IProps> {
+  public render(): JSX.Element {
+    const { onClick, children } = this.props
+    const classes = this.props.classes || ''
+    const colorType = this.props.colorType || 'primary'
+    const marginClasses = this.props.marginClasses || ''
+    const size = this.props.size ? `btn-${this.props.size}` : ''
+    return (
+      <button
+        className={`btn ${size} btn-${colorType} ${marginClasses} ${classes}`}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    )
+  }
+}
+
+export default Button

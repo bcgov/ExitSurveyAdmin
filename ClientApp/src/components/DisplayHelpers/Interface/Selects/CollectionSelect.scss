@@ -1,0 +1,10 @@
+@import "../../../../common.module";
+
+.ReactSelect.form-control {
+  padding: 0px !important;
+  border: none !important;
+  height: auto !important;
+  .css-spersy-control {
+    border-radius: 0 !important;
+  }
+}
