@@ -13,7 +13,8 @@ import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
-import { EEXIST } from 'constants'
+import EditableDropdown from './EditableDropdown'
+import { EmployeeStatus } from '../../types/EmployeeStatusEnum'
 
 interface IParams {
   employeeId: string
@@ -58,7 +59,15 @@ class EmployeeDetail extends React.Component<IProps, IState> {
           </div>
           <div className="col">
             <LabelledText label={'Current status'}>
-              <h3>{e.currentEmployeeStatusCode}</h3>
+              <h3 className="mt-1">
+                <EditableDropdown
+                  employeeDatabaseId={e.id!}
+                  fieldName="currentEmployeeStatusCode"
+                  fieldValue={e.currentEmployeeStatusCode!}
+                  refreshDataCallback={this.populateData}
+                  options={EmployeeStatus.toOptions()}
+                />
+              </h3>
             </LabelledText>
           </div>
         </div>
