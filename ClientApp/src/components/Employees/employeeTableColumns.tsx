@@ -15,6 +15,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'telkey'
 ***REMOVED***
   ***REMOVED***
+    Header: 'Employee ID',
+    accessor: 'governmentEmployeeId'
+***REMOVED***
+  ***REMOVED***
     Header: 'First name',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
@@ -31,6 +35,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   ***REMOVED***
     Header: 'Email',
     accessor: 'governmentEmail'
+***REMOVED***
+  ***REMOVED***
+    Header: 'Exit count',
+    accessor: 'exitCount'
 ***REMOVED***
   ***REMOVED***
     Header: 'Classification',
