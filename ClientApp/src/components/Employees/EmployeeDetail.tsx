@@ -69,7 +69,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <EditableDropdown
                   employeeDatabaseId={e.id!}
                   fieldName="currentEmployeeStatusCode"
-                  fieldValue={e.currentEmployeeStatusCode!}
+                  fieldValue={e.currentEmployeeStatusCode!.displayName}
                   refreshDataCallback={this.populateData}
                   options={EmployeeStatus.toOptions()}
                 />
@@ -135,11 +135,11 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <EditableDropdown
                   employeeDatabaseId={e.id!}
                   fieldName="reason"
-                  fieldValue={e.reason!}
+                  fieldValue={e.reason!.reasonCode}
                   refreshDataCallback={this.populateData}
                   options={Reason.toOptionsByAppointmentStatus(
                     (AppointmentStatusEnum as FixTypeLater)[
-                      e.appointmentStatus!
+                      e.appointmentStatus!.appointmentStatusCode
                     ]
                   )}
                 />
@@ -156,7 +156,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <EditableDropdown
                   employeeDatabaseId={e.id!}
                   fieldName="appointmentStatus"
-                  fieldValue={e.appointmentStatus!}
+                  fieldValue={e.appointmentStatus!.appointmentStatusCode}
                   refreshDataCallback={this.populateData}
                   options={AppointmentStatus.toOptions()}
                 />
@@ -189,7 +189,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             <h3>Timeline</h3>
             <AddComment
               employeeDatabaseId={e.id!}
-              employeeStatusCode={e.currentEmployeeStatusCode!}
+              employeeStatusCode={e.currentEmployeeStatusCode!.code}
               refreshDataCallback={this.populateData}
             />
             {e.timelineEntries && (

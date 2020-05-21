@@ -121,7 +121,8 @@ export class EmployeeStatus {
     return dictionary
   }
 
-  static statusByKey = (key: string): EmployeeStatus => {
+  static statusByKey = (key?: string): EmployeeStatus | undefined => {
+    if (!key) return undefined
     return EmployeeStatus.statusDictionary()[key]
   }
 

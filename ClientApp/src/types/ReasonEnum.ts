@@ -166,7 +166,8 @@ export class Reason {
     return dictionary
   }
 
-  static reasonByKey = (key: ReasonEnum): Reason | undefined => {
+  static reasonByKey = (key?: ReasonEnum): Reason | undefined => {
+    if (!key) return undefined
     return Reason.reasonDictionary()[key]
   }
 
