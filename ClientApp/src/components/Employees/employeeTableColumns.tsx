@@ -39,7 +39,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   ***REMOVED***
     Header: 'Exit effective date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
-      <FormattedDate date=***REMOVED***dateOrUndefined(props.value as string)***REMOVED*** />
+      <FormattedDate
+        showLocalTimezone
+        date=***REMOVED***dateOrUndefined(props.value as string)***REMOVED***
+      />
     ),
     accessor: 'effectiveDate'
 ***REMOVED***
