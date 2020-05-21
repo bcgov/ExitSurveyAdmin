@@ -5,11 +5,23 @@ import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
 import ExportData from '../DisplayHelpers/ExportData'
+import ***REMOVED*** RouteComponentProps ***REMOVED*** from 'react-router'
+import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
+
+export interface ISort ***REMOVED***
+  id: string
+  desc: boolean
+***REMOVED***
+
+export interface IFilter ***REMOVED***
+  id: string
+  value: string
+***REMOVED***
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
 a desc sort. If the sortBy array is empty, return the empty string. */
-const processSorts = (sortBy: FixTypeLater): string => ***REMOVED***
+const processSorts = (sortBy: ISort[]): string => ***REMOVED***
   return sortBy.length
     ? `&sorts=$***REMOVED***sortBy
         .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
@@ -17,11 +29,25 @@ const processSorts = (sortBy: FixTypeLater): string => ***REMOVED***
     : ''
 ***REMOVED***
 
+const extractSortsFromQuery = (queryString: string): ISort[] => ***REMOVED***
+  return queryString.split(',').map(s => ***REMOVED***
+    return s.startsWith('-')
+      ? ***REMOVED***
+          id: s.substring(1), // Strip off the minus sign
+          desc: true
+      ***REMOVED***
+      : ***REMOVED***
+          id: s,
+          desc: false
+      ***REMOVED***
+***REMOVED***)
+***REMOVED***
+
 /** Maps the filters array produced by the react-table to a string that can be
 used by the server API, of the kind &filters=Col1@=someString. The @=
 operator means 'Col1 contains someString'. For a full list of operators see
 the documentation for Sieve: https://github.com/Biarity/Sieve/#operators */
-const processFilters = (filters: FixTypeLater): string => ***REMOVED***
+const processFilters = (filters: IFilter[]): string => ***REMOVED***
   return filters.length
     ? `&filters=$***REMOVED***filters
         .map((f: FixTypeLater) => `$***REMOVED***f.id***REMOVED***@=$***REMOVED***f.value***REMOVED***`)
@@ -29,7 +55,21 @@ const processFilters = (filters: FixTypeLater): string => ***REMOVED***
     : ''
 ***REMOVED***
 
-const EmployeeListing = (): JSX.Element => ***REMOVED***
+const extractFiltersFromQuery = (queryString: string): IFilter[] => ***REMOVED***
+  return queryString.split(',').map(s => ***REMOVED***
+    const [column, filter] = s.split('@=') // Split on the 'contains' operator
+    return ***REMOVED***
+      id: column,
+      value: filter
+  ***REMOVED***
+***REMOVED***)
+***REMOVED***
+
+interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
+
+const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
+  console.log(props.location)
+
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -41,18 +81,23 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
 
   // Called when the table needs new data
   const fetchData = React.useCallback(
-    (***REMOVED*** pageIndex, sortBy, filters ***REMOVED***) => ***REMOVED***
+    (***REMOVED*** pageIndex, sortBy ***REMOVED***) => ***REMOVED***
       // Give this fetch an ID and set the loading state
       const fetchId = ++fetchIdRef.current
       setLoading(true)
 
       // Get the sort and filter querystrings for the server call
       setSortQuery(processSorts(sortBy))
-      setFilterQuery(processFilters(filters))
+      // setFilterQuery(processFilters(filters))
+
+      console.log(sortBy, sortQuery)
+      // console.log(filters, filterQuery)
+
+      const path = `employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
 
       if (fetchId === fetchIdRef.current) ***REMOVED***
         requestJSONWithErrorHandler(
-          `api/employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
+          `api/$***REMOVED***path***REMOVED***`,
           'get',
           null,
           'EMPLOYEE_NOT_FOUND',
@@ -73,6 +118,11 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
 
   return (
     <>
+      <FilterPanel
+        onChangeCallback=***REMOVED***(filters: IFilter[]): void => ***REMOVED***
+          setFilterQuery(processFilters(filters))
+      ***REMOVED******REMOVED***
+      />
       <EmployeeTable
         data=***REMOVED***data***REMOVED***
         fetchData=***REMOVED***fetchData***REMOVED***

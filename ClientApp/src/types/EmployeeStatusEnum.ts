@@ -121,7 +121,8 @@ export class EmployeeStatus ***REMOVED***
     return dictionary
 ***REMOVED***
 
-  static statusByKey = (key: string): EmployeeStatus => ***REMOVED***
+  static statusByKey = (key?: string): EmployeeStatus | undefined => ***REMOVED***
+    if (!key) return undefined
     return EmployeeStatus.statusDictionary()[key]
 ***REMOVED***
 

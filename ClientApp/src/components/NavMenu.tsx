@@ -13,7 +13,7 @@ class NavMenu extends React.Component<IProps, IState> ***REMOVED***
 
   render(): JSX.Element ***REMOVED***
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <Link to="/" className="navbar-brand">
           Exit Survey Admin
         </Link>

@@ -4,6 +4,8 @@ import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
+import ***REMOVED*** Reason ***REMOVED*** from '../../types/ReasonEnum'
+import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatusEnum'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>
@@ -56,10 +58,16 @@ export const employeeTableColumns = (): Column<Employee>[] => [
 ***REMOVED***
   ***REMOVED***
     Header: 'Leave reason',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <>***REMOVED***((props.value as unknown) as Reason).reasonCode***REMOVED***</>
+    ),
     accessor: 'reason'
 ***REMOVED***
   ***REMOVED***
     Header: 'Status',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <>***REMOVED***((props.value as unknown) as EmployeeStatus).displayName***REMOVED***</>
+    ),
     accessor: 'currentEmployeeStatusCode'
 ***REMOVED***
   ***REMOVED***

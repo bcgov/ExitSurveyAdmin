@@ -69,7 +69,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 <EditableDropdown
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName="currentEmployeeStatusCode"
-                  fieldValue=***REMOVED***e.currentEmployeeStatusCode!***REMOVED***
+                  fieldValue=***REMOVED***e.currentEmployeeStatusCode!.displayName***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                   options=***REMOVED***EmployeeStatus.toOptions()***REMOVED***
                 />
@@ -135,11 +135,11 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 <EditableDropdown
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName="reason"
-                  fieldValue=***REMOVED***e.reason!***REMOVED***
+                  fieldValue=***REMOVED***e.reason!.reasonCode***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                   options=***REMOVED***Reason.toOptionsByAppointmentStatus(
                     (AppointmentStatusEnum as FixTypeLater)[
-                      e.appointmentStatus!
+                      e.appointmentStatus!.appointmentStatusCode
                     ]
                   )***REMOVED***
                 />
@@ -156,7 +156,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 <EditableDropdown
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName="appointmentStatus"
-                  fieldValue=***REMOVED***e.appointmentStatus!***REMOVED***
+                  fieldValue=***REMOVED***e.appointmentStatus!.appointmentStatusCode***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                   options=***REMOVED***AppointmentStatus.toOptions()***REMOVED***
                 />
@@ -189,7 +189,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             <h3>Timeline</h3>
             <AddComment
               employeeDatabaseId=***REMOVED***e.id!***REMOVED***
-              employeeStatusCode=***REMOVED***e.currentEmployeeStatusCode!***REMOVED***
+              employeeStatusCode=***REMOVED***e.currentEmployeeStatusCode!.code***REMOVED***
               refreshDataCallback=***REMOVED***this.populateData***REMOVED***
             />
             ***REMOVED***e.timelineEntries && (

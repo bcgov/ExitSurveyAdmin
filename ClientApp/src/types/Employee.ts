@@ -5,6 +5,9 @@ import ***REMOVED***
   EmployeeTimelineEntry,
   IEmployeeTimelineEntryJSON
 ***REMOVED*** from './EmployeeTimelineEntry'
+import ***REMOVED*** Reason, ReasonEnum ***REMOVED*** from './ReasonEnum'
+import ***REMOVED*** EmployeeStatus ***REMOVED*** from './EmployeeStatusEnum'
+import ***REMOVED*** AppointmentStatus, AppointmentStatusEnum ***REMOVED*** from './AppointmentStatus'
 
 export interface IEmployeeJSON ***REMOVED***
   id: NullableString
@@ -68,14 +71,14 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
   originalHireDate?: Date
   lastDayWorkedDate?: Date
   effectiveDate?: Date
-  reason?: string
+  reason?: Reason
   address1?: string
   address2?: string
   addressCity?: string
   addressProvince?: string
   addressPostCode?: string
   phone?: string
-  appointmentStatus?: string
+  appointmentStatus?: AppointmentStatus
   positionCode?: string
   age?: string
   leaveDate?: Date
@@ -87,8 +90,7 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
   classificationGroup?: string
   serviceGroup?: string
   locationGroup?: string
-  currentEmployeeStatusCode?: string
-  currentEmployeeStatus?: string
+  currentEmployeeStatusCode?: EmployeeStatus
   timelineEntries!: EmployeeTimelineEntry[]
   createdTs?: Date
   modifiedTs?: Date
@@ -115,14 +117,18 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
     this.originalHireDate = dateOrUndefined(input.originalHireDate)
     this.lastDayWorkedDate = dateOrUndefined(input.lastDayWorkedDate)
     this.effectiveDate = dateOrUndefined(input.effectiveDate)
-    this.reason = undefinedIfNull(input.reason)
+    this.reason = Reason.reasonByKey(
+      undefinedIfNull(input.reason) as ReasonEnum
+    )
     this.address1 = undefinedIfNull(input.address1)
     this.address2 = undefinedIfNull(input.address2)
     this.addressCity = undefinedIfNull(input.addressCity)
     this.addressProvince = undefinedIfNull(input.addressProvince)
     this.addressPostCode = undefinedIfNull(input.addressPostCode)
     this.phone = undefinedIfNull(input.phone)
-    this.appointmentStatus = undefinedIfNull(input.appointmentStatus)
+    this.appointmentStatus = AppointmentStatus.statusByKey(
+      undefinedIfNull(input.appointmentStatus) as AppointmentStatusEnum
+    )
     this.positionCode = undefinedIfNull(input.positionCode)
     this.age = undefinedIfNull(input.age)
     this.leaveDate = dateOrUndefined(input.leaveDate)
@@ -134,10 +140,9 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
     this.classificationGroup = undefinedIfNull(input.classificationGroup)
     this.serviceGroup = undefinedIfNull(input.serviceGroup)
     this.locationGroup = undefinedIfNull(input.locationGroup)
-    this.currentEmployeeStatusCode = undefinedIfNull(
-      input.currentEmployeeStatusCode
+    this.currentEmployeeStatusCode = EmployeeStatus.statusByKey(
+      undefinedIfNull(input.currentEmployeeStatusCode)
     )
-    this.currentEmployeeStatus = undefinedIfNull(input.currentEmployeeStatus)
     this.timelineEntries = EmployeeTimelineEntry.deserializeArray(
       input.timelineEntries
     )

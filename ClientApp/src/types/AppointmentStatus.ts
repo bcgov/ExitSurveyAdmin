@@ -41,8 +41,9 @@ export class AppointmentStatus ***REMOVED***
 ***REMOVED***
 
   static statusByKey = (
-    key: AppointmentStatusEnum
+    key?: AppointmentStatusEnum
   ): AppointmentStatus | undefined => ***REMOVED***
+    if (!key) return undefined
     return AppointmentStatus.statusDictionary()[key]
 ***REMOVED***
 

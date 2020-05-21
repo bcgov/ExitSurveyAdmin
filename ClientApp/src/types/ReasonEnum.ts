@@ -166,7 +166,8 @@ export class Reason ***REMOVED***
     return dictionary
 ***REMOVED***
 
-  static reasonByKey = (key: ReasonEnum): Reason | undefined => ***REMOVED***
+  static reasonByKey = (key?: ReasonEnum): Reason | undefined => ***REMOVED***
+    if (!key) return undefined
     return Reason.reasonDictionary()[key]
 ***REMOVED***
 

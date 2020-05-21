@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** useFilters, usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
+import ***REMOVED*** usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
@@ -59,7 +59,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: ***REMOVED*** pageIndex, pageSize, sortBy, filters ***REMOVED***
+    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***
 ***REMOVED***: FixTypeLater = useTable(
     ***REMOVED***
       columns,
@@ -74,14 +74,13 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
       autoResetSortBy: false,
       autoResetFilters: false
   ***REMOVED*** as FixTypeLater,
-    useFilters,
     useSortBy,
     usePagination
   )
 
   React.useEffect(() => ***REMOVED***
-    fetchData(***REMOVED*** pageIndex, sortBy, filters ***REMOVED***)
-***REMOVED*** [fetchData, pageIndex, sortBy, filters])
+    fetchData(***REMOVED*** pageIndex, sortBy ***REMOVED***)
+***REMOVED*** [fetchData, pageIndex, sortBy])
 
   return (
     <>
