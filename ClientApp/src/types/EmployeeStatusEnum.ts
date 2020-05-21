@@ -1,4 +1,4 @@
-import { ISelectOption } from '../components/Employees/EditableDropdown'
+import { ISelectOption } from '../components/Employees/EditableSelect'
 
 export enum EmployeeStatusCodeEnum {
   New = 'New',
