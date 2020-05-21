@@ -1,4 +1,4 @@
-import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableDropdown'
+import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 
 export enum EmployeeStatusCodeEnum ***REMOVED***
   New = 'New',

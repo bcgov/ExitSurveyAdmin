@@ -13,7 +13,7 @@ import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
-import EditableDropdown from './EditableDropdown'
+import EditableDropdown from './EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatusEnum'
 
 interface IParams ***REMOVED***
