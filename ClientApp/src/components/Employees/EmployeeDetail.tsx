@@ -15,6 +15,12 @@ import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatusEnum'
+import ***REMOVED***
+  AppointmentStatus,
+  AppointmentStatusEnum
+***REMOVED*** from '../../types/AppointmentStatus'
+import ***REMOVED*** Reason ***REMOVED*** from '../../types/ReasonEnum'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -125,7 +131,19 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label="Effective date">
                 <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
               </CLText>
-              <CLText label="Reason">***REMOVED***e.reason***REMOVED***</CLText>
+              <CLText label="Reason">
+                <EditableDropdown
+                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  fieldName="reason"
+                  fieldValue=***REMOVED***e.reason!***REMOVED***
+                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
+                  options=***REMOVED***Reason.toOptionsByAppointmentStatus(
+                    (AppointmentStatusEnum as FixTypeLater)[
+                      e.appointmentStatus!
+                    ]
+                  )***REMOVED***
+                />
+              </CLText>
               <CLText label="Exit count">***REMOVED***e.exitCount***REMOVED***</CLText>
               <CLText label="Record count">***REMOVED***e.recordCount***REMOVED***</CLText>
               <CLText label="Back dated">***REMOVED***e.backDated***REMOVED***</CLText>
@@ -134,7 +152,15 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             <div className="row">
               <CLText label="Ministry">***REMOVED***e.ministry***REMOVED***</CLText>
               <CLText label="Department ID">***REMOVED***e.departmentId***REMOVED***</CLText>
-              <CLText label="Appointment status">***REMOVED***e.appointmentStatus***REMOVED***</CLText>
+              <CLText label="Appointment status">
+                <EditableDropdown
+                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  fieldName="appointmentStatus"
+                  fieldValue=***REMOVED***e.appointmentStatus!***REMOVED***
+                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
+                  options=***REMOVED***AppointmentStatus.toOptions()***REMOVED***
+                />
+              </CLText>
               <CLText label="Classification group">
                 ***REMOVED***e.classificationGroup***REMOVED***
               </CLText>
