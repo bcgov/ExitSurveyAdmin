@@ -4,6 +4,8 @@ import { CellProps, Column } from 'react-table'
 import { Link } from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { dateOrUndefined } from '../../helpers/objectHelper'
+import { Reason } from '../../types/ReasonEnum'
+import { EmployeeStatus } from '../../types/EmployeeStatusEnum'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>
@@ -56,10 +58,16 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   },
   {
     Header: 'Leave reason',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <>{((props.value as unknown) as Reason).reasonCode}</>
+    ),
     accessor: 'reason'
   },
   {
     Header: 'Status',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <>{((props.value as unknown) as EmployeeStatus).displayName}</>
+    ),
     accessor: 'currentEmployeeStatusCode'
   },
   {
