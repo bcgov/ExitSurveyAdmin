@@ -15,6 +15,12 @@ import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
 import { EmployeeStatus } from '../../types/EmployeeStatusEnum'
+import {
+  AppointmentStatus,
+  AppointmentStatusEnum
+} from '../../types/AppointmentStatus'
+import { Reason } from '../../types/ReasonEnum'
+import { FixTypeLater } from '../../types/FixTypeLater'
 
 interface IParams {
   employeeId: string
@@ -125,7 +131,19 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label="Effective date">
                 <Date date={e.effectiveDate} />
               </CLText>
-              <CLText label="Reason">{e.reason}</CLText>
+              <CLText label="Reason">
+                <EditableDropdown
+                  employeeDatabaseId={e.id!}
+                  fieldName="reason"
+                  fieldValue={e.reason!}
+                  refreshDataCallback={this.populateData}
+                  options={Reason.toOptionsByAppointmentStatus(
+                    (AppointmentStatusEnum as FixTypeLater)[
+                      e.appointmentStatus!
+                    ]
+                  )}
+                />
+              </CLText>
               <CLText label="Exit count">{e.exitCount}</CLText>
               <CLText label="Record count">{e.recordCount}</CLText>
               <CLText label="Back dated">{e.backDated}</CLText>
@@ -134,7 +152,15 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             <div className="row">
               <CLText label="Ministry">{e.ministry}</CLText>
               <CLText label="Department ID">{e.departmentId}</CLText>
-              <CLText label="Appointment status">{e.appointmentStatus}</CLText>
+              <CLText label="Appointment status">
+                <EditableDropdown
+                  employeeDatabaseId={e.id!}
+                  fieldName="appointmentStatus"
+                  fieldValue={e.appointmentStatus!}
+                  refreshDataCallback={this.populateData}
+                  options={AppointmentStatus.toOptions()}
+                />
+              </CLText>
               <CLText label="Classification group">
                 {e.classificationGroup}
               </CLText>
