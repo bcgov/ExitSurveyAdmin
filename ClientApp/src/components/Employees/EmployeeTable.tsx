@@ -84,7 +84,7 @@ const EmployeeTable = (props: IProps): JSX.Element => ***REMOVED***
 
   return (
     <>
-      <table className="table table-sm table-striped" ***REMOVED***...getTableProps()***REMOVED***>
+      <table className="table table-sm table-striped mt-3" ***REMOVED***...getTableProps()***REMOVED***>
         <thead>
           ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => (
             <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>

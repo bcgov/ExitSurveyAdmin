@@ -34,6 +34,8 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
     [key: string]: string
 ***REMOVED***>(***REMOVED******REMOVED***)
 
+  const formRef = React.useRef<HTMLFormElement>(null)
+
   const submitFilters = (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
     event.preventDefault()
     const filters = Object.keys(localFilters).map(key => (***REMOVED***
@@ -42,6 +44,7 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
   ***REMOVED***))
     props.addFilters(filters)
     setLocalFilters(***REMOVED******REMOVED***)
+    formRef.current?.reset()
 ***REMOVED***
 
   const setValue = React.useCallback(
@@ -58,7 +61,13 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
     props.resetFilters()
 ***REMOVED*** [localFilters])
 
-  const fields = ['firstName', 'lastName']
+  const fields = [
+    'firstName',
+    'lastName',
+    'telkey',
+    'governmentEmployeeId',
+    'classification'
+  ]
 
   const inputs = fields.map(
     (key): JSX.Element => (
@@ -74,7 +83,7 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
 
   return (
     <div className="FilterForm">
-      <form onSubmit=***REMOVED***submitFilters***REMOVED***>
+      <form onSubmit=***REMOVED***submitFilters***REMOVED*** ref=***REMOVED***formRef***REMOVED***>
         <div className="row">
           ***REMOVED***inputs***REMOVED***
           <div className="col-12 form-group LabelledItem">
