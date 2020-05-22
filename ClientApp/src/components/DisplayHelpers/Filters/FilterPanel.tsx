@@ -12,12 +12,12 @@ interface IProps ***REMOVED***
 ***REMOVED***
 
 const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
-  const [expanded, setExpanded] = React.useState(false)
+  const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<IFilter[]>([])
 
-  const addFilter = React.useCallback((filter: IFilter): void => ***REMOVED***
-    const filtersClone = [...filters]
-    filtersClone.push(filter)
+  const addFilters = React.useCallback((filtersToAdd: IFilter[]): void => ***REMOVED***
+    const filtersClone = [...filters].concat([...filtersToAdd])
+    console.log('filtersClone', filtersClone)
     setFilters(filtersClone)
 ***REMOVED*** [])
 
@@ -28,7 +28,14 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
     setFilters(filtersClone)
 ***REMOVED*** [])
 
+  const resetFilters = React.useCallback((): void => ***REMOVED***
+    setFilters([])
+***REMOVED*** [])
+
   React.useEffect(() => props.onChangeCallback(filters), [filters])
+  React.useEffect(() => ***REMOVED***
+    console.log(filters)
+***REMOVED*** [filters])
 
   const expandedHeight = expanded ? '200px' : '0px'
   const expandButtonText = expanded ? 'Hide' : 'Expand'
@@ -105,7 +112,11 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
       ***REMOVED******REMOVED***
       >
         <div className="col py-3">
-          <FilterForm />
+          <FilterForm
+            addFilters=***REMOVED***addFilters***REMOVED***
+            filters=***REMOVED***filters***REMOVED***
+            resetFilters=***REMOVED***resetFilters***REMOVED***
+          />
         </div>
       </div>
     </div>

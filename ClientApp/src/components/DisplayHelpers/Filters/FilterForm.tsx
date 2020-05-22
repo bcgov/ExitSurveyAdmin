@@ -4,25 +4,72 @@ import LabelledInput from '../Interface/LabelledItems/LabelledInput'
 import LabelledItem from '../Interface/LabelledItems/LabelledItem'
 import IconButton from '../Interface/Buttons/IconButton'
 import StudyDesignSelect from '../Interface/Selects/StudyDesignSelect'
-import CountrySelect from '../Interface/Selects/CountrySelect'
 import TreatmentSelect from '../Interface/Selects/TreatmentSelect'
 import NHLSubtypeSelect from '../Interface/Selects/NHLSubtypeSelect'
+import ***REMOVED*** IFilter ***REMOVED*** from '../../Employees/EmployeeListing'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 
-interface IProps ***REMOVED******REMOVED***
+interface IProps ***REMOVED***
+  addFilters: (filters: IFilter[]) => void
+  // removeFilter: (filter: IFilter) => void
+  // setFilters: (filters: IFilter[]) => void
+  resetFilters: () => void
+  filters: IFilter[]
+***REMOVED***
 
-export default class FilterForm extends React.Component<IProps> ***REMOVED***
-  public render(): JSX.Element ***REMOVED***
-    return (
-      <div className="FilterForm">
-        ***REMOVED***/* <LabelledInput title="Abstract ID" placeholder="12345" />
-        <LabelledInput title="First author" placeholder="Smith" />
-        <LabelledInput title="Title" placeholder="Multicohort phase study" />
-        <hr /> */***REMOVED***
+// export const useInput = (initialValue: string): FixTypeLater => ***REMOVED***
+//   const [value, setValue] = React.useState(initialValue)
+
+//   return ***REMOVED***
+//     value,
+//     setValue,
+//     reset: (): void => setValue(''),
+//     bind: ***REMOVED***
+//       value,
+//       onChange: (event: FixTypeLater): void => ***REMOVED***
+//         setValue(event.target.value)
+//     ***REMOVED***
+//   ***REMOVED***
+// ***REMOVED***
+// ***REMOVED***
+
+const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
+  const [localFilters, setLocalFilters] = React.useState<***REMOVED***
+    [key: string]: string
+***REMOVED***>(***REMOVED******REMOVED***)
+
+  const submitFilters = (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
+    event.preventDefault()
+    const filters = Object.keys(localFilters).map(key => (***REMOVED***
+      id: key,
+      value: localFilters[key]
+  ***REMOVED***))
+    console.log('filters', filters)
+    props.addFilters(filters)
+    setLocalFilters(***REMOVED******REMOVED***)
+***REMOVED***
+
+  const setValue = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => ***REMOVED***
+      const newObject = Object.assign(***REMOVED******REMOVED***, localFilters)
+      newObject[event.target.name] = event.target.value
+      console.log('newObject', newObject)
+      setLocalFilters(newObject)
+  ***REMOVED***
+    []
+  )
+
+  return (
+    <div className="FilterForm">
+      <form onSubmit=***REMOVED***submitFilters***REMOVED***>
         <div className="row">
           <div className="col">
-            <LabelledItem>
-              <CountrySelect />
-            </LabelledItem>
+            <LabelledInput
+              title="First name"
+              placeholder="First name"
+              name="firstName"
+              onChange=***REMOVED***setValue***REMOVED***
+            />
             <LabelledItem>
               <TreatmentSelect />
             </LabelledItem>
@@ -41,10 +88,13 @@ export default class FilterForm extends React.Component<IProps> ***REMOVED***
             </div> */***REMOVED***
             <div className="row">
               <div className="col">
-                <LabelledInput title="Pub. start year" placeholder="2005" />
+                ***REMOVED***/* <LabelledInput
+                  title="Eff. date from"
+                  placeholder="2020-04-01"
+                /> */***REMOVED***
               </div>
               <div className="col">
-                <LabelledInput title="End year" placeholder="2020" />
+                ***REMOVED***/* <LabelledInput title="Eff. date to" placeholder="2020-04-30" /> */***REMOVED***
               </div>
               <div className="col-12 form-group LabelledItem">
                 <label>&nbsp;</label>
@@ -54,20 +104,24 @@ export default class FilterForm extends React.Component<IProps> ***REMOVED***
                     iconName="check"
                     marginClasses="mr-3"
                     iconMarginClasses="mr-2"
+                    submit
                   />
                   <IconButton
                     label="Reset all filters"
                     iconName="undo"
                     colorType="secondary"
                     iconMarginClasses="mr-2"
+                    onClick=***REMOVED***props.resetFilters***REMOVED***
                   />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        ***REMOVED***/* <hr className="mt-0" /> */***REMOVED***
-      </div>
-    )
+      </form>
+      ***REMOVED***/* <hr className="mt-0" /> */***REMOVED***
+    </div>
+  )
 ***REMOVED***
-***REMOVED***
+
+export default FilterForm
