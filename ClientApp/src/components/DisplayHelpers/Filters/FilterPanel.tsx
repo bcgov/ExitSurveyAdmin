@@ -76,7 +76,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
                   colorType="secondary"
                   classes="NoOutline NoBackground Faded"
                   iconClasses="fa-lg"
-                  onClick={() => setExpanded(!expanded)}
+                  onClick={(): void => setExpanded(!expanded)}
                 />
               )}
               {!expanded && (
@@ -89,7 +89,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
                   colorType="secondary"
                   classes="NoOutline NoBackground Faded"
                   iconClasses="fa-lg"
-                  onClick={() => setExpanded(!expanded)}
+                  onClick={(): void => setExpanded(!expanded)}
                 />
               )}
             </div>
