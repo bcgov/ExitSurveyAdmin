@@ -1,13 +1,9 @@
 import React from 'react'
 
 import LabelledInput from '../Interface/LabelledItems/LabelledInput'
-import LabelledItem from '../Interface/LabelledItems/LabelledItem'
 import IconButton from '../Interface/Buttons/IconButton'
-import StudyDesignSelect from '../Interface/Selects/StudyDesignSelect'
-import TreatmentSelect from '../Interface/Selects/TreatmentSelect'
-import NHLSubtypeSelect from '../Interface/Selects/NHLSubtypeSelect'
 import { IFilter } from '../../Employees/EmployeeListing'
-import { FixTypeLater } from '../../../types/FixTypeLater'
+import { employeeFieldLabels } from '../../../types/Employee'
 
 interface IProps {
   addFilters: (filters: IFilter[]) => void
@@ -44,27 +40,34 @@ const FilterForm = (props: IProps): JSX.Element => {
       id: key,
       value: localFilters[key]
     }))
-    console.log('filters', filters)
     props.addFilters(filters)
     setLocalFilters({})
   }
 
   const setValue = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newObject = Object.assign({}, localFilters)
+      const newObject = { ...localFilters }
       newObject[event.target.name] = event.target.value
-      console.log('newObject', newObject)
       setLocalFilters(newObject)
     },
-    []
+    [localFilters]
   )
 
-  const fields = [{ key: 'firstName', title: 'First name' }]
+  const reset = React.useCallback((): void => {
+    setLocalFilters({})
+    props.resetFilters()
+  }, [localFilters])
+
+  const fields = ['firstName', 'lastName']
 
   const inputs = fields.map(
-    ({ key, title }): JSX.Element => (
+    (key): JSX.Element => (
       <div key={key} className="col-2">
-        <LabelledInput title={title} name={key} onChange={setValue} />
+        <LabelledInput
+          title={employeeFieldLabels[key]}
+          name={key}
+          onChange={setValue}
+        />
       </div>
     )
   )
@@ -72,7 +75,29 @@ const FilterForm = (props: IProps): JSX.Element => {
   return (
     <div className="FilterForm">
       <form onSubmit={submitFilters}>
-        <div className="row">{inputs}</div>
+        <div className="row">
+          {inputs}
+          <div className="col-12 form-group LabelledItem">
+            <label>&nbsp;</label>
+            <div className="text-right">
+              <IconButton
+                label="Add filters"
+                iconName="check"
+                marginClasses="mr-3"
+                iconMarginClasses="mr-2"
+                submit
+              />
+              <IconButton
+                label="Reset all filters"
+                iconName="undo"
+                colorType="secondary"
+                iconMarginClasses="mr-2"
+                onClick={reset}
+                reset
+              />
+            </div>
+          </div>
+        </div>
       </form>
       {/* <hr className="mt-0" /> */}
     </div>
