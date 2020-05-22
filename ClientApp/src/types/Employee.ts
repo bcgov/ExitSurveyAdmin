@@ -53,6 +53,49 @@ export interface IEmployeeJSON ***REMOVED***
   modifiedTs: NullableString
 ***REMOVED***
 
+export const employeeFieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVED***
+  id: 'Database ID',
+  telkey: 'Telkey',
+  recordCount: 'Record count',
+  governmentEmployeeId: 'Employee ID',
+  firstName: 'First name',
+  lastName: 'Last name',
+  birthDate: 'Birth date',
+  gender: 'Gender',
+  governmentEmail: 'Email',
+  classification: 'Classification',
+  ministry: 'Ministry',
+  departmentId: 'Department ID',
+  jobFunctionCode: 'Job function code',
+  locationCity: 'Location city',
+  originalHireDate: 'Original hire date',
+  lastDayWorkedDate: 'Last day worked date',
+  effectiveDate: 'Effective date',
+  reason: 'Reason',
+  address1: 'Address line 1',
+  address2: 'Address line 2',
+  addressCity: 'Address city',
+  addressProvince: 'Address province',
+  addressPostCode: 'Address post code',
+  phone: 'Phone',
+  appointmentStatus: 'Appointment status',
+  positionCode: 'Position code',
+  age: 'Age',
+  leaveDate: 'Leave date',
+  serviceYears: 'Service years',
+  jobCode: 'Job code',
+  backDated: 'Back dated',
+  exitCount: 'Exit count',
+  ageGroup: 'Age group',
+  classificationGroup: 'Classification group',
+  serviceGroup: 'Service group',
+  locationGroup: 'Location group',
+  currentEmployeeStatusCode: '',
+  timelineEntries: '',
+  createdTs: 'Created date',
+  modifiedTs: 'Last modified date'
+***REMOVED***
+
 export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***REMOVED***
   id?: string
   telkey?: string
