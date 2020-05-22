@@ -68,8 +68,6 @@ const extractFiltersFromQuery = (queryString: string): IFilter[] => ***REMOVED**
 interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
 
 const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
-  console.log(props.location)
-
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -90,7 +88,7 @@ const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
       setSortQuery(processSorts(sortBy))
       // setFilterQuery(processFilters(filters))
 
-      console.log(sortBy, sortQuery)
+      // console.log(sortBy, sortQuery)
       // console.log(filters, filterQuery)
 
       const path = `employees?page=$***REMOVED***pageIndex + 1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`

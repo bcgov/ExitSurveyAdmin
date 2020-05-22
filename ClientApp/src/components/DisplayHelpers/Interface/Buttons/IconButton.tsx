@@ -12,6 +12,7 @@ interface IProps extends ICommonButtonProps ***REMOVED***
   iconType?: string
   label: React.ReactNode
   submit?: boolean
+  reset?: boolean
 ***REMOVED***
 
 class IconButton extends React.Component<IProps> ***REMOVED***

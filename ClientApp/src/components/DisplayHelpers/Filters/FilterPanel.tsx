@@ -15,27 +15,29 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<IFilter[]>([])
 
-  const addFilters = React.useCallback((filtersToAdd: IFilter[]): void => ***REMOVED***
-    const filtersClone = [...filters].concat([...filtersToAdd])
-    console.log('filtersClone', filtersClone)
-    setFilters(filtersClone)
-***REMOVED*** [])
+  const addFilters = React.useCallback(
+    (filtersToAdd: IFilter[]): void => ***REMOVED***
+      const filtersClone = [...filters].concat([...filtersToAdd])
+      setFilters(filtersClone)
+  ***REMOVED***
+    [filters]
+  )
 
-  const removeFilter = React.useCallback((filter: IFilter): void => ***REMOVED***
-    const filtersClone = [...filters]
-    const index = filtersClone.findIndex(f => f.id === filter.id)
-    if (index > -1) filtersClone.splice(index, 1)
-    setFilters(filtersClone)
-***REMOVED*** [])
+  const removeFilter = React.useCallback(
+    (filter: IFilter): void => ***REMOVED***
+      const filtersClone = [...filters]
+      const index = filtersClone.findIndex(f => f.id === filter.id)
+      if (index > -1) filtersClone.splice(index, 1)
+      setFilters(filtersClone)
+  ***REMOVED***
+    [filters]
+  )
 
   const resetFilters = React.useCallback((): void => ***REMOVED***
     setFilters([])
-***REMOVED*** [])
+***REMOVED*** [filters])
 
   React.useEffect(() => props.onChangeCallback(filters), [filters])
-  React.useEffect(() => ***REMOVED***
-    console.log(filters)
-***REMOVED*** [filters])
 
   const expandedHeight = expanded ? '200px' : '0px'
   const expandButtonText = expanded ? 'Hide' : 'Expand'

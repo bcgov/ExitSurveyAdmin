@@ -1,13 +1,9 @@
 import React from 'react'
 
 import LabelledInput from '../Interface/LabelledItems/LabelledInput'
-import LabelledItem from '../Interface/LabelledItems/LabelledItem'
 import IconButton from '../Interface/Buttons/IconButton'
-import StudyDesignSelect from '../Interface/Selects/StudyDesignSelect'
-import TreatmentSelect from '../Interface/Selects/TreatmentSelect'
-import NHLSubtypeSelect from '../Interface/Selects/NHLSubtypeSelect'
 import ***REMOVED*** IFilter ***REMOVED*** from '../../Employees/EmployeeListing'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
+import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
 
 interface IProps ***REMOVED***
   addFilters: (filters: IFilter[]) => void
@@ -44,27 +40,34 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
       id: key,
       value: localFilters[key]
   ***REMOVED***))
-    console.log('filters', filters)
     props.addFilters(filters)
     setLocalFilters(***REMOVED******REMOVED***)
 ***REMOVED***
 
   const setValue = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => ***REMOVED***
-      const newObject = Object.assign(***REMOVED******REMOVED***, localFilters)
+      const newObject = ***REMOVED*** ...localFilters ***REMOVED***
       newObject[event.target.name] = event.target.value
-      console.log('newObject', newObject)
       setLocalFilters(newObject)
   ***REMOVED***
-    []
+    [localFilters]
   )
 
-  const fields = [***REMOVED*** key: 'firstName', title: 'First name' ***REMOVED***]
+  const reset = React.useCallback((): void => ***REMOVED***
+    setLocalFilters(***REMOVED******REMOVED***)
+    props.resetFilters()
+***REMOVED*** [localFilters])
+
+  const fields = ['firstName', 'lastName']
 
   const inputs = fields.map(
-    (***REMOVED*** key, title ***REMOVED***): JSX.Element => (
+    (key): JSX.Element => (
       <div key=***REMOVED***key***REMOVED*** className="col-2">
-        <LabelledInput title=***REMOVED***title***REMOVED*** name=***REMOVED***key***REMOVED*** onChange=***REMOVED***setValue***REMOVED*** />
+        <LabelledInput
+          title=***REMOVED***employeeFieldLabels[key]***REMOVED***
+          name=***REMOVED***key***REMOVED***
+          onChange=***REMOVED***setValue***REMOVED***
+        />
       </div>
     )
   )
@@ -72,7 +75,29 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
   return (
     <div className="FilterForm">
       <form onSubmit=***REMOVED***submitFilters***REMOVED***>
-        <div className="row">***REMOVED***inputs***REMOVED***</div>
+        <div className="row">
+          ***REMOVED***inputs***REMOVED***
+          <div className="col-12 form-group LabelledItem">
+            <label>&nbsp;</label>
+            <div className="text-right">
+              <IconButton
+                label="Add filters"
+                iconName="check"
+                marginClasses="mr-3"
+                iconMarginClasses="mr-2"
+                submit
+              />
+              <IconButton
+                label="Reset all filters"
+                iconName="undo"
+                colorType="secondary"
+                iconMarginClasses="mr-2"
+                onClick=***REMOVED***reset***REMOVED***
+                reset
+              />
+            </div>
+          </div>
+        </div>
       </form>
       ***REMOVED***/* <hr className="mt-0" /> */***REMOVED***
     </div>

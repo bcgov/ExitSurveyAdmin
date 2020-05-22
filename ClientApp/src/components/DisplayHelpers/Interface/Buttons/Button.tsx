@@ -7,6 +7,7 @@ export interface ICommonButtonProps ***REMOVED***
   onClick?: () => void
   size?: string
   submit?: boolean
+  reset?: boolean
 ***REMOVED***
 
 interface IProps extends ICommonButtonProps ***REMOVED***
@@ -16,7 +17,7 @@ interface IProps extends ICommonButtonProps ***REMOVED***
 
 class Button extends React.Component<IProps> ***REMOVED***
   public render(): JSX.Element ***REMOVED***
-    const ***REMOVED*** onClick, children ***REMOVED*** = this.props
+    const ***REMOVED*** onClick, children, submit, reset ***REMOVED*** = this.props
     const classes = this.props.classes || ''
     const colorType = this.props.colorType || 'primary'
     const marginClasses = this.props.marginClasses || ''
@@ -25,7 +26,7 @@ class Button extends React.Component<IProps> ***REMOVED***
       <button
         className=***REMOVED***`btn $***REMOVED***size***REMOVED*** btn-$***REMOVED***colorType***REMOVED*** $***REMOVED***marginClasses***REMOVED*** $***REMOVED***classes***REMOVED***`***REMOVED***
         onClick=***REMOVED***onClick***REMOVED***
-        type=***REMOVED***this.props.submit ? 'submit' : 'button'***REMOVED***
+        type=***REMOVED***submit ? 'submit' : reset ? 'reset' : 'button'***REMOVED***
       >
         ***REMOVED***children***REMOVED***
       </button>
