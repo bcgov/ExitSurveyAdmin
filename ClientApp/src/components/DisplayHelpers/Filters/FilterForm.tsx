@@ -59,65 +59,20 @@ const FilterForm = (props: IProps): JSX.Element => {
     []
   )
 
+  const fields = [{ key: 'firstName', title: 'First name' }]
+
+  const inputs = fields.map(
+    ({ key, title }): JSX.Element => (
+      <div key={key} className="col-2">
+        <LabelledInput title={title} name={key} onChange={setValue} />
+      </div>
+    )
+  )
+
   return (
     <div className="FilterForm">
       <form onSubmit={submitFilters}>
-        <div className="row">
-          <div className="col">
-            <LabelledInput
-              title="First name"
-              placeholder="First name"
-              name="firstName"
-              onChange={setValue}
-            />
-            <LabelledItem>
-              <TreatmentSelect />
-            </LabelledItem>
-          </div>
-          <div className="col">
-            <LabelledItem>
-              <StudyDesignSelect />
-            </LabelledItem>
-            <LabelledItem>
-              <NHLSubtypeSelect />
-            </LabelledItem>
-          </div>
-          <div className="col">
-            {/* <div className="LabelledItem">
-              <label style={{ lineHeight: '100%' }}>Publication between</label>
-            </div> */}
-            <div className="row">
-              <div className="col">
-                {/* <LabelledInput
-                  title="Eff. date from"
-                  placeholder="2020-04-01"
-                /> */}
-              </div>
-              <div className="col">
-                {/* <LabelledInput title="Eff. date to" placeholder="2020-04-30" /> */}
-              </div>
-              <div className="col-12 form-group LabelledItem">
-                <label>&nbsp;</label>
-                <div className="text-right">
-                  <IconButton
-                    label="Add filters"
-                    iconName="check"
-                    marginClasses="mr-3"
-                    iconMarginClasses="mr-2"
-                    submit
-                  />
-                  <IconButton
-                    label="Reset all filters"
-                    iconName="undo"
-                    colorType="secondary"
-                    iconMarginClasses="mr-2"
-                    onClick={props.resetFilters}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="row">{inputs}</div>
       </form>
       {/* <hr className="mt-0" /> */}
     </div>
