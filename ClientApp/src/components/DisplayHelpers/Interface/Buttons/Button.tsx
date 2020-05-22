@@ -6,6 +6,7 @@ export interface ICommonButtonProps {
   marginClasses?: string
   onClick?: () => void
   size?: string
+  submit?: boolean
 }
 
 interface IProps extends ICommonButtonProps {
@@ -24,6 +25,7 @@ class Button extends React.Component<IProps> {
       <button
         className={`btn ${size} btn-${colorType} ${marginClasses} ${classes}`}
         onClick={onClick}
+        type={this.props.submit ? 'submit' : 'button'}
       >
         {children}
       </button>
