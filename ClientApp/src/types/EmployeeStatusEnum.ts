@@ -46,49 +46,49 @@ export class EmployeeStatus ***REMOVED***
   static WELCOME_EMAIL_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.WelcomeEmailSent,
     EmployeeStatusStateEnum.InProgress,
-    'Welcome Email Sent',
+    'Welcome email sent',
     'First email sent.'
   )
   static REMINDER_1_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.Reminder1Sent,
     EmployeeStatusStateEnum.InProgress,
-    'Reminder 1 Sent',
+    'Reminder 1 sent',
     'First reminder sent.'
   )
   static REMINDER_2_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.Reminder2Sent,
     EmployeeStatusStateEnum.InProgress,
-    'Reminder 2 Sent',
+    'Reminder 2 sent',
     'Second reminder sent.'
   )
   static SURVEY_COMPLETE: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.SurveyComplete,
     EmployeeStatusStateEnum.Final,
-    'Survey Complete',
+    'Survey complete',
     'Survey has been finished.'
   )
   static SNAIL_MAIL_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.SnailMailSent,
     EmployeeStatusStateEnum.Final,
-    'Snail Mail Sent',
+    'Snail mail sent',
     'Snail mail has been sent.'
   )
   static NOT_EXITING: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.NotExiting,
     EmployeeStatusStateEnum.Final,
-    'Employee Not Exiting',
+    'Employee not exiting',
     'This employee is not actually exiting.'
   )
   static INELIGIBLE_OTHER: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.IneligibleOther,
     EmployeeStatusStateEnum.Final,
-    'Ineligible (Other)',
+    'Ineligible (other)',
     'Other ineligibility reason.'
   )
   static DECLINED: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusCodeEnum.Declined,
     EmployeeStatusStateEnum.Final,
-    'Employee Declined',
+    'Employee declined',
     'The employee has asked not to complete the survey.'
   )
   static EXPIRED: EmployeeStatus = new EmployeeStatus(
