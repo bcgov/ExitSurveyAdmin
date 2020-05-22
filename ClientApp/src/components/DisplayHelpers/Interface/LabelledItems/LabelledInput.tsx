@@ -19,9 +19,9 @@ const LabelledInput = (props: IProps): JSX.Element => {
       <input
         id={id}
         name={name}
-        className="form-control"
+        className="form-control form-control-sm"
         type="text"
-        placeholder={placeholder}
+        placeholder={placeholder || title}
         onChange={onChange}
       />
     </LabelledItem>
