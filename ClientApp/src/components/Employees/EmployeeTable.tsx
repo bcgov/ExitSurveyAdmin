@@ -84,7 +84,7 @@ const EmployeeTable = (props: IProps): JSX.Element => {
 
   return (
     <>
-      <table className="table table-sm table-striped" {...getTableProps()}>
+      <table className="table table-sm table-striped mt-3" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup: FixTypeLater) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
