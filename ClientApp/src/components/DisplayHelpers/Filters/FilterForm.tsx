@@ -59,65 +59,20 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
     []
   )
 
+  const fields = [***REMOVED*** key: 'firstName', title: 'First name' ***REMOVED***]
+
+  const inputs = fields.map(
+    (***REMOVED*** key, title ***REMOVED***): JSX.Element => (
+      <div key=***REMOVED***key***REMOVED*** className="col-2">
+        <LabelledInput title=***REMOVED***title***REMOVED*** name=***REMOVED***key***REMOVED*** onChange=***REMOVED***setValue***REMOVED*** />
+      </div>
+    )
+  )
+
   return (
     <div className="FilterForm">
       <form onSubmit=***REMOVED***submitFilters***REMOVED***>
-        <div className="row">
-          <div className="col">
-            <LabelledInput
-              title="First name"
-              placeholder="First name"
-              name="firstName"
-              onChange=***REMOVED***setValue***REMOVED***
-            />
-            <LabelledItem>
-              <TreatmentSelect />
-            </LabelledItem>
-          </div>
-          <div className="col">
-            <LabelledItem>
-              <StudyDesignSelect />
-            </LabelledItem>
-            <LabelledItem>
-              <NHLSubtypeSelect />
-            </LabelledItem>
-          </div>
-          <div className="col">
-            ***REMOVED***/* <div className="LabelledItem">
-              <label style=***REMOVED******REMOVED*** lineHeight: '100%' ***REMOVED******REMOVED***>Publication between</label>
-            </div> */***REMOVED***
-            <div className="row">
-              <div className="col">
-                ***REMOVED***/* <LabelledInput
-                  title="Eff. date from"
-                  placeholder="2020-04-01"
-                /> */***REMOVED***
-              </div>
-              <div className="col">
-                ***REMOVED***/* <LabelledInput title="Eff. date to" placeholder="2020-04-30" /> */***REMOVED***
-              </div>
-              <div className="col-12 form-group LabelledItem">
-                <label>&nbsp;</label>
-                <div className="text-right">
-                  <IconButton
-                    label="Add filters"
-                    iconName="check"
-                    marginClasses="mr-3"
-                    iconMarginClasses="mr-2"
-                    submit
-                  />
-                  <IconButton
-                    label="Reset all filters"
-                    iconName="undo"
-                    colorType="secondary"
-                    iconMarginClasses="mr-2"
-                    onClick=***REMOVED***props.resetFilters***REMOVED***
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="row">***REMOVED***inputs***REMOVED***</div>
       </form>
       ***REMOVED***/* <hr className="mt-0" /> */***REMOVED***
     </div>
