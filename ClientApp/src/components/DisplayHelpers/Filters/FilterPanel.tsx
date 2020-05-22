@@ -11,109 +11,105 @@ interface IProps ***REMOVED***
   onChangeCallback: (filters: IFilter[]) => void
 ***REMOVED***
 
-interface IState ***REMOVED***
-  expanded: boolean
-  filters: IFilter[]
-***REMOVED***
+const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
+  const [expanded, setExpanded] = React.useState(false)
+  const [filters, setFilters] = React.useState<IFilter[]>([])
 
-export default class FilterPanel extends React.Component<IProps, IState> ***REMOVED***
-  constructor(props: IProps) ***REMOVED***
-    super(props)
+  const addFilter = React.useCallback((filter: IFilter): void => ***REMOVED***
+    const filtersClone = [...filters]
+    filtersClone.push(filter)
+    setFilters(filtersClone)
+***REMOVED*** [])
 
-    this.state = ***REMOVED***
-      expanded: false,
-      filters: []
-  ***REMOVED***
+  const removeFilter = React.useCallback((filter: IFilter): void => ***REMOVED***
+    const filtersClone = [...filters]
+    const index = filtersClone.findIndex(f => f.id === filter.id)
+    if (index > -1) filtersClone.splice(index, 1)
+    setFilters(filtersClone)
+***REMOVED*** [])
 
-    this.toggleExpanded = this.toggleExpanded.bind(this)
-***REMOVED***
+  React.useEffect(() => props.onChangeCallback(filters), [filters])
 
-  toggleExpanded(): void ***REMOVED***
-    this.setState(***REMOVED*** expanded: !this.state.expanded ***REMOVED***)
-***REMOVED***
+  const expandedHeight = expanded ? '200px' : '0px'
+  const expandButtonText = expanded ? 'Hide' : 'Expand'
+  const expandButtonIcon = `caret-circle-$***REMOVED***expanded ? 'down' : 'right'***REMOVED***`
+  const expandedClass = expanded ? 'Expanded' : ''
 
-  public render(): JSX.Element ***REMOVED***
-    const expandedHeight = this.state.expanded ? '200px' : '0px'
-    const expandButtonText = this.state.expanded ? 'Hide' : 'Expand'
-    const expandButtonIcon = this.state.expanded
-      ? 'caret-circle-down'
-      : 'caret-circle-right'
-    const expandedClass = this.state.expanded ? 'Expanded' : ''
-
-    return (
-      <div className="FilterPanel">
-        <div className="FilterPanelHeader row py-3">
-          <div className="col">
-            <div className="d-flex align-items-center">
-              <div className="mr-3">
-                <h2 className="mb-0 text-dark">
-                  <i className="far fa-filter mr-2"></i>Filter employees
-                </h2>
-              </div>
-              <div className="mr-3 text-muted px-2 py-1 d-flex align-items-center bg-light border">
-                <div>
-                  <FAIcon name="eye" type="far" />
-                </div>
-                <div className="ml-2" style=***REMOVED******REMOVED*** lineHeight: '100%' ***REMOVED******REMOVED***>
-                  <small>
-                    Showing
-                    <br />
-                    41 of 118
-                  </small>
-                </div>
-              </div>
+  return (
+    <div className="FilterPanel">
+      <div className="FilterPanelHeader row py-3">
+        <div className="col">
+          <div className="d-flex align-items-center">
+            <div className="mr-3">
+              <h2 className="mb-0 text-dark">
+                <i className="far fa-filter mr-2"></i>Filter employees
+              </h2>
+            </div>
+            <div className="mr-3 text-muted px-2 py-1 d-flex align-items-center bg-light border">
               <div>
-                <ActiveFilters />
-                ***REMOVED***/* <p className="text-muted mb-0">
+                <FAIcon name="eye" type="far" />
+              </div>
+              <div className="ml-2" style=***REMOVED******REMOVED*** lineHeight: '100%' ***REMOVED******REMOVED***>
+                <small>
+                  Showing
+                  <br />
+                  41 of 118
+                </small>
+              </div>
+            </div>
+            <div>
+              <ActiveFilters filters=***REMOVED***filters***REMOVED*** />
+              ***REMOVED***/* <p className="text-muted mb-0">
                   <small>
                     Current filters showing <strong>24</strong> of 118 results
                   </small>
                 </p> */***REMOVED***
-              </div>
-              <div className="ml-auto">
-                ***REMOVED***this.state.expanded && (
-                  <IconButton
-                    iconType="far"
-                    iconName=***REMOVED***expandButtonIcon***REMOVED***
-                    label=***REMOVED***`$***REMOVED***expandButtonText***REMOVED*** filters`***REMOVED***
-                    iconRight
-                    iconMarginClasses="ml-2"
-                    colorType="secondary"
-                    classes="NoOutline NoBackground Faded"
-                    iconClasses="fa-lg"
-                    onClick=***REMOVED***this.toggleExpanded***REMOVED***
-                  />
-                )***REMOVED***
-                ***REMOVED***!this.state.expanded && (
-                  <IconButton
-                    iconType="far"
-                    iconName=***REMOVED***expandButtonIcon***REMOVED***
-                    label=***REMOVED***`$***REMOVED***expandButtonText***REMOVED*** filters`***REMOVED***
-                    iconRight
-                    iconMarginClasses="ml-2"
-                    colorType="secondary"
-                    classes="NoOutline NoBackground Faded"
-                    iconClasses="fa-lg"
-                    onClick=***REMOVED***this.toggleExpanded***REMOVED***
-                  />
-                )***REMOVED***
-              </div>
+            </div>
+            <div className="ml-auto">
+              ***REMOVED***expanded && (
+                <IconButton
+                  iconType="far"
+                  iconName=***REMOVED***expandButtonIcon***REMOVED***
+                  label=***REMOVED***`$***REMOVED***expandButtonText***REMOVED*** filters`***REMOVED***
+                  iconRight
+                  iconMarginClasses="ml-2"
+                  colorType="secondary"
+                  classes="NoOutline NoBackground Faded"
+                  iconClasses="fa-lg"
+                  onClick=***REMOVED***() => setExpanded(!expanded)***REMOVED***
+                />
+              )***REMOVED***
+              ***REMOVED***!expanded && (
+                <IconButton
+                  iconType="far"
+                  iconName=***REMOVED***expandButtonIcon***REMOVED***
+                  label=***REMOVED***`$***REMOVED***expandButtonText***REMOVED*** filters`***REMOVED***
+                  iconRight
+                  iconMarginClasses="ml-2"
+                  colorType="secondary"
+                  classes="NoOutline NoBackground Faded"
+                  iconClasses="fa-lg"
+                  onClick=***REMOVED***() => setExpanded(!expanded)***REMOVED***
+                />
+              )***REMOVED***
             </div>
           </div>
         </div>
-        <div
-          className=***REMOVED***`FilterPanelBody row $***REMOVED***expandedClass***REMOVED***`***REMOVED***
-          style=***REMOVED******REMOVED***
-            maxHeight: expandedHeight,
-            overflow: 'hidden',
-            boxSizing: 'border-box'
-        ***REMOVED******REMOVED***
-        >
-          <div className="col py-3">
-            <FilterForm />
-          </div>
+      </div>
+      <div
+        className=***REMOVED***`FilterPanelBody row $***REMOVED***expandedClass***REMOVED***`***REMOVED***
+        style=***REMOVED******REMOVED***
+          maxHeight: expandedHeight,
+          overflow: 'hidden',
+          boxSizing: 'border-box'
+      ***REMOVED******REMOVED***
+      >
+        <div className="col py-3">
+          <FilterForm />
         </div>
       </div>
-    )
+    </div>
+  )
 ***REMOVED***
-***REMOVED***
+
+export default FilterPanel
