@@ -11,13 +11,26 @@ interface IProps {
   onChangeCallback: (filters: IFilter[]) => void
 }
 
+const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
+  const index = arr.findIndex(f => f.id === candidate.id)
+  if (index > -1) arr.splice(index, 1)
+}
+
 const FilterPanel = (props: IProps): JSX.Element => {
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<IFilter[]>([])
 
   const addFilters = React.useCallback(
     (filtersToAdd: IFilter[]): void => {
-      const filtersClone = [...filters].concat([...filtersToAdd])
+      const filtersClone = [...filters]
+
+      filtersToAdd.forEach(newFilter => {
+        // If a new filter exists in the existing array, remove it
+        removeIfExists(filtersClone, newFilter)
+        // Then push the new filter
+        filtersClone.push(newFilter)
+      })
+
       setFilters(filtersClone)
     },
     [filters]
@@ -26,8 +39,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
   const removeFilter = React.useCallback(
     (filter: IFilter): void => {
       const filtersClone = [...filters]
-      const index = filtersClone.findIndex(f => f.id === filter.id)
-      if (index > -1) filtersClone.splice(index, 1)
+      removeIfExists(filtersClone, filter)
       setFilters(filtersClone)
     },
     [filters]
@@ -41,7 +53,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
 
   const expandedHeight = expanded ? '200px' : '0px'
   const expandButtonText = expanded ? 'Hide' : 'Expand'
-  const expandButtonIcon = `caret-circle-${expanded ? 'down' : 'right'}`
+  const expandButtonIcon = `caret-${expanded ? 'down' : 'right'}`
   const expandedClass = expanded ? 'Expanded' : ''
 
   return (
@@ -50,34 +62,17 @@ const FilterPanel = (props: IProps): JSX.Element => {
         <div className="col">
           <div className="d-flex align-items-center">
             <div className="mr-3">
-              <h2 className="mb-0 text-dark">
-                <i className="far fa-filter mr-2"></i>Filter employees
+              <h2 className="mb-0">
+                <i className="fas fa-filter mr-2"></i>Filter employees
               </h2>
             </div>
-            <div className="mr-3 text-muted px-2 py-1 d-flex align-items-center bg-light border">
-              <div>
-                <FAIcon name="eye" type="far" />
-              </div>
-              <div className="ml-2" style={{ lineHeight: '100%' }}>
-                <small>
-                  Showing
-                  <br />
-                  41 of 118
-                </small>
-              </div>
-            </div>
             <div>
-              <ActiveFilters filters={filters} />
-              {/* <p className="text-muted mb-0">
-                  <small>
-                    Current filters showing <strong>24</strong> of 118 results
-                  </small>
-                </p> */}
+              <ActiveFilters filters={filters} removeFilter={removeFilter} />
             </div>
             <div className="ml-auto">
               {expanded && (
                 <IconButton
-                  iconType="far"
+                  iconType="fas"
                   iconName={expandButtonIcon}
                   label={`${expandButtonText} filters`}
                   iconRight
@@ -90,7 +85,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
               )}
               {!expanded && (
                 <IconButton
-                  iconType="far"
+                  iconType="fas"
                   iconName={expandButtonIcon}
                   label={`${expandButtonText} filters`}
                   iconRight
