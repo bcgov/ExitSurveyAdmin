@@ -1,5 +1,3 @@
-import { TextFilterHandler } from './TextFilterInput'
-
 export type StringFilter = 'string'
 export type DateFilter = 'date'
 export type FilterType = StringFilter | DateFilter
@@ -13,18 +11,6 @@ export interface IFilterField {
 export abstract class FilterHandler {
   abstract encode(filterField: IFilterField): string
   abstract decode(input: string): IFilterField
-}
-
-export class MasterFilterEncoder {
-  static encode(filterField: IFilterField): string {
-    switch (filterField.type) {
-      case 'string':
-      default:
-        return TextFilterHandler.instance().encode(
-          (filterField as unknown) as IFilterField
-        )
-    }
-  }
 }
 
 export interface ISort {

@@ -7,10 +7,8 @@ import EmployeeTable from './EmployeeTable'
 import ExportData from '../DisplayHelpers/ExportData'
 import { RouteComponentProps } from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
-import {
-  IFilterField,
-  MasterFilterEncoder
-} from '../DisplayHelpers/Filters/FilterTypes'
+import { IFilterField } from '../DisplayHelpers/Filters/FilterTypes'
+import { MasterFilterEncoder } from '../DisplayHelpers/Filters/MasterFilterEncoder'
 
 export interface ISort {
   id: string
