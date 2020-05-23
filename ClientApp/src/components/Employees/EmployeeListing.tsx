@@ -7,6 +7,10 @@ import EmployeeTable from './EmployeeTable'
 import ExportData from '../DisplayHelpers/ExportData'
 import { RouteComponentProps } from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
+import {
+  IFilterField,
+  MasterFilterEncoder
+} from '../DisplayHelpers/Filters/FilterTypes'
 
 export interface ISort {
   id: string
@@ -29,45 +33,45 @@ const processSorts = (sortBy: ISort[]): string => {
     : ''
 }
 
-const extractSortsFromQuery = (queryString: string): ISort[] => {
-  return queryString.split(',').map(s => {
-    return s.startsWith('-')
-      ? {
-          id: s.substring(1), // Strip off the minus sign
-          desc: true
-        }
-      : {
-          id: s,
-          desc: false
-        }
-  })
-}
+// const extractSortsFromQuery = (queryString: string): ISort[] => {
+//   return queryString.split(',').map(s => {
+//     return s.startsWith('-')
+//       ? {
+//           id: s.substring(1), // Strip off the minus sign
+//           desc: true
+//         }
+//       : {
+//           id: s,
+//           desc: false
+//         }
+//   })
+// }
 
 /** Maps the filters array produced by the react-table to a string that can be
 used by the server API, of the kind &filters=Col1@=someString. The @=
 operator means 'Col1 contains someString'. For a full list of operators see
 the documentation for Sieve: https://github.com/Biarity/Sieve/#operators */
-const processFilters = (filters: IFilter[]): string => {
+const processFilters = (filters: IFilterField[]): string => {
   return filters.length
-    ? `&filters=${filters
-        .map((f: FixTypeLater) => `${f.id}@=${f.value}`)
-        .join(',')}`
+    ? `&filters=${filters.map(f => MasterFilterEncoder.encode(f)).join(',')}`
     : ''
 }
 
-const extractFiltersFromQuery = (queryString: string): IFilter[] => {
-  return queryString.split(',').map(s => {
-    const [column, filter] = s.split('@=') // Split on the 'contains' operator
-    return {
-      id: column,
-      value: filter
-    }
-  })
-}
+// const extractFiltersFromQuery = (queryString: string): IFilter[] => {
+//   return queryString.split(',').map(s => {
+//     const [column, filter] = s.split('@=') // Split on the 'contains' operator
+//     return {
+//       id: column,
+//       value: filter
+//     }
+//   })
+// }
 
 interface IProps extends RouteComponentProps {}
 
 const EmployeeListing = (props: IProps): JSX.Element => {
+  console.log('location', props.location)
+
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -117,7 +121,7 @@ const EmployeeListing = (props: IProps): JSX.Element => {
   return (
     <>
       <FilterPanel
-        onChangeCallback={(filters: IFilter[]): void => {
+        onChangeCallback={(filters: IFilterField[]): void => {
           setFilterQuery(processFilters(filters))
         }}
       />
