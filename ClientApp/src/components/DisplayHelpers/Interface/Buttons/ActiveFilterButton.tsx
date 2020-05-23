@@ -1,27 +1,29 @@
 import React from 'react'
 import IconButton from './IconButton'
 import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../../types/Employee'
-import ***REMOVED*** IFilter ***REMOVED*** from '../../../Employees/EmployeeListing'
+import ***REMOVED*** IFilterField ***REMOVED*** from '../../Filters/FilterTypes'
 
 interface IProps ***REMOVED***
-  filter: string
-  value: string
-  removeFilter: (filter: IFilter) => void
+  filterField: IFilterField
+  removeFilter: (filter: IFilterField) => void
 ***REMOVED***
 
-const ActiveFilterButton = (props: IProps) => ***REMOVED***
-  const ***REMOVED*** filter, value ***REMOVED*** = props
-  const label = employeeFieldLabels[filter]
+const ActiveFilterButton = (***REMOVED***
+  filterField,
+  removeFilter
+***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  const ***REMOVED*** fieldName, values ***REMOVED*** = filterField
+  const label = employeeFieldLabels[fieldName]
 
   const remove = (): void => ***REMOVED***
-    props.removeFilter(***REMOVED*** id: filter, value ***REMOVED***)
+    removeFilter(filterField)
 ***REMOVED***
 
   return (
     <IconButton
       label=***REMOVED***
         <React.Fragment>
-          ***REMOVED***label***REMOVED***: <strong>***REMOVED***value***REMOVED***</strong>
+          ***REMOVED***label***REMOVED***: <strong>***REMOVED***values[0]***REMOVED***</strong>
         </React.Fragment>
     ***REMOVED***
       iconName="times"

@@ -1,84 +1,64 @@
 import React from 'react'
 
-import LabelledInput from '../Interface/LabelledItems/LabelledInput'
 import IconButton from '../Interface/Buttons/IconButton'
-import ***REMOVED*** IFilter ***REMOVED*** from '../../Employees/EmployeeListing'
-import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
+import ***REMOVED*** IFilterField, employeeFilterFields ***REMOVED*** from './FilterTypes'
+import TextFilterInput from './TextFilterInput'
 
 interface IProps ***REMOVED***
-  addFilters: (filters: IFilter[]) => void
-  // removeFilter: (filter: IFilter) => void
-  // setFilters: (filters: IFilter[]) => void
+  addFilters: (filters: IFilterField[]) => void
   resetFilters: () => void
-  filters: IFilter[]
 ***REMOVED***
 
-// export const useInput = (initialValue: string): FixTypeLater => ***REMOVED***
-//   const [value, setValue] = React.useState(initialValue)
-
-//   return ***REMOVED***
-//     value,
-//     setValue,
-//     reset: (): void => setValue(''),
-//     bind: ***REMOVED***
-//       value,
-//       onChange: (event: FixTypeLater): void => ***REMOVED***
-//         setValue(event.target.value)
-//     ***REMOVED***
-//   ***REMOVED***
-// ***REMOVED***
-// ***REMOVED***
+type FilterMap = ***REMOVED*** [key: string]: IFilterField ***REMOVED***
 
 const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
-  const [localFilters, setLocalFilters] = React.useState<***REMOVED***
-    [key: string]: string
-***REMOVED***>(***REMOVED******REMOVED***)
+  const [filterMap, setFilterMap] = React.useState<FilterMap>(***REMOVED******REMOVED***)
 
   const formRef = React.useRef<HTMLFormElement>(null)
 
   const submitFilters = (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
     event.preventDefault()
-    const filters = Object.keys(localFilters).map(key => (***REMOVED***
-      id: key,
-      value: localFilters[key]
-  ***REMOVED***))
-    props.addFilters(filters)
-    setLocalFilters(***REMOVED******REMOVED***)
+    props.addFilters(Object.values(filterMap))
+    setFilterMap(***REMOVED******REMOVED***)
     formRef.current?.reset()
 ***REMOVED***
 
-  const setValue = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => ***REMOVED***
-      const newObject = ***REMOVED*** ...localFilters ***REMOVED***
-      newObject[event.target.name] = event.target.value
-      setLocalFilters(newObject)
+  const setFilter = React.useCallback(
+    (filterField: IFilterField) => ***REMOVED***
+      const filterMapClone = ***REMOVED*** ...filterMap ***REMOVED***
+      filterMapClone[filterField.fieldName] = filterField
+      setFilterMap(filterMapClone)
   ***REMOVED***
-    [localFilters]
+    [filterMap]
   )
 
   const reset = React.useCallback((): void => ***REMOVED***
-    setLocalFilters(***REMOVED******REMOVED***)
+    setFilterMap(***REMOVED******REMOVED***)
     props.resetFilters()
-***REMOVED*** [localFilters])
+***REMOVED*** [filterMap])
 
-  const fields = [
-    'firstName',
-    'lastName',
-    'telkey',
-    'governmentEmployeeId',
-    'classification'
-  ]
-
-  const inputs = fields.map(
-    (key): JSX.Element => (
-      <div key=***REMOVED***key***REMOVED*** className="col-2">
-        <LabelledInput
-          title=***REMOVED***employeeFieldLabels[key]***REMOVED***
-          name=***REMOVED***key***REMOVED***
-          onChange=***REMOVED***setValue***REMOVED***
-        />
-      </div>
-    )
+  const inputs = employeeFilterFields.map(
+    (field): JSX.Element => ***REMOVED***
+      let filterComponent
+      switch (field.type) ***REMOVED***
+        // case 'date':
+        //   filterComponent = <Da />
+        //   break
+        case 'string':
+        default:
+          filterComponent = (
+            <TextFilterInput
+              filterField=***REMOVED***field as IFilterField***REMOVED***
+              setFilter=***REMOVED***setFilter***REMOVED***
+            />
+          )
+    ***REMOVED***
+      return (
+        <div key=***REMOVED***field.fieldName***REMOVED*** className="col-2">
+          ***REMOVED***filterComponent***REMOVED***
+        </div>
+      )
+  ***REMOVED***
   )
 
   return (

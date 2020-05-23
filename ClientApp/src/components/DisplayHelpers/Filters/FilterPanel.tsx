@@ -2,26 +2,25 @@ import React from 'react'
 import ActiveFilters from './ActiveFilters'
 import FilterForm from './FilterForm'
 
-import ***REMOVED*** IFilter ***REMOVED*** from '../../Employees/EmployeeListing'
 import './FilterPanel.scss'
-import FAIcon from '../Interface/Icons/FAIcon'
 import IconButton from '../Interface/Buttons/IconButton'
+import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
 
 interface IProps ***REMOVED***
-  onChangeCallback: (filters: IFilter[]) => void
+  onChangeCallback: (filters: IFilterField[]) => void
 ***REMOVED***
 
-const removeIfExists = (arr: IFilter[], candidate: IFilter): void => ***REMOVED***
-  const index = arr.findIndex(f => f.id === candidate.id)
+const removeIfExists = (arr: IFilterField[], candidate: IFilterField): void => ***REMOVED***
+  const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
   if (index > -1) arr.splice(index, 1)
 ***REMOVED***
 
 const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
   const [expanded, setExpanded] = React.useState(true)
-  const [filters, setFilters] = React.useState<IFilter[]>([])
+  const [filters, setFilters] = React.useState<IFilterField[]>([])
 
   const addFilters = React.useCallback(
-    (filtersToAdd: IFilter[]): void => ***REMOVED***
+    (filtersToAdd: IFilterField[]): void => ***REMOVED***
       const filtersClone = [...filters]
 
       filtersToAdd.forEach(newFilter => ***REMOVED***
@@ -37,7 +36,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
   )
 
   const removeFilter = React.useCallback(
-    (filter: IFilter): void => ***REMOVED***
+    (filter: IFilterField): void => ***REMOVED***
       const filtersClone = [...filters]
       removeIfExists(filtersClone, filter)
       setFilters(filtersClone)
@@ -109,11 +108,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
       ***REMOVED******REMOVED***
       >
         <div className="col py-3">
-          <FilterForm
-            addFilters=***REMOVED***addFilters***REMOVED***
-            filters=***REMOVED***filters***REMOVED***
-            resetFilters=***REMOVED***resetFilters***REMOVED***
-          />
+          <FilterForm addFilters=***REMOVED***addFilters***REMOVED*** resetFilters=***REMOVED***resetFilters***REMOVED*** />
         </div>
       </div>
     </div>

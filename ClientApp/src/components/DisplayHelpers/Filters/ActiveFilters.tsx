@@ -3,17 +3,17 @@ import React from 'react'
 import ActiveFilterButton from '../Interface/Buttons/ActiveFilterButton'
 
 import './ActiveFilters.scss'
-import ***REMOVED*** IFilter ***REMOVED*** from '../../Employees/EmployeeListing'
 import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
+import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
 
 interface IProps ***REMOVED***
-  filters: IFilter[]
-  removeFilter: (filter: IFilter) => void
+  filters: IFilterField[]
+  removeFilter: (filter: IFilterField) => void
 ***REMOVED***
 
-const sort = (a: IFilter, b: IFilter): number => ***REMOVED***
-  const aLabel = employeeFieldLabels[a.id]
-  const bLabel = employeeFieldLabels[b.id]
+const sort = (a: IFilterField, b: IFilterField): number => ***REMOVED***
+  const aLabel = employeeFieldLabels[a.fieldName]
+  const bLabel = employeeFieldLabels[b.fieldName]
 
   return aLabel.localeCompare(bLabel)
 ***REMOVED***
@@ -23,9 +23,8 @@ const ActiveFilters = (props: IProps): JSX.Element => ***REMOVED***
     .sort(sort)
     .map(f => (
       <ActiveFilterButton
-        key=***REMOVED***f.id***REMOVED***
-        filter=***REMOVED***f.id***REMOVED***
-        value=***REMOVED***f.value***REMOVED***
+        key=***REMOVED***f.fieldName***REMOVED***
+        filterField=***REMOVED***f***REMOVED***
         removeFilter=***REMOVED***props.removeFilter***REMOVED***
       />
     ))

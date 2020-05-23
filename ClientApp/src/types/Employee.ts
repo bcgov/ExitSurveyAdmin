@@ -97,52 +97,52 @@ export const employeeFieldLabels: ***REMOVED*** [key: string]: string ***REMOVED
 ***REMOVED***
 
 export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***REMOVED***
-  id?: string
-  telkey?: string
-  recordCount?: string
-  governmentEmployeeId?: string
-  firstName?: string
-  lastName?: string
-  birthDate?: Date
-  gender?: string
-  governmentEmail?: string
-  classification?: string
-  ministry?: string
-  departmentId?: string
-  jobFunctionCode?: string
-  locationCity?: string
-  originalHireDate?: Date
-  lastDayWorkedDate?: Date
-  effectiveDate?: Date
-  reason?: Reason
-  address1?: string
-  address2?: string
-  addressCity?: string
-  addressProvince?: string
-  addressPostCode?: string
-  phone?: string
-  appointmentStatus?: AppointmentStatus
-  positionCode?: string
-  age?: string
-  leaveDate?: Date
-  serviceYears?: string
-  jobCode?: string
-  backDated?: string
-  exitCount?: string
-  ageGroup?: string
-  classificationGroup?: string
-  serviceGroup?: string
-  locationGroup?: string
-  currentEmployeeStatusCode?: EmployeeStatus
-  timelineEntries!: EmployeeTimelineEntry[]
-  createdTs?: Date
-  modifiedTs?: Date
+  public id?: string
+  public telkey?: string
+  public recordCount?: string
+  public governmentEmployeeId?: string
+  public firstName?: string
+  public lastName?: string
+  public birthDate?: Date
+  public gender?: string
+  public governmentEmail?: string
+  public classification?: string
+  public ministry?: string
+  public departmentId?: string
+  public jobFunctionCode?: string
+  public locationCity?: string
+  public originalHireDate?: Date
+  public lastDayWorkedDate?: Date
+  public effectiveDate?: Date
+  public reason?: Reason
+  public address1?: string
+  public address2?: string
+  public addressCity?: string
+  public addressProvince?: string
+  public addressPostCode?: string
+  public phone?: string
+  public appointmentStatus?: AppointmentStatus
+  public positionCode?: string
+  public age?: string
+  public leaveDate?: Date
+  public serviceYears?: string
+  public jobCode?: string
+  public backDated?: string
+  public exitCount?: string
+  public ageGroup?: string
+  public classificationGroup?: string
+  public serviceGroup?: string
+  public locationGroup?: string
+  public currentEmployeeStatusCode?: EmployeeStatus
+  public timelineEntries!: EmployeeTimelineEntry[]
+  public createdTs?: Date
+  public modifiedTs?: Date
 
-  constructor(input: IEmployeeJSON) ***REMOVED***
+  public constructor(input: IEmployeeJSON) ***REMOVED***
     this.deserialize(input)
 ***REMOVED***
 
-  deserialize(input: IEmployeeJSON): Employee ***REMOVED***
+  public deserialize(input: IEmployeeJSON): Employee ***REMOVED***
     this.id = undefinedIfNull(input.id)
     this.telkey = undefinedIfNull(input.telkey)
     this.recordCount = undefinedIfNull(input.recordCount)

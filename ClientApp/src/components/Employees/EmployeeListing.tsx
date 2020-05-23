@@ -7,6 +7,10 @@ import EmployeeTable from './EmployeeTable'
 import ExportData from '../DisplayHelpers/ExportData'
 import ***REMOVED*** RouteComponentProps ***REMOVED*** from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
+import ***REMOVED***
+  IFilterField,
+  MasterFilterEncoder
+***REMOVED*** from '../DisplayHelpers/Filters/FilterTypes'
 
 export interface ISort ***REMOVED***
   id: string
@@ -29,45 +33,45 @@ const processSorts = (sortBy: ISort[]): string => ***REMOVED***
     : ''
 ***REMOVED***
 
-const extractSortsFromQuery = (queryString: string): ISort[] => ***REMOVED***
-  return queryString.split(',').map(s => ***REMOVED***
-    return s.startsWith('-')
-      ? ***REMOVED***
-          id: s.substring(1), // Strip off the minus sign
-          desc: true
-      ***REMOVED***
-      : ***REMOVED***
-          id: s,
-          desc: false
-      ***REMOVED***
-***REMOVED***)
-***REMOVED***
+// const extractSortsFromQuery = (queryString: string): ISort[] => ***REMOVED***
+//   return queryString.split(',').map(s => ***REMOVED***
+//     return s.startsWith('-')
+//       ? ***REMOVED***
+//           id: s.substring(1), // Strip off the minus sign
+//           desc: true
+//       ***REMOVED***
+//       : ***REMOVED***
+//           id: s,
+//           desc: false
+//       ***REMOVED***
+// ***REMOVED***)
+// ***REMOVED***
 
 /** Maps the filters array produced by the react-table to a string that can be
 used by the server API, of the kind &filters=Col1@=someString. The @=
 operator means 'Col1 contains someString'. For a full list of operators see
 the documentation for Sieve: https://github.com/Biarity/Sieve/#operators */
-const processFilters = (filters: IFilter[]): string => ***REMOVED***
+const processFilters = (filters: IFilterField[]): string => ***REMOVED***
   return filters.length
-    ? `&filters=$***REMOVED***filters
-        .map((f: FixTypeLater) => `$***REMOVED***f.id***REMOVED***@=$***REMOVED***f.value***REMOVED***`)
-        .join(',')***REMOVED***`
+    ? `&filters=$***REMOVED***filters.map(f => MasterFilterEncoder.encode(f)).join(',')***REMOVED***`
     : ''
 ***REMOVED***
 
-const extractFiltersFromQuery = (queryString: string): IFilter[] => ***REMOVED***
-  return queryString.split(',').map(s => ***REMOVED***
-    const [column, filter] = s.split('@=') // Split on the 'contains' operator
-    return ***REMOVED***
-      id: column,
-      value: filter
-  ***REMOVED***
-***REMOVED***)
-***REMOVED***
+// const extractFiltersFromQuery = (queryString: string): IFilter[] => ***REMOVED***
+//   return queryString.split(',').map(s => ***REMOVED***
+//     const [column, filter] = s.split('@=') // Split on the 'contains' operator
+//     return ***REMOVED***
+//       id: column,
+//       value: filter
+//   ***REMOVED***
+// ***REMOVED***)
+// ***REMOVED***
 
 interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
 
 const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
+  console.log('location', props.location)
+
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -117,7 +121,7 @@ const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
   return (
     <>
       <FilterPanel
-        onChangeCallback=***REMOVED***(filters: IFilter[]): void => ***REMOVED***
+        onChangeCallback=***REMOVED***(filters: IFilterField[]): void => ***REMOVED***
           setFilterQuery(processFilters(filters))
       ***REMOVED******REMOVED***
       />
