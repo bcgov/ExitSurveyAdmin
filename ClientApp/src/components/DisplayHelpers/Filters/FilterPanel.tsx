@@ -2,26 +2,25 @@ import React from 'react'
 import ActiveFilters from './ActiveFilters'
 import FilterForm from './FilterForm'
 
-import { IFilter } from '../../Employees/EmployeeListing'
 import './FilterPanel.scss'
-import FAIcon from '../Interface/Icons/FAIcon'
 import IconButton from '../Interface/Buttons/IconButton'
+import { IFilterField } from './FilterTypes'
 
 interface IProps {
-  onChangeCallback: (filters: IFilter[]) => void
+  onChangeCallback: (filters: IFilterField[]) => void
 }
 
-const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
-  const index = arr.findIndex(f => f.id === candidate.id)
+const removeIfExists = (arr: IFilterField[], candidate: IFilterField): void => {
+  const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
   if (index > -1) arr.splice(index, 1)
 }
 
 const FilterPanel = (props: IProps): JSX.Element => {
   const [expanded, setExpanded] = React.useState(true)
-  const [filters, setFilters] = React.useState<IFilter[]>([])
+  const [filters, setFilters] = React.useState<IFilterField[]>([])
 
   const addFilters = React.useCallback(
-    (filtersToAdd: IFilter[]): void => {
+    (filtersToAdd: IFilterField[]): void => {
       const filtersClone = [...filters]
 
       filtersToAdd.forEach(newFilter => {
@@ -37,7 +36,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
   )
 
   const removeFilter = React.useCallback(
-    (filter: IFilter): void => {
+    (filter: IFilterField): void => {
       const filtersClone = [...filters]
       removeIfExists(filtersClone, filter)
       setFilters(filtersClone)
@@ -109,11 +108,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
         }}
       >
         <div className="col py-3">
-          <FilterForm
-            addFilters={addFilters}
-            filters={filters}
-            resetFilters={resetFilters}
-          />
+          <FilterForm addFilters={addFilters} resetFilters={resetFilters} />
         </div>
       </div>
     </div>
