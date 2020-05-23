@@ -1,84 +1,64 @@
 import React from 'react'
 
-import LabelledInput from '../Interface/LabelledItems/LabelledInput'
 import IconButton from '../Interface/Buttons/IconButton'
-import { IFilter } from '../../Employees/EmployeeListing'
-import { employeeFieldLabels } from '../../../types/Employee'
+import { IFilterField, employeeFilterFields } from './FilterTypes'
+import TextFilterInput from './TextFilterInput'
 
 interface IProps {
-  addFilters: (filters: IFilter[]) => void
-  // removeFilter: (filter: IFilter) => void
-  // setFilters: (filters: IFilter[]) => void
+  addFilters: (filters: IFilterField[]) => void
   resetFilters: () => void
-  filters: IFilter[]
 }
 
-// export const useInput = (initialValue: string): FixTypeLater => {
-//   const [value, setValue] = React.useState(initialValue)
-
-//   return {
-//     value,
-//     setValue,
-//     reset: (): void => setValue(''),
-//     bind: {
-//       value,
-//       onChange: (event: FixTypeLater): void => {
-//         setValue(event.target.value)
-//       }
-//     }
-//   }
-// }
+type FilterMap = { [key: string]: IFilterField }
 
 const FilterForm = (props: IProps): JSX.Element => {
-  const [localFilters, setLocalFilters] = React.useState<{
-    [key: string]: string
-  }>({})
+  const [filterMap, setFilterMap] = React.useState<FilterMap>({})
 
   const formRef = React.useRef<HTMLFormElement>(null)
 
   const submitFilters = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const filters = Object.keys(localFilters).map(key => ({
-      id: key,
-      value: localFilters[key]
-    }))
-    props.addFilters(filters)
-    setLocalFilters({})
+    props.addFilters(Object.values(filterMap))
+    setFilterMap({})
     formRef.current?.reset()
   }
 
-  const setValue = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newObject = { ...localFilters }
-      newObject[event.target.name] = event.target.value
-      setLocalFilters(newObject)
+  const setFilter = React.useCallback(
+    (filterField: IFilterField) => {
+      const filterMapClone = { ...filterMap }
+      filterMapClone[filterField.fieldName] = filterField
+      setFilterMap(filterMapClone)
     },
-    [localFilters]
+    [filterMap]
   )
 
   const reset = React.useCallback((): void => {
-    setLocalFilters({})
+    setFilterMap({})
     props.resetFilters()
-  }, [localFilters])
+  }, [filterMap])
 
-  const fields = [
-    'firstName',
-    'lastName',
-    'telkey',
-    'governmentEmployeeId',
-    'classification'
-  ]
-
-  const inputs = fields.map(
-    (key): JSX.Element => (
-      <div key={key} className="col-2">
-        <LabelledInput
-          title={employeeFieldLabels[key]}
-          name={key}
-          onChange={setValue}
-        />
-      </div>
-    )
+  const inputs = employeeFilterFields.map(
+    (field): JSX.Element => {
+      let filterComponent
+      switch (field.type) {
+        // case 'date':
+        //   filterComponent = <Da />
+        //   break
+        case 'string':
+        default:
+          filterComponent = (
+            <TextFilterInput
+              filterField={field as IFilterField}
+              setFilter={setFilter}
+            />
+          )
+      }
+      return (
+        <div key={field.fieldName} className="col-2">
+          {filterComponent}
+        </div>
+      )
+    }
   )
 
   return (
