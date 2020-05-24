@@ -3,6 +3,7 @@ import React from 'react'
 import IconButton from '../Interface/Buttons/IconButton'
 import { IFilterField, employeeFilterFields } from './FilterTypes'
 import TextFilterInput from './TextFilterInput'
+import DateFilterInput from './DateFilterInput'
 
 interface IProps {
   addFilters: (filters: IFilterField[]) => void
@@ -39,11 +40,19 @@ const FilterForm = (props: IProps): JSX.Element => {
 
   const inputs = employeeFilterFields.map(
     (field): JSX.Element => {
+      console.log('field', field)
       let filterComponent
+      let colWidth
       switch (field.type) {
-        // case 'date':
-        //   filterComponent = <Da />
-        //   break
+        case 'date':
+          filterComponent = (
+            <DateFilterInput
+              filterField={field as IFilterField}
+              setFilter={setFilter}
+            />
+          )
+          colWidth = 2
+          break
         case 'string':
         default:
           filterComponent = (
@@ -52,9 +61,10 @@ const FilterForm = (props: IProps): JSX.Element => {
               setFilter={setFilter}
             />
           )
+          colWidth = 1
       }
       return (
-        <div key={field.fieldName} className="col-2">
+        <div key={field.fieldName} className={`col-${colWidth}`}>
           {filterComponent}
         </div>
       )
