@@ -54,7 +54,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
     props.history.push({ search: MasterFilterHandler.encodeAll(filters) })
   }, [filters])
 
-  const expandedHeight = expanded ? '200px' : '0px'
+  const expandedHeight = expanded ? '400px' : '0px'
   const expandButtonText = expanded ? 'Hide' : 'Expand'
   const expandButtonIcon = `caret-${expanded ? 'down' : 'right'}`
   const expandedClass = expanded ? 'Expanded' : ''
@@ -107,7 +107,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
         className={`FilterPanelBody row ${expandedClass}`}
         style={{
           maxHeight: expandedHeight,
-          overflow: 'hidden',
+          // overflow: 'hidden',
           boxSizing: 'border-box'
         }}
       >

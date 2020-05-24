@@ -11,6 +11,7 @@ interface IProps {
 const TextFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
   const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      console.log('--> filterField', filterField)
       const filterFieldClone = Object.assign({}, filterField)
       filterFieldClone.values = [event.target.value]
       setFilter(filterFieldClone)
