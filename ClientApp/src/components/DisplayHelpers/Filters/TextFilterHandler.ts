@@ -1,8 +1,8 @@
 import ***REMOVED*** FilterHandler, IFilterField ***REMOVED*** from './FilterTypes'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
+// import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 
 export default class TextFilterHandler extends FilterHandler ***REMOVED***
-  static _instance: FixTypeLater
+  static _instance: TextFilterHandler
 
   encode(filterField: IFilterField): string ***REMOVED***
     if (!filterField.values || filterField.values.length !== 1) ***REMOVED***
@@ -12,8 +12,9 @@ export default class TextFilterHandler extends FilterHandler ***REMOVED***
     return `$***REMOVED***filterField.fieldName***REMOVED***@=$***REMOVED***filterField.values[0]***REMOVED***`
 ***REMOVED***
 
-  decode(input: string): IFilterField ***REMOVED***
-    const [column, filterValue] = input.split('@=')
+  decode(input: string[]): IFilterField ***REMOVED***
+    // This takes multiple values, but will only use the first one.
+    const [column, filterValue] = input[0].split('@=')
     if (!column || !filterValue) ***REMOVED***
       throw `TextFilter: Could not parse input '$***REMOVED***input***REMOVED***'`
   ***REMOVED***

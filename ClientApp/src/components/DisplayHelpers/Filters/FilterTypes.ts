@@ -10,7 +10,7 @@ export interface IFilterField ***REMOVED***
 
 export abstract class FilterHandler ***REMOVED***
   abstract encode(filterField: IFilterField): string
-  abstract decode(input: string): IFilterField
+  abstract decode(input: string[]): IFilterField
 ***REMOVED***
 
 export interface ISort ***REMOVED***
