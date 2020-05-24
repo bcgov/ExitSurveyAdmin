@@ -24,5 +24,5 @@ export const employeeFilterFields: IFilterField[] = [
   { fieldName: 'telkey', type: 'string', values: [] },
   { fieldName: 'governmentEmployeeId', type: 'string', values: [] },
   { fieldName: 'classification', type: 'string', values: [] },
-  { fieldName: 'effectiveDate', type: 'date', values: [] }
+  { fieldName: 'effectiveDate', type: 'date', values: ['', ''] }
 ]

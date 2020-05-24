@@ -22,7 +22,7 @@ const ActiveFilterButton = ({
 
   if (type === 'date') {
     if (values[0].length > 0 && values[1].length > 0) {
-      valueString = `Between ${values[0]} and ${values[1]}`
+      valueString = `${values[0]} to ${values[1]}`
     } else if (values[0].length > 0) {
       valueString = `From ${values[0]}`
     } else {
