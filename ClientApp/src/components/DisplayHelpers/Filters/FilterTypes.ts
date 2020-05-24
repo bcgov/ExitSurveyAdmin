@@ -10,7 +10,7 @@ export interface IFilterField {
 
 export abstract class FilterHandler {
   abstract encode(filterField: IFilterField): string
-  abstract decode(input: string): IFilterField
+  abstract decode(input: string[]): IFilterField
 }
 
 export interface ISort {

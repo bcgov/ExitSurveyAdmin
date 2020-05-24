@@ -12,20 +12,33 @@ const ActiveFilterButton = ({
   filterField,
   removeFilter
 }: IProps): JSX.Element => {
-  const { fieldName, values } = filterField
-  const label = employeeFieldLabels[fieldName]
-
   const remove = (): void => {
     removeFilter(filterField)
   }
 
+  const { fieldName, values, type } = filterField
+  const displayLabel = employeeFieldLabels[fieldName]
+  let valueString = values[0]
+
+  if (type === 'date') {
+    if (values[0].length > 0 && values[1].length > 0) {
+      valueString = `Between ${values[0]} and ${values[1]}`
+    } else if (values[0].length > 0) {
+      valueString = `From ${values[0]}`
+    } else {
+      valueString = `Before ${values[1]}`
+    }
+  }
+
+  const label = (
+    <>
+      {displayLabel}: <strong>{valueString}</strong>
+    </>
+  )
+
   return (
     <IconButton
-      label={
-        <React.Fragment>
-          {label}: <strong>{values[0]}</strong>
-        </React.Fragment>
-      }
+      label={label}
       iconName="times"
       marginClasses="mr-1 my-1 mb-0"
       iconMarginClasses="ml-2"
