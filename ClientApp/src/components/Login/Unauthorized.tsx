@@ -21,7 +21,9 @@ class Unauthorized extends React.Component<IProps> {
   loginClick(): void {
     userManager.signinRedirect({
       data: {
-        path: this.props.returnToPath || window.location.pathname
+        path:
+          this.props.returnToPath ||
+          window.location.pathname + window.location.search
       }
     })
   }
