@@ -17,8 +17,11 @@ class CallbackPage extends React.Component<IProps> {
       <CallbackComponent
         userManager={userManager}
         successCallback={(user): void => {
-          console.log('Login success', user)
-          this.props.history.push(user.state.path)
+          console.log('Login success', user, user.state.path, user.state.search)
+          this.props.history.push({
+            pathname: user.state.path,
+            search: user.state.search
+          })
         }}
         errorCallback={(error: any): void => {
           console.log('Login error')

@@ -5,10 +5,9 @@ import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
 import ExportData from '../DisplayHelpers/ExportData'
-import { RouteComponentProps } from 'react-router'
+import { RouteComponentProps, withRouter } from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
-import { IFilterField } from '../DisplayHelpers/Filters/FilterTypes'
-import { MasterFilterEncoder } from '../DisplayHelpers/Filters/MasterFilterEncoder'
+import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
 
 export interface ISort {
   id: string
@@ -45,30 +44,13 @@ const processSorts = (sortBy: ISort[]): string => {
 //   })
 // }
 
-/** Maps the filters array produced by the react-table to a string that can be
-used by the server API, of the kind &filters=Col1@=someString. The @=
-operator means 'Col1 contains someString'. For a full list of operators see
-the documentation for Sieve: https://github.com/Biarity/Sieve/#operators */
-const processFilters = (filters: IFilterField[]): string => {
-  return filters.length
-    ? `&filters=${filters.map(f => MasterFilterEncoder.encode(f)).join(',')}`
-    : ''
-}
-
-// const extractFiltersFromQuery = (queryString: string): IFilter[] => {
-//   return queryString.split(',').map(s => {
-//     const [column, filter] = s.split('@=') // Split on the 'contains' operator
-//     return {
-//       id: column,
-//       value: filter
-//     }
-//   })
-// }
+const extractFilters = (props: IProps): string =>
+  MasterFilterHandler.extractFromRawQueryString(props.location.search)
 
 interface IProps extends RouteComponentProps {}
 
 const EmployeeListing = (props: IProps): JSX.Element => {
-  console.log('location', props.location)
+  // console.log('location -->', props.location)
 
   // Set up the table with no data to start
   const [data, setData] = React.useState<Employee[]>([])
@@ -76,8 +58,12 @@ const EmployeeListing = (props: IProps): JSX.Element => {
   const [pageCount, setPageCount] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
   const [sortQuery, setSortQuery] = React.useState<string>('')
-  const [filterQuery, setFilterQuery] = React.useState<string>('')
+  const [filterQuery, setFilterQuery] = React.useState<string>(
+    extractFilters(props)
+  )
   const fetchIdRef = React.useRef<number>(0)
+
+  React.useEffect(() => setFilterQuery(extractFilters(props)), [props.location])
 
   // Called when the table needs new data
   const fetchData = React.useCallback(
@@ -118,11 +104,7 @@ const EmployeeListing = (props: IProps): JSX.Element => {
 
   return (
     <>
-      <FilterPanel
-        onChangeCallback={(filters: IFilterField[]): void => {
-          setFilterQuery(processFilters(filters))
-        }}
-      />
+      <FilterPanel />
       <EmployeeTable
         data={data}
         fetchData={fetchData}
@@ -135,4 +117,4 @@ const EmployeeListing = (props: IProps): JSX.Element => {
   )
 }
 
-export default EmployeeListing
+export default withRouter(EmployeeListing)
