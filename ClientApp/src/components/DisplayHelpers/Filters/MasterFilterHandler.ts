@@ -4,17 +4,18 @@ import * as qs from 'query-string'
 import DateFilterHandler from './DateFilterHandler'
 
 export class MasterFilterHandler ***REMOVED***
-  static encode(filterField: IFilterField): string ***REMOVED***
-    let instance
-    switch (filterField.type) ***REMOVED***
+  static instanceFor(field: IFilterField): TextFilterHandler ***REMOVED***
+    switch (field.type) ***REMOVED***
       case 'date':
-        instance = DateFilterHandler.instance()
-        break
+        return DateFilterHandler.instance()
       case 'string':
       default:
-        instance = TextFilterHandler.instance()
+        return TextFilterHandler.instance()
   ***REMOVED***
-    return instance.encode((filterField as unknown) as IFilterField)
+***REMOVED***
+
+  static encode(filterField: IFilterField): string ***REMOVED***
+    return MasterFilterHandler.instanceFor(filterField).encode(filterField)
 ***REMOVED***
 
   /** Maps the filters array produced by the react-table to a string that can be
@@ -46,46 +47,11 @@ export class MasterFilterHandler ***REMOVED***
         filterString.startsWith(filterField.fieldName)
       )
       if (matchingFilters.length > 0) ***REMOVED***
-        const handlerInstance =
-          filterField.type === 'date'
-            ? DateFilterHandler.instance()
-            : TextFilterHandler.instance()
-
-        filterFields.push(handlerInstance.decode(matchingFilters))
+        filterFields.push(
+          MasterFilterHandler.instanceFor(filterField).decode(matchingFilters)
+        )
     ***REMOVED***
   ***REMOVED***)
-
-    //   // Find the operator (note -1 because we're searching for the =, and the =
-    //   // is always prefixed by either an @, >, or <).
-    //   const operatorIndex = s.indexOf('=') - 1
-    //   const operator = s.substr(operatorIndex, 2) // Get the whole operator
-
-    //   const [key, value] = s.split(operator)
-
-    //   // See if the field is one of the defined employeeFilterFields
-    //   const field = employeeFilterFields.find(eff => eff.fieldName === key)
-    //   if (!field) ***REMOVED***
-    //     throw `decodeFromQueryString: could not find $***REMOVED***key***REMOVED*** in employeeFilterFields`
-    // ***REMOVED***
-
-    //   if (field.type === 'date') ***REMOVED***
-    //     // Now, if the field is a date, we need to set either index 0 or index 1
-    //     // of the values array: 0 if the operator is GTE, 1 if LTE
-    //     const indexToSet = operator === gteOperator ? 0 : 1
-
-    //     // See if the filterMap already has an entry
-    //     if (filterMap[key]) ***REMOVED***
-    //       filterMap[key].values[indexToSet] = value
-    //   ***REMOVED*** else ***REMOVED***
-    //       const values = ['', '']
-    //       values[indexToSet] = value
-    //       filterMap[key] = ***REMOVED*** fieldName: key, values, type: field.type ***REMOVED***
-    //   ***REMOVED***
-    // ***REMOVED*** else ***REMOVED***
-    //     // Otherwise, just overwrite the value in the map
-    //     filterMap[key] = ***REMOVED*** fieldName: key, values: [value], type: field.type ***REMOVED***
-    // ***REMOVED***
-    // ***REMOVED***)
 
     return filterFields
 ***REMOVED***
