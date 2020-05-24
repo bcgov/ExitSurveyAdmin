@@ -17,8 +17,11 @@ class CallbackPage extends React.Component<IProps> ***REMOVED***
       <CallbackComponent
         userManager=***REMOVED***userManager***REMOVED***
         successCallback=***REMOVED***(user): void => ***REMOVED***
-          console.log('Login success', user)
-          this.props.history.push(user.state.path)
+          console.log('Login success', user, user.state.path, user.state.search)
+          this.props.history.push(***REMOVED***
+            pathname: user.state.path,
+            search: user.state.search
+        ***REMOVED***)
       ***REMOVED******REMOVED***
         errorCallback=***REMOVED***(error: any): void => ***REMOVED***
           console.log('Login error')

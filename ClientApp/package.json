@@ -27,6 +27,7 @@
     "node-sass": "^4.13.0",
     "oidc-client": "^1.9.0",
     "prettier": "^1.19.1",
+    "query-string": "^6.12.1",
     "react": "^16.0.0",
     "react-csv": "^2.0.3",
     "react-dom": "^16.0.0",

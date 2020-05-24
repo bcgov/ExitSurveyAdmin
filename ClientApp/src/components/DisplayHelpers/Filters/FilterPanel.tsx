@@ -5,10 +5,10 @@ import FilterForm from './FilterForm'
 import './FilterPanel.scss'
 import IconButton from '../Interface/Buttons/IconButton'
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
+import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
+import ***REMOVED*** MasterFilterHandler ***REMOVED*** from './MasterFilterHandler'
 
-interface IProps ***REMOVED***
-  onChangeCallback: (filters: IFilterField[]) => void
-***REMOVED***
+interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
 
 const removeIfExists = (arr: IFilterField[], candidate: IFilterField): void => ***REMOVED***
   const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
@@ -17,7 +17,9 @@ const removeIfExists = (arr: IFilterField[], candidate: IFilterField): void => *
 
 const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
   const [expanded, setExpanded] = React.useState(true)
-  const [filters, setFilters] = React.useState<IFilterField[]>([])
+  const [filters, setFilters] = React.useState<IFilterField[]>(() =>
+    MasterFilterHandler.decodeFromQueryString(props.location.search)
+  )
 
   const addFilters = React.useCallback(
     (filtersToAdd: IFilterField[]): void => ***REMOVED***
@@ -48,7 +50,9 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
     setFilters([])
 ***REMOVED*** [filters])
 
-  React.useEffect(() => props.onChangeCallback(filters), [filters])
+  React.useEffect(() => ***REMOVED***
+    props.history.push(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***)
+***REMOVED*** [filters])
 
   const expandedHeight = expanded ? '200px' : '0px'
   const expandButtonText = expanded ? 'Hide' : 'Expand'
@@ -115,4 +119,4 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
   )
 ***REMOVED***
 
-export default FilterPanel
+export default withRouter(FilterPanel)
