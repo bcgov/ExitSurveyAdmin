@@ -22,7 +22,7 @@ const ActiveFilterButton = (***REMOVED***
 
   if (type === 'date') ***REMOVED***
     if (values[0].length > 0 && values[1].length > 0) ***REMOVED***
-      valueString = `Between $***REMOVED***values[0]***REMOVED*** and $***REMOVED***values[1]***REMOVED***`
+      valueString = `$***REMOVED***values[0]***REMOVED*** to $***REMOVED***values[1]***REMOVED***`
   ***REMOVED*** else if (values[0].length > 0) ***REMOVED***
       valueString = `From $***REMOVED***values[0]***REMOVED***`
   ***REMOVED*** else ***REMOVED***

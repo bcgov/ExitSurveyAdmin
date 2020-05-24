@@ -24,5 +24,5 @@ export const employeeFilterFields: IFilterField[] = [
   ***REMOVED*** fieldName: 'telkey', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'governmentEmployeeId', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'classification', type: 'string', values: [] ***REMOVED***,
-  ***REMOVED*** fieldName: 'effectiveDate', type: 'date', values: [] ***REMOVED***
+  ***REMOVED*** fieldName: 'effectiveDate', type: 'date', values: ['', ''] ***REMOVED***
 ]
