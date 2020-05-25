@@ -4,6 +4,7 @@ import IconButton from '../Interface/Buttons/IconButton'
 import { IFilterField, employeeFilterFields } from './FilterTypes'
 import TextFilterInput from './TextFilterInput'
 import DateFilterInput from './DateFilterInput'
+import EnumFilterInput from './EnumFilterInput'
 
 interface IProps {
   addFilters: (filters: IFilterField[]) => void
@@ -42,26 +43,25 @@ const FilterForm = (props: IProps): JSX.Element => {
     (field): JSX.Element => {
       console.log('field', field)
       let filterComponent
-      let colWidth
+      let colWidth = 2
       switch (field.type) {
         case 'date':
           filterComponent = (
-            <DateFilterInput
-              filterField={field as IFilterField}
-              setFilter={setFilter}
-            />
+            <DateFilterInput filterField={field} setFilter={setFilter} />
           )
           colWidth = 3
+          break
+        case 'enum':
+          filterComponent = (
+            <EnumFilterInput filterField={field} setFilter={setFilter} />
+          )
+          colWidth = 4
           break
         case 'string':
         default:
           filterComponent = (
-            <TextFilterInput
-              filterField={field as IFilterField}
-              setFilter={setFilter}
-            />
+            <TextFilterInput filterField={field} setFilter={setFilter} />
           )
-          colWidth = 2
       }
       return (
         <div key={field.fieldName} className={`col-${colWidth}`}>
