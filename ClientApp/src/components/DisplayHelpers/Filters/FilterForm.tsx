@@ -4,6 +4,7 @@ import IconButton from '../Interface/Buttons/IconButton'
 import ***REMOVED*** IFilterField, employeeFilterFields ***REMOVED*** from './FilterTypes'
 import TextFilterInput from './TextFilterInput'
 import DateFilterInput from './DateFilterInput'
+import EnumFilterInput from './EnumFilterInput'
 
 interface IProps ***REMOVED***
   addFilters: (filters: IFilterField[]) => void
@@ -42,26 +43,25 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
     (field): JSX.Element => ***REMOVED***
       console.log('field', field)
       let filterComponent
-      let colWidth
+      let colWidth = 2
       switch (field.type) ***REMOVED***
         case 'date':
           filterComponent = (
-            <DateFilterInput
-              filterField=***REMOVED***field as IFilterField***REMOVED***
-              setFilter=***REMOVED***setFilter***REMOVED***
-            />
+            <DateFilterInput filterField=***REMOVED***field***REMOVED*** setFilter=***REMOVED***setFilter***REMOVED*** />
           )
           colWidth = 3
+          break
+        case 'enum':
+          filterComponent = (
+            <EnumFilterInput filterField=***REMOVED***field***REMOVED*** setFilter=***REMOVED***setFilter***REMOVED*** />
+          )
+          colWidth = 4
           break
         case 'string':
         default:
           filterComponent = (
-            <TextFilterInput
-              filterField=***REMOVED***field as IFilterField***REMOVED***
-              setFilter=***REMOVED***setFilter***REMOVED***
-            />
+            <TextFilterInput filterField=***REMOVED***field***REMOVED*** setFilter=***REMOVED***setFilter***REMOVED*** />
           )
-          colWidth = 2
     ***REMOVED***
       return (
         <div key=***REMOVED***field.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>

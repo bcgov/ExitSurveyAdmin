@@ -90,7 +90,7 @@ export const employeeFieldLabels: ***REMOVED*** [key: string]: string ***REMOVED
   classificationGroup: 'Classification group',
   serviceGroup: 'Service group',
   locationGroup: 'Location group',
-  currentEmployeeStatusCode: '',
+  currentEmployeeStatusCode: 'Current status',
   timelineEntries: '',
   createdTs: 'Created date',
   modifiedTs: 'Last modified date'

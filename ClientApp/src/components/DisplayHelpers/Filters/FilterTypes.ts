@@ -1,6 +1,7 @@
 export type StringFilter = 'string'
 export type DateFilter = 'date'
-export type FilterType = StringFilter | DateFilter
+export type EnumFilter = 'enum'
+export type FilterType = StringFilter | DateFilter | EnumFilter
 
 export interface IFilterField ***REMOVED***
   fieldName: string
@@ -24,5 +25,6 @@ export const employeeFilterFields: IFilterField[] = [
   ***REMOVED*** fieldName: 'lastName', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'telkey', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'governmentEmployeeId', type: 'string', values: [] ***REMOVED***,
-  ***REMOVED*** fieldName: 'classification', type: 'string', values: [] ***REMOVED***
+  ***REMOVED*** fieldName: 'classification', type: 'string', values: [] ***REMOVED***,
+  ***REMOVED*** fieldName: 'currentEmployeeStatusCode', type: 'enum', values: [] ***REMOVED***
 ]

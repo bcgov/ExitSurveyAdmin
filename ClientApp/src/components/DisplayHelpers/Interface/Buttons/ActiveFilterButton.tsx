@@ -20,14 +20,19 @@ const ActiveFilterButton = (***REMOVED***
   const displayLabel = employeeFieldLabels[fieldName]
   let valueString = values[0]
 
-  if (type === 'date') ***REMOVED***
-    if (values[0].length > 0 && values[1].length > 0) ***REMOVED***
-      valueString = `$***REMOVED***values[0]***REMOVED*** to $***REMOVED***values[1]***REMOVED***`
-  ***REMOVED*** else if (values[0].length > 0) ***REMOVED***
-      valueString = `From $***REMOVED***values[0]***REMOVED***`
-  ***REMOVED*** else ***REMOVED***
-      valueString = `Before $***REMOVED***values[1]***REMOVED***`
-  ***REMOVED***
+  switch (type) ***REMOVED***
+    case 'date':
+      if (values[0].length > 0 && values[1].length > 0) ***REMOVED***
+        valueString = `$***REMOVED***values[0]***REMOVED*** to $***REMOVED***values[1]***REMOVED***`
+    ***REMOVED*** else if (values[0].length > 0) ***REMOVED***
+        valueString = `From $***REMOVED***values[0]***REMOVED***`
+    ***REMOVED*** else ***REMOVED***
+        valueString = `Before $***REMOVED***values[1]***REMOVED***`
+    ***REMOVED***
+      break
+    case 'enum':
+      valueString = values.join(' or ')
+      break
 ***REMOVED***
 
   const label = (
