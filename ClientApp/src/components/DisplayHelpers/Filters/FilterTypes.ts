@@ -19,10 +19,10 @@ export interface ISort ***REMOVED***
 ***REMOVED***
 
 export const employeeFilterFields: IFilterField[] = [
+  ***REMOVED*** fieldName: 'effectiveDate', type: 'date', values: ['', ''] ***REMOVED***,
   ***REMOVED*** fieldName: 'firstName', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'lastName', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'telkey', type: 'string', values: [] ***REMOVED***,
   ***REMOVED*** fieldName: 'governmentEmployeeId', type: 'string', values: [] ***REMOVED***,
-  ***REMOVED*** fieldName: 'classification', type: 'string', values: [] ***REMOVED***,
-  ***REMOVED*** fieldName: 'effectiveDate', type: 'date', values: ['', ''] ***REMOVED***
+  ***REMOVED*** fieldName: 'classification', type: 'string', values: [] ***REMOVED***
 ]

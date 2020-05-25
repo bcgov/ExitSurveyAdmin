@@ -51,7 +51,7 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
               setFilter=***REMOVED***setFilter***REMOVED***
             />
           )
-          colWidth = 2
+          colWidth = 3
           break
         case 'string':
         default:
@@ -61,7 +61,7 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
               setFilter=***REMOVED***setFilter***REMOVED***
             />
           )
-          colWidth = 1
+          colWidth = 2
     ***REMOVED***
       return (
         <div key=***REMOVED***field.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
@@ -77,7 +77,7 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
         <div className="row">
           ***REMOVED***inputs***REMOVED***
           <div className="col-12 form-group LabelledItem">
-            <label>&nbsp;</label>
+            ***REMOVED***/* <label>&nbsp;</label> */***REMOVED***
             <div className="text-right">
               <IconButton
                 label="Add filters"

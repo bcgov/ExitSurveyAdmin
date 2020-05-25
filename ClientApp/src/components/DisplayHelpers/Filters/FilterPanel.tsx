@@ -107,7 +107,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
         className=***REMOVED***`FilterPanelBody row $***REMOVED***expandedClass***REMOVED***`***REMOVED***
         style=***REMOVED******REMOVED***
           maxHeight: expandedHeight,
-          // overflow: 'hidden',
+          overflow: 'hidden',
           boxSizing: 'border-box'
       ***REMOVED******REMOVED***
       >
