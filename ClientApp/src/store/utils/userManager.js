@@ -5,9 +5,7 @@ import { WebStorageStateStore } from 'oidc-client'
 
 const userManagerConfig = {
   client_id: 'ExitSurveyAdmin',
-  redirect_uri: `${window.location.protocol}//${window.location.hostname}${
-    window.location.port ? `:${window.location.port}` : ''
-  }/callback`,
+  redirect_uri: process.env.REACT_APP_CALLBACK_LOCATION,
   response_type: 'code',
   scope: 'openid profile resourceApi',
   authority: 'https://sso-dev.pathfinder.gov.bc.ca/auth/realms/ytaqhqia',
