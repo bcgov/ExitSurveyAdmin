@@ -1,6 +1,7 @@
 export type StringFilter = 'string'
 export type DateFilter = 'date'
-export type FilterType = StringFilter | DateFilter
+export type EnumFilter = 'enum'
+export type FilterType = StringFilter | DateFilter | EnumFilter
 
 export interface IFilterField {
   fieldName: string
@@ -24,5 +25,6 @@ export const employeeFilterFields: IFilterField[] = [
   { fieldName: 'lastName', type: 'string', values: [] },
   { fieldName: 'telkey', type: 'string', values: [] },
   { fieldName: 'governmentEmployeeId', type: 'string', values: [] },
-  { fieldName: 'classification', type: 'string', values: [] }
+  { fieldName: 'classification', type: 'string', values: [] },
+  { fieldName: 'currentEmployeeStatusCode', type: 'enum', values: [] }
 ]

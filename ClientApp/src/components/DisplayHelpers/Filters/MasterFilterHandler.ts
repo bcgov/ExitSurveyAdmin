@@ -2,12 +2,15 @@ import { IFilterField, employeeFilterFields } from './FilterTypes'
 import TextFilterHandler from './TextFilterHandler'
 import * as qs from 'query-string'
 import DateFilterHandler from './DateFilterHandler'
+import EnumFilterHandler from './EnumFilterHandler'
 
 export class MasterFilterHandler {
   static instanceFor(field: IFilterField): TextFilterHandler {
     switch (field.type) {
       case 'date':
         return DateFilterHandler.instance()
+      case 'enum':
+        return EnumFilterHandler.instance()
       case 'string':
       default:
         return TextFilterHandler.instance()
