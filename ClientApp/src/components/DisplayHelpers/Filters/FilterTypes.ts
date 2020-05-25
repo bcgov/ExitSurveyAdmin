@@ -19,10 +19,10 @@ export interface ISort {
 }
 
 export const employeeFilterFields: IFilterField[] = [
+  { fieldName: 'effectiveDate', type: 'date', values: ['', ''] },
   { fieldName: 'firstName', type: 'string', values: [] },
   { fieldName: 'lastName', type: 'string', values: [] },
   { fieldName: 'telkey', type: 'string', values: [] },
   { fieldName: 'governmentEmployeeId', type: 'string', values: [] },
-  { fieldName: 'classification', type: 'string', values: [] },
-  { fieldName: 'effectiveDate', type: 'date', values: ['', ''] }
+  { fieldName: 'classification', type: 'string', values: [] }
 ]
