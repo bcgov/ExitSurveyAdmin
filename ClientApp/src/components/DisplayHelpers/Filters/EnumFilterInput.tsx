@@ -53,7 +53,7 @@ const EnumFilterInput = ({
             setSelectValues([(changeObj as unknown) as string]) // Wrap as array
           }
         }}
-        key={`${resetTimestamp}`}
+        key={`${resetTimestamp}`} // Kind of hacky way to reset values
         placeholder={'None selected'}
         isMultiSelect
       />
