@@ -7,6 +7,7 @@ import CollectionSelect, ***REMOVED***
   INameValuePair
 ***REMOVED*** from '../Interface/Selects/CollectionSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../../types/EmployeeStatusEnum'
+import ***REMOVED*** Reason ***REMOVED*** from '../../../types/ReasonEnum'
 
 interface IProps ***REMOVED***
   filterField: IFilterField
@@ -14,8 +15,19 @@ interface IProps ***REMOVED***
   resetTimestamp: number
 ***REMOVED***
 
+const reasonSort = (a: Reason, b: Reason): number => ***REMOVED***
+  return a.reasonCode.localeCompare(b.reasonCode)
+***REMOVED***
+
 export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REMOVED***
   switch (fieldName) ***REMOVED***
+    case 'reason':
+      return Object.values(Reason.reasonDictionary())
+        .sort(reasonSort)
+        .map(s => (***REMOVED***
+          name: s.reasonCode,
+          value: s.reasonCode
+      ***REMOVED***))
     case 'currentEmployeeStatusCode':
     default:
       return EmployeeStatus.statusArray().map(s => (***REMOVED***

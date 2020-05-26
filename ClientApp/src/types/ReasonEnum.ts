@@ -1,5 +1,6 @@
 import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 import ***REMOVED*** AppointmentStatusEnum ***REMOVED*** from './AppointmentStatus'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from './FixTypeLater'
 
 export enum ExitTypeEnum ***REMOVED***
   Involuntary = 'Involuntary',
@@ -137,7 +138,7 @@ export class Reason ***REMOVED***
     1
   )
 
-  static allReasons = (): Reason[] => [
+  static reasonArray = (): Reason[] => [
     Reason.REG_INV_JUST_CAUSE,
     Reason.REG_INV_REDUNDANT,
     Reason.REG_INV_REJECTION_ON_PROBATION,
@@ -156,10 +157,10 @@ export class Reason ***REMOVED***
     Reason.AUX_VOL_RETIRED
   ]
 
-  static reasonDictionary = (): ***REMOVED*** [key in ReasonEnum]?: Reason ***REMOVED*** => ***REMOVED***
-    const dictionary: ***REMOVED*** [key in ReasonEnum]?: Reason ***REMOVED*** = ***REMOVED******REMOVED***
+  static reasonDictionary = (): ***REMOVED*** [key in ReasonEnum]: Reason ***REMOVED*** => ***REMOVED***
+    const dictionary: ***REMOVED*** [key in ReasonEnum]: Reason ***REMOVED*** = ***REMOVED******REMOVED*** as FixTypeLater
 
-    Reason.allReasons().forEach((reason: Reason): void => ***REMOVED***
+    Reason.reasonArray().forEach((reason: Reason): void => ***REMOVED***
       dictionary[reason.reasonCode] = reason
   ***REMOVED***)
 
@@ -174,7 +175,7 @@ export class Reason ***REMOVED***
   static reasonsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
   ): Reason[] => ***REMOVED***
-    return Reason.allReasons().filter(
+    return Reason.reasonArray().filter(
       (reason: Reason) => reason.appointmentStatusCode === appointmentStatusCode
     )
 ***REMOVED***

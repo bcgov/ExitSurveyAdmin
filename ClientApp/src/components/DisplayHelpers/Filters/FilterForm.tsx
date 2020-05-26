@@ -86,7 +86,7 @@ const FilterForm = (props: IProps): JSX.Element => ***REMOVED***
             ***REMOVED***/* <label>&nbsp;</label> */***REMOVED***
             <div className="text-right">
               <IconButton
-                label="Add filters"
+                label="Set filters"
                 iconName="check"
                 marginClasses="mr-3"
                 iconMarginClasses="mr-2"
