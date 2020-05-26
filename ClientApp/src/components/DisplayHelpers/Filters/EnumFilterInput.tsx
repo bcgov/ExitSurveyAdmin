@@ -13,7 +13,7 @@ interface IProps ***REMOVED***
   setFilter: (filterField: IFilterField) => void
 ***REMOVED***
 
-const itemsForField = (fieldName: string): INameValuePair[] => ***REMOVED***
+export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REMOVED***
   switch (fieldName) ***REMOVED***
     case 'currentEmployeeStatusCode':
     default:
@@ -37,13 +37,17 @@ const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IPr
     <div className="LabelledItem">
       <CollectionSelect<INameValuePair>
         label=***REMOVED***employeeFieldLabels[filterField.fieldName]***REMOVED***
-        items=***REMOVED***itemsForField(filterField.fieldName)***REMOVED***
+        items=***REMOVED***enumItemsForField(filterField.fieldName)***REMOVED***
         id=***REMOVED***filterField.fieldName***REMOVED***
         nameAccessor=***REMOVED***(item): string => item.name***REMOVED***
         valueAccessor=***REMOVED***(item): string => item.value***REMOVED***
-        onChangeCallback=***REMOVED***(changedItems): void => ***REMOVED***
-          const selectedValues = changedItems as string[]
-          setSelectValues(selectedValues)
+        onChangeCallback=***REMOVED***(changeObj): void => ***REMOVED***
+          console.log('changeObj', changeObj)
+          if (Array.isArray(changeObj)) ***REMOVED***
+            setSelectValues(changeObj)
+        ***REMOVED*** else ***REMOVED***
+            setSelectValues([(changeObj as unknown) as string]) // Wrap as array
+        ***REMOVED***
       ***REMOVED******REMOVED***
         placeholder=***REMOVED***'None selected'***REMOVED***
         isMultiSelect
