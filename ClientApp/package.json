@@ -49,6 +49,7 @@
 ***REMOVED***
   "devDependencies": ***REMOVED***
     "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme/releases/download/v1.1.1/bcgov-bootstrap-theme-1.1.1.tgz",
+    "@beam-australia/react-env": "^2.1.2",
     "ajv": "^6.9.1",
     "cross-env": "^5.2.0",
     "eslint": "^5.12.0",
@@ -63,6 +64,7 @@
     "extends": "react-app"
 ***REMOVED***
   "scripts": ***REMOVED***
+    "prestart": "react-env",
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",

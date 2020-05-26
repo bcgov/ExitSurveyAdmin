@@ -2,19 +2,18 @@
 
 import ***REMOVED*** createUserManager ***REMOVED*** from 'redux-oidc'
 import ***REMOVED*** WebStorageStateStore ***REMOVED*** from 'oidc-client'
+import env from '@beam-australia/react-env'
 
 const userManagerConfig = ***REMOVED***
-  client_id: 'ExitSurveyAdmin',
-  redirect_uri: process.env.REACT_APP_CALLBACK_LOCATION,
-  response_type: 'code',
-  scope: 'openid profile resourceApi',
-  authority: 'https://sso-dev.pathfinder.gov.bc.ca/auth/realms/ytaqhqia',
-  silent_redirect_uri: `$***REMOVED***window.location.protocol***REMOVED***//$***REMOVED***
-    window.location.hostname
-***REMOVED***$***REMOVED***window.location.port ? `:$***REMOVED***window.location.port***REMOVED***` : ''***REMOVED***/silent_renew.html`,
-  automaticSilentRenew: true,
-  filterProtocolClaims: true,
-  loadUserInfo: true,
+  client_id: env('AUTH_CLIENT_ID'),
+  redirect_uri: env('AUTH_CALLBACK_LOCATION'),
+  response_type: env('AUTH_RESPONSE_TYPE'),
+  scope: env('AUTH_SCOPE'),
+  authority: env('AUTH_URL'),
+  silent_redirect_uri: env('AUTH_SILENT_REDIRECT_URL'),
+  automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
+  filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
+  loadUserInfo: env('AUTH_LOAD_USER_INFO'),
   userStore: new WebStorageStateStore(***REMOVED*** store: window.localStorage ***REMOVED***)
 ***REMOVED***
 
