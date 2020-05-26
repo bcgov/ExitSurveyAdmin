@@ -53,7 +53,7 @@ const EnumFilterInput = (***REMOVED***
             setSelectValues([(changeObj as unknown) as string]) // Wrap as array
         ***REMOVED***
       ***REMOVED******REMOVED***
-        key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED***
+        key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** // Kind of hacky way to reset values
         placeholder=***REMOVED***'None selected'***REMOVED***
         isMultiSelect
       />
