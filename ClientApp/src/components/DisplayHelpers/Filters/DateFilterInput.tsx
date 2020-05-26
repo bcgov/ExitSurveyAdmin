@@ -42,21 +42,11 @@ const DateFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
     setFilter(filterFieldClone)
   }, [fromDate, toDate])
 
-  console.log('filterField', filterField)
-
   const fieldName = filterField.fieldName
 
   const label = employeeFieldLabels[filterField.fieldName]
 
   const fromId = `${fieldName}-From`
-  const toId = `${fieldName}-To`
-  const fromName = `${fieldName}-FromName`
-  const toName = `${fieldName}-ToName`
-
-  console.log(
-    stringToDate(filterField.values[0]),
-    stringToDate(filterField.values[1])
-  )
 
   return (
     <div className="LabelledItem">

@@ -50,7 +50,6 @@ export interface ICollectionSelect<T> {
   excludeValues?: string[]
   defaultValueKeys?: string[]
   isMultiSelect?: boolean
-  triggerReset?: string | null
 }
 
 const customReactSelectStyles = {
@@ -92,7 +91,6 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
   }
 
   protected onChange(selectedItems: ValueType<ICollectionSelectValue>): void {
-    console.log('selectedItems', selectedItems)
     if (selectedItems != null && !Array.isArray(selectedItems)) {
       // Selected items is not an array. But for simplicity, we want to return
       // it as such everywhere, even when multiselect is not enabled. So
@@ -106,7 +104,6 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
     } else if (Array.isArray(selectedItems)) {
       // It's an array; just map and return
       const values = selectedItems.map(item => item.value)
-      console.log('values', values)
       this.props.onChangeCallback(values)
     } else {
       // It's probably null.
@@ -137,12 +134,6 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
       ? options.filter(option => option.isDefault)
       : undefined
 
-    // We can trigger a reset of the contents by calling triggerReset with null.
-    const triggerReset: ValueType<{ value: string; label: string }> = this.props
-      .triggerReset
-      ? null
-      : undefined
-
     const placeholder = this.props.placeholder
 
     return (
@@ -158,7 +149,6 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
           options={options}
           defaultValue={defaultOptions}
           styles={customReactSelectStyles}
-          value={triggerReset}
           placeholder={placeholder}
           isClearable
         />

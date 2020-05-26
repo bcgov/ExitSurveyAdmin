@@ -15,6 +15,7 @@ type FilterMap = { [key: string]: IFilterField }
 
 const FilterForm = (props: IProps): JSX.Element => {
   const [filterMap, setFilterMap] = React.useState<FilterMap>({})
+  const [resetTimestamp, setResetTimestamp] = React.useState<number>(0)
 
   const formRef = React.useRef<HTMLFormElement>(null)
 
@@ -23,6 +24,7 @@ const FilterForm = (props: IProps): JSX.Element => {
     props.addFilters(Object.values(filterMap))
     setFilterMap({})
     formRef.current?.reset()
+    setResetTimestamp(Date.now())
   }
 
   const setFilter = React.useCallback(
@@ -37,6 +39,7 @@ const FilterForm = (props: IProps): JSX.Element => {
   const reset = React.useCallback((): void => {
     setFilterMap({})
     props.resetFilters()
+    setResetTimestamp(Date.now())
   }, [filterMap])
 
   const inputs = employeeFilterFields.map(
@@ -52,9 +55,13 @@ const FilterForm = (props: IProps): JSX.Element => {
           break
         case 'enum':
           filterComponent = (
-            <EnumFilterInput filterField={field} setFilter={setFilter} />
+            <EnumFilterInput
+              filterField={field}
+              setFilter={setFilter}
+              resetTimestamp={resetTimestamp}
+            />
           )
-          colWidth = 4
+          colWidth = 3
           break
         case 'string':
         default:

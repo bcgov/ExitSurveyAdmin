@@ -11,6 +11,7 @@ import { EmployeeStatus } from '../../../types/EmployeeStatusEnum'
 interface IProps {
   filterField: IFilterField
   setFilter: (filterField: IFilterField) => void
+  resetTimestamp: number
 }
 
 export const enumItemsForField = (fieldName: string): INameValuePair[] => {
@@ -24,7 +25,11 @@ export const enumItemsForField = (fieldName: string): INameValuePair[] => {
   }
 }
 
-const DateFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
+const EnumFilterInput = ({
+  filterField,
+  setFilter,
+  resetTimestamp
+}: IProps): JSX.Element => {
   const [selectValues, setSelectValues] = React.useState<string[]>([])
 
   React.useEffect((): void => {
@@ -42,13 +47,13 @@ const DateFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
         nameAccessor={(item): string => item.name}
         valueAccessor={(item): string => item.value}
         onChangeCallback={(changeObj): void => {
-          console.log('changeObj', changeObj)
           if (Array.isArray(changeObj)) {
             setSelectValues(changeObj)
           } else {
             setSelectValues([(changeObj as unknown) as string]) // Wrap as array
           }
         }}
+        key={`${resetTimestamp}`}
         placeholder={'None selected'}
         isMultiSelect
       />
@@ -56,4 +61,4 @@ const DateFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
   )
 }
 
-export default DateFilterInput
+export default EnumFilterInput
