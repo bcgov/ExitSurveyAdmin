@@ -1,5 +1,6 @@
 import { ISelectOption } from '../components/Employees/EditableSelect'
 import { AppointmentStatusEnum } from './AppointmentStatus'
+import { FixTypeLater } from './FixTypeLater'
 
 export enum ExitTypeEnum {
   Involuntary = 'Involuntary',
@@ -137,7 +138,7 @@ export class Reason {
     1
   )
 
-  static allReasons = (): Reason[] => [
+  static reasonArray = (): Reason[] => [
     Reason.REG_INV_JUST_CAUSE,
     Reason.REG_INV_REDUNDANT,
     Reason.REG_INV_REJECTION_ON_PROBATION,
@@ -156,10 +157,10 @@ export class Reason {
     Reason.AUX_VOL_RETIRED
   ]
 
-  static reasonDictionary = (): { [key in ReasonEnum]?: Reason } => {
-    const dictionary: { [key in ReasonEnum]?: Reason } = {}
+  static reasonDictionary = (): { [key in ReasonEnum]: Reason } => {
+    const dictionary: { [key in ReasonEnum]: Reason } = {} as FixTypeLater
 
-    Reason.allReasons().forEach((reason: Reason): void => {
+    Reason.reasonArray().forEach((reason: Reason): void => {
       dictionary[reason.reasonCode] = reason
     })
 
@@ -174,7 +175,7 @@ export class Reason {
   static reasonsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
   ): Reason[] => {
-    return Reason.allReasons().filter(
+    return Reason.reasonArray().filter(
       (reason: Reason) => reason.appointmentStatusCode === appointmentStatusCode
     )
   }
