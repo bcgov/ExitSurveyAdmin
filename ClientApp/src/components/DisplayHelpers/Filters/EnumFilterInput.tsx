@@ -13,7 +13,7 @@ interface IProps {
   setFilter: (filterField: IFilterField) => void
 }
 
-const itemsForField = (fieldName: string): INameValuePair[] => {
+export const enumItemsForField = (fieldName: string): INameValuePair[] => {
   switch (fieldName) {
     case 'currentEmployeeStatusCode':
     default:
@@ -37,13 +37,17 @@ const DateFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
     <div className="LabelledItem">
       <CollectionSelect<INameValuePair>
         label={employeeFieldLabels[filterField.fieldName]}
-        items={itemsForField(filterField.fieldName)}
+        items={enumItemsForField(filterField.fieldName)}
         id={filterField.fieldName}
         nameAccessor={(item): string => item.name}
         valueAccessor={(item): string => item.value}
-        onChangeCallback={(changedItems): void => {
-          const selectedValues = changedItems as string[]
-          setSelectValues(selectedValues)
+        onChangeCallback={(changeObj): void => {
+          console.log('changeObj', changeObj)
+          if (Array.isArray(changeObj)) {
+            setSelectValues(changeObj)
+          } else {
+            setSelectValues([(changeObj as unknown) as string]) // Wrap as array
+          }
         }}
         placeholder={'None selected'}
         isMultiSelect
