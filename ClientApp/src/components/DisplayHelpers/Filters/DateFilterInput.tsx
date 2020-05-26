@@ -42,21 +42,11 @@ const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IPr
     setFilter(filterFieldClone)
 ***REMOVED*** [fromDate, toDate])
 
-  console.log('filterField', filterField)
-
   const fieldName = filterField.fieldName
 
   const label = employeeFieldLabels[filterField.fieldName]
 
   const fromId = `$***REMOVED***fieldName***REMOVED***-From`
-  const toId = `$***REMOVED***fieldName***REMOVED***-To`
-  const fromName = `$***REMOVED***fieldName***REMOVED***-FromName`
-  const toName = `$***REMOVED***fieldName***REMOVED***-ToName`
-
-  console.log(
-    stringToDate(filterField.values[0]),
-    stringToDate(filterField.values[1])
-  )
 
   return (
     <div className="LabelledItem">

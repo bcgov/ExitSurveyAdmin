@@ -11,6 +11,7 @@ import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../../types/EmployeeS
 interface IProps ***REMOVED***
   filterField: IFilterField
   setFilter: (filterField: IFilterField) => void
+  resetTimestamp: number
 ***REMOVED***
 
 export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REMOVED***
@@ -24,7 +25,11 @@ export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REM
 ***REMOVED***
 ***REMOVED***
 
-const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const EnumFilterInput = (***REMOVED***
+  filterField,
+  setFilter,
+  resetTimestamp
+***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const [selectValues, setSelectValues] = React.useState<string[]>([])
 
   React.useEffect((): void => ***REMOVED***
@@ -42,13 +47,13 @@ const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IPr
         nameAccessor=***REMOVED***(item): string => item.name***REMOVED***
         valueAccessor=***REMOVED***(item): string => item.value***REMOVED***
         onChangeCallback=***REMOVED***(changeObj): void => ***REMOVED***
-          console.log('changeObj', changeObj)
           if (Array.isArray(changeObj)) ***REMOVED***
             setSelectValues(changeObj)
         ***REMOVED*** else ***REMOVED***
             setSelectValues([(changeObj as unknown) as string]) // Wrap as array
         ***REMOVED***
       ***REMOVED******REMOVED***
+        key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED***
         placeholder=***REMOVED***'None selected'***REMOVED***
         isMultiSelect
       />
@@ -56,4 +61,4 @@ const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IPr
   )
 ***REMOVED***
 
-export default DateFilterInput
+export default EnumFilterInput

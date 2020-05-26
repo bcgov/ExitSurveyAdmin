@@ -21,10 +21,12 @@ $transitionTime: 0.3s;
   .FilterPanelBody ***REMOVED***
     background-color: $gray-100;
     border-bottom: solid white 0px;
+    overflow: hidden;
     transition: max-height $transitionTime, border-width $transitionTime,
       border-color $transitionTime;
     &.Expanded ***REMOVED***
       border-bottom: solid $gray-500 2px;
+      overflow: visible;
   ***REMOVED***
 ***REMOVED***
 ***REMOVED***
