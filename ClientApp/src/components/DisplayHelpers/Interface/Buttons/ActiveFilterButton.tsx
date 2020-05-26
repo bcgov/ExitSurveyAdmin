@@ -2,6 +2,7 @@ import React from 'react'
 import IconButton from './IconButton'
 import { employeeFieldLabels } from '../../../../types/Employee'
 import { IFilterField } from '../../Filters/FilterTypes'
+import { enumItemsForField } from '../../Filters/EnumFilterInput'
 
 interface IProps {
   filterField: IFilterField
@@ -31,7 +32,13 @@ const ActiveFilterButton = ({
       }
       break
     case 'enum':
-      valueString = values.join(' or ')
+      valueString = values
+        .map(
+          v =>
+            enumItemsForField(fieldName).find(enumItem => enumItem.value === v)
+              ?.name
+        )
+        .join(' or ')
       break
   }
 

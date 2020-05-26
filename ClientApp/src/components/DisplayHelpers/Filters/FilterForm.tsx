@@ -41,7 +41,6 @@ const FilterForm = (props: IProps): JSX.Element => {
 
   const inputs = employeeFilterFields.map(
     (field): JSX.Element => {
-      console.log('field', field)
       let filterComponent
       let colWidth = 2
       switch (field.type) {
