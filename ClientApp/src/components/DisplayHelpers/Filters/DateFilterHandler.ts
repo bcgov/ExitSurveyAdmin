@@ -45,7 +45,7 @@ export default class DateFilterHandler extends FilterHandler {
     })
 
     if (!column) {
-      throw `DateFilter: Could not parse input '${input}'`
+      throw new Error(`DateFilter: Could not parse input '${input}'`)
     }
     return {
       fieldName: column,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { IFilterField } from './FilterTypes'
 import { employeeFieldLabels } from '../../../types/Employee'
@@ -8,10 +8,12 @@ import CollectionSelect, {
 } from '../Interface/Selects/CollectionSelect'
 import { EmployeeStatus } from '../../../types/EmployeeStatusEnum'
 import { Reason } from '../../../types/ReasonEnum'
+import { FilterDispatch, cloneAndSetValues } from './FilterForm'
+import { FixTypeLater } from '../../../types/FixTypeLater'
 
 interface IProps {
   filterField: IFilterField
-  setFilter: (filterField: IFilterField) => void
+  // setFilter: (filterField: IFilterField) => void
   resetTimestamp: number
 }
 
@@ -39,16 +41,21 @@ export const enumItemsForField = (fieldName: string): INameValuePair[] => {
 
 const EnumFilterInput = ({
   filterField,
-  setFilter,
   resetTimestamp
 }: IProps): JSX.Element => {
+  const dispatch = useContext(FilterDispatch) as FixTypeLater
+
   const [selectValues, setSelectValues] = React.useState<string[]>([])
 
   React.useEffect((): void => {
-    const filterFieldClone = Object.assign({}, filterField)
-    filterFieldClone.values = [...selectValues]
-    setFilter(filterFieldClone)
-  }, [selectValues])
+    const clone = cloneAndSetValues(filterField, [...selectValues])
+    dispatch({ type: 'setFilter', filterField: clone })
+  }, [filterField, selectValues])
+
+  const handleChange = React.useCallback((changeObj): void => {
+    console.log('changeObj', changeObj)
+    changeObj == null ? setSelectValues([]) : setSelectValues(changeObj)
+  }, [])
 
   return (
     <div className="LabelledItem">
@@ -58,13 +65,7 @@ const EnumFilterInput = ({
         id={filterField.fieldName}
         nameAccessor={(item): string => item.name}
         valueAccessor={(item): string => item.value}
-        onChangeCallback={(changeObj): void => {
-          if (Array.isArray(changeObj)) {
-            setSelectValues(changeObj)
-          } else {
-            setSelectValues([(changeObj as unknown) as string]) // Wrap as array
-          }
-        }}
+        onChangeCallback={handleChange}
         key={`${resetTimestamp}`} // Kind of hacky way to reset values
         placeholder={'None selected'}
         isMultiSelect

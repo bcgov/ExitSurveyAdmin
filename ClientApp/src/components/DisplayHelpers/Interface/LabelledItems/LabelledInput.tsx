@@ -12,7 +12,6 @@ interface IProps {
 
 const LabelledInput = (props: IProps): JSX.Element => {
   const { title, name, placeholder, onChange } = props
-  console.log(title, name)
   const id = slugify(title)
   return (
     <LabelledItem>

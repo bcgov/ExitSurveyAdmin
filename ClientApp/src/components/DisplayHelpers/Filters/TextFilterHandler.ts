@@ -16,7 +16,7 @@ export default class TextFilterHandler extends FilterHandler {
     // This takes multiple values, but will only use the first one.
     const [column, filterValue] = input[0].split('@=')
     if (!column || !filterValue) {
-      throw `TextFilter: Could not parse input '${input}'`
+      throw new Error(`TextFilter: Could not parse input '${input}'`)
     }
     return {
       fieldName: column,

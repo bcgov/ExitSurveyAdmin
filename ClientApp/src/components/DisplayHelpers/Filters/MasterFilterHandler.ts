@@ -37,10 +37,11 @@ export class MasterFilterHandler {
       return []
     }
     if (Array.isArray(rawFilters)) {
-      throw `decodeFromQueryString: filters should not be an array`
+      throw new Error(`decodeFromQueryString: filters should not be an array`)
     }
 
     const filterStrings = rawFilters.split(',')
+    console.log('filterStrings', filterStrings)
 
     // Set up an array to hold the filters
     const filterFields: IFilterField[] = []

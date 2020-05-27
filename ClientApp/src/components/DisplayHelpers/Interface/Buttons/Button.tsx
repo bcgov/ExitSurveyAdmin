@@ -2,7 +2,7 @@ import React from 'react'
 
 export interface ICommonButtonProps {
   colorType?: string
-  classes?: string
+  className?: string
   marginClasses?: string
   onClick?: () => void
   size?: string
@@ -18,13 +18,13 @@ interface IProps extends ICommonButtonProps {
 class Button extends React.Component<IProps> {
   public render(): JSX.Element {
     const { onClick, children, submit, reset } = this.props
-    const classes = this.props.classes || ''
+    const className = this.props.className || ''
     const colorType = this.props.colorType || 'primary'
     const marginClasses = this.props.marginClasses || ''
     const size = this.props.size ? `btn-${this.props.size}` : ''
     return (
       <button
-        className={`btn ${size} btn-${colorType} ${marginClasses} ${classes}`}
+        className={`btn ${size} btn-${colorType} ${marginClasses} ${className}`}
         onClick={onClick}
         type={submit ? 'submit' : reset ? 'reset' : 'button'}
       >
