@@ -56,7 +56,7 @@ const Pagination = (props: IProps): JSX.Element => {
         <span>
           Page{' '}
           <strong>
-            {pageIndex + 1} of {pageCount}
+            {pageCount === 0 ? 0 : pageIndex + 1} of {pageCount}
           </strong>{' '}
         </span>
       </div>
