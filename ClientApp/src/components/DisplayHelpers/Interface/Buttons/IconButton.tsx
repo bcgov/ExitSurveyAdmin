@@ -5,6 +5,7 @@ import Button, { ICommonButtonProps } from './Button'
 import './IconButton.scss'
 
 interface IProps extends ICommonButtonProps {
+  buttonClasses?: string
   iconClasses?: string
   iconMarginClasses?: string
   iconName: string
@@ -19,6 +20,7 @@ interface IProps extends ICommonButtonProps {
 class IconButton extends React.Component<IProps> {
   public render(): JSX.Element {
     const {
+      buttonClasses,
       iconClasses,
       iconMarginClasses,
       iconName,
@@ -37,7 +39,7 @@ class IconButton extends React.Component<IProps> {
     )
 
     return (
-      <Button {...this.props}>
+      <Button {...this.props} className={buttonClasses}>
         {!iconRight && icon}
         {label}
         {iconRight && icon}

@@ -1,20 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { IFilterField } from './FilterTypes'
 import LabelledInput from '../Interface/LabelledItems/LabelledInput'
 import { employeeFieldLabels } from '../../../types/Employee'
+import { FilterDispatch, cloneAndSetValues } from './FilterForm'
+import { FixTypeLater } from '../../../types/FixTypeLater'
 
 interface IProps {
   filterField: IFilterField
-  setFilter: (filterField: IFilterField) => void
 }
 
-const TextFilterInput = ({ filterField, setFilter }: IProps): JSX.Element => {
+const TextFilterInput = ({ filterField }: IProps): JSX.Element => {
+  const dispatch = useContext(FilterDispatch) as FixTypeLater
+
   const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log('--> filterField', filterField)
-      const filterFieldClone = Object.assign({}, filterField)
-      filterFieldClone.values = [event.target.value]
-      setFilter(filterFieldClone)
+      const clone = cloneAndSetValues(filterField, [event.target.value])
+      dispatch({ type: 'setFilter', filterField: clone })
     },
     [filterField]
   )
