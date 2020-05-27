@@ -74,6 +74,23 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitId])
 
+  const setLastNMonths = React.useCallback((): void => {
+    dispatch({
+      type: 'setFilter',
+      filterField: {
+        fieldName: 'effectiveDate',
+        type: 'date',
+        values: [
+          moment()
+            .subtract(6, 'months')
+            .format(defaultFormat),
+          ''
+        ]
+      }
+    })
+    setSubmitId(submitId + 1)
+  }, [submitId])
+
   const setActiveUsers = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
@@ -128,6 +145,15 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
               <p className="mb-1">
                 <strong>Predefined filters</strong>
               </p>
+              <IconButton
+                label="Effective date in last 6 months"
+                iconName="check"
+                colorType="outline-primary"
+                marginClasses="mr-2"
+                iconMarginClasses="mr-2"
+                buttonClasses="btn-sm"
+                onClick={setLastNMonths}
+              />
               <IconButton
                 label="Active users"
                 iconName="check"
