@@ -10,7 +10,8 @@
   "plugins": [
     "react",
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "react-hooks"
   ],
   "env": ***REMOVED***
     "browser": true,
@@ -19,6 +20,8 @@
     "node": true
 ***REMOVED***
   "rules": ***REMOVED***
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "sort-imports": [
       "error",
       ***REMOVED***

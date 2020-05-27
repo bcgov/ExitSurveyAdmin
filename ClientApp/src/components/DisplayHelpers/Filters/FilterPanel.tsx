@@ -3,10 +3,11 @@ import ActiveFilters from './ActiveFilters'
 import FilterForm from './FilterForm'
 
 import './FilterPanel.scss'
-import IconButton from '../Interface/Buttons/IconButton'
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from './MasterFilterHandler'
+import ExpandPanel from '../Interface/Buttons/FilterPanelExpandButton'
+import HidePanel from '../Interface/Buttons/FilterPanelHideButton'
 
 interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
 
@@ -28,12 +29,8 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
       filtersToAdd.forEach(newFilter => ***REMOVED***
         // If a new filter exists in the existing array, remove it
         removeIfExists(filtersClone, newFilter)
-        // Then push the new filter
-        filtersClone.push(newFilter)
+        filtersClone.push(newFilter) // Then push the new filter
     ***REMOVED***)
-
-      console.log('filtersToAdd', filtersToAdd)
-
       setFilters(filtersClone)
   ***REMOVED***
     [filters]
@@ -57,8 +54,6 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
 ***REMOVED*** [filters, props.history])
 
   const expandedHeight = expanded ? '400px' : '0px'
-  const expandButtonText = expanded ? 'Hide' : 'Expand'
-  const expandButtonIcon = `caret-$***REMOVED***expanded ? 'down' : 'right'***REMOVED***`
   const expandedClass = expanded ? 'Expanded' : ''
 
   return (
@@ -75,32 +70,8 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
               <ActiveFilters filters=***REMOVED***filters***REMOVED*** removeFilter=***REMOVED***removeFilter***REMOVED*** />
             </div>
             <div className="ml-auto">
-              ***REMOVED***expanded && (
-                <IconButton
-                  iconType="fas"
-                  iconName=***REMOVED***expandButtonIcon***REMOVED***
-                  label=***REMOVED***`$***REMOVED***expandButtonText***REMOVED*** filters`***REMOVED***
-                  iconRight
-                  iconMarginClasses="ml-2"
-                  colorType="secondary"
-                  buttonClasses="NoOutline NoBackground Faded"
-                  iconClasses="fa-lg"
-                  onClick=***REMOVED***(): void => setExpanded(!expanded)***REMOVED***
-                />
-              )***REMOVED***
-              ***REMOVED***!expanded && (
-                <IconButton
-                  iconType="fas"
-                  iconName=***REMOVED***expandButtonIcon***REMOVED***
-                  label=***REMOVED***`$***REMOVED***expandButtonText***REMOVED*** filters`***REMOVED***
-                  iconRight
-                  iconMarginClasses="ml-2"
-                  colorType="secondary"
-                  buttonClasses="NoOutline NoBackground Faded"
-                  iconClasses="fa-lg"
-                  onClick=***REMOVED***(): void => setExpanded(!expanded)***REMOVED***
-                />
-              )***REMOVED***
+              ***REMOVED***expanded && <ExpandPanel setExpanded=***REMOVED***setExpanded***REMOVED*** />***REMOVED***
+              ***REMOVED***!expanded && <HidePanel setExpanded=***REMOVED***setExpanded***REMOVED*** />***REMOVED***
             </div>
           </div>
         </div>

@@ -5,8 +5,8 @@ import ***REMOVED*** IFilterField, employeeFilterFields ***REMOVED*** from './Fi
 import TextFilterInput from './TextFilterInput'
 import DateFilterInput from './DateFilterInput'
 import EnumFilterInput from './EnumFilterInput'
-// import moment from 'moment'
-// import ***REMOVED*** defaultFormat ***REMOVED*** from './DateFilterInput'
+import moment from 'moment'
+import ***REMOVED*** defaultFormat ***REMOVED*** from '../../../helpers/dateHelper'
 
 interface IProps ***REMOVED***
   addFilters: (filters: IFilterField[]) => void
@@ -47,60 +47,46 @@ export const FilterDispatch = React.createContext(***REMOVED******REMOVED***)
 const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const [filterMap, dispatch] = React.useReducer(reducer, ***REMOVED******REMOVED***)
   const [resetTimestamp, setResetTimestamp] = React.useState<number>(0)
-
-  // console.log('RENDERING FILTERFORM...')
+  const [submitId, setSubmitId] = React.useState<number>(0)
 
   const formRef = React.useRef<HTMLFormElement>(null)
 
-  const submitFilters = React.useCallback(
-    (event?: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
-      if (event) event.preventDefault()
-      console.log('here', filterMap)
-      addFilters(Object.values(filterMap))
-      dispatch(***REMOVED*** type: 'reset' ***REMOVED***)
-      formRef.current?.reset()
-      setResetTimestamp(Date.now())
+  const submitForm = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
+      event.preventDefault()
+      setSubmitId(submitId + 1)
   ***REMOVED***
-    [filterMap, addFilters]
+    [submitId]
   )
 
-  // const setFilter = React.useCallback(
-  //   (filterField: IFilterField) => ***REMOVED***
-  //     console.log('filterField', filterField)
-  //     const filterMapClone = ***REMOVED*** ...filterMap ***REMOVED***
-  //     console.log(filterMapClone)
-  //     filterMapClone[filterField.fieldName] = filterField
-  //     setFilterMap(filterMapClone)
-  // ***REMOVED***
-  //   [filterMap]
-  // )
+  const reset = React.useCallback((): void => ***REMOVED***
+    dispatch(***REMOVED*** type: 'reset' ***REMOVED***)
+    resetFilters()
+    setResetTimestamp(Date.now())
+***REMOVED*** [resetFilters, dispatch])
 
   React.useEffect((): void => ***REMOVED***
-    console.log('Logging', filterMap)
-***REMOVED*** [filterMap])
+    addFilters(Object.values(filterMap))
+    dispatch(***REMOVED*** type: 'reset' ***REMOVED***)
+    formRef.current?.reset()
+    setResetTimestamp(Date.now())
+    // Note: we only care about submitId here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+***REMOVED*** [submitId])
 
-  // const reset = React.useCallback((): void => ***REMOVED***
-  //   setFilterMap(***REMOVED******REMOVED***)
-  //   resetFilters()
-  //   setResetTimestamp(Date.now())
-  // ***REMOVED***, [filterMap])
-
-  // const setActiveUsers = React.useCallback((): void => ***REMOVED***
-  //   // setFilter(***REMOVED***
-  //   //   fieldName: 'effectiveDate',
-  //   //   type: 'date',
-  //   //   values: ['', moment().format(defaultFormat)]
-  //   // ***REMOVED***)
-  //   setFilter(***REMOVED***
-  //     fieldName: 'firstName',
-  //     type: 'string',
-  //     values: ['maur']
-  // ***REMOVED***)
-  //   // submitFilters()
-  // ***REMOVED***, [setFilter])
+  const setActiveUsers = React.useCallback((): void => ***REMOVED***
+    dispatch(***REMOVED***
+      type: 'setFilter',
+      filterField: ***REMOVED***
+        fieldName: 'effectiveDate',
+        type: 'date',
+        values: ['', moment().format(defaultFormat)]
+    ***REMOVED***
+  ***REMOVED***)
+    setSubmitId(submitId + 1)
+***REMOVED*** [submitId])
 
   const inputs = useMemo(() => ***REMOVED***
-    console.log('useMemo inputs')
     return employeeFilterFields.map(
       (field): JSX.Element => ***REMOVED***
         let filterComponent
@@ -123,7 +109,6 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
           default:
             filterComponent = <TextFilterInput filterField=***REMOVED***field***REMOVED*** />
       ***REMOVED***
-        console.log('Mapping item...')
         return (
           <div key=***REMOVED***field.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
             ***REMOVED***filterComponent***REMOVED***
@@ -136,7 +121,7 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
   return (
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <div className="FilterForm">
-        <form onSubmit=***REMOVED***submitFilters***REMOVED*** ref=***REMOVED***formRef***REMOVED***>
+        <form onSubmit=***REMOVED***submitForm***REMOVED*** ref=***REMOVED***formRef***REMOVED***>
           <div className="row">***REMOVED***inputs***REMOVED***</div>
           <div className="row align-items-center">
             <div className="col-6 form-group">
@@ -150,7 +135,7 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
                 marginClasses="mr-2"
                 iconMarginClasses="mr-2"
                 buttonClasses="btn-sm"
-                // onClick=***REMOVED***setActiveUsers***REMOVED***
+                onClick=***REMOVED***setActiveUsers***REMOVED***
               />
             </div>
             <div className="col-6 form-group LabelledItem">
@@ -168,7 +153,7 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
                   iconName="undo"
                   colorType="secondary"
                   iconMarginClasses="mr-2"
-                  // onClick=***REMOVED***reset***REMOVED***
+                  onClick=***REMOVED***reset***REMOVED***
                   reset
                 />
               </div>

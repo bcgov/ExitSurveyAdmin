@@ -41,7 +41,6 @@ export class MasterFilterHandler ***REMOVED***
   ***REMOVED***
 
     const filterStrings = rawFilters.split(',')
-    console.log('filterStrings', filterStrings)
 
     // Set up an array to hold the filters
     const filterFields: IFilterField[] = []

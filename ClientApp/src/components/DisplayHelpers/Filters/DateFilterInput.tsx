@@ -36,7 +36,7 @@ const DateFilterInput = (***REMOVED*** filterField ***REMOVED***: IProps): JSX.E
       dateToString(toDate)
     ])
     dispatch(***REMOVED*** type: 'setFilter', filterField: clone ***REMOVED***)
-***REMOVED*** [fromDate, toDate, filterField])
+***REMOVED*** [fromDate, toDate, filterField, dispatch])
 
   const name = filterField.fieldName
 
