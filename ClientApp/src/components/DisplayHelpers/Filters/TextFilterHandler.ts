@@ -16,7 +16,7 @@ export default class TextFilterHandler extends FilterHandler ***REMOVED***
     // This takes multiple values, but will only use the first one.
     const [column, filterValue] = input[0].split('@=')
     if (!column || !filterValue) ***REMOVED***
-      throw `TextFilter: Could not parse input '$***REMOVED***input***REMOVED***'`
+      throw new Error(`TextFilter: Could not parse input '$***REMOVED***input***REMOVED***'`)
   ***REMOVED***
     return ***REMOVED***
       fieldName: column,

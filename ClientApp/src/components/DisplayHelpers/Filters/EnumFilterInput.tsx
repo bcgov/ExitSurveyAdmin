@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
 import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
@@ -8,10 +8,12 @@ import CollectionSelect, ***REMOVED***
 ***REMOVED*** from '../Interface/Selects/CollectionSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../../types/EmployeeStatusEnum'
 import ***REMOVED*** Reason ***REMOVED*** from '../../../types/ReasonEnum'
+import ***REMOVED*** FilterDispatch, cloneAndSetValues ***REMOVED*** from './FilterForm'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 
 interface IProps ***REMOVED***
   filterField: IFilterField
-  setFilter: (filterField: IFilterField) => void
+  // setFilter: (filterField: IFilterField) => void
   resetTimestamp: number
 ***REMOVED***
 
@@ -39,16 +41,21 @@ export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REM
 
 const EnumFilterInput = (***REMOVED***
   filterField,
-  setFilter,
   resetTimestamp
 ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  const dispatch = useContext(FilterDispatch) as FixTypeLater
+
   const [selectValues, setSelectValues] = React.useState<string[]>([])
 
   React.useEffect((): void => ***REMOVED***
-    const filterFieldClone = Object.assign(***REMOVED******REMOVED***, filterField)
-    filterFieldClone.values = [...selectValues]
-    setFilter(filterFieldClone)
-***REMOVED*** [selectValues])
+    const clone = cloneAndSetValues(filterField, [...selectValues])
+    dispatch(***REMOVED*** type: 'setFilter', filterField: clone ***REMOVED***)
+***REMOVED*** [filterField, selectValues])
+
+  const handleChange = React.useCallback((changeObj): void => ***REMOVED***
+    console.log('changeObj', changeObj)
+    changeObj == null ? setSelectValues([]) : setSelectValues(changeObj)
+***REMOVED*** [])
 
   return (
     <div className="LabelledItem">
@@ -58,13 +65,7 @@ const EnumFilterInput = (***REMOVED***
         id=***REMOVED***filterField.fieldName***REMOVED***
         nameAccessor=***REMOVED***(item): string => item.name***REMOVED***
         valueAccessor=***REMOVED***(item): string => item.value***REMOVED***
-        onChangeCallback=***REMOVED***(changeObj): void => ***REMOVED***
-          if (Array.isArray(changeObj)) ***REMOVED***
-            setSelectValues(changeObj)
-        ***REMOVED*** else ***REMOVED***
-            setSelectValues([(changeObj as unknown) as string]) // Wrap as array
-        ***REMOVED***
-      ***REMOVED******REMOVED***
+        onChangeCallback=***REMOVED***handleChange***REMOVED***
         key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** // Kind of hacky way to reset values
         placeholder=***REMOVED***'None selected'***REMOVED***
         isMultiSelect

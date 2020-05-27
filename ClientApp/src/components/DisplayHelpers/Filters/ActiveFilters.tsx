@@ -21,6 +21,7 @@ const sort = (a: IFilterField, b: IFilterField): number => ***REMOVED***
 const ActiveFilters = (props: IProps): JSX.Element => ***REMOVED***
   const filterButtons = props.filters
     .sort(sort)
+    .filter(f => f.values.length > 0)
     .map(f => (
       <ActiveFilterButton
         key=***REMOVED***f.fieldName***REMOVED***

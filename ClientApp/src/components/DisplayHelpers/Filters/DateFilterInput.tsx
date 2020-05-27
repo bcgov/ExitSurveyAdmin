@@ -1,30 +1,25 @@
-import React from 'react'
+import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
 import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
 
 import DatePicker from 'react-datepicker'
-import moment from 'moment'
 
 import 'react-datepicker/dist/react-datepicker.css'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
+import ***REMOVED*** FilterDispatch, cloneAndSetValues ***REMOVED*** from './FilterForm'
+import ***REMOVED***
+  NullableDate,
+  dateToString,
+  stringToDate
+***REMOVED*** from '../../../helpers/dateHelper'
 
 interface IProps ***REMOVED***
   filterField: IFilterField
-  setFilter: (filterField: IFilterField) => void
 ***REMOVED***
 
-type NullableDate = Date | null
+const DateFilterInput = (***REMOVED*** filterField ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-const defaultFormat = 'YYYY-MM-DD'
-
-const dateToString = (date: NullableDate): string => ***REMOVED***
-  return date ? moment(date).format(defaultFormat) : ''
-***REMOVED***
-const stringToDate = (str: string): NullableDate => ***REMOVED***
-  const candidateDate = moment(str)
-  return candidateDate.isValid() ? candidateDate.toDate() : null
-***REMOVED***
-
-const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const [fromDate, setFromDate] = React.useState<NullableDate>(
     stringToDate(filterField.values[0])
   )
@@ -32,25 +27,22 @@ const DateFilterInput = (***REMOVED*** filterField, setFilter ***REMOVED***: IPr
     stringToDate(filterField.values[1])
   )
 
-  const fromChange = React.useCallback((d: Date) => setFromDate(d), [fromDate])
-  const toChange = React.useCallback((d: Date) => setToDate(d), [toDate])
+  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
+  const toChange = React.useCallback((d: Date) => setToDate(d), [])
 
   React.useEffect((): void => ***REMOVED***
-    const filterFieldClone = Object.assign(***REMOVED******REMOVED***, filterField)
-    filterFieldClone.values = [dateToString(fromDate), dateToString(toDate)]
-    // filterFieldClone.values[index] = dateToString(date)
-    setFilter(filterFieldClone)
-***REMOVED*** [fromDate, toDate])
+    const clone = cloneAndSetValues(filterField, [
+      dateToString(fromDate),
+      dateToString(toDate)
+    ])
+    dispatch(***REMOVED*** type: 'setFilter', filterField: clone ***REMOVED***)
+***REMOVED*** [fromDate, toDate, filterField])
 
-  const fieldName = filterField.fieldName
-
-  const label = employeeFieldLabels[filterField.fieldName]
-
-  const fromId = `$***REMOVED***fieldName***REMOVED***-From`
+  const name = filterField.fieldName
 
   return (
     <div className="LabelledItem">
-      <label htmlFor=***REMOVED***fromId***REMOVED***>***REMOVED***label***REMOVED***</label>
+      <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***employeeFieldLabels[name]***REMOVED***</label>
       <div className="d-flex w-100">
         <div className="w-50 mr-2">
           <DatePicker

@@ -32,6 +32,8 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
         filtersClone.push(newFilter)
     ***REMOVED***)
 
+      console.log('filtersToAdd', filtersToAdd)
+
       setFilters(filtersClone)
   ***REMOVED***
     [filters]
@@ -48,11 +50,11 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
 
   const resetFilters = React.useCallback((): void => ***REMOVED***
     setFilters([])
-***REMOVED*** [filters])
+***REMOVED*** [])
 
   React.useEffect(() => ***REMOVED***
     props.history.push(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***)
-***REMOVED*** [filters])
+***REMOVED*** [filters, props.history])
 
   const expandedHeight = expanded ? '400px' : '0px'
   const expandButtonText = expanded ? 'Hide' : 'Expand'
@@ -81,7 +83,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
                   iconRight
                   iconMarginClasses="ml-2"
                   colorType="secondary"
-                  classes="NoOutline NoBackground Faded"
+                  buttonClasses="NoOutline NoBackground Faded"
                   iconClasses="fa-lg"
                   onClick=***REMOVED***(): void => setExpanded(!expanded)***REMOVED***
                 />
@@ -94,7 +96,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
                   iconRight
                   iconMarginClasses="ml-2"
                   colorType="secondary"
-                  classes="NoOutline NoBackground Faded"
+                  buttonClasses="NoOutline NoBackground Faded"
                   iconClasses="fa-lg"
                   onClick=***REMOVED***(): void => setExpanded(!expanded)***REMOVED***
                 />

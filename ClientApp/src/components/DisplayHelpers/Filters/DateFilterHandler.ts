@@ -45,7 +45,7 @@ export default class DateFilterHandler extends FilterHandler ***REMOVED***
   ***REMOVED***)
 
     if (!column) ***REMOVED***
-      throw `DateFilter: Could not parse input '$***REMOVED***input***REMOVED***'`
+      throw new Error(`DateFilter: Could not parse input '$***REMOVED***input***REMOVED***'`)
   ***REMOVED***
     return ***REMOVED***
       fieldName: column,

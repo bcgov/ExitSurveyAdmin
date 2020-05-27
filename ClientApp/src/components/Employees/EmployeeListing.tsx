@@ -44,8 +44,8 @@ const processSorts = (sortBy: ISort[]): string => ***REMOVED***
 // ***REMOVED***)
 // ***REMOVED***
 
-const extractFilters = (props: IProps): string =>
-  MasterFilterHandler.extractFromRawQueryString(props.location.search)
+const extractFilters = (propLocationSearch: string): string =>
+  MasterFilterHandler.extractFromRawQueryString(propLocationSearch)
 
 interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
 
@@ -59,11 +59,13 @@ const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
   const [recordCount, setRecordCount] = React.useState<number>(0)
   const [sortQuery, setSortQuery] = React.useState<string>('')
   const [filterQuery, setFilterQuery] = React.useState<string>(
-    extractFilters(props)
+    extractFilters(props.location.search)
   )
   const fetchIdRef = React.useRef<number>(0)
 
-  React.useEffect(() => setFilterQuery(extractFilters(props)), [props.location])
+  React.useEffect(() => setFilterQuery(extractFilters(props.location.search)), [
+    props.location.search
+  ])
 
   // Called when the table needs new data
   const fetchData = React.useCallback(

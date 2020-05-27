@@ -5,6 +5,7 @@ import Button, ***REMOVED*** ICommonButtonProps ***REMOVED*** from './Button'
 import './IconButton.scss'
 
 interface IProps extends ICommonButtonProps ***REMOVED***
+  buttonClasses?: string
   iconClasses?: string
   iconMarginClasses?: string
   iconName: string
@@ -19,6 +20,7 @@ interface IProps extends ICommonButtonProps ***REMOVED***
 class IconButton extends React.Component<IProps> ***REMOVED***
   public render(): JSX.Element ***REMOVED***
     const ***REMOVED***
+      buttonClasses,
       iconClasses,
       iconMarginClasses,
       iconName,
@@ -37,7 +39,7 @@ class IconButton extends React.Component<IProps> ***REMOVED***
     )
 
     return (
-      <Button ***REMOVED***...this.props***REMOVED***>
+      <Button ***REMOVED***...this.props***REMOVED*** className=***REMOVED***buttonClasses***REMOVED***>
         ***REMOVED***!iconRight && icon***REMOVED***
         ***REMOVED***label***REMOVED***
         ***REMOVED***iconRight && icon***REMOVED***

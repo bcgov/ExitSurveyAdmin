@@ -2,7 +2,7 @@ import React from 'react'
 
 export interface ICommonButtonProps ***REMOVED***
   colorType?: string
-  classes?: string
+  className?: string
   marginClasses?: string
   onClick?: () => void
   size?: string
@@ -18,13 +18,13 @@ interface IProps extends ICommonButtonProps ***REMOVED***
 class Button extends React.Component<IProps> ***REMOVED***
   public render(): JSX.Element ***REMOVED***
     const ***REMOVED*** onClick, children, submit, reset ***REMOVED*** = this.props
-    const classes = this.props.classes || ''
+    const className = this.props.className || ''
     const colorType = this.props.colorType || 'primary'
     const marginClasses = this.props.marginClasses || ''
     const size = this.props.size ? `btn-$***REMOVED***this.props.size***REMOVED***` : ''
     return (
       <button
-        className=***REMOVED***`btn $***REMOVED***size***REMOVED*** btn-$***REMOVED***colorType***REMOVED*** $***REMOVED***marginClasses***REMOVED*** $***REMOVED***classes***REMOVED***`***REMOVED***
+        className=***REMOVED***`btn $***REMOVED***size***REMOVED*** btn-$***REMOVED***colorType***REMOVED*** $***REMOVED***marginClasses***REMOVED*** $***REMOVED***className***REMOVED***`***REMOVED***
         onClick=***REMOVED***onClick***REMOVED***
         type=***REMOVED***submit ? 'submit' : reset ? 'reset' : 'button'***REMOVED***
       >
