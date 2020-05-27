@@ -38,6 +38,7 @@ const ActiveFilterButton = ({
             enumItemsForField(fieldName).find(enumItem => enumItem.value === v)
               ?.name
         )
+        .filter(v => v && v.length > 0)
         .join(' or ')
       break
   }
