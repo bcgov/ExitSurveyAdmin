@@ -142,6 +142,10 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> ***R
     this.deserialize(input)
 ***REMOVED***
 
+  get timelineEntryCount(): number ***REMOVED***
+    return this.timelineEntries.length
+***REMOVED***
+
   public deserialize(input: IEmployeeJSON): Employee ***REMOVED***
     this.id = undefinedIfNull(input.id)
     this.telkey = undefinedIfNull(input.telkey)
