@@ -56,7 +56,7 @@ const Pagination = (props: IProps): JSX.Element => ***REMOVED***
         <span>
           Page***REMOVED***' '***REMOVED***
           <strong>
-            ***REMOVED***pageIndex + 1***REMOVED*** of ***REMOVED***pageCount***REMOVED***
+            ***REMOVED***pageCount === 0 ? 0 : pageIndex + 1***REMOVED*** of ***REMOVED***pageCount***REMOVED***
           </strong>***REMOVED***' '***REMOVED***
         </span>
       </div>
