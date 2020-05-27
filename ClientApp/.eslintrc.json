@@ -10,7 +10,8 @@
   "plugins": [
     "react",
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "react-hooks"
   ],
   "env": {
     "browser": true,
@@ -19,6 +20,8 @@
     "node": true
   },
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "sort-imports": [
       "error",
       {

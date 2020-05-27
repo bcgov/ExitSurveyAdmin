@@ -17,7 +17,7 @@ const TextFilterInput = ({ filterField }: IProps): JSX.Element => {
       const clone = cloneAndSetValues(filterField, [event.target.value])
       dispatch({ type: 'setFilter', filterField: clone })
     },
-    [filterField]
+    [filterField, dispatch]
   )
 
   return (
