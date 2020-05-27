@@ -3,10 +3,11 @@ import ActiveFilters from './ActiveFilters'
 import FilterForm from './FilterForm'
 
 import './FilterPanel.scss'
-import IconButton from '../Interface/Buttons/IconButton'
 import { IFilterField } from './FilterTypes'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { MasterFilterHandler } from './MasterFilterHandler'
+import ExpandPanel from '../Interface/Buttons/FilterPanelExpandButton'
+import HidePanel from '../Interface/Buttons/FilterPanelHideButton'
 
 interface IProps extends RouteComponentProps {}
 
@@ -28,12 +29,8 @@ const FilterPanel = (props: IProps): JSX.Element => {
       filtersToAdd.forEach(newFilter => {
         // If a new filter exists in the existing array, remove it
         removeIfExists(filtersClone, newFilter)
-        // Then push the new filter
-        filtersClone.push(newFilter)
+        filtersClone.push(newFilter) // Then push the new filter
       })
-
-      console.log('filtersToAdd', filtersToAdd)
-
       setFilters(filtersClone)
     },
     [filters]
@@ -57,8 +54,6 @@ const FilterPanel = (props: IProps): JSX.Element => {
   }, [filters, props.history])
 
   const expandedHeight = expanded ? '400px' : '0px'
-  const expandButtonText = expanded ? 'Hide' : 'Expand'
-  const expandButtonIcon = `caret-${expanded ? 'down' : 'right'}`
   const expandedClass = expanded ? 'Expanded' : ''
 
   return (
@@ -75,32 +70,8 @@ const FilterPanel = (props: IProps): JSX.Element => {
               <ActiveFilters filters={filters} removeFilter={removeFilter} />
             </div>
             <div className="ml-auto">
-              {expanded && (
-                <IconButton
-                  iconType="fas"
-                  iconName={expandButtonIcon}
-                  label={`${expandButtonText} filters`}
-                  iconRight
-                  iconMarginClasses="ml-2"
-                  colorType="secondary"
-                  buttonClasses="NoOutline NoBackground Faded"
-                  iconClasses="fa-lg"
-                  onClick={(): void => setExpanded(!expanded)}
-                />
-              )}
-              {!expanded && (
-                <IconButton
-                  iconType="fas"
-                  iconName={expandButtonIcon}
-                  label={`${expandButtonText} filters`}
-                  iconRight
-                  iconMarginClasses="ml-2"
-                  colorType="secondary"
-                  buttonClasses="NoOutline NoBackground Faded"
-                  iconClasses="fa-lg"
-                  onClick={(): void => setExpanded(!expanded)}
-                />
-              )}
+              {expanded && <ExpandPanel setExpanded={setExpanded} />}
+              {!expanded && <HidePanel setExpanded={setExpanded} />}
             </div>
           </div>
         </div>
