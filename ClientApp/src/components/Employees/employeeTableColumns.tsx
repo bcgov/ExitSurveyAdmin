@@ -83,9 +83,6 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   },
   {
     Header: 'Timeline Entries',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <span>{props.value ? props.value.length : 0}</span>
-    ),
-    accessor: 'timelineEntries'
+    accessor: 'timelineEntryCount'
   }
 ]

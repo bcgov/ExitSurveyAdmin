@@ -60,6 +60,7 @@ namespace ExitSurveyAdmin
 
             services.Configure<SieveOptions>(Configuration.GetSection("Sieve"));
             services.AddScoped<SieveProcessor>();
+            services.AddScoped<ISieveCustomSortMethods, SieveCustomSortMethods>();
 
             // TODO: Verify this
             services
