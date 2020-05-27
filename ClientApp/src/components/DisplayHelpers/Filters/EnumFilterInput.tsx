@@ -50,7 +50,7 @@ const EnumFilterInput = ({
   React.useEffect((): void => {
     const clone = cloneAndSetValues(filterField, [...selectValues])
     dispatch({ type: 'setFilter', filterField: clone })
-  }, [filterField, selectValues])
+  }, [filterField, selectValues, dispatch])
 
   const handleChange = React.useCallback((changeObj): void => {
     console.log('changeObj', changeObj)
