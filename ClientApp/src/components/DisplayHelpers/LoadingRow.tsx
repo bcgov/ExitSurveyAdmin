@@ -9,7 +9,7 @@ interface IProps {
 
 const LoadingRow = (props: IProps): JSX.Element => {
   const { loading, pageSize, pageIndex, recordCount } = props
-  const rangeMin = pageIndex * pageSize + 1
+  const rangeMin = recordCount === 0 ? 0 : pageIndex * pageSize + 1
   const rangeMax = Math.min((pageIndex + 1) * pageSize, recordCount)
   return (
     <tr>
