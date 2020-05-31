@@ -14,7 +14,6 @@ const requestWithoutAuthentication = (
   method = 'get',
   body: AnyJson
 ): Promise<Response> => ***REMOVED***
-  // const token = store.getState().token
   const fetchObject: RequestInit = ***REMOVED***
     method,
     headers: ***REMOVED***
@@ -30,10 +29,11 @@ const requestWithoutAuthentication = (
 const requestWithAuthentication = (
   url: string,
   method = 'get',
-  body: AnyJson,
-  token: string
+  body: AnyJson
 ): Promise<Response> => ***REMOVED***
-  // const token = store.getState().token
+  console.log('-->', store.getState())
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const token = store.getState()!.oidc!.user!.access_token
   const fetchObject: RequestInit = ***REMOVED***
     method,
     headers: ***REMOVED***
@@ -56,12 +56,10 @@ export const requestJSONWithErrorHandler = async (
   successCallback: (
     responseJSON: FixTypeLater,
     pagination?: FixTypeLater
-  ) => void,
-  token?: string
+  ) => void
 ): Promise<AnyJson> => ***REMOVED***
-  const response = token
-    ? await requestWithAuthentication(url, method, body, token)
-    : await requestWithoutAuthentication(url, method, body)
+  const response = await requestWithAuthentication(url, method, body) // useToken
+  // : await requestWithoutAuthentication(url, method, body)
   let json
   try ***REMOVED***
     json = await response.json()

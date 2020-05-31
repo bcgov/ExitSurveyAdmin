@@ -126,6 +126,9 @@ namespace ExitSurveyAdmin
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             ***REMOVED***
                 endpoints.MapControllerRoute(
@@ -142,9 +145,6 @@ namespace ExitSurveyAdmin
                     spa.UseReactDevelopmentServer(npmScript: "start");
               ***REMOVED***
           ***REMOVED***);
-
-            // app.UseAuthentication();
-            // app.UseAuthorization();
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
