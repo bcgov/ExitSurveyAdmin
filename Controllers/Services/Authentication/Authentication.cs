@@ -13,13 +13,17 @@ namespace ExitSurveyAdmin.Services
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }
 
-        public static void SetJwtBearerOptions(JwtBearerOptions options, string authority)
+        public static void SetJwtBearerOptions(
+            JwtBearerOptions options, string authority
+        )
         {
             options.Authority = authority;
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 //BC Dev Keycloack
-                ValidAudiences = new string[] { "ExitSurveyAdmin", "account", "realm-management" },
+                ValidAudiences = new string[] {
+                    "ExitSurveyAdmin", "account", "realm-management"
+                },
                 RoleClaimType = "user_roles" // roles in the token for the client.
             };
             options.RequireHttpsMetadata = false; //for test only!
@@ -28,9 +32,13 @@ namespace ExitSurveyAdmin.Services
             options.Validate();
         }
 
-        public static void SetAuthorizationOptions(AuthorizationOptions options, string roleName)
+        public static void SetAuthorizationOptions(
+            AuthorizationOptions options, string roleName
+        )
         {
-            options.AddPolicy("UserRole", policy => policy.RequireClaim("user_roles", $"[{roleName}]"));
+            options.AddPolicy("UserRole", policy =>
+                policy.RequireClaim("user_roles", $"[{roleName}]")
+            );
         }
 
         /*                 
