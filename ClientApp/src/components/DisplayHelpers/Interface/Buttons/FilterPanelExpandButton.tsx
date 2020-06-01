@@ -2,10 +2,10 @@ import React from 'react'
 import IconButton from './IconButton'
 
 interface IProps ***REMOVED***
-  setExpanded: (expanded: boolean) => void
+  toggleExpanded: () => void
 ***REMOVED***
 
-const FilterPanelExpandButton = (***REMOVED*** setExpanded ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const FilterPanelExpandButton = (***REMOVED*** toggleExpanded ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   return (
     <div className="FilterPanelExpandButton">
       <IconButton
@@ -17,7 +17,7 @@ const FilterPanelExpandButton = (***REMOVED*** setExpanded ***REMOVED***: IProps
         colorType="secondary"
         buttonClasses="NoOutline NoBackground Faded"
         iconClasses="fa-lg"
-        onClick=***REMOVED***(): void => setExpanded(true)***REMOVED***
+        onClick=***REMOVED***(): void => toggleExpanded()***REMOVED***
       />
     </div>
   )
