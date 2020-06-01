@@ -2,29 +2,30 @@ import ***REMOVED*** setError ***REMOVED*** from './errorHandlingHelper'
 import store from '../store/store'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 import ***REMOVED*** AnyJson ***REMOVED*** from '../types/JsonType'
+import ***REMOVED*** deploymentUrl ***REMOVED*** from './envHelper'
 
 export const prefixAPI = (path: string): string => ***REMOVED***
   // const API_LOCATION = process.env.REACT_APP_API_LOCATION
-  // return `$***REMOVED***API_LOCATION***REMOVED***$***REMOVED***path***REMOVED***`
-  return path
+  return `$***REMOVED***deploymentUrl()***REMOVED***$***REMOVED***path***REMOVED***`
+  // return path
 ***REMOVED***
 
-const requestWithoutAuthentication = (
-  url: string,
-  method = 'get',
-  body: AnyJson
-): Promise<Response> => ***REMOVED***
-  const fetchObject: RequestInit = ***REMOVED***
-    method,
-    headers: ***REMOVED***
-      'Content-Type': 'application/json'
-  ***REMOVED***
-***REMOVED***
-  if (method !== 'get' && body) ***REMOVED***
-    fetchObject.body = JSON.stringify(body)
-***REMOVED***
-  return window.fetch(prefixAPI(url), fetchObject)
-***REMOVED***
+// const requestWithoutAuthentication = (
+//   url: string,
+//   method = 'get',
+//   body: AnyJson
+// ): Promise<Response> => ***REMOVED***
+//   const fetchObject: RequestInit = ***REMOVED***
+//     method,
+//     headers: ***REMOVED***
+//       'Content-Type': 'application/json'
+//   ***REMOVED***
+// ***REMOVED***
+//   if (method !== 'get' && body) ***REMOVED***
+//     fetchObject.body = JSON.stringify(body)
+// ***REMOVED***
+//   return window.fetch(prefixAPI(url), fetchObject)
+// ***REMOVED***
 
 const requestWithAuthentication = (
   url: string,
