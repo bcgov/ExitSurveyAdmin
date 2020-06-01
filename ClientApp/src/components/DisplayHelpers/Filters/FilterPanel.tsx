@@ -45,6 +45,10 @@ const FilterPanel = (props: IProps): JSX.Element => {
     [filters]
   )
 
+  const toggleExpanded = React.useCallback(() => {
+    setExpanded(!expanded)
+  }, [expanded])
+
   const resetFilters = React.useCallback((): void => {
     setFilters([])
   }, [])
@@ -70,8 +74,8 @@ const FilterPanel = (props: IProps): JSX.Element => {
               <ActiveFilters filters={filters} removeFilter={removeFilter} />
             </div>
             <div className="ml-auto">
-              {expanded && <ExpandPanel setExpanded={setExpanded} />}
-              {!expanded && <HidePanel setExpanded={setExpanded} />}
+              {expanded && <ExpandPanel toggleExpanded={toggleExpanded} />}
+              {!expanded && <HidePanel toggleExpanded={toggleExpanded} />}
             </div>
           </div>
         </div>
