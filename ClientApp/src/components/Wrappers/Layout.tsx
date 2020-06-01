@@ -5,15 +5,13 @@ interface IProps {
   children: React.ReactNode
 }
 
-class Layout extends React.Component<IProps> {
-  render(): JSX.Element {
-    return (
-      <div>
-        <NavMenu />
-        <div className="container-fluid">{this.props.children}</div>
-      </div>
-    )
-  }
+const Layout = (props: IProps): JSX.Element => {
+  return (
+    <div>
+      <NavMenu />
+      <div className={`container-fluid`}>{props.children}</div>
+    </div>
+  )
 }
 
 export default Layout
