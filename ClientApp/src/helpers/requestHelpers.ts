@@ -2,29 +2,30 @@ import { setError } from './errorHandlingHelper'
 import store from '../store/store'
 import { FixTypeLater } from '../types/FixTypeLater'
 import { AnyJson } from '../types/JsonType'
+import { deploymentUrl } from './envHelper'
 
 export const prefixAPI = (path: string): string => {
   // const API_LOCATION = process.env.REACT_APP_API_LOCATION
-  // return `${API_LOCATION}${path}`
-  return path
+  return `${deploymentUrl()}${path}`
+  // return path
 }
 
-const requestWithoutAuthentication = (
-  url: string,
-  method = 'get',
-  body: AnyJson
-): Promise<Response> => {
-  const fetchObject: RequestInit = {
-    method,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-  if (method !== 'get' && body) {
-    fetchObject.body = JSON.stringify(body)
-  }
-  return window.fetch(prefixAPI(url), fetchObject)
-}
+// const requestWithoutAuthentication = (
+//   url: string,
+//   method = 'get',
+//   body: AnyJson
+// ): Promise<Response> => {
+//   const fetchObject: RequestInit = {
+//     method,
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   }
+//   if (method !== 'get' && body) {
+//     fetchObject.body = JSON.stringify(body)
+//   }
+//   return window.fetch(prefixAPI(url), fetchObject)
+// }
 
 const requestWithAuthentication = (
   url: string,
