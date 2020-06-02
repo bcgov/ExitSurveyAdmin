@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sieve.Services;
 using Sieve.Models;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace ExitSurveyAdmin
 ***REMOVED***
@@ -55,14 +56,19 @@ namespace ExitSurveyAdmin
             services.AddScoped<LoggingService>();
 
             services.AddDbContext<ExitSurveyAdminContext>(options =>
-            options.UseSqlServer(
-                Configuration.GetConnectionString("ExitSurveyAdmin")));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("ExitSurveyAdmin"))
+            );
+
+            services.Configure<KestrelServerOptions>(options =>
+            ***REMOVED***
+                options.AllowSynchronousIO = true;
+          ***REMOVED***);
 
             services.Configure<SieveOptions>(Configuration.GetSection("Sieve"));
             services.AddScoped<SieveProcessor>();
             services.AddScoped<ISieveCustomSortMethods, SieveCustomSortMethods>();
 
-            // TODO: Verify this
             services
                 .AddAuthentication(options =>
                     Authentication.SetAuthenticationOptions(options))
@@ -73,7 +79,6 @@ namespace ExitSurveyAdmin
                     )
                 );
 
-            // TODO: Verify this BC Dev Keycloack
             services
                 .AddAuthorization(options =>
                     Authentication.SetAuthorizationOptions(
@@ -84,17 +89,17 @@ namespace ExitSurveyAdmin
 
             // Add an HttpClient.
             services.AddHttpClient(HttpClientName)
-            .ConfigurePrimaryHttpMessageHandler(() =>
-            ***REMOVED***
-                var handler = new HttpClientHandler();
-                // Ignore certificate errors ON DEV ONLY.
-                if (Environment.IsDevelopment())
+                .ConfigurePrimaryHttpMessageHandler(() =>
                 ***REMOVED***
-                    handler.ServerCertificateCustomValidationCallback +=
-                    (httpRequestMessage, cert, cetChain, policyErrors) => true;
-              ***REMOVED***
-                return handler;
-          ***REMOVED***);
+                    var handler = new HttpClientHandler();
+                    // Ignore certificate errors ON DEV ONLY.
+                    if (Environment.IsDevelopment())
+                    ***REMOVED***
+                        handler.ServerCertificateCustomValidationCallback +=
+                        (httpRequestMessage, cert, cetChain, policyErrors) => true;
+                  ***REMOVED***
+                    return handler;
+              ***REMOVED***);
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -51,12 +51,12 @@ namespace ExitSurveyAdmin.Services
                 // this issue is fixed in a future release, we have had to add a
                 // TrimAllStrings() extension, which is called below.
                 // https://github.com/JoshClose/CsvHelper/issues/1400
-                // csv.Configuration.TrimOptions = CsvHelper.Configuration
-                //                                    .TrimOptions.InsideQuotes;
-                csv.Configuration.TypeConverterCache
-                    .RemoveConverter<DateTime>();
-                csv.Configuration.TypeConverterCache
-                    .AddConverter<DateTime>(new CustomDateTimeConverter());
+                csv.Configuration.TrimOptions = CsvHelper.Configuration
+                                                   .TrimOptions.InsideQuotes;
+                // csv.Configuration.TypeConverterCache
+                //     .RemoveConverter<DateTime>();
+                // csv.Configuration.TypeConverterCache
+                //     .AddConverter<DateTime>(new CustomDateTimeConverter());
                 csv.Configuration.RegisterClassMap<PsaCsvMap>();
 
                 var goodRecords = new List<Employee>();
@@ -71,7 +71,7 @@ namespace ExitSurveyAdmin.Services
                     badRecords.Add(context.RawRecord);
               ***REMOVED***;
 
-                while (await csv.ReadAsync())
+                while (csv.Read())
                 ***REMOVED***
                     try
                     ***REMOVED***
