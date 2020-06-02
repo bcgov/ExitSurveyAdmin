@@ -1,9 +1,8 @@
 import React from 'react'
 import userManager from '../../store/utils/userManager'
+import { getSigninRedirectOptions } from '../../helpers/envHelper'
 
-interface IOwnProps {
-  returnToPath: string
-}
+interface IOwnProps {}
 
 interface IStateProps {}
 
@@ -19,13 +18,8 @@ class Unauthorized extends React.Component<IProps> {
   }
 
   loginClick(): void {
-    userManager.signinRedirect({
-      data: {
-        path:
-          this.props.returnToPath ||
-          window.location.pathname + window.location.search
-      }
-    })
+    console.log('Unauthorized: loginClick()')
+    userManager.signinRedirect(getSigninRedirectOptions())
   }
 
   render(): JSX.Element {

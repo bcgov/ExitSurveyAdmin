@@ -16,6 +16,15 @@ export const deploymentUrl = (): string => {
   return `${env('APP_DOMAIN')}${env('APP_PATH')}`
 }
 
+export const getSigninRedirectOptions = (): FixTypeLater => {
+  console.log(window.location)
+  return {
+    data: {
+      href: window.location.href
+    }
+  }
+}
+
 export const getUserManagerConfig = (): FixTypeLater => ({
   client_id: env('AUTH_CLIENT_ID'),
   redirect_uri: `${deploymentUrl()}callback`,
