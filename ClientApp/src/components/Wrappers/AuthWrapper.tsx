@@ -3,6 +3,7 @@ import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import userManager from '../../store/utils/userManager'
 
 import Unauthorized from '../Login/Unauthorized'
+import ***REMOVED*** getSigninRedirectOptions ***REMOVED*** from '../../helpers/envHelper'
 
 interface IOwnProps ***REMOVED***
   children: React.ReactNode
@@ -23,16 +24,10 @@ class AuthWrapper extends React.Component<IProps> ***REMOVED***
 ***REMOVED***
 
   checkUser(): void ***REMOVED***
-    console.log('AuthWrapper: checkUser')
+    console.log('AuthWrapper: checkUser()')
     const ***REMOVED*** user ***REMOVED*** = this.props
     if (!user || user.expired) ***REMOVED***
-      console.log('in here')
-      userManager.signinRedirect(***REMOVED***
-        data: ***REMOVED***
-          path: window.location.pathname,
-          search: window.location.search
-      ***REMOVED***
-    ***REMOVED***)
+      userManager.signinRedirect(getSigninRedirectOptions())
   ***REMOVED***
 ***REMOVED***
 
@@ -53,13 +48,7 @@ class AuthWrapper extends React.Component<IProps> ***REMOVED***
   render(): React.ReactNode ***REMOVED***
     const ***REMOVED*** user ***REMOVED*** = this.props
 
-    const returnToPath = window.location.pathname + window.location.search
-
-    return !user || user.expired ? (
-      <Unauthorized returnToPath=***REMOVED***returnToPath***REMOVED*** />
-    ) : (
-      this.props.children
-    )
+    return !user || user.expired ? <Unauthorized /> : this.props.children
 ***REMOVED***
 ***REMOVED***
 

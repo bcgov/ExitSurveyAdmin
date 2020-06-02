@@ -4,6 +4,7 @@ import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** CallbackComponent ***REMOVED*** from 'redux-oidc'
 import userManager from '../../store/utils/userManager'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** deploymentUrl ***REMOVED*** from '../../helpers/envHelper'
 
 interface IDispatchProps ***REMOVED***
   dispatch: Dispatch<AnyAction>
@@ -17,16 +18,12 @@ class CallbackPage extends React.Component<IProps> ***REMOVED***
       <CallbackComponent
         userManager=***REMOVED***userManager***REMOVED***
         successCallback=***REMOVED***(user): void => ***REMOVED***
-          console.log('Login success', user, user.state.path, user.state.search)
-          this.props.history.push(***REMOVED***
-            pathname: user.state.path,
-            search: user.state.search
-        ***REMOVED***)
+          window.location.href = user.state.href
       ***REMOVED******REMOVED***
         errorCallback=***REMOVED***(error: any): void => ***REMOVED***
           console.log('Login error')
           console.error(error)
-          this.props.history.push('/')
+          window.location.href = deploymentUrl()
       ***REMOVED******REMOVED***
       >
         <div>

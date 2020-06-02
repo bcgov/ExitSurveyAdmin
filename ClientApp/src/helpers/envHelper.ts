@@ -16,6 +16,15 @@ export const deploymentUrl = (): string => ***REMOVED***
   return `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
 ***REMOVED***
 
+export const getSigninRedirectOptions = (): FixTypeLater => ***REMOVED***
+  console.log(window.location)
+  return ***REMOVED***
+    data: ***REMOVED***
+      href: window.location.href
+  ***REMOVED***
+***REMOVED***
+***REMOVED***
+
 export const getUserManagerConfig = (): FixTypeLater => (***REMOVED***
   client_id: env('AUTH_CLIENT_ID'),
   redirect_uri: `$***REMOVED***deploymentUrl()***REMOVED***callback`,
