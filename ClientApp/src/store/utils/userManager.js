@@ -5,4 +5,6 @@ const userManagerConfig = getUserManagerConfig()
 
 const userManager = createUserManager(userManagerConfig)
 
+userManager.clearStaleState()
+
 export default userManager
