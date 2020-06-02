@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import userManager from '../../store/utils/userManager'
 
 import Unauthorized from '../Login/Unauthorized'
+import { getSigninRedirectOptions } from '../../helpers/envHelper'
 
 interface IOwnProps {
   children: React.ReactNode
@@ -23,16 +24,10 @@ class AuthWrapper extends React.Component<IProps> {
   }
 
   checkUser(): void {
-    console.log('AuthWrapper: checkUser')
+    console.log('AuthWrapper: checkUser()')
     const { user } = this.props
     if (!user || user.expired) {
-      console.log('in here')
-      userManager.signinRedirect({
-        data: {
-          path: window.location.pathname,
-          search: window.location.search
-        }
-      })
+      userManager.signinRedirect(getSigninRedirectOptions())
     }
   }
 
@@ -53,13 +48,7 @@ class AuthWrapper extends React.Component<IProps> {
   render(): React.ReactNode {
     const { user } = this.props
 
-    const returnToPath = window.location.pathname + window.location.search
-
-    return !user || user.expired ? (
-      <Unauthorized returnToPath={returnToPath} />
-    ) : (
-      this.props.children
-    )
+    return !user || user.expired ? <Unauthorized /> : this.props.children
   }
 }
 
