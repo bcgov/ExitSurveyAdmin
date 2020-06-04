@@ -16,7 +16,7 @@ export default class App extends React.Component {
   render(): JSX.Element {
     return (
       <Layout>
-        <Route exact path="/" component={Home} />
+        <AuthenticatedRoute exact path="/" component={Home} />
         <Route path="/callback" component={CallbackHandler} />
         <AuthenticatedRoute
           exact

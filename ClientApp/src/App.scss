@@ -7,7 +7,7 @@ $navbar-margin: 24px;
   height: $navbar-height;
 }
 
-.Unauthorized {
+.Centered {
   height: calc(100vh - #{$navbar-height + $navbar-margin});
 }
 
