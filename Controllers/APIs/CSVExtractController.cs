@@ -77,7 +77,7 @@ namespace ExitSurveyAdmin.Controllers
                 )
                 ***REMOVED***
                     await logger.LogSuccess(TaskEnum.ReconcileCsv,
-                        $"From a list of ***REMOVED***totalRecordCount***REMOVED*** records, " +
+                        $"From a CSV with ***REMOVED***totalRecordCount***REMOVED*** rows, " +
                         $"reconciled ***REMOVED***totalRecordCount***REMOVED*** employees. "
                     );
               ***REMOVED***
@@ -86,20 +86,20 @@ namespace ExitSurveyAdmin.Controllers
                     var newLine = System.Environment.NewLine;
 
                     var message =
-                        $"From a list of ***REMOVED***totalRecordCount***REMOVED*** records, " +
-                        $"successfully read ***REMOVED***goodRecords.Count***REMOVED*** records " +
+                        $"From a CSV with ***REMOVED***totalRecordCount***REMOVED*** rows, " +
+                        $"successfully read ***REMOVED***goodRecords.Count***REMOVED*** rows " +
                         $"and reconciled ***REMOVED***goodEmployees.Count***REMOVED*** employees. ";
 
                     if (goodRecords.Count != totalRecordCount)
                     ***REMOVED***
                         message +=
-                            $"There were ***REMOVED***badRecords.Count***REMOVED*** bad records: " +
+                            $"There were ***REMOVED***badRecords.Count***REMOVED*** bad rows: " +
                             $"Exceptions: ***REMOVED***string.Join(newLine, badRecords)***REMOVED*** ";
                   ***REMOVED***
                     if (goodEmployees.Count != goodRecords.Count)
                     ***REMOVED***
                         message +=
-                            $"There were ***REMOVED***badEmployees.Count***REMOVED*** bad employees: " +
+                            $"There were ***REMOVED***badEmployees.Count***REMOVED*** malformed employees: " +
                             $"Exceptions: ***REMOVED***string.Join(newLine, badEmployees)***REMOVED*** ";
                   ***REMOVED***
                     await logger.LogWarning(TaskEnum.ReconcileCsv, message);
