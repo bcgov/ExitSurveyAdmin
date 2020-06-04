@@ -2,6 +2,7 @@ import React from 'react'
 import ***REMOVED*** ITaskLogEntryJSON, TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
 import Date from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
+import TaskOutcome from '../DisplayHelpers/TaskOutcome'
 
 interface IOwnProps ***REMOVED******REMOVED***
 
@@ -50,7 +51,9 @@ class TaskLogEntryListing extends React.Component<IProps, IState> ***REMOVED***
                 />
               </td>
               <td>***REMOVED***taskLogEntry.taskCode***REMOVED***</td>
-              <td>***REMOVED***taskLogEntry.taskOutcomeCode***REMOVED***</td>
+              <td>
+                <TaskOutcome task=***REMOVED***taskLogEntry***REMOVED*** />
+              </td>
               <td>***REMOVED***taskLogEntry.comment***REMOVED***</td>
             </tr>
           ))***REMOVED***
