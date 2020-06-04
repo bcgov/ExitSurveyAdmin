@@ -16,7 +16,7 @@ export default class App extends React.Component ***REMOVED***
   render(): JSX.Element ***REMOVED***
     return (
       <Layout>
-        <Route exact path="/" component=***REMOVED***Home***REMOVED*** />
+        <AuthenticatedRoute exact path="/" component=***REMOVED***Home***REMOVED*** />
         <Route path="/callback" component=***REMOVED***CallbackHandler***REMOVED*** />
         <AuthenticatedRoute
           exact
