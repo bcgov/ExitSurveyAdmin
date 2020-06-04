@@ -77,7 +77,7 @@ namespace ExitSurveyAdmin.Controllers
                 )
                 {
                     await logger.LogSuccess(TaskEnum.ReconcileCsv,
-                        $"From a list of {totalRecordCount} records, " +
+                        $"From a CSV with {totalRecordCount} rows, " +
                         $"reconciled {totalRecordCount} employees. "
                     );
                 }
@@ -86,20 +86,20 @@ namespace ExitSurveyAdmin.Controllers
                     var newLine = System.Environment.NewLine;
 
                     var message =
-                        $"From a list of {totalRecordCount} records, " +
-                        $"successfully read {goodRecords.Count} records " +
+                        $"From a CSV with {totalRecordCount} rows, " +
+                        $"successfully read {goodRecords.Count} rows " +
                         $"and reconciled {goodEmployees.Count} employees. ";
 
                     if (goodRecords.Count != totalRecordCount)
                     {
                         message +=
-                            $"There were {badRecords.Count} bad records: " +
+                            $"There were {badRecords.Count} bad rows: " +
                             $"Exceptions: {string.Join(newLine, badRecords)} ";
                     }
                     if (goodEmployees.Count != goodRecords.Count)
                     {
                         message +=
-                            $"There were {badEmployees.Count} bad employees: " +
+                            $"There were {badEmployees.Count} malformed employees: " +
                             $"Exceptions: {string.Join(newLine, badEmployees)} ";
                     }
                     await logger.LogWarning(TaskEnum.ReconcileCsv, message);
