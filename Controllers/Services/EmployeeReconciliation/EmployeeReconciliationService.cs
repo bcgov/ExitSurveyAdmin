@@ -75,20 +75,31 @@ namespace ExitSurveyAdmin.Services
             return employee;
         }
 
-        public async Task<List<Employee>> ReconcileEmployees(
+        public async Task<Tuple<List<Employee>, List<string>>> ReconcileEmployees(
             List<Employee> employees
         )
         {
             var reconciledEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
 
             // Step 1. Insert and update employees from the CSV.
             foreach (Employee e in employees)
             {
-                var employee = await ReconcileWithDatabase(e);
-                reconciledEmployeeList.Add(employee);
+                try
+                {
+                    var employee = await ReconcileWithDatabase(e);
+                    reconciledEmployeeList.Add(employee);
+                }
+                catch (Exception exception)
+                {
+                    exceptionList.Add(
+                        $"Exception with candidate employee {e.FullName} " +
+                        $"(ID: {e.GovernmentEmployeeId}): {exception} "
+                    );
+                }
             }
 
-            return reconciledEmployeeList;
+            return Tuple.Create(reconciledEmployeeList, exceptionList);
         }
 
         /*** Reconcile a single employee. NB! By default, this will NOT invoke
@@ -102,9 +113,10 @@ namespace ExitSurveyAdmin.Services
             // Simply call the main ReconcileEmployees function, with this
             // single employee as the sole element of a list; then get the
             // employee from the resulting list.
-            var reconciledEmployee = (await ReconcileEmployees(
+            var result = await ReconcileEmployees(
                 new List<Employee>() { employee }
-            )).ElementAt(0);
+            );
+            var reconciledEmployee = result.Item1.ElementAt(0);
 
             return reconciledEmployee;
         }
