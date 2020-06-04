@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
 import userManager from '../../store/utils/userManager'
 import ***REMOVED*** getSigninRedirectOptions ***REMOVED*** from '../../helpers/envHelper'
 
@@ -10,31 +10,31 @@ interface IDispatchProps ***REMOVED******REMOVED***
 
 interface IProps extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
 
-class Unauthorized extends React.Component<IProps> ***REMOVED***
-  constructor(props: IProps) ***REMOVED***
-    super(props)
+const Unauthorized = (): JSX.Element => ***REMOVED***
+  useEffect(() => ***REMOVED***
+    const timer = setTimeout(() => ***REMOVED***
+      userManager.signinRedirect(getSigninRedirectOptions())
+  ***REMOVED*** 100)
+    return (): void => clearTimeout(timer)
+***REMOVED*** [])
 
-    this.loginClick = this.loginClick.bind(this)
-***REMOVED***
-
-  loginClick(): void ***REMOVED***
-    console.log('Unauthorized: loginClick()')
-    userManager.signinRedirect(getSigninRedirectOptions())
-***REMOVED***
-
-  render(): JSX.Element ***REMOVED***
-    return (
-      <div>
+  return (
+    <div className="Unauthorized row align-items-center">
+      <div className="col-6 offset-3">
+        <h1 className="text-primary display-3 mb-5">Exit Survey Admin</h1>
         <h1>You must log in to view this page.</h1>
+        <p>If you are not redirected, click the button below.</p>
         <button
           className="btn btn-lg btn-outline-primary mt-3"
-          onClick=***REMOVED***this.loginClick***REMOVED***
+          onClick=***REMOVED***(): Promise<void> =>
+            userManager.signinRedirect(getSigninRedirectOptions())
+        ***REMOVED***
         >
           Click here to log in &rarr;
         </button>
       </div>
-    )
-***REMOVED***
+    </div>
+  )
 ***REMOVED***
 
 export default Unauthorized

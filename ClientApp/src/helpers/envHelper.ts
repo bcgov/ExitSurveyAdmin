@@ -7,17 +7,10 @@ import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 export const routerBase = (): string => env('APP_PATH')
 
 export const deploymentUrl = (): string => ***REMOVED***
-  console.log(
-    'deploymentUrl',
-    env('APP_DOMAIN'),
-    env('APP_PATH'),
-    `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
-  )
   return `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
 ***REMOVED***
 
 export const getSigninRedirectOptions = (): FixTypeLater => ***REMOVED***
-  console.log(window.location)
   return ***REMOVED***
     data: ***REMOVED***
       href: window.location.href

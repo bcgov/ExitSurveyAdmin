@@ -1,5 +1,16 @@
 @import "~@bcgov/bootstrap-theme/dist/scss/bootstrap-theme";
 
+$navbar-height: 60px;
+$navbar-margin: 24px;
+
+.navbar ***REMOVED***
+  height: $navbar-height;
+***REMOVED***
+
+.Unauthorized ***REMOVED***
+  height: calc(100vh - #***REMOVED***$navbar-height + $navbar-margin***REMOVED***);
+***REMOVED***
+
 .table-sm ***REMOVED***
   font-size: 0.85rem;
   thead ***REMOVED***
@@ -8,3 +19,4 @@
   ***REMOVED***
 ***REMOVED***
 ***REMOVED***
+

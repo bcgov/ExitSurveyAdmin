@@ -1,6 +1,6 @@
 import React from 'react'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
-import './NavMenu.css'
+import './NavMenu.scss'
 
 interface IProps ***REMOVED******REMOVED***
 
@@ -35,11 +35,6 @@ class NavMenu extends React.Component<IProps, IState> ***REMOVED***
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to="/" className="nav-link">
-                Home
-              </Link>
-            </li>
             <li className="nav-item">
               <Link to="/task-log-entries" className="nav-link">
                 Task log

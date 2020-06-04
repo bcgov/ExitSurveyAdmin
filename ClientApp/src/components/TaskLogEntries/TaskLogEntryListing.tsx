@@ -28,7 +28,6 @@ class TaskLogEntryListing extends React.Component<IProps, IState> ***REMOVED***
   static renderTaskLogEntriesTable(
     taskLogEntries: TaskLogEntry[]
   ): JSX.Element ***REMOVED***
-    console.log(taskLogEntries)
     taskLogEntries.reverse()
     return (
       <table className="table table-striped" aria-labelledby="tabelLabel">

@@ -32,7 +32,7 @@ const requestWithAuthentication = (
   method = 'get',
   body: AnyJson
 ): Promise<Response> => ***REMOVED***
-  console.log('-->', store.getState())
+  // console.log('-->', store.getState())
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const token = store.getState()!.oidc!.user!.access_token
   const fetchObject: RequestInit = ***REMOVED***
