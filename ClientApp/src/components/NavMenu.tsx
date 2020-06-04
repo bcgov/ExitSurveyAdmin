@@ -14,7 +14,7 @@ class NavMenu extends React.Component<IProps, IState> ***REMOVED***
   render(): JSX.Element ***REMOVED***
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand text-primary">
           <i className="fas fa-envelope-open-text mr-3"></i>
           Exit Survey Admin
         </Link>
@@ -37,12 +37,12 @@ class NavMenu extends React.Component<IProps, IState> ***REMOVED***
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link to="/task-log-entries" className="nav-link">
+              <Link to="/task-log-entries" className="nav-link text-primary">
                 Task log
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/employees" className="nav-link">
+              <Link to="/employees" className="nav-link text-primary">
                 Exiting employees
               </Link>
             </li>
