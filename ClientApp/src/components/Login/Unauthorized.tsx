@@ -19,9 +19,9 @@ const Unauthorized = (): JSX.Element => {
   }, [])
 
   return (
-    <div className="Unauthorized row align-items-center">
+    <div className="Centered row">
       <div className="col-6 offset-3">
-        <h1 className="text-primary display-3 mb-5">Exit Survey Admin</h1>
+        <h1 className="text-primary display-4 my-5">Exit Survey Admin</h1>
         <h1>You must log in to view this page.</h1>
         <p>If you are not redirected, click the button below.</p>
         <button
