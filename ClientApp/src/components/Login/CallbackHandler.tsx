@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Dispatch } from 'react'
 import { AnyAction } from 'redux'
 import { connect } from 'react-redux'
@@ -5,6 +6,7 @@ import { CallbackComponent } from 'redux-oidc'
 import userManager from '../../store/utils/userManager'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { deploymentUrl } from '../../helpers/envHelper'
+import { FixTypeLater } from '../../types/FixTypeLater'
 
 interface IDispatchProps {
   dispatch: Dispatch<AnyAction>
@@ -20,7 +22,7 @@ class CallbackPage extends React.Component<IProps> {
         successCallback={(user): void => {
           window.location.href = user.state.href
         }}
-        errorCallback={(error: any): void => {
+        errorCallback={(error: FixTypeLater): void => {
           console.log('Login error')
           console.error(error)
           window.location.href = deploymentUrl()

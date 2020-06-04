@@ -7,17 +7,10 @@ import { FixTypeLater } from '../types/FixTypeLater'
 export const routerBase = (): string => env('APP_PATH')
 
 export const deploymentUrl = (): string => {
-  console.log(
-    'deploymentUrl',
-    env('APP_DOMAIN'),
-    env('APP_PATH'),
-    `${env('APP_DOMAIN')}${env('APP_PATH')}`
-  )
   return `${env('APP_DOMAIN')}${env('APP_PATH')}`
 }
 
 export const getSigninRedirectOptions = (): FixTypeLater => {
-  console.log(window.location)
   return {
     data: {
       href: window.location.href
