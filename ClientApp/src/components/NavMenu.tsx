@@ -15,6 +15,7 @@ class NavMenu extends React.Component<IProps, IState> {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
         <Link to="/" className="navbar-brand">
+          <i className="fas fa-envelope-open-text mr-3"></i>
           Exit Survey Admin
         </Link>
         <button
