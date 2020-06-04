@@ -2,6 +2,7 @@ import React from 'react'
 import { ITaskLogEntryJSON, TaskLogEntry } from '../../types/TaskLogEntry'
 import Date from '../DisplayHelpers/FormattedDate'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
+import TaskOutcome from '../DisplayHelpers/TaskOutcome'
 
 interface IOwnProps {}
 
@@ -50,7 +51,9 @@ class TaskLogEntryListing extends React.Component<IProps, IState> {
                 />
               </td>
               <td>{taskLogEntry.taskCode}</td>
-              <td>{taskLogEntry.taskOutcomeCode}</td>
+              <td>
+                <TaskOutcome task={taskLogEntry} />
+              </td>
               <td>{taskLogEntry.comment}</td>
             </tr>
           ))}
