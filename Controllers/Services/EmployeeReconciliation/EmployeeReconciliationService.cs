@@ -75,20 +75,31 @@ namespace ExitSurveyAdmin.Services
             return employee;
       ***REMOVED***
 
-        public async Task<List<Employee>> ReconcileEmployees(
+        public async Task<Tuple<List<Employee>, List<string>>> ReconcileEmployees(
             List<Employee> employees
         )
         ***REMOVED***
             var reconciledEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
 
             // Step 1. Insert and update employees from the CSV.
             foreach (Employee e in employees)
             ***REMOVED***
-                var employee = await ReconcileWithDatabase(e);
-                reconciledEmployeeList.Add(employee);
+                try
+                ***REMOVED***
+                    var employee = await ReconcileWithDatabase(e);
+                    reconciledEmployeeList.Add(employee);
+              ***REMOVED***
+                catch (Exception exception)
+                ***REMOVED***
+                    exceptionList.Add(
+                        $"Exception with candidate employee ***REMOVED***e.FullName***REMOVED*** " +
+                        $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception***REMOVED*** "
+                    );
+              ***REMOVED***
           ***REMOVED***
 
-            return reconciledEmployeeList;
+            return Tuple.Create(reconciledEmployeeList, exceptionList);
       ***REMOVED***
 
         /*** Reconcile a single employee. NB! By default, this will NOT invoke
@@ -102,9 +113,10 @@ namespace ExitSurveyAdmin.Services
             // Simply call the main ReconcileEmployees function, with this
             // single employee as the sole element of a list; then get the
             // employee from the resulting list.
-            var reconciledEmployee = (await ReconcileEmployees(
+            var result = await ReconcileEmployees(
                 new List<Employee>() ***REMOVED*** employee ***REMOVED***
-            )).ElementAt(0);
+            );
+            var reconciledEmployee = result.Item1.ElementAt(0);
 
             return reconciledEmployee;
       ***REMOVED***

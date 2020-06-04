@@ -64,24 +64,45 @@ namespace ExitSurveyAdmin.Controllers
                 var totalRecordCount = goodRecords.Count + badRecords.Count;
 
                 // Step 2. Reconcile the employees with the database.
-                reconciledEmployeeList = await employeeReconciler
+                var reconcilerTuple = await employeeReconciler
                     .ReconcileEmployees(goodRecords);
+                var goodEmployees = reconcilerTuple.Item1;
+                var badEmployees = reconcilerTuple.Item2;
+                var totalEmployeeCount = goodEmployees.Count + badEmployees.Count;
+                reconciledEmployeeList = goodEmployees;
 
-                if (goodRecords.Count == totalRecordCount)
+                if (
+                    goodRecords.Count == totalRecordCount &&
+                    goodEmployees.Count == totalRecordCount
+                )
                 ***REMOVED***
                     await logger.LogSuccess(TaskEnum.ReconcileCsv,
-                        $"From a list of ***REMOVED***goodRecords.Count***REMOVED*** records, " +
-                        $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees."
+                        $"From a list of ***REMOVED***totalRecordCount***REMOVED*** records, " +
+                        $"reconciled ***REMOVED***totalRecordCount***REMOVED*** employees. "
                     );
               ***REMOVED***
                 else
                 ***REMOVED***
-                    await logger.LogWarning(TaskEnum.ReconcileCsv,
+                    var newLine = System.Environment.NewLine;
+
+                    var message =
                         $"From a list of ***REMOVED***totalRecordCount***REMOVED*** records, " +
-                        $"reconciled ***REMOVED***reconciledEmployeeList.Count***REMOVED*** employees. " +
-                        $"However, there were ***REMOVED***badRecords.Count***REMOVED*** bad records " +
-                        $"encountered: ***REMOVED***string.Join(';', badRecords)***REMOVED***"
-                    );
+                        $"successfully read ***REMOVED***goodRecords.Count***REMOVED*** records " +
+                        $"and reconciled ***REMOVED***goodEmployees.Count***REMOVED*** employees. ";
+
+                    if (goodRecords.Count != totalRecordCount)
+                    ***REMOVED***
+                        message +=
+                            $"There were ***REMOVED***badRecords.Count***REMOVED*** bad records: " +
+                            $"Exceptions: ***REMOVED***string.Join(newLine, badRecords)***REMOVED*** ";
+                  ***REMOVED***
+                    if (goodEmployees.Count != goodRecords.Count)
+                    ***REMOVED***
+                        message +=
+                            $"There were ***REMOVED***badEmployees.Count***REMOVED*** bad employees: " +
+                            $"Exceptions: ***REMOVED***string.Join(newLine, badEmployees)***REMOVED*** ";
+                  ***REMOVED***
+                    await logger.LogWarning(TaskEnum.ReconcileCsv, message);
               ***REMOVED***
 
                 // Step 3. Update existing user statues.
