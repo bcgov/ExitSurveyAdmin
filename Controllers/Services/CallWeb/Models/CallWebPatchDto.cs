@@ -7,6 +7,8 @@ namespace ExitSurveyAdmin.Services.CallWeb
     {
         public string Email { get; set; }
         public string Ministry { get; set; }
+        public string PositionTitle { get; set; }
+        public string AppointmentStatus { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LeaveReason { get; set; }
@@ -20,9 +22,12 @@ namespace ExitSurveyAdmin.Services.CallWeb
             {
                 Email = employee.GovernmentEmail,
                 Ministry = employee.Ministry,
+                PositionTitle = employee.PositionCode,
+                AppointmentStatus = employee.AppointmentStatus,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
+                LeaveCode = "1", // TODO: Fix
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 CurrentStatus = employee.CurrentEmployeeStatusCode
             };
