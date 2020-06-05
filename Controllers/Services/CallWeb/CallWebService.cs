@@ -1,3 +1,4 @@
+using System;
 using ExitSurveyAdmin.Models;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
@@ -35,6 +36,11 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             var callWebPostDto = CallWebPostDto.FromEmployee(employee);
             var callWebDto = await CallWebApi.Post(callWebPostDto);
+
+            if (string.IsNullOrEmpty(callWebDto.Telkey))
+            {
+                throw new InvalidOperationException("Telkey was not created.");
+            }
 
             return callWebDto.Telkey;
         }
