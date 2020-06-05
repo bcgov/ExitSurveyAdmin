@@ -23,7 +23,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             var callWebDto = await CallWebApi.GetOne(employee.Telkey);
 
-            if (callWebDto.IsSurveyComplete)
+            if (callWebDto.IsSurveyComplete.Equals("1"))
             {
                 return EmployeeStatusEnum.SurveyComplete.Code;
             }
