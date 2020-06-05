@@ -10,7 +10,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LeaveReason { get; set; }
-        public int? LeaveCode { get; set; }
+        public string LeaveCode { get; set; }
         public string EffectiveDate { get; set; }
         public string CurrentStatus { get; set; }
 
