@@ -89,6 +89,7 @@ namespace ExitSurveyAdmin.Migrations
                     Phone = table.Column<string>(nullable: false),
                     AppointmentStatus = table.Column<string>(nullable: false),
                     PositionCode = table.Column<string>(nullable: false),
+                    PositionTitle = table.Column<string>(nullable: false),
                     Age = table.Column<string>(nullable: false),
                     LeaveDate = table.Column<DateTime>(nullable: true),
                     ServiceYears = table.Column<string>(nullable: false),
