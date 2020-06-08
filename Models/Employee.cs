@@ -124,6 +124,9 @@ namespace ExitSurveyAdmin.Models
         public string PositionCode { get; set; }
 
         [Required]
+        public string PositionTitle { get; set; }
+
+        [Required]
         public string Age { get; set; }
 
         [DataType(DataType.Date)]
@@ -178,6 +181,25 @@ namespace ExitSurveyAdmin.Models
             // Otherwise, set the email.
             GovernmentEmail = infoLookupService
                 .EmailByEmployeeId(GovernmentEmployeeId);
+        }
+
+        public string LeaveCode
+        {
+            get
+            {
+                switch (this.Reason)
+                {
+                    case "Just Cause":
+                    case "Redundant":
+                    case "Rejection on Probation":
+                        return "3";
+                    case "Layoff (With Recall)":
+                    case "Job Ends/End of Recall limit":
+                        return "2";
+                    default: // All other cases; no need to enumerate here
+                        return "1";
+                }
+            }
         }
     }
 }
