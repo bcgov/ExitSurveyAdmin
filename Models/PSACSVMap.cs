@@ -68,6 +68,7 @@ public class PsaCsvMap : ClassMap<Employee>
         Map(m => m.Phone).Name("Phone");
         Map(m => m.AppointmentStatus).Name("Appointment Status");
         Map(m => m.PositionCode).Name("Position");
+        Map(m => m.PositionTitle).Name("Position Title");
         Map(m => m.Age).Name("Age");
         Map(m => m.LeaveDate).Name("Leave Date");
         Map(m => m.ServiceYears).Name("Service");

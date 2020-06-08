@@ -15,7 +15,7 @@ namespace ExitSurveyAdmin.Migrations
         ***REMOVED***
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -146,6 +146,10 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PositionCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PositionTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
