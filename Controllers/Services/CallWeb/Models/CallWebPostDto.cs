@@ -25,12 +25,12 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 EmployeeId = employee.GovernmentEmployeeId,
                 Email = employee.GovernmentEmail,
                 Ministry = employee.Ministry,
-                PositionTitle = employee.PositionCode,
+                PositionTitle = employee.PositionTitle,
                 AppointmentStatus = employee.AppointmentStatus,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
-                LeaveCode = "1", // TODO: adjust
+                LeaveCode = employee.LeaveCode, // TODO: adjust
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 ExitCount = employee.ExitCount,
                 AdditionalJobCount = employee.RecordCount,

@@ -22,12 +22,12 @@ namespace ExitSurveyAdmin.Services.CallWeb
             {
                 Email = employee.GovernmentEmail,
                 Ministry = employee.Ministry,
-                PositionTitle = employee.PositionCode,
+                PositionTitle = employee.PositionTitle,
                 AppointmentStatus = employee.AppointmentStatus,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
-                LeaveCode = "1", // TODO: Fix
+                LeaveCode = employee.LeaveCode, // TODO: Fix
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 CurrentStatus = employee.CurrentEmployeeStatusCode
             };
