@@ -27,7 +27,7 @@ namespace ExitSurveyAdmin.Services
         }
 
         // NB. Existence is determined by the combination of EmployeeId,
-        // ExitCount, and month of the EffectiveDate.
+        // ExitCount, and record count.
         private Employee EmployeeExists(
             Employee candidate
         )
@@ -36,7 +36,7 @@ namespace ExitSurveyAdmin.Services
                 .Where(e =>
                     e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
                     && e.ExitCount == candidate.ExitCount
-                    && e.EffectiveDate.Month == candidate.EffectiveDate.Month
+                    && e.RecordCount == candidate.RecordCount
                 );
 
             if (query.Count() > 0)
