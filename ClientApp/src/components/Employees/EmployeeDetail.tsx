@@ -177,6 +177,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***labels.jobCode***REMOVED***>***REMOVED***e.jobCode***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.locationCity***REMOVED***>***REMOVED***e.locationCity***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.serviceYears***REMOVED***>***REMOVED***e.serviceYears***REMOVED***</CLText>
+              <CLText label=***REMOVED***labels.positionTitle***REMOVED***>***REMOVED***e.positionTitle***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.positionCode***REMOVED***>***REMOVED***e.positionCode***REMOVED***</CLText>
             </div>
             <hr />
