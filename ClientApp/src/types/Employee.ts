@@ -36,6 +36,7 @@ export interface IEmployeeJSON {
   phone: NullableString
   appointmentStatus: NullableString
   positionCode: NullableString
+  positionTitle: NullableString
   age: NullableString
   leaveDate: NullableString
   serviceYears: NullableString
@@ -80,6 +81,7 @@ export const employeeFieldLabels: { [key: string]: string } = {
   phone: 'Phone',
   appointmentStatus: 'Appointment status',
   positionCode: 'Position code',
+  positionTitle: 'Position title',
   age: 'Age',
   leaveDate: 'Leave date',
   serviceYears: 'Service years',
@@ -123,6 +125,7 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> {
   public phone?: string
   public appointmentStatus?: AppointmentStatus
   public positionCode?: string
+  public positionTitle?: string
   public age?: string
   public leaveDate?: Date
   public serviceYears?: string
@@ -177,6 +180,7 @@ export class Employee implements IJSONSerializable<Employee, IEmployeeJSON> {
       undefinedIfNull(input.appointmentStatus) as AppointmentStatusEnum
     )
     this.positionCode = undefinedIfNull(input.positionCode)
+    this.positionTitle = undefinedIfNull(input.positionTitle)
     this.age = undefinedIfNull(input.age)
     this.leaveDate = dateOrUndefined(input.leaveDate)
     this.serviceYears = undefinedIfNull(input.serviceYears)
