@@ -17,10 +17,6 @@ interface IDispatchProps ***REMOVED******REMOVED***
 interface IProps extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
 
 class AuthWrapper extends React.Component<IProps> ***REMOVED***
-  constructor(props: IProps) ***REMOVED***
-    super(props)
-***REMOVED***
-
   render(): React.ReactNode ***REMOVED***
     const ***REMOVED*** user ***REMOVED*** = this.props
 

@@ -1,10 +1,8 @@
 import React from 'react'
 import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
 
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import ***REMOVED*** classToPlain, plainToClass ***REMOVED*** from 'class-transformer'
 
 interface IProps ***REMOVED***
   sortQuery: string
