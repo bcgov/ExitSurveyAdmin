@@ -1,20 +1,19 @@
 import React from 'react'
-import { TaskLogEntry } from '../../types/TaskLogEntry'
 
 interface IProps {
-  task: TaskLogEntry
+  taskOutcomeCode: string
 }
 
-const TaskOutcome = ({ task }: IProps): JSX.Element => {
+const TaskOutcome = ({ taskOutcomeCode }: IProps): JSX.Element => {
   const color =
-    task.taskOutcomeCode === 'Success'
+    taskOutcomeCode === 'Success'
       ? 'success'
-      : task.taskOutcomeCode === 'Warn'
+      : taskOutcomeCode === 'Warn'
       ? 'warning'
       : 'danger'
   return (
-    <span className={`btn TaskOutcome btn-${color}`}>
-      <strong>{task.taskOutcomeCode}</strong>
+    <span className={`btn btn-sm TaskOutcome btn-${color}`}>
+      <strong>{taskOutcomeCode}</strong>
     </span>
   )
 }
