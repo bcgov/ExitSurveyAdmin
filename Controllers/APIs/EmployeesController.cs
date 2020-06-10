@@ -57,8 +57,10 @@ namespace ExitSurveyAdmin.Controllers
                 .AsNoTracking()
                 .Include(e => e.TimelineEntries);
 
-            var sievedEmployees = await SieveProcessor.GetPagedAsync(employees, sieveModel);
-            Response.Headers.Add("X-Pagination", sievedEmployees.SerializeMetadataToJson());
+            var sievedEmployees = await SieveProcessor
+                .GetPagedAsync(employees, sieveModel);
+            Response.Headers.Add("X-Pagination", sievedEmployees
+                .SerializeMetadataToJson());
 
             return Ok(sievedEmployees.Results);
       ***REMOVED***
