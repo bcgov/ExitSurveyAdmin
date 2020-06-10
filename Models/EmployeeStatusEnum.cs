@@ -17,32 +17,31 @@ namespace ExitSurveyAdmin.Models
         private static readonly string CodeDeclined = "Declined";
         private static readonly string CodeExpired = "Expired";
 
-        public static readonly string StateInitial = "Initial";
-        public static readonly string StateInProgress = "InProgress";
+        public static readonly string StateActive = "Active";
         public static readonly string StateFinal = "Final";
 
         public static readonly EmployeeStatusEnum New = new EmployeeStatusEnum
         {
             Code = CodeNew,
-            State = StateInitial,
+            State = StateActive,
             Description = "Newly-added. No email sent yet. Initial state for all employees."
         };
         public static readonly EmployeeStatusEnum WelcomeEmailSent = new EmployeeStatusEnum
         {
             Code = CodeWelcomeEmailSent,
-            State = StateInProgress,
+            State = StateActive,
             Description = "First email sent."
         };
         public static readonly EmployeeStatusEnum Reminder1Sent = new EmployeeStatusEnum
         {
             Code = CodeReminder1Sent,
-            State = StateInProgress,
+            State = StateActive,
             Description = "First reminder sent."
         };
         public static readonly EmployeeStatusEnum Reminder2Sent = new EmployeeStatusEnum
         {
             Code = CodeReminder2Sent,
-            State = StateInProgress,
+            State = StateActive,
             Description = "Second reminder sent."
         };
         public static readonly EmployeeStatusEnum SurveyComplete = new EmployeeStatusEnum
@@ -54,7 +53,7 @@ namespace ExitSurveyAdmin.Models
         public static readonly EmployeeStatusEnum SnailMailSent = new EmployeeStatusEnum
         {
             Code = CodeSnailMailSent,
-            State = StateFinal,
+            State = StateActive,
             Description = "Snail mail has been sent."
         };
         public static readonly EmployeeStatusEnum NotExiting = new EmployeeStatusEnum
