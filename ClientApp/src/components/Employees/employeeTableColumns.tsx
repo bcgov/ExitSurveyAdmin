@@ -4,8 +4,8 @@ import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
-import ***REMOVED*** Reason ***REMOVED*** from '../../types/ReasonEnum'
-import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatusEnum'
+import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
+import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>

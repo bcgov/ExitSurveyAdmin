@@ -1,7 +1,7 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
 import LabelledInput from '../Interface/LabelledItems/LabelledInput'
-import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
+import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../helpers/labelHelper'
 import ***REMOVED*** FilterDispatch, cloneAndSetValues ***REMOVED*** from './FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 

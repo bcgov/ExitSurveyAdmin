@@ -10,7 +10,6 @@ interface IProps ***REMOVED***
 class TimelineEntry extends React.Component<IProps> ***REMOVED***
   render(): JSX.Element ***REMOVED***
     const ***REMOVED*** timelineEntry: tl ***REMOVED*** = this.props
-    console.log(tl)
     return (
       <div className="TimelineEntry">
         <hr />

@@ -1,3 +1,5 @@
+/* globals Map */
+
 import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 
 export enum AppointmentStatusEnum ***REMOVED***
@@ -6,10 +8,10 @@ export enum AppointmentStatusEnum ***REMOVED***
 ***REMOVED***
 
 export class AppointmentStatus ***REMOVED***
-  appointmentStatusCode: AppointmentStatusEnum
+  code: AppointmentStatusEnum
 
   constructor(appointmentStatus: AppointmentStatusEnum) ***REMOVED***
-    this.appointmentStatusCode = appointmentStatus
+    this.code = appointmentStatus
 ***REMOVED***
 
   static REGULAR: AppointmentStatus = new AppointmentStatus(
@@ -19,38 +21,24 @@ export class AppointmentStatus ***REMOVED***
     AppointmentStatusEnum.Auxiliary
   )
 
-  static statusArray = (): AppointmentStatus[] => [
+  static array = (): AppointmentStatus[] => [
     AppointmentStatus.AUXILIARY,
     AppointmentStatus.REGULAR
   ]
 
-  static statusDictionary = (): ***REMOVED***
-    [key in AppointmentStatusEnum]?: AppointmentStatus
-***REMOVED*** => ***REMOVED***
-    const dictionary: ***REMOVED***
-      [key in AppointmentStatusEnum]?: AppointmentStatus
-  ***REMOVED*** = ***REMOVED******REMOVED***
-
-    AppointmentStatus.statusArray().forEach(
-      (status: AppointmentStatus): void => ***REMOVED***
-        dictionary[status.appointmentStatusCode] = status
-    ***REMOVED***
-    )
-
-    return dictionary
+  static map = (): Map<AppointmentStatusEnum, AppointmentStatus> => ***REMOVED***
+    return new Map(AppointmentStatus.array().map(s => [s.code, s]))
 ***REMOVED***
 
-  static statusByKey = (
-    key?: AppointmentStatusEnum
-  ): AppointmentStatus | undefined => ***REMOVED***
-    if (!key) return undefined
-    return AppointmentStatus.statusDictionary()[key]
+  static fromKey = (key: AppointmentStatusEnum): AppointmentStatus => ***REMOVED***
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return AppointmentStatus.map().get(key)!
 ***REMOVED***
 
   static toOptions = (): ISelectOption[] => ***REMOVED***
-    return AppointmentStatus.statusArray().map(status => (***REMOVED***
-      name: status.appointmentStatusCode,
-      value: status.appointmentStatusCode
+    return AppointmentStatus.array().map(status => (***REMOVED***
+      name: status.code,
+      value: status.code
   ***REMOVED***))
 ***REMOVED***
 ***REMOVED***

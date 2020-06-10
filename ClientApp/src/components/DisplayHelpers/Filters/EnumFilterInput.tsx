@@ -1,13 +1,13 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
-import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
+import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../helpers/labelHelper'
 
 import CollectionSelect, ***REMOVED***
   INameValuePair
 ***REMOVED*** from '../Interface/Selects/CollectionSelect'
-import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../../types/EmployeeStatusEnum'
-import ***REMOVED*** Reason ***REMOVED*** from '../../../types/ReasonEnum'
+import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../../types/EmployeeStatus'
+import ***REMOVED*** Reason ***REMOVED*** from '../../../types/Reason'
 import ***REMOVED*** FilterDispatch, cloneAndSetValues ***REMOVED*** from './FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 
@@ -24,7 +24,7 @@ const reasonSort = (a: Reason, b: Reason): number => ***REMOVED***
 export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REMOVED***
   switch (fieldName) ***REMOVED***
     case 'reason':
-      return Object.values(Reason.reasonDictionary())
+      return Array.from(Reason.map().values())
         .sort(reasonSort)
         .map(s => (***REMOVED***
           name: s.reasonCode,
@@ -32,7 +32,7 @@ export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REM
       ***REMOVED***))
     case 'currentEmployeeStatusCode':
     default:
-      return EmployeeStatus.statusArray().map(s => (***REMOVED***
+      return EmployeeStatus.array().map(s => (***REMOVED***
         name: s.displayName,
         value: s.code
     ***REMOVED***))

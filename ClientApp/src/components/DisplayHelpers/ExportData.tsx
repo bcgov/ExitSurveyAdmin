@@ -1,9 +1,10 @@
 import React from 'react'
 import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
 
-import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
+import ***REMOVED*** classToPlain, plainToClass ***REMOVED*** from 'class-transformer'
 
 interface IProps ***REMOVED***
   sortQuery: string
@@ -15,7 +16,7 @@ const MAX_PAGE_SIZE = 1000000
 const ExportData = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED*** sortQuery, filterQuery ***REMOVED*** = props
 
-  const [downloadedData, setDownloadedData] = React.useState<Employee[]>([])
+  const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
   const csvLinkRef = React.useRef(null)
 
   const downloadData = React.useCallback((): void => ***REMOVED***
@@ -24,8 +25,13 @@ const ExportData = (props: IProps): JSX.Element => ***REMOVED***
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON[]): void => ***REMOVED***
-        setDownloadedData(Employee.deserializeArray(responseJSON))
+      (responseJSON: FixTypeLater[]): void => ***REMOVED***
+        setDownloadedData(
+          responseJSON.map(e => ***REMOVED***
+            delete e.timelineEntries
+            return e
+        ***REMOVED***)
+        )
 
         // Click the hidden CSVLink
         ;(csvLinkRef.current as FixTypeLater).link.click()

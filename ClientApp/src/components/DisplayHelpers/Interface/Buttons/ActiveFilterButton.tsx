@@ -1,6 +1,6 @@
 import React from 'react'
 import IconButton from './IconButton'
-import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../../types/Employee'
+import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../../helpers/labelHelper'
 import ***REMOVED*** IFilterField ***REMOVED*** from '../../Filters/FilterTypes'
 import ***REMOVED*** enumItemsForField ***REMOVED*** from '../../Filters/EnumFilterInput'
 

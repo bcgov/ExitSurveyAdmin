@@ -1,6 +1,7 @@
+/* globals Map */
+
 import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 import ***REMOVED*** AppointmentStatusEnum ***REMOVED*** from './AppointmentStatus'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from './FixTypeLater'
 
 export enum ExitTypeEnum ***REMOVED***
   Involuntary = 'Involuntary',
@@ -138,7 +139,7 @@ export class Reason ***REMOVED***
     1
   )
 
-  static reasonArray = (): Reason[] => [
+  static array = (): Reason[] => [
     Reason.REG_INV_JUST_CAUSE,
     Reason.REG_INV_REDUNDANT,
     Reason.REG_INV_REJECTION_ON_PROBATION,
@@ -157,37 +158,25 @@ export class Reason ***REMOVED***
     Reason.AUX_VOL_RETIRED
   ]
 
-  static reasonDictionary = (): ***REMOVED*** [key in ReasonEnum]: Reason ***REMOVED*** => ***REMOVED***
-    const dictionary: ***REMOVED*** [key in ReasonEnum]: Reason ***REMOVED*** = ***REMOVED******REMOVED*** as FixTypeLater
-
-    Reason.reasonArray().forEach((reason: Reason): void => ***REMOVED***
-      dictionary[reason.reasonCode] = reason
-  ***REMOVED***)
-
-    return dictionary
+  static map = (): Map<ReasonEnum, Reason> => ***REMOVED***
+    return new Map(Reason.array().map(r => [r.reasonCode, r]))
 ***REMOVED***
 
-  static reasonByKey = (key?: ReasonEnum): Reason | undefined => ***REMOVED***
-    if (!key) return undefined
-    return Reason.reasonDictionary()[key]
+  static fromKey = (key: ReasonEnum): Reason => ***REMOVED***
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return Reason.map().get(key)!
 ***REMOVED***
 
-  static reasonsByAppointmentStatus = (
-    appointmentStatusCode: AppointmentStatusEnum
-  ): Reason[] => ***REMOVED***
-    return Reason.reasonArray().filter(
-      (reason: Reason) => reason.appointmentStatusCode === appointmentStatusCode
-    )
+  static byAppointmentStatus = (code: AppointmentStatusEnum): Reason[] => ***REMOVED***
+    return Reason.array().filter(r => r.appointmentStatusCode === code)
 ***REMOVED***
 
   static toOptionsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
   ): ISelectOption[] => ***REMOVED***
-    return Reason.reasonsByAppointmentStatus(appointmentStatusCode).map(
-      status => (***REMOVED***
-        name: `$***REMOVED***status.exitTypeCode***REMOVED***: $***REMOVED***status.reasonCode***REMOVED***`,
-        value: status.reasonCode
-    ***REMOVED***)
-    )
+    return Reason.byAppointmentStatus(appointmentStatusCode).map(status => (***REMOVED***
+      name: `$***REMOVED***status.exitTypeCode***REMOVED***: $***REMOVED***status.reasonCode***REMOVED***`,
+      value: status.reasonCode
+  ***REMOVED***))
 ***REMOVED***
 ***REMOVED***

@@ -1,6 +1,6 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
-import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../types/Employee'
+import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../helpers/labelHelper'
 
 import DatePicker from 'react-datepicker'
 

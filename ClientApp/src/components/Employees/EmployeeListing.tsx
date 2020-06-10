@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ***REMOVED*** Employee, IEmployeeJSON ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
@@ -8,6 +8,7 @@ import ExportData from '../DisplayHelpers/ExportData'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from '../DisplayHelpers/Filters/MasterFilterHandler'
+import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
 
 export interface ISort ***REMOVED***
   id: string
@@ -89,11 +90,11 @@ const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
           'get',
           null,
           'EMPLOYEE_NOT_FOUND',
-          (responseJSON: IEmployeeJSON[], pagination: FixTypeLater): void => ***REMOVED***
+          (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => ***REMOVED***
             const pageCount = pagination.PageCount
             const recordCount = pagination.RecordCount
 
-            setData(Employee.deserializeArray(responseJSON))
+            setData(responseJSON.map(e => plainToClass(Employee, e)))
             setPageCount(pageCount)
             setRecordCount(recordCount)
             setLoading(false)

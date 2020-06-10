@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React from 'react'
-import ***REMOVED***
-  Employee,
-  IEmployeeJSON,
-  employeeFieldLabels as labels
-***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** employeeFieldLabels as labels ***REMOVED*** from '../../helpers/labelHelper'
 import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
@@ -18,13 +15,14 @@ import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
-import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatusEnum'
+import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
 import ***REMOVED***
   AppointmentStatus,
   AppointmentStatusEnum
 ***REMOVED*** from '../../types/AppointmentStatus'
-import ***REMOVED*** Reason ***REMOVED*** from '../../types/ReasonEnum'
+import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -145,7 +143,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                   options=***REMOVED***Reason.toOptionsByAppointmentStatus(
                     (AppointmentStatusEnum as FixTypeLater)[
-                      e.appointmentStatus!.appointmentStatusCode
+                      e.appointmentStatus!.code
                     ]
                   )***REMOVED***
                 />
@@ -162,7 +160,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 <EditableDropdown
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName="appointmentStatus"
-                  fieldValue=***REMOVED***e.appointmentStatus!.appointmentStatusCode***REMOVED***
+                  fieldValue=***REMOVED***e.appointmentStatus!.code***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                   options=***REMOVED***AppointmentStatus.toOptions()***REMOVED***
                 />
@@ -229,9 +227,8 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON): void => ***REMOVED***
-        console.log(responseJSON)
-        this.setState(***REMOVED*** employee: new Employee(responseJSON) ***REMOVED***)
+      (responseJSON: string): void => ***REMOVED***
+        this.setState(***REMOVED*** employee: plainToClass(Employee, responseJSON) ***REMOVED***)
     ***REMOVED***
     )
 ***REMOVED***
