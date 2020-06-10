@@ -1,6 +1,8 @@
+/* globals Map */
+
 import { ISelectOption } from '../components/Employees/EditableSelect'
 
-export enum EmployeeStatusCodeEnum {
+export enum EmployeeStatusEnum {
   New = 'New',
   WelcomeEmailSent = 'WelcomeEmailSent',
   Reminder1Sent = 'Reminder1Sent',
@@ -20,13 +22,13 @@ export enum EmployeeStatusStateEnum {
 }
 
 export class EmployeeStatus {
-  code: EmployeeStatusCodeEnum
+  code: EmployeeStatusEnum
   state: EmployeeStatusStateEnum
   displayName: string
   description?: string
 
   constructor(
-    statusCode: EmployeeStatusCodeEnum,
+    statusCode: EmployeeStatusEnum,
     statusState: EmployeeStatusStateEnum,
     displayName: string,
     description: string
@@ -38,67 +40,67 @@ export class EmployeeStatus {
   }
 
   static NEW: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.New,
+    EmployeeStatusEnum.New,
     EmployeeStatusStateEnum.Initial,
     'New',
     'Newly-added. No email sent yet. Initial state for all employees.'
   )
   static WELCOME_EMAIL_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.WelcomeEmailSent,
+    EmployeeStatusEnum.WelcomeEmailSent,
     EmployeeStatusStateEnum.InProgress,
     'Welcome email sent',
     'First email sent.'
   )
   static REMINDER_1_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.Reminder1Sent,
+    EmployeeStatusEnum.Reminder1Sent,
     EmployeeStatusStateEnum.InProgress,
     'Reminder 1 sent',
     'First reminder sent.'
   )
   static REMINDER_2_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.Reminder2Sent,
+    EmployeeStatusEnum.Reminder2Sent,
     EmployeeStatusStateEnum.InProgress,
     'Reminder 2 sent',
     'Second reminder sent.'
   )
   static SURVEY_COMPLETE: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.SurveyComplete,
+    EmployeeStatusEnum.SurveyComplete,
     EmployeeStatusStateEnum.Final,
     'Survey complete',
     'Survey has been finished.'
   )
   static SNAIL_MAIL_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.SnailMailSent,
+    EmployeeStatusEnum.SnailMailSent,
     EmployeeStatusStateEnum.Final,
     'Snail mail sent',
     'Snail mail has been sent.'
   )
   static NOT_EXITING: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.NotExiting,
+    EmployeeStatusEnum.NotExiting,
     EmployeeStatusStateEnum.Final,
     'Employee not exiting',
     'This employee is not actually exiting.'
   )
   static INELIGIBLE_OTHER: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.IneligibleOther,
+    EmployeeStatusEnum.IneligibleOther,
     EmployeeStatusStateEnum.Final,
     'Ineligible (other)',
     'Other ineligibility reason.'
   )
   static DECLINED: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.Declined,
+    EmployeeStatusEnum.Declined,
     EmployeeStatusStateEnum.Final,
     'Employee declined',
     'The employee has asked not to complete the survey.'
   )
   static EXPIRED: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusCodeEnum.Expired,
+    EmployeeStatusEnum.Expired,
     EmployeeStatusStateEnum.Final,
     'Expired',
     "The employee's effective date has passed without completing the survey."
   )
 
-  static statusArray = (): EmployeeStatus[] => [
+  static array = (): EmployeeStatus[] => [
     EmployeeStatus.NEW,
     EmployeeStatus.WELCOME_EMAIL_SENT,
     EmployeeStatus.REMINDER_1_SENT,
@@ -111,23 +113,17 @@ export class EmployeeStatus {
     EmployeeStatus.EXPIRED
   ]
 
-  static statusDictionary = (): { [key: string]: EmployeeStatus } => {
-    const dictionary: { [key: string]: EmployeeStatus } = {}
-
-    EmployeeStatus.statusArray().forEach((status: EmployeeStatus): void => {
-      dictionary[status.code.toString()] = status
-    })
-
-    return dictionary
+  static map = (): Map<EmployeeStatusEnum, EmployeeStatus> => {
+    return new Map(EmployeeStatus.array().map(s => [s.code, s]))
   }
 
-  static statusByKey = (key?: string): EmployeeStatus | undefined => {
-    if (!key) return undefined
-    return EmployeeStatus.statusDictionary()[key]
+  static fromKey = (key: EmployeeStatusEnum): EmployeeStatus => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return EmployeeStatus.map().get(key)!
   }
 
   static toOptions = (): ISelectOption[] => {
-    return EmployeeStatus.statusArray().map(status => ({
+    return EmployeeStatus.array().map(status => ({
       name: status.displayName,
       value: status.code
     }))

@@ -3,7 +3,7 @@ import React from 'react'
 import ActiveFilterButton from '../Interface/Buttons/ActiveFilterButton'
 
 import './ActiveFilters.scss'
-import { employeeFieldLabels } from '../../../types/Employee'
+import { employeeFieldLabels } from '../../../helpers/labelHelper'
 import { IFilterField } from './FilterTypes'
 
 interface IProps {

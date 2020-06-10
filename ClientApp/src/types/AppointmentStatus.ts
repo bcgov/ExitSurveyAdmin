@@ -1,3 +1,5 @@
+/* globals Map */
+
 import { ISelectOption } from '../components/Employees/EditableSelect'
 
 export enum AppointmentStatusEnum {
@@ -6,10 +8,10 @@ export enum AppointmentStatusEnum {
 }
 
 export class AppointmentStatus {
-  appointmentStatusCode: AppointmentStatusEnum
+  code: AppointmentStatusEnum
 
   constructor(appointmentStatus: AppointmentStatusEnum) {
-    this.appointmentStatusCode = appointmentStatus
+    this.code = appointmentStatus
   }
 
   static REGULAR: AppointmentStatus = new AppointmentStatus(
@@ -19,38 +21,24 @@ export class AppointmentStatus {
     AppointmentStatusEnum.Auxiliary
   )
 
-  static statusArray = (): AppointmentStatus[] => [
+  static array = (): AppointmentStatus[] => [
     AppointmentStatus.AUXILIARY,
     AppointmentStatus.REGULAR
   ]
 
-  static statusDictionary = (): {
-    [key in AppointmentStatusEnum]?: AppointmentStatus
-  } => {
-    const dictionary: {
-      [key in AppointmentStatusEnum]?: AppointmentStatus
-    } = {}
-
-    AppointmentStatus.statusArray().forEach(
-      (status: AppointmentStatus): void => {
-        dictionary[status.appointmentStatusCode] = status
-      }
-    )
-
-    return dictionary
+  static map = (): Map<AppointmentStatusEnum, AppointmentStatus> => {
+    return new Map(AppointmentStatus.array().map(s => [s.code, s]))
   }
 
-  static statusByKey = (
-    key?: AppointmentStatusEnum
-  ): AppointmentStatus | undefined => {
-    if (!key) return undefined
-    return AppointmentStatus.statusDictionary()[key]
+  static fromKey = (key: AppointmentStatusEnum): AppointmentStatus => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return AppointmentStatus.map().get(key)!
   }
 
   static toOptions = (): ISelectOption[] => {
-    return AppointmentStatus.statusArray().map(status => ({
-      name: status.appointmentStatusCode,
-      value: status.appointmentStatusCode
+    return AppointmentStatus.array().map(status => ({
+      name: status.code,
+      value: status.code
     }))
   }
 }

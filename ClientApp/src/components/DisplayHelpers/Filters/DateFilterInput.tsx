@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { IFilterField } from './FilterTypes'
-import { employeeFieldLabels } from '../../../types/Employee'
+import { employeeFieldLabels } from '../../../helpers/labelHelper'
 
 import DatePicker from 'react-datepicker'
 

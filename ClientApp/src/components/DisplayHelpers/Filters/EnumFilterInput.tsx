@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 
 import { IFilterField } from './FilterTypes'
-import { employeeFieldLabels } from '../../../types/Employee'
+import { employeeFieldLabels } from '../../../helpers/labelHelper'
 
 import CollectionSelect, {
   INameValuePair
 } from '../Interface/Selects/CollectionSelect'
-import { EmployeeStatus } from '../../../types/EmployeeStatusEnum'
-import { Reason } from '../../../types/ReasonEnum'
+import { EmployeeStatus } from '../../../types/EmployeeStatus'
+import { Reason } from '../../../types/Reason'
 import { FilterDispatch, cloneAndSetValues } from './FilterForm'
 import { FixTypeLater } from '../../../types/FixTypeLater'
 
@@ -24,7 +24,7 @@ const reasonSort = (a: Reason, b: Reason): number => {
 export const enumItemsForField = (fieldName: string): INameValuePair[] => {
   switch (fieldName) {
     case 'reason':
-      return Object.values(Reason.reasonDictionary())
+      return Array.from(Reason.map().values())
         .sort(reasonSort)
         .map(s => ({
           name: s.reasonCode,
@@ -32,7 +32,7 @@ export const enumItemsForField = (fieldName: string): INameValuePair[] => {
         }))
     case 'currentEmployeeStatusCode':
     default:
-      return EmployeeStatus.statusArray().map(s => ({
+      return EmployeeStatus.array().map(s => ({
         name: s.displayName,
         value: s.code
       }))

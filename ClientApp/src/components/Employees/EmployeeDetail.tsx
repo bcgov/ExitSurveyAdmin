@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React from 'react'
-import {
-  Employee,
-  IEmployeeJSON,
-  employeeFieldLabels as labels
-} from '../../types/Employee'
+import { Employee } from '../../types/Employee'
+import { employeeFieldLabels as labels } from '../../helpers/labelHelper'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
@@ -18,13 +15,14 @@ import TimelineEntryList from './TimelineEntryList'
 import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
-import { EmployeeStatus } from '../../types/EmployeeStatusEnum'
+import { EmployeeStatus } from '../../types/EmployeeStatus'
 import {
   AppointmentStatus,
   AppointmentStatusEnum
 } from '../../types/AppointmentStatus'
-import { Reason } from '../../types/ReasonEnum'
+import { Reason } from '../../types/Reason'
 import { FixTypeLater } from '../../types/FixTypeLater'
+import { plainToClass } from 'class-transformer'
 
 interface IParams {
   employeeId: string
@@ -145,7 +143,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                   refreshDataCallback={this.populateData}
                   options={Reason.toOptionsByAppointmentStatus(
                     (AppointmentStatusEnum as FixTypeLater)[
-                      e.appointmentStatus!.appointmentStatusCode
+                      e.appointmentStatus!.code
                     ]
                   )}
                 />
@@ -162,7 +160,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <EditableDropdown
                   employeeDatabaseId={e.id!}
                   fieldName="appointmentStatus"
-                  fieldValue={e.appointmentStatus!.appointmentStatusCode}
+                  fieldValue={e.appointmentStatus!.code}
                   refreshDataCallback={this.populateData}
                   options={AppointmentStatus.toOptions()}
                 />
@@ -229,9 +227,8 @@ class EmployeeDetail extends React.Component<IProps, IState> {
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
-      (responseJSON: IEmployeeJSON): void => {
-        console.log(responseJSON)
-        this.setState({ employee: new Employee(responseJSON) })
+      (responseJSON: string): void => {
+        this.setState({ employee: plainToClass(Employee, responseJSON) })
       }
     )
   }
