@@ -2,7 +2,6 @@ import React from 'react'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import TaskLogEntryTable from './TaskLogEntryTable'
 import ExportData from '../DisplayHelpers/ExportData'
 import { RouteComponentProps, withRouter } from 'react-router'
 // import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
@@ -10,6 +9,8 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { plainToClass } from 'class-transformer'
 import { ITableSort } from '../../types/ReactTable'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
+import GenericTable from '../DisplayHelpers/GenericTable'
+import { taskLogEntryTableColumns } from './taskLogEntryTableColumns'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
@@ -77,7 +78,8 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
   return (
     <>
       <h1>Task log entries</h1>
-      <TaskLogEntryTable
+      <GenericTable
+        columns={taskLogEntryTableColumns}
         data={data}
         fetchData={fetchData}
         loading={loading}
