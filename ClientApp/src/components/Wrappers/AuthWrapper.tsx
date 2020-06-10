@@ -17,10 +17,6 @@ interface IDispatchProps {}
 interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
 
 class AuthWrapper extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props)
-  }
-
   render(): React.ReactNode {
     const { user } = this.props
 
