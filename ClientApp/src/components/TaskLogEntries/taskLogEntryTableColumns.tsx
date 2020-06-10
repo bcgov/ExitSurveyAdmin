@@ -9,7 +9,7 @@ type TaskLogEntryCellProps = React.PropsWithChildren<
   CellProps<TaskLogEntry, string | undefined>
 >
 
-export const employeeTableColumns = (): Column<TaskLogEntry>[] => [
+export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
   {
     Header: 'Date',
     Cell: (props: TaskLogEntryCellProps): JSX.Element => (

@@ -3,13 +3,14 @@ import React from 'react'
 import { Employee } from '../../types/Employee'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import EmployeeTable from './EmployeeTable'
 import ExportData from '../DisplayHelpers/ExportData'
 import { RouteComponentProps, withRouter } from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
 import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
 import { plainToClass } from 'class-transformer'
 import { ITableSort } from '../../types/ReactTable'
+import GenericTable from '../DisplayHelpers/GenericTable'
+import { employeeTableColumns } from './employeeTableColumns'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
@@ -85,7 +86,8 @@ const EmployeeListing = (props: IProps): JSX.Element => {
   return (
     <>
       <FilterPanel />
-      <EmployeeTable
+      <GenericTable
+        columns={employeeTableColumns}
         data={data}
         fetchData={fetchData}
         loading={loading}
