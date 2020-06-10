@@ -12,6 +12,9 @@ export const deploymentUrl = (): string => {
 export const signinRedirectOptions = {
   data: {
     href: window.location.href
+  },
+  extraQueryParams: {
+    kc_idp_hint: 'idir'
   }
 }
 
@@ -25,8 +28,5 @@ export const userManagerConfig = {
   automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
   filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
   loadUserInfo: env('AUTH_LOAD_USER_INFO'),
-  userStore: new WebStorageStateStore({ store: window.localStorage }),
-  extraQueryParams: {
-    kc_idp_hint: 'idir'
-  }
+  userStore: new WebStorageStateStore({ store: window.localStorage })
 }
