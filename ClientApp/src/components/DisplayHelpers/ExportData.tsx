@@ -1,10 +1,8 @@
 import React from 'react'
 import { CSVLink } from 'react-csv'
 
-import { Employee } from '../../types/Employee'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import { classToPlain, plainToClass } from 'class-transformer'
 
 interface IProps {
   sortQuery: string
