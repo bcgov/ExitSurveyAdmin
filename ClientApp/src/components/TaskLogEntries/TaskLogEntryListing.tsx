@@ -1,8 +1,10 @@
 import React from 'react'
-import { ITaskLogEntryJSON, TaskLogEntry } from '../../types/TaskLogEntry'
+import { TaskLogEntry } from '../../types/TaskLogEntry'
 import Date from '../DisplayHelpers/FormattedDate'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import TaskOutcome from '../DisplayHelpers/TaskOutcome'
+import { FixTypeLater } from '../../types/FixTypeLater'
+import { plainToClass } from 'class-transformer'
 
 interface IOwnProps {}
 
@@ -86,9 +88,9 @@ class TaskLogEntryListing extends React.Component<IProps, IState> {
       'get',
       null,
       'TASK_LOG_ENTRIES_NOT_FOUND',
-      (responseJSON: ITaskLogEntryJSON[]): void =>
+      (responseJSON: FixTypeLater[]): void =>
         this.setState({
-          taskLogEntries: TaskLogEntry.deserializeArray(responseJSON)
+          taskLogEntries: responseJSON.map(t => plainToClass(TaskLogEntry, t))
         })
     )
   }
