@@ -1,6 +1,10 @@
 using ExitSurveyAdmin.Models;
+using ExitSurveyAdmin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Models;
+using Sieve.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,20 +18,45 @@ namespace ExitSurveyAdmin.Controllers
     public class TaskLogEntriesController : ControllerBase
     {
         private readonly ExitSurveyAdminContext context;
+        private readonly SieveProcessor SieveProcessor;
 
-        public TaskLogEntriesController(ExitSurveyAdminContext context)
+        public TaskLogEntriesController(
+            ExitSurveyAdminContext context,
+            SieveProcessor sieveProcessor
+        )
         {
             this.context = context;
+            SieveProcessor = sieveProcessor;
         }
 
         // GET: api/TaskLogEntries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaskLogEntry>>> GetTaskLogEntries()
+        public async Task<ActionResult<IList<TaskLogEntry>>> GetTaskLogEntries(
+            [FromQuery] SieveModel sieveModel
+        )
         {
-            return await context.TaskLogEntries
+            // Validate the page size and page.
+            if (sieveModel.PageSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("Page size must be >= 1.");
+            }
+            if (sieveModel.Page < 1)
+            {
+                throw new ArgumentOutOfRangeException("Page must be >= 1.");
+            }
+
+            // Task log entry query.
+            var taskLogEntries = context.TaskLogEntries
+                .AsNoTracking()
                 .Include(tle => tle.Task)
-                .Include(tle => tle.TaskOutcome)
-                .ToListAsync();
+                .Include(tle => tle.TaskOutcome);
+
+            var sievedTaskLogEntries = await SieveProcessor
+                .GetPagedAsync(taskLogEntries, sieveModel);
+            Response.Headers.Add("X-Pagination", sievedTaskLogEntries
+                .SerializeMetadataToJson());
+
+            return Ok(sievedTaskLogEntries.Results);
         }
 
         // GET: api/TaskLogEntries/5
