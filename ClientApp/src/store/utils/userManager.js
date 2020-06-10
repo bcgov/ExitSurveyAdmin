@@ -1,7 +1,5 @@
 import ***REMOVED*** createUserManager ***REMOVED*** from 'redux-oidc'
-import ***REMOVED*** getUserManagerConfig ***REMOVED*** from '../../helpers/envHelper'
-
-const userManagerConfig = getUserManagerConfig()
+import ***REMOVED*** userManagerConfig ***REMOVED*** from '../../helpers/envHelper'
 
 const userManager = createUserManager(userManagerConfig)
 

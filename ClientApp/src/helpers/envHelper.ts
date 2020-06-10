@@ -2,7 +2,6 @@
 
 import env from '@beam-australia/react-env'
 import ***REMOVED*** WebStorageStateStore ***REMOVED*** from 'oidc-client'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 
 export const routerBase = (): string => env('APP_PATH')
 
@@ -10,15 +9,13 @@ export const deploymentUrl = (): string => ***REMOVED***
   return `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
 ***REMOVED***
 
-export const getSigninRedirectOptions = (): FixTypeLater => ***REMOVED***
-  return ***REMOVED***
-    data: ***REMOVED***
-      href: window.location.href
-  ***REMOVED***
+export const signinRedirectOptions = ***REMOVED***
+  data: ***REMOVED***
+    href: window.location.href
 ***REMOVED***
 ***REMOVED***
 
-export const getUserManagerConfig = (): FixTypeLater => (***REMOVED***
+export const userManagerConfig = ***REMOVED***
   client_id: env('AUTH_CLIENT_ID'),
   redirect_uri: `$***REMOVED***deploymentUrl()***REMOVED***callback`,
   response_type: env('AUTH_RESPONSE_TYPE'),
@@ -28,5 +25,8 @@ export const getUserManagerConfig = (): FixTypeLater => (***REMOVED***
   automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
   filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
   loadUserInfo: env('AUTH_LOAD_USER_INFO'),
-  userStore: new WebStorageStateStore(***REMOVED*** store: window.localStorage ***REMOVED***)
-***REMOVED***)
+  userStore: new WebStorageStateStore(***REMOVED*** store: window.localStorage ***REMOVED***),
+  extraQueryParams: ***REMOVED***
+    kc_idp_hint: 'idir'
+***REMOVED***
+***REMOVED***
