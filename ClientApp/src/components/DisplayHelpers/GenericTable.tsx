@@ -4,45 +4,26 @@
 // supplied when rendering in browser).
 
 import React from 'react'
-import { usePagination, useSortBy, useTable } from 'react-table'
+import { Column, usePagination, useSortBy, useTable } from 'react-table'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
 import LoadingRow from '../DisplayHelpers/LoadingRow'
-import { employeeTableColumns } from './taskLogEntryTableColumns'
-import { TaskLogEntry } from '../../types/TaskLogEntry'
 
-interface IProps {
-  data: TaskLogEntry[]
+interface IProps<T extends object> {
+  data: T[]
+  columns: () => Column<T>[]
   fetchData: (options: FixTypeLater) => FixTypeLater
   loading: boolean
   controlledPageCount: number
   recordCount: number
 }
 
-const DefaultColumnFilter = ({
-  column: { filterValue, setFilter }
-}: FixTypeLater): JSX.Element => {
-  return (
-    <input
-      className="form-control form-control-sm"
-      value={filterValue || ''}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-      }}
-      placeholder={`Search${/*count*/ ''}...`}
-    />
-  )
-}
-
-const TaskLogEntryTable = (props: IProps): JSX.Element => {
+const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
   const { data, fetchData, loading, controlledPageCount, recordCount } = props
 
-  const defaultColumn = React.useMemo(
-    () => ({ Filter: DefaultColumnFilter }),
-    []
-  )
-  const columns = React.useMemo(employeeTableColumns, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const columns = React.useMemo(props.columns, [])
 
   const {
     getTableProps,
@@ -62,7 +43,7 @@ const TaskLogEntryTable = (props: IProps): JSX.Element => {
     {
       columns,
       data,
-      defaultColumn,
+      // defaultColumn,
       initialState: { pageIndex: 0, pageSize: 20 } as FixTypeLater,
       manualPagination: true,
       pageCount: controlledPageCount,
@@ -132,4 +113,4 @@ const TaskLogEntryTable = (props: IProps): JSX.Element => {
   )
 }
 
-export default TaskLogEntryTable
+export default GenericTable
