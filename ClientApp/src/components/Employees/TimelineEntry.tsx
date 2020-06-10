@@ -10,7 +10,6 @@ interface IProps {
 class TimelineEntry extends React.Component<IProps> {
   render(): JSX.Element {
     const { timelineEntry: tl } = this.props
-    console.log(tl)
     return (
       <div className="TimelineEntry">
         <hr />
