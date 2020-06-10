@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Employee, IEmployeeJSON } from '../../types/Employee'
+import { Employee } from '../../types/Employee'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import EmployeeTable from './EmployeeTable'
@@ -8,6 +8,7 @@ import ExportData from '../DisplayHelpers/ExportData'
 import { RouteComponentProps, withRouter } from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
 import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
+import { plainToClass } from 'class-transformer'
 
 export interface ISort {
   id: string
@@ -89,11 +90,11 @@ const EmployeeListing = (props: IProps): JSX.Element => {
           'get',
           null,
           'EMPLOYEE_NOT_FOUND',
-          (responseJSON: IEmployeeJSON[], pagination: FixTypeLater): void => {
+          (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => {
             const pageCount = pagination.PageCount
             const recordCount = pagination.RecordCount
 
-            setData(Employee.deserializeArray(responseJSON))
+            setData(responseJSON.map(e => plainToClass(Employee, e)))
             setPageCount(pageCount)
             setRecordCount(recordCount)
             setLoading(false)

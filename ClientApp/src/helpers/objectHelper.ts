@@ -20,6 +20,10 @@ export function undefinedIfNull<T>(obj: T | null): T | undefined {
   return obj === null ? undefined : obj
 }
 
+export function nullIfUndefined<T>(obj: T | undefined): T | null {
+  return obj === undefined ? null : obj
+}
+
 export function emptyStringIfNull<T>(obj: T | null): T | string {
   return obj === null ? '' : obj
 }

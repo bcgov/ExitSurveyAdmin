@@ -1,6 +1,6 @@
 import React from 'react'
 import IconButton from './IconButton'
-import { employeeFieldLabels } from '../../../../types/Employee'
+import { employeeFieldLabels } from '../../../../helpers/labelHelper'
 import { IFilterField } from '../../Filters/FilterTypes'
 import { enumItemsForField } from '../../Filters/EnumFilterInput'
 

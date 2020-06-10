@@ -1,6 +1,7 @@
+/* globals Map */
+
 import { ISelectOption } from '../components/Employees/EditableSelect'
 import { AppointmentStatusEnum } from './AppointmentStatus'
-import { FixTypeLater } from './FixTypeLater'
 
 export enum ExitTypeEnum {
   Involuntary = 'Involuntary',
@@ -138,7 +139,7 @@ export class Reason {
     1
   )
 
-  static reasonArray = (): Reason[] => [
+  static array = (): Reason[] => [
     Reason.REG_INV_JUST_CAUSE,
     Reason.REG_INV_REDUNDANT,
     Reason.REG_INV_REJECTION_ON_PROBATION,
@@ -157,37 +158,25 @@ export class Reason {
     Reason.AUX_VOL_RETIRED
   ]
 
-  static reasonDictionary = (): { [key in ReasonEnum]: Reason } => {
-    const dictionary: { [key in ReasonEnum]: Reason } = {} as FixTypeLater
-
-    Reason.reasonArray().forEach((reason: Reason): void => {
-      dictionary[reason.reasonCode] = reason
-    })
-
-    return dictionary
+  static map = (): Map<ReasonEnum, Reason> => {
+    return new Map(Reason.array().map(r => [r.reasonCode, r]))
   }
 
-  static reasonByKey = (key?: ReasonEnum): Reason | undefined => {
-    if (!key) return undefined
-    return Reason.reasonDictionary()[key]
+  static fromKey = (key: ReasonEnum): Reason => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return Reason.map().get(key)!
   }
 
-  static reasonsByAppointmentStatus = (
-    appointmentStatusCode: AppointmentStatusEnum
-  ): Reason[] => {
-    return Reason.reasonArray().filter(
-      (reason: Reason) => reason.appointmentStatusCode === appointmentStatusCode
-    )
+  static byAppointmentStatus = (code: AppointmentStatusEnum): Reason[] => {
+    return Reason.array().filter(r => r.appointmentStatusCode === code)
   }
 
   static toOptionsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
   ): ISelectOption[] => {
-    return Reason.reasonsByAppointmentStatus(appointmentStatusCode).map(
-      status => ({
-        name: `${status.exitTypeCode}: ${status.reasonCode}`,
-        value: status.reasonCode
-      })
-    )
+    return Reason.byAppointmentStatus(appointmentStatusCode).map(status => ({
+      name: `${status.exitTypeCode}: ${status.reasonCode}`,
+      value: status.reasonCode
+    }))
   }
 }

@@ -4,8 +4,8 @@ import { CellProps, Column } from 'react-table'
 import { Link } from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { dateOrUndefined } from '../../helpers/objectHelper'
-import { Reason } from '../../types/ReasonEnum'
-import { EmployeeStatus } from '../../types/EmployeeStatusEnum'
+import { Reason } from '../../types/Reason'
+import { EmployeeStatus } from '../../types/EmployeeStatus'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>
