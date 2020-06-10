@@ -16,8 +16,7 @@ export enum EmployeeStatusEnum ***REMOVED***
 ***REMOVED***
 
 export enum EmployeeStatusStateEnum ***REMOVED***
-  Initial = 'Initial',
-  InProgress = 'InProgress',
+  Active = 'Active',
   Final = 'Final'
 ***REMOVED***
 
@@ -41,25 +40,25 @@ export class EmployeeStatus ***REMOVED***
 
   static NEW: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.New,
-    EmployeeStatusStateEnum.Initial,
+    EmployeeStatusStateEnum.Active,
     'New',
     'Newly-added. No email sent yet. Initial state for all employees.'
   )
   static WELCOME_EMAIL_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.WelcomeEmailSent,
-    EmployeeStatusStateEnum.InProgress,
+    EmployeeStatusStateEnum.Active,
     'Welcome email sent',
     'First email sent.'
   )
   static REMINDER_1_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.Reminder1Sent,
-    EmployeeStatusStateEnum.InProgress,
+    EmployeeStatusStateEnum.Active,
     'Reminder 1 sent',
     'First reminder sent.'
   )
   static REMINDER_2_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.Reminder2Sent,
-    EmployeeStatusStateEnum.InProgress,
+    EmployeeStatusStateEnum.Active,
     'Reminder 2 sent',
     'Second reminder sent.'
   )
@@ -71,7 +70,7 @@ export class EmployeeStatus ***REMOVED***
   )
   static SNAIL_MAIL_SENT: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.SnailMailSent,
-    EmployeeStatusStateEnum.Final,
+    EmployeeStatusStateEnum.Active,
     'Snail mail sent',
     'Snail mail has been sent.'
   )
