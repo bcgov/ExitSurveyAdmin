@@ -4,45 +4,26 @@
 // supplied when rendering in browser).
 
 import React from 'react'
-import ***REMOVED*** usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
+import ***REMOVED*** Column, usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
 import Pagination from '../DisplayHelpers/Pagination'
 import LoadingRow from '../DisplayHelpers/LoadingRow'
-import ***REMOVED*** employeeTableColumns ***REMOVED*** from './taskLogEntryTableColumns'
-import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
 
-interface IProps ***REMOVED***
-  data: TaskLogEntry[]
+interface IProps<T extends object> ***REMOVED***
+  data: T[]
+  columns: () => Column<T>[]
   fetchData: (options: FixTypeLater) => FixTypeLater
   loading: boolean
   controlledPageCount: number
   recordCount: number
 ***REMOVED***
 
-const DefaultColumnFilter = (***REMOVED***
-  column: ***REMOVED*** filterValue, setFilter ***REMOVED***
-***REMOVED***: FixTypeLater): JSX.Element => ***REMOVED***
-  return (
-    <input
-      className="form-control form-control-sm"
-      value=***REMOVED***filterValue || ''***REMOVED***
-      onChange=***REMOVED***(e: React.ChangeEvent<HTMLInputElement>): void => ***REMOVED***
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-    ***REMOVED******REMOVED***
-      placeholder=***REMOVED***`Search$***REMOVED***/*count*/ ''***REMOVED***...`***REMOVED***
-    />
-  )
-***REMOVED***
-
-const TaskLogEntryTable = (props: IProps): JSX.Element => ***REMOVED***
+const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REMOVED***
   const ***REMOVED*** data, fetchData, loading, controlledPageCount, recordCount ***REMOVED*** = props
 
-  const defaultColumn = React.useMemo(
-    () => (***REMOVED*** Filter: DefaultColumnFilter ***REMOVED***),
-    []
-  )
-  const columns = React.useMemo(employeeTableColumns, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const columns = React.useMemo(props.columns, [])
 
   const ***REMOVED***
     getTableProps,
@@ -62,7 +43,7 @@ const TaskLogEntryTable = (props: IProps): JSX.Element => ***REMOVED***
     ***REMOVED***
       columns,
       data,
-      defaultColumn,
+      // defaultColumn,
       initialState: ***REMOVED*** pageIndex: 0, pageSize: 20 ***REMOVED*** as FixTypeLater,
       manualPagination: true,
       pageCount: controlledPageCount,
@@ -132,4 +113,4 @@ const TaskLogEntryTable = (props: IProps): JSX.Element => ***REMOVED***
   )
 ***REMOVED***
 
-export default TaskLogEntryTable
+export default GenericTable

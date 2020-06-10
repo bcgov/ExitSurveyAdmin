@@ -2,7 +2,6 @@ import React from 'react'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import TaskLogEntryTable from './TaskLogEntryTable'
 import ExportData from '../DisplayHelpers/ExportData'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 // import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
@@ -10,6 +9,8 @@ import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-r
 import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
 import ***REMOVED*** ITableSort ***REMOVED*** from '../../types/ReactTable'
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
+import GenericTable from '../DisplayHelpers/GenericTable'
+import ***REMOVED*** taskLogEntryTableColumns ***REMOVED*** from './taskLogEntryTableColumns'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
@@ -77,7 +78,8 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
   return (
     <>
       <h1>Task log entries</h1>
-      <TaskLogEntryTable
+      <GenericTable
+        columns=***REMOVED***taskLogEntryTableColumns***REMOVED***
         data=***REMOVED***data***REMOVED***
         fetchData=***REMOVED***fetchData***REMOVED***
         loading=***REMOVED***loading***REMOVED***
