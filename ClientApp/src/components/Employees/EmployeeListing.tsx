@@ -9,41 +9,18 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
 import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
 import { plainToClass } from 'class-transformer'
-
-export interface ISort {
-  id: string
-  desc: boolean
-}
-
-export interface IFilter {
-  id: string
-  value: string
-}
+import { ITableSort } from '../../types/ReactTable'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
 a desc sort. If the sortBy array is empty, return the empty string. */
-const processSorts = (sortBy: ISort[]): string => {
+const processSorts = (sortBy: ITableSort[]): string => {
   return sortBy.length
     ? `&sorts=${sortBy
         .map((s: FixTypeLater) => `${s.desc ? '-' : ''}${s.id}`)
         .join(',')}`
     : ''
 }
-
-// const extractSortsFromQuery = (queryString: string): ISort[] => {
-//   return queryString.split(',').map(s => {
-//     return s.startsWith('-')
-//       ? {
-//           id: s.substring(1), // Strip off the minus sign
-//           desc: true
-//         }
-//       : {
-//           id: s,
-//           desc: false
-//         }
-//   })
-// }
 
 const extractFilters = (propLocationSearch: string): string =>
   MasterFilterHandler.extractFromRawQueryString(propLocationSearch)
@@ -115,7 +92,19 @@ const EmployeeListing = (props: IProps): JSX.Element => {
         controlledPageCount={pageCount}
         recordCount={recordCount}
       />
-      <ExportData sortQuery={sortQuery} filterQuery={filterQuery} />
+      <ExportData
+        sortQuery={sortQuery}
+        filterQuery={filterQuery}
+        apiModelName="employees"
+        setDownloadedDataCallback={(
+          responseJSON: FixTypeLater[]
+        ): FixTypeLater[] =>
+          responseJSON.map(e => {
+            delete e.timelineEntries
+            return e
+          })
+        }
+      />
     </>
   )
 }
