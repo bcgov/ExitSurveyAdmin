@@ -7,34 +7,37 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 interface IProps {
   sortQuery: string
   filterQuery: string
+  apiModelName: string
+  setDownloadedDataCallback: (responseJSON: FixTypeLater[]) => FixTypeLater[]
 }
 
 const MAX_PAGE_SIZE = 1000000
 
 const ExportData = (props: IProps): JSX.Element => {
-  const { sortQuery, filterQuery } = props
+  const {
+    sortQuery,
+    filterQuery,
+    apiModelName,
+    setDownloadedDataCallback
+  } = props
 
   const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
   const csvLinkRef = React.useRef(null)
 
   const downloadData = React.useCallback((): void => {
     requestJSONWithErrorHandler(
-      `api/employees?pageSize=${MAX_PAGE_SIZE}${sortQuery}${filterQuery}`,
+      `api/${apiModelName}?pageSize=${MAX_PAGE_SIZE}${sortQuery}${filterQuery}`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => {
-        setDownloadedData(
-          responseJSON.map(e => {
-            delete e.timelineEntries
-            return e
-          })
-        )
+        setDownloadedData(setDownloadedDataCallback(responseJSON))
 
         // Click the hidden CSVLink
         ;(csvLinkRef.current as FixTypeLater).link.click()
       }
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortQuery, filterQuery])
 
   return (
