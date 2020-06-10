@@ -13,6 +13,9 @@ export const signinRedirectOptions = ***REMOVED***
   data: ***REMOVED***
     href: window.location.href
 ***REMOVED***
+  extraQueryParams: ***REMOVED***
+    kc_idp_hint: 'idir'
+***REMOVED***
 ***REMOVED***
 
 export const userManagerConfig = ***REMOVED***
@@ -25,8 +28,5 @@ export const userManagerConfig = ***REMOVED***
   automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
   filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
   loadUserInfo: env('AUTH_LOAD_USER_INFO'),
-  userStore: new WebStorageStateStore(***REMOVED*** store: window.localStorage ***REMOVED***),
-  extraQueryParams: ***REMOVED***
-    kc_idp_hint: 'idir'
-***REMOVED***
+  userStore: new WebStorageStateStore(***REMOVED*** store: window.localStorage ***REMOVED***)
 ***REMOVED***
