@@ -7,34 +7,37 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 interface IProps ***REMOVED***
   sortQuery: string
   filterQuery: string
+  apiModelName: string
+  setDownloadedDataCallback: (responseJSON: FixTypeLater[]) => FixTypeLater[]
 ***REMOVED***
 
 const MAX_PAGE_SIZE = 1000000
 
 const ExportData = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED*** sortQuery, filterQuery ***REMOVED*** = props
+  const ***REMOVED***
+    sortQuery,
+    filterQuery,
+    apiModelName,
+    setDownloadedDataCallback
+***REMOVED*** = props
 
   const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
   const csvLinkRef = React.useRef(null)
 
   const downloadData = React.useCallback((): void => ***REMOVED***
     requestJSONWithErrorHandler(
-      `api/employees?pageSize=$***REMOVED***MAX_PAGE_SIZE***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
+      `api/$***REMOVED***apiModelName***REMOVED***?pageSize=$***REMOVED***MAX_PAGE_SIZE***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => ***REMOVED***
-        setDownloadedData(
-          responseJSON.map(e => ***REMOVED***
-            delete e.timelineEntries
-            return e
-        ***REMOVED***)
-        )
+        setDownloadedData(setDownloadedDataCallback(responseJSON))
 
         // Click the hidden CSVLink
         ;(csvLinkRef.current as FixTypeLater).link.click()
     ***REMOVED***
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 ***REMOVED*** [sortQuery, filterQuery])
 
   return (

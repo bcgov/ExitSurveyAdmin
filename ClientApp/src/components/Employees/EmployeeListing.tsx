@@ -9,41 +9,18 @@ import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-r
 import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from '../DisplayHelpers/Filters/MasterFilterHandler'
 import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
-
-export interface ISort ***REMOVED***
-  id: string
-  desc: boolean
-***REMOVED***
-
-export interface IFilter ***REMOVED***
-  id: string
-  value: string
-***REMOVED***
+import ***REMOVED*** ITableSort ***REMOVED*** from '../../types/ReactTable'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
 a desc sort. If the sortBy array is empty, return the empty string. */
-const processSorts = (sortBy: ISort[]): string => ***REMOVED***
+const processSorts = (sortBy: ITableSort[]): string => ***REMOVED***
   return sortBy.length
     ? `&sorts=$***REMOVED***sortBy
         .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
         .join(',')***REMOVED***`
     : ''
 ***REMOVED***
-
-// const extractSortsFromQuery = (queryString: string): ISort[] => ***REMOVED***
-//   return queryString.split(',').map(s => ***REMOVED***
-//     return s.startsWith('-')
-//       ? ***REMOVED***
-//           id: s.substring(1), // Strip off the minus sign
-//           desc: true
-//       ***REMOVED***
-//       : ***REMOVED***
-//           id: s,
-//           desc: false
-//       ***REMOVED***
-// ***REMOVED***)
-// ***REMOVED***
 
 const extractFilters = (propLocationSearch: string): string =>
   MasterFilterHandler.extractFromRawQueryString(propLocationSearch)
@@ -115,7 +92,19 @@ const EmployeeListing = (props: IProps): JSX.Element => ***REMOVED***
         controlledPageCount=***REMOVED***pageCount***REMOVED***
         recordCount=***REMOVED***recordCount***REMOVED***
       />
-      <ExportData sortQuery=***REMOVED***sortQuery***REMOVED*** filterQuery=***REMOVED***filterQuery***REMOVED*** />
+      <ExportData
+        sortQuery=***REMOVED***sortQuery***REMOVED***
+        filterQuery=***REMOVED***filterQuery***REMOVED***
+        apiModelName="employees"
+        setDownloadedDataCallback=***REMOVED***(
+          responseJSON: FixTypeLater[]
+        ): FixTypeLater[] =>
+          responseJSON.map(e => ***REMOVED***
+            delete e.timelineEntries
+            return e
+        ***REMOVED***)
+      ***REMOVED***
+      />
     </>
   )
 ***REMOVED***
