@@ -1,48 +1,37 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
-import ***REMOVED*** IFilterField ***REMOVED*** from './FilterTypes'
-import ***REMOVED*** employeeFieldLabels ***REMOVED*** from '../../../helpers/labelHelper'
 
 import DatePicker from 'react-datepicker'
 
 import 'react-datepicker/dist/react-datepicker.css'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
-import ***REMOVED*** FilterDispatch, cloneAndSetValues ***REMOVED*** from './FilterForm'
-import ***REMOVED***
-  NullableDate,
-  dateToString,
-  stringToDate
-***REMOVED*** from '../../../helpers/dateHelper'
+import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
+import DateFilter from '../FilterClasses/DateFilter'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 
 interface IProps ***REMOVED***
-  filterField: IFilterField
+  filter: DateFilter
 ***REMOVED***
 
-const DateFilterInput = (***REMOVED*** filterField ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const DateFilterInput = (***REMOVED*** filter ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-  const [fromDate, setFromDate] = React.useState<NullableDate>(
-    stringToDate(filterField.values[0])
-  )
-  const [toDate, setToDate] = React.useState<NullableDate>(
-    stringToDate(filterField.values[1])
-  )
+  const [fromDate, setFromDate] = React.useState(filter.from)
+  const [toDate, setToDate] = React.useState(filter.to)
 
   const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
   const toChange = React.useCallback((d: Date) => setToDate(d), [])
 
   React.useEffect((): void => ***REMOVED***
-    const clone = cloneAndSetValues(filterField, [
-      dateToString(fromDate),
-      dateToString(toDate)
-    ])
-    dispatch(***REMOVED*** type: 'setFilter', filterField: clone ***REMOVED***)
-***REMOVED*** [fromDate, toDate, filterField, dispatch])
+    const clone = filter.clone()
+    clone.from = fromDate
+    clone.to = toDate
+    dispatch(***REMOVED*** type: 'setFilter', filter: clone ***REMOVED***)
+***REMOVED*** [fromDate, toDate, filter, dispatch])
 
-  const name = filterField.fieldName
+  const name = filter.fieldName
 
   return (
     <div className="LabelledItem">
-      <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***employeeFieldLabels[name]***REMOVED***</label>
+      <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***name***REMOVED***</label>
       <div className="d-flex w-100">
         <div className="w-50 mr-2">
           <DatePicker

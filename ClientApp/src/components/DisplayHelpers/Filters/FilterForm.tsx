@@ -1,45 +1,52 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, ***REMOVED*** useMemo ***REMOVED*** from 'react'
 
 import IconButton from '../Interface/Buttons/IconButton'
-import ***REMOVED*** IFilterField, employeeFilterFields ***REMOVED*** from './FilterTypes'
-import TextFilterInput from './TextFilterInput'
-import DateFilterInput from './DateFilterInput'
-import EnumFilterInput from './EnumFilterInput'
+import ***REMOVED***
+  FilterType,
+  IFilter,
+  filterableFields
+***REMOVED*** from './FilterClasses/FilterTypes'
+import TextFilterInput from './Inputs/TextFilterInput'
+import DateFilterInput from './Inputs/DateFilterInput'
+import EnumFilterInput from './Inputs/EnumFilterInput'
 import moment from 'moment'
+// import ***REMOVED*** defaultFormat ***REMOVED*** from '../../helpers/dateHelper'
+import DateFilter from './FilterClasses/DateFilter'
+import EnumFilter from './FilterClasses/EnumFilter'
+import TextFilter from './FilterClasses/TextFilter'
 import ***REMOVED*** defaultFormat ***REMOVED*** from '../../../helpers/dateHelper'
 
 interface IProps ***REMOVED***
-  addFilters: (filters: IFilterField[]) => void
+  addFilters: (filters: IFilter[]) => void
   resetFilters: () => void
 ***REMOVED***
 
 export type FilterMapAction = ***REMOVED***
   type: 'setFilter' | 'reset'
-  filterField?: IFilterField
+  filter?: IFilter
 ***REMOVED***
 
-type FilterMap = ***REMOVED*** [key: string]: IFilterField ***REMOVED***
+type FilterMap = ***REMOVED*** [key: string]: IFilter ***REMOVED***
 
 function reducer(state: FilterMap, action: FilterMapAction): FilterMap ***REMOVED***
-  const ***REMOVED*** type, filterField ***REMOVED*** = action
+  const ***REMOVED*** type, filter ***REMOVED*** = action
   const filterMapClone = ***REMOVED*** ...state ***REMOVED***
+  console.log(
+    'filterMapClone before switching on type -->',
+    filterMapClone,
+    'action',
+    filter
+  )
   switch (type) ***REMOVED***
     case 'setFilter':
+      console.log(filter)
       //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      filterMapClone[filterField!.fieldName] = filterField!
+      filterMapClone[filter!.fieldName] = filter!
       return filterMapClone
     case 'reset':
       return ***REMOVED******REMOVED***
 ***REMOVED***
-***REMOVED***
-
-export const cloneAndSetValues = (
-  filterField: IFilterField,
-  values: string[]
-): IFilterField => ***REMOVED***
-  const clone = Object.assign(***REMOVED******REMOVED***, filterField)
-  clone.values = values
-  return clone
 ***REMOVED***
 
 export const FilterDispatch = React.createContext(***REMOVED******REMOVED***)
@@ -68,25 +75,21 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
   React.useEffect((): void => ***REMOVED***
     addFilters(Object.values(filterMap))
     dispatch(***REMOVED*** type: 'reset' ***REMOVED***)
-    formRef.current?.reset()
+    formRef.current!.reset()
     setResetTimestamp(Date.now())
     // Note: we only care about submitId here.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 ***REMOVED*** [submitId])
 
   const setLastNMonths = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filterField: ***REMOVED***
-        fieldName: 'effectiveDate',
-        type: 'date',
-        values: [
-          moment()
-            .subtract(6, 'months')
-            .format(defaultFormat),
-          ''
-        ]
-    ***REMOVED***
+      filter: new DateFilter(
+        'effectiveDate',
+        moment()
+          .subtract(6, 'months')
+          .toDate(),
+        undefined
+      )
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [submitId])
@@ -94,40 +97,36 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
   const setActiveUsers = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filterField: ***REMOVED***
-        fieldName: 'effectiveDate',
-        type: 'date',
-        values: ['', moment().format(defaultFormat)]
-    ***REMOVED***
+      filter: new DateFilter('effectiveDate', undefined, new Date())
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [submitId])
 
   const inputs = useMemo(() => ***REMOVED***
-    return employeeFilterFields.map(
-      (field): JSX.Element => ***REMOVED***
+    return filterableFields.map(
+      (filter): JSX.Element => ***REMOVED***
         let filterComponent
         let colWidth = 2
-        switch (field.type) ***REMOVED***
-          case 'date':
-            filterComponent = <DateFilterInput filterField=***REMOVED***field***REMOVED*** />
+        switch (filter.type) ***REMOVED***
+          case FilterType.Date:
+            filterComponent = <DateFilterInput filter=***REMOVED***filter as DateFilter***REMOVED*** />
             colWidth = 3
             break
-          case 'enum':
+          case FilterType.Enum:
             filterComponent = (
               <EnumFilterInput
-                filterField=***REMOVED***field***REMOVED***
+                filter=***REMOVED***filter as EnumFilter***REMOVED***
                 resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
               />
             )
             colWidth = 3
             break
-          case 'string':
+          case FilterType.String:
           default:
-            filterComponent = <TextFilterInput filterField=***REMOVED***field***REMOVED*** />
+            filterComponent = <TextFilterInput filter=***REMOVED***filter as TextFilter***REMOVED*** />
       ***REMOVED***
         return (
-          <div key=***REMOVED***field.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
+          <div key=***REMOVED***filter.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
             ***REMOVED***filterComponent***REMOVED***
           </div>
         )
@@ -164,6 +163,7 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
                 onClick=***REMOVED***setActiveUsers***REMOVED***
               />
             </div>
+
             <div className="col-6 form-group LabelledItem">
               ***REMOVED***/* <label>&nbsp;</label> */***REMOVED***
               <div className="text-right">
