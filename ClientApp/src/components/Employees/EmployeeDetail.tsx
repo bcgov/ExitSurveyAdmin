@@ -110,7 +110,9 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.governmentEmail}>{e.preferredEmail}</CLText>
+              <CLText label={labels.governmentEmail}>
+                {e.governmentEmail}
+              </CLText>
               <CLText label={labels.preferredEmail}>
                 <EditableStringField
                   employeeDatabaseId={e.id!}
