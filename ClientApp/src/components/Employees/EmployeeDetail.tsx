@@ -17,12 +17,6 @@ import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
 import { EmployeeStatus } from '../../types/EmployeeStatus'
-import {
-  AppointmentStatus,
-  AppointmentStatusEnum
-} from '../../types/AppointmentStatus'
-import { Reason } from '../../types/Reason'
-import { FixTypeLater } from '../../types/FixTypeLater'
 import { plainToClass } from 'class-transformer'
 
 interface IParams {
