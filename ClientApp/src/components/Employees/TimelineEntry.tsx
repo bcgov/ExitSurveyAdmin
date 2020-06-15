@@ -22,6 +22,12 @@ class TimelineEntry extends React.Component<IProps> ***REMOVED***
             <span className="text-muted">Action</span> ***REMOVED***tl.employeeActionCode***REMOVED***
             &nbsp;•&nbsp;
             <span className="text-muted">Status</span> ***REMOVED***tl.employeeStatusCode***REMOVED***
+            ***REMOVED***tl.adminUserName && (
+              <>
+                &nbsp;•&nbsp;
+                <span className="text-muted">By</span> ***REMOVED***tl.adminUserName***REMOVED***
+              </>
+            )***REMOVED***
           </small>
         </div>
         ***REMOVED***tl.comment***REMOVED***

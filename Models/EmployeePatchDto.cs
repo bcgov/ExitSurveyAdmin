@@ -20,6 +20,7 @@ namespace ExitSurveyAdmin.Models
         public string AddressPostCode ***REMOVED*** get; set; ***REMOVED***
         public string CurrentEmployeeStatusCode ***REMOVED*** get; set; ***REMOVED***
         public string Reason ***REMOVED*** get; set; ***REMOVED***
+        public string AdminUserName ***REMOVED*** get; set; ***REMOVED***
 
 
         // TODO: Very similar code exists in EmployeeReconciliationService.
@@ -33,6 +34,12 @@ namespace ExitSurveyAdmin.Models
 
             foreach (var newProperty in newProperties)
             ***REMOVED***
+                // Skip the AdminUserName.
+                if (newProperty.Name == "AdminUserName")
+                ***REMOVED***
+                    continue;
+              ***REMOVED***
+
                 // Get the new value from the new property.
                 var patchedValue = newProperty.GetValue(this);
 
@@ -70,7 +77,8 @@ namespace ExitSurveyAdmin.Models
                 EmployeeId = existingEmployee.Id,
                 EmployeeActionCode = EmployeeActionEnum.UpdateByAdmin.Code,
                 EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                Comment = $"Fields updated by admin: ***REMOVED***fieldsUpdated***REMOVED***."
+                Comment = $"Fields updated by admin: ***REMOVED***fieldsUpdated***REMOVED***.",
+                AdminUserName = AdminUserName
           ***REMOVED***);
 
 

@@ -3,6 +3,7 @@ import React from 'react'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
 import './EditableField.scss'
+import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
 
 export interface ISelectOption ***REMOVED***
   name: string
@@ -33,7 +34,8 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
       `api/employees/$***REMOVED***employeeDatabaseId***REMOVED***`,
       'patch',
       ***REMOVED***
-        [fieldName]: newValue
+        [fieldName]: newValue,
+        AdminUserName: userNameFromState()
     ***REMOVED***
       'CANNOT_EDIT_EMPLOYEE',
       (responseJSON: AnyJson): void => ***REMOVED***

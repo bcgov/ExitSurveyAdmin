@@ -3,6 +3,7 @@ import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 
 import Unauthorized from '../Login/Unauthorized'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import ***REMOVED*** mapUserToPropsFromState ***REMOVED*** from '../../helpers/userHelper'
 
 interface IOwnProps ***REMOVED***
   children: React.ReactNode
@@ -24,12 +25,4 @@ class AuthWrapper extends React.Component<IProps> ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-const mapStateToProps = (state: FixTypeLater): IStateProps => ***REMOVED***
-  if (state && state.oidc && state.oidc.user) ***REMOVED***
-    return ***REMOVED*** user: state.oidc.user ***REMOVED***
-***REMOVED*** else ***REMOVED***
-    return ***REMOVED*** user: undefined ***REMOVED***
-***REMOVED***
-***REMOVED***
-
-export default connect(mapStateToProps)(AuthWrapper)
+export default connect(mapUserToPropsFromState)(AuthWrapper)

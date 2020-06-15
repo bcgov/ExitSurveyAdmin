@@ -27,5 +27,7 @@ namespace ExitSurveyAdmin.Models
 
         [Required]
         public string Comment ***REMOVED*** get; set; ***REMOVED***
+
+        public string AdminUserName ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
