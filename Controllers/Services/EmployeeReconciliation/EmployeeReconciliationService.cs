@@ -106,9 +106,7 @@ namespace ExitSurveyAdmin.Services
         other methods (such as status updating) that affect multiple other
         employees, unlike ReconcileEmployees which does so by default.
         */
-        public async Task<Employee> ReconcileEmployee(
-            Employee employee
-        )
+        public async Task<Employee> ReconcileEmployee(Employee employee)
         ***REMOVED***
             // Simply call the main ReconcileEmployees function, with this
             // single employee as the sole element of a list; then get the
@@ -136,6 +134,10 @@ namespace ExitSurveyAdmin.Services
 
                 // Set the email.
                 employee.UpdateEmail(infoLookupService);
+
+                // Set other preferred fields. This only runs the first time
+                // the employee is created.
+                employee.InstantiatePreferredFields();
 
                 // Try to insert a row into CallWeb, and set the telkey.
                 try

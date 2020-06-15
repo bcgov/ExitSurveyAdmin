@@ -204,6 +204,17 @@ namespace ExitSurveyAdmin.Models
                 .EmailByEmployeeId(GovernmentEmployeeId);
       ***REMOVED***
 
+        public void InstantiatePreferredFields()
+        ***REMOVED***
+            PreferredFirstName = FirstName;
+            PreferredEmail = GovernmentEmail;
+            PreferredAddress1 = Address1;
+            PreferredAddress2 = Address2;
+            PreferredAddressCity = AddressCity;
+            PreferredAddressProvince = AddressProvince;
+            PreferredAddressPostCode = AddressPostCode;
+      ***REMOVED***
+
         public string LeaveCode
         ***REMOVED***
             get
