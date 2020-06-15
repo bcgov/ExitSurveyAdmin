@@ -20,6 +20,7 @@ namespace ExitSurveyAdmin.Models
         public string AddressPostCode { get; set; }
         public string CurrentEmployeeStatusCode { get; set; }
         public string Reason { get; set; }
+        public string AdminUserName { get; set; }
 
 
         // TODO: Very similar code exists in EmployeeReconciliationService.
@@ -33,6 +34,12 @@ namespace ExitSurveyAdmin.Models
 
             foreach (var newProperty in newProperties)
             {
+                // Skip the AdminUserName.
+                if (newProperty.Name == "AdminUserName")
+                {
+                    continue;
+                }
+
                 // Get the new value from the new property.
                 var patchedValue = newProperty.GetValue(this);
 
@@ -70,7 +77,8 @@ namespace ExitSurveyAdmin.Models
                 EmployeeId = existingEmployee.Id,
                 EmployeeActionCode = EmployeeActionEnum.UpdateByAdmin.Code,
                 EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                Comment = $"Fields updated by admin: {fieldsUpdated}."
+                Comment = $"Fields updated by admin: {fieldsUpdated}.",
+                AdminUserName = AdminUserName
             });
 
 

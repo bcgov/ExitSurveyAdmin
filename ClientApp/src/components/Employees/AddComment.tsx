@@ -2,6 +2,7 @@ import React from 'react'
 
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { AnyJson } from '../../types/JsonType'
+import { userNameFromState } from '../../helpers/userHelper'
 
 interface IProps {
   employeeDatabaseId: string
@@ -23,7 +24,8 @@ const AddComment = (props: IProps): JSX.Element => {
         EmployeeId: employeeDatabaseId,
         EmployeeActionCode: 'UpdateByAdmin',
         EmployeeStatusCode: employeeStatusCode,
-        Comment: comment
+        Comment: comment,
+        AdminUserName: userNameFromState()
       },
       'CANNOT_CREATE_EMPLOYEE_TIMELINE_ENTRY',
       (responseJSON: AnyJson): void => {

@@ -7,6 +7,7 @@ export class EmployeeTimelineEntry {
   employeeActionCode?: string
   employeeStatusCode?: string
   comment?: string
+  adminUserName?: string
 
   @Transform((date: string) => dateOrUndefined(date))
   createdTs?: Date
