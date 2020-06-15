@@ -143,19 +143,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label={labels.effectiveDate}>
                 <Date date={e.effectiveDate} />
               </CLText>
-              <CLText label={labels.reason}>
-                <EditableDropdown
-                  employeeDatabaseId={e.id!}
-                  fieldName="reason"
-                  fieldValue={e.reason!.reasonCode}
-                  refreshDataCallback={this.populateData}
-                  options={Reason.toOptionsByAppointmentStatus(
-                    (AppointmentStatusEnum as FixTypeLater)[
-                      e.appointmentStatus!.code
-                    ]
-                  )}
-                />
-              </CLText>
+              <CLText label={labels.reason}>{e.reason!.reasonCode}</CLText>
               <CLText label={labels.exitCount}>{e.exitCount}</CLText>
               <CLText label={labels.recordCount}>{e.recordCount}</CLText>
               <CLText label={labels.backDated}>{e.backDated}</CLText>
@@ -165,13 +153,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label={labels.ministry}>{e.ministry}</CLText>
               <CLText label={labels.departmentId}>{e.departmentId}</CLText>
               <CLText label={labels.appointmentStatus}>
-                <EditableDropdown
-                  employeeDatabaseId={e.id!}
-                  fieldName="appointmentStatus"
-                  fieldValue={e.appointmentStatus!.code}
-                  refreshDataCallback={this.populateData}
-                  options={AppointmentStatus.toOptions()}
-                />
+                {e.appointmentStatus!.code}
               </CLText>
               <CLText label={labels.classificationGroup}>
                 {e.classificationGroup}
