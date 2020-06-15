@@ -3,27 +3,27 @@ import ActiveFilters from './ActiveFilters'
 import FilterForm from './FilterForm'
 
 import './FilterPanel.scss'
-import { IFilterField } from './FilterTypes'
+import { IFilter } from './FilterClasses/FilterTypes'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { MasterFilterHandler } from './MasterFilterHandler'
-import ExpandPanel from '../Interface/Buttons/FilterPanelExpandButton'
-import HidePanel from '../Interface/Buttons/FilterPanelHideButton'
+import ExpandPanel from './FilterPanelExpandButton'
+import HidePanel from './FilterPanelHideButton'
 
 interface IProps extends RouteComponentProps {}
 
-const removeIfExists = (arr: IFilterField[], candidate: IFilterField): void => {
+const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
   const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
   if (index > -1) arr.splice(index, 1)
 }
 
 const FilterPanel = (props: IProps): JSX.Element => {
   const [expanded, setExpanded] = React.useState(true)
-  const [filters, setFilters] = React.useState<IFilterField[]>(() =>
+  const [filters, setFilters] = React.useState<IFilter[]>(() =>
     MasterFilterHandler.decodeFromQueryString(props.location.search)
   )
 
   const addFilters = React.useCallback(
-    (filtersToAdd: IFilterField[]): void => {
+    (filtersToAdd: IFilter[]): void => {
       const filtersClone = [...filters]
 
       filtersToAdd.forEach(newFilter => {
@@ -37,7 +37,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
   )
 
   const removeFilter = React.useCallback(
-    (filter: IFilterField): void => {
+    (filter: IFilter): void => {
       const filtersClone = [...filters]
       removeIfExists(filtersClone, filter)
       setFilters(filtersClone)
