@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200615204437_InitialCreate")]
+    [Migration("20200615211651_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,32 @@ namespace ExitSurveyAdmin.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PositionTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredAddress1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredAddress2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredAddressCity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredAddressPostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredAddressProvince")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreferredFirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
