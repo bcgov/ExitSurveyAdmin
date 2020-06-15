@@ -5,11 +5,11 @@ namespace ExitSurveyAdmin.Services.CallWeb
     public class CallWebPostDto
     ***REMOVED***
         public string EmployeeId ***REMOVED*** get; set; ***REMOVED***
-        public string Email ***REMOVED*** get; set; ***REMOVED***
+        public string PreferredEmail ***REMOVED*** get; set; ***REMOVED***
         public string Ministry ***REMOVED*** get; set; ***REMOVED***
         public string PositionTitle ***REMOVED*** get; set; ***REMOVED***
         public string AppointmentStatus ***REMOVED*** get; set; ***REMOVED***
-        public string FirstName ***REMOVED*** get; set; ***REMOVED***
+        public string PreferredFirstName ***REMOVED*** get; set; ***REMOVED***
         public string LastName ***REMOVED*** get; set; ***REMOVED***
         public string LeaveReason ***REMOVED*** get; set; ***REMOVED***
         public string LeaveCode ***REMOVED*** get; set; ***REMOVED***
@@ -23,11 +23,11 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return new CallWebPostDto()
             ***REMOVED***
                 EmployeeId = employee.GovernmentEmployeeId,
-                Email = employee.GovernmentEmail,
+                PreferredEmail = employee.PreferredEmail,
                 Ministry = employee.Ministry,
                 PositionTitle = employee.PositionTitle,
                 AppointmentStatus = employee.AppointmentStatus,
-                FirstName = employee.FirstName,
+                PreferredFirstName = employee.PreferredFirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
                 LeaveCode = employee.LeaveCode, // TODO: adjust

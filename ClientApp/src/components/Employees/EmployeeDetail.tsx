@@ -9,6 +9,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ContentWrapper from '../Wrappers/ContentWrapper'
 import CLText from '../DisplayHelpers/ColumnarLabelledText'
 import Date from '../DisplayHelpers/FormattedDate'
+import Address from '../DisplayHelpers/Address'
 import EditableAddress from './EditableAddress'
 import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
@@ -91,11 +92,12 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***labels.firstName***REMOVED***>
+              <CLText label=***REMOVED***labels.firstName***REMOVED***>***REMOVED***e.firstName***REMOVED***</CLText>
+              <CLText label=***REMOVED***labels.preferredFirstName***REMOVED***>
                 <EditableStringField
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
-                  fieldName=***REMOVED***'firstName'***REMOVED***
-                  fieldValue=***REMOVED***e.firstName!***REMOVED***
+                  fieldName=***REMOVED***'preferredFirstName'***REMOVED***
+                  fieldValue=***REMOVED***e.preferredFirstName!***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                 />
               </CLText>
@@ -108,21 +110,25 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***labels.governmentEmail***REMOVED***>
+              <CLText label=***REMOVED***labels.governmentEmail***REMOVED***>***REMOVED***e.preferredEmail***REMOVED***</CLText>
+              <CLText label=***REMOVED***labels.preferredEmail***REMOVED***>
                 <EditableStringField
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
-                  fieldName=***REMOVED***'governmentEmail'***REMOVED***
-                  fieldValue=***REMOVED***e.governmentEmail!***REMOVED***
+                  fieldName=***REMOVED***'preferredEmail'***REMOVED***
+                  fieldValue=***REMOVED***e.preferredEmail!***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                 />
               </CLText>
+              <CLText label=***REMOVED***labels.phone***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
               <CLText label=***REMOVED***'Address'***REMOVED***>
+                <Address employee=***REMOVED***e***REMOVED*** />
+              </CLText>
+              <CLText label=***REMOVED***'Preferred address'***REMOVED***>
                 <EditableAddress
                   employee=***REMOVED***e***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                 />
               </CLText>
-              <CLText label=***REMOVED***labels.phone***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">

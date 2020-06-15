@@ -53,6 +53,10 @@ namespace ExitSurveyAdmin.Models
 
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
+        public string PreferredFirstName ***REMOVED*** get; set; ***REMOVED***
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        [Required]
         public string LastName ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
@@ -67,6 +71,9 @@ namespace ExitSurveyAdmin.Models
 
         [Sieve(CanFilter = true, CanSort = true)]
         public string GovernmentEmail ***REMOVED*** get; set; ***REMOVED***
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string PreferredEmail ***REMOVED*** get; set; ***REMOVED***
 
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
@@ -113,6 +120,20 @@ namespace ExitSurveyAdmin.Models
 
         [Required]
         public string AddressPostCode ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public string PreferredAddress1 ***REMOVED*** get; set; ***REMOVED***
+
+        public string PreferredAddress2 ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public string PreferredAddressCity ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public string PreferredAddressProvince ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public string PreferredAddressPostCode ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string Phone ***REMOVED*** get; set; ***REMOVED***

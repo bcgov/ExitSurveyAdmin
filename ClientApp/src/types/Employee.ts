@@ -11,9 +11,11 @@ export class Employee ***REMOVED***
   public recordCount?: string
   public governmentEmployeeId?: string
   public firstName?: string
+  public preferredFirstName?: string
   public lastName?: string
   public gender?: string
   public governmentEmail?: string
+  public preferredEmail?: string
   public classification?: string
   public ministry?: string
   public departmentId?: string
@@ -24,6 +26,11 @@ export class Employee ***REMOVED***
   public addressCity?: string
   public addressProvince?: string
   public addressPostCode?: string
+  public preferredAddress1?: string
+  public preferredAddress2?: string
+  public preferredAddressCity?: string
+  public preferredAddressProvince?: string
+  public preferredAddressPostCode?: string
   public phone?: string
   public positionCode?: string
   public positionTitle?: string

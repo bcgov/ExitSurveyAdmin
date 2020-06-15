@@ -17,11 +17,15 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
 
   const line1Ref = React.useRef<HTMLInputElement>(null)
 
-  const [line1, setLine1] = React.useState(employee.address1 || '')
-  const [line2, setLine2] = React.useState(employee.address2 || '')
-  const [city, setCity] = React.useState(employee.addressCity || '')
-  const [province, setProvince] = React.useState(employee.addressProvince || '')
-  const [postCode, setPostCode] = React.useState(employee.addressPostCode || '')
+  const [line1, setLine1] = React.useState(employee.preferredAddress1 || '')
+  const [line2, setLine2] = React.useState(employee.preferredAddress2 || '')
+  const [city, setCity] = React.useState(employee.preferredAddressCity || '')
+  const [province, setProvince] = React.useState(
+    employee.preferredAddressProvince || ''
+  )
+  const [postCode, setPostCode] = React.useState(
+    employee.preferredAddressPostCode || ''
+  )
   const [isEditable, setIsEditable] = React.useState(false)
 
   const toggleEditable = (): void => ***REMOVED***
@@ -40,11 +44,11 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
       `api/employees/$***REMOVED***employee.id***REMOVED***`,
       'patch',
       ***REMOVED***
-        Address1: line1,
-        Address2: line2,
-        AddressCity: city,
-        AddressProvince: province,
-        AddressPostCode: postCode,
+        PreferredAddress1: line1,
+        PreferredAddress2: line2,
+        PreferredAddressCity: city,
+        PreferredAddressProvince: province,
+        PreferredAddressPostCode: postCode,
         AdminUserName: userNameFromState()
     ***REMOVED***
       'CANNOT_EDIT_EMPLOYEE',
@@ -111,7 +115,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
       ) : (
         <span onClick=***REMOVED***toggleEditable***REMOVED***>
           <div className="Editable">
-            <Address employee=***REMOVED***employee***REMOVED*** />
+            <Address employee=***REMOVED***employee***REMOVED*** showPreferred />
           </div>
         </span>
       )***REMOVED***
