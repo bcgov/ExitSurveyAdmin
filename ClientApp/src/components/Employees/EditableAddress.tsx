@@ -5,6 +5,7 @@ import { AnyJson } from '../../types/JsonType'
 import './EditableField.scss'
 import { Employee } from '../../types/Employee'
 import Address from '../DisplayHelpers/Address'
+import { userNameFromState } from '../../helpers/userHelper'
 
 interface IProps {
   employee: Employee
@@ -43,7 +44,8 @@ const EditableStringField = (props: IProps): JSX.Element => {
         Address2: line2,
         AddressCity: city,
         AddressProvince: province,
-        AddressPostCode: postCode
+        AddressPostCode: postCode,
+        AdminUserName: userNameFromState()
       },
       'CANNOT_EDIT_EMPLOYEE',
       (responseJSON: AnyJson): void => {
@@ -85,14 +87,14 @@ const EditableStringField = (props: IProps): JSX.Element => {
             className="form-control form-control-sm"
             value={province}
             onChange={(e): void => setProvince(e.target.value)}
-            placeholder="City"
+            placeholder="Province"
           />
           <input
             type="text"
             className="form-control form-control-sm"
             value={postCode}
             onChange={(e): void => setPostCode(e.target.value)}
-            placeholder="City"
+            placeholder="Post code"
           />
           <input
             type="button"

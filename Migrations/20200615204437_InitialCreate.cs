@@ -153,7 +153,8 @@ namespace ExitSurveyAdmin.Migrations
                     EmployeeId = table.Column<int>(nullable: false),
                     EmployeeActionCode = table.Column<string>(nullable: false),
                     EmployeeStatusCode = table.Column<string>(nullable: false),
-                    Comment = table.Column<string>(nullable: false)
+                    Comment = table.Column<string>(nullable: false),
+                    AdminUserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

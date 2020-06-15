@@ -27,5 +27,7 @@ namespace ExitSurveyAdmin.Models
 
         [Required]
         public string Comment { get; set; }
+
+        public string AdminUserName { get; set; }
     }
 }
