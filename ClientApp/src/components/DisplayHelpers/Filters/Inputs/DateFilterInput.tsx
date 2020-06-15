@@ -1,48 +1,37 @@
 import React, { useContext } from 'react'
-import { IFilterField } from './FilterTypes'
-import { employeeFieldLabels } from '../../../helpers/labelHelper'
 
 import DatePicker from 'react-datepicker'
 
 import 'react-datepicker/dist/react-datepicker.css'
-import { FixTypeLater } from '../../../types/FixTypeLater'
-import { FilterDispatch, cloneAndSetValues } from './FilterForm'
-import {
-  NullableDate,
-  dateToString,
-  stringToDate
-} from '../../../helpers/dateHelper'
+import { FilterDispatch } from '../FilterForm'
+import DateFilter from '../FilterClasses/DateFilter'
+import { FixTypeLater } from '../../../../types/FixTypeLater'
 
 interface IProps {
-  filterField: IFilterField
+  filter: DateFilter
 }
 
-const DateFilterInput = ({ filterField }: IProps): JSX.Element => {
+const DateFilterInput = ({ filter }: IProps): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-  const [fromDate, setFromDate] = React.useState<NullableDate>(
-    stringToDate(filterField.values[0])
-  )
-  const [toDate, setToDate] = React.useState<NullableDate>(
-    stringToDate(filterField.values[1])
-  )
+  const [fromDate, setFromDate] = React.useState(filter.from)
+  const [toDate, setToDate] = React.useState(filter.to)
 
   const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
   const toChange = React.useCallback((d: Date) => setToDate(d), [])
 
   React.useEffect((): void => {
-    const clone = cloneAndSetValues(filterField, [
-      dateToString(fromDate),
-      dateToString(toDate)
-    ])
-    dispatch({ type: 'setFilter', filterField: clone })
-  }, [fromDate, toDate, filterField, dispatch])
+    const clone = filter.clone()
+    clone.from = fromDate
+    clone.to = toDate
+    dispatch({ type: 'setFilter', filter: clone })
+  }, [fromDate, toDate, filter, dispatch])
 
-  const name = filterField.fieldName
+  const name = filter.fieldName
 
   return (
     <div className="LabelledItem">
-      <label htmlFor={`${name}-From`}>{employeeFieldLabels[name]}</label>
+      <label htmlFor={`${name}-From`}>{name}</label>
       <div className="d-flex w-100">
         <div className="w-50 mr-2">
           <DatePicker
