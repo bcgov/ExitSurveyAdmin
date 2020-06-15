@@ -1,45 +1,52 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useMemo } from 'react'
 
 import IconButton from '../Interface/Buttons/IconButton'
-import { IFilterField, employeeFilterFields } from './FilterTypes'
-import TextFilterInput from './TextFilterInput'
-import DateFilterInput from './DateFilterInput'
-import EnumFilterInput from './EnumFilterInput'
+import {
+  FilterType,
+  IFilter,
+  filterableFields
+} from './FilterClasses/FilterTypes'
+import TextFilterInput from './Inputs/TextFilterInput'
+import DateFilterInput from './Inputs/DateFilterInput'
+import EnumFilterInput from './Inputs/EnumFilterInput'
 import moment from 'moment'
+// import { defaultFormat } from '../../helpers/dateHelper'
+import DateFilter from './FilterClasses/DateFilter'
+import EnumFilter from './FilterClasses/EnumFilter'
+import TextFilter from './FilterClasses/TextFilter'
 import { defaultFormat } from '../../../helpers/dateHelper'
 
 interface IProps {
-  addFilters: (filters: IFilterField[]) => void
+  addFilters: (filters: IFilter[]) => void
   resetFilters: () => void
 }
 
 export type FilterMapAction = {
   type: 'setFilter' | 'reset'
-  filterField?: IFilterField
+  filter?: IFilter
 }
 
-type FilterMap = { [key: string]: IFilterField }
+type FilterMap = { [key: string]: IFilter }
 
 function reducer(state: FilterMap, action: FilterMapAction): FilterMap {
-  const { type, filterField } = action
+  const { type, filter } = action
   const filterMapClone = { ...state }
+  console.log(
+    'filterMapClone before switching on type -->',
+    filterMapClone,
+    'action',
+    filter
+  )
   switch (type) {
     case 'setFilter':
+      console.log(filter)
       //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      filterMapClone[filterField!.fieldName] = filterField!
+      filterMapClone[filter!.fieldName] = filter!
       return filterMapClone
     case 'reset':
       return {}
   }
-}
-
-export const cloneAndSetValues = (
-  filterField: IFilterField,
-  values: string[]
-): IFilterField => {
-  const clone = Object.assign({}, filterField)
-  clone.values = values
-  return clone
 }
 
 export const FilterDispatch = React.createContext({})
@@ -68,25 +75,21 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
   React.useEffect((): void => {
     addFilters(Object.values(filterMap))
     dispatch({ type: 'reset' })
-    formRef.current?.reset()
+    formRef.current!.reset()
     setResetTimestamp(Date.now())
     // Note: we only care about submitId here.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitId])
 
   const setLastNMonths = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filterField: {
-        fieldName: 'effectiveDate',
-        type: 'date',
-        values: [
-          moment()
-            .subtract(6, 'months')
-            .format(defaultFormat),
-          ''
-        ]
-      }
+      filter: new DateFilter(
+        'effectiveDate',
+        moment()
+          .subtract(6, 'months')
+          .toDate(),
+        undefined
+      )
     })
     setSubmitId(submitId + 1)
   }, [submitId])
@@ -94,40 +97,36 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
   const setActiveUsers = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filterField: {
-        fieldName: 'effectiveDate',
-        type: 'date',
-        values: ['', moment().format(defaultFormat)]
-      }
+      filter: new DateFilter('effectiveDate', undefined, new Date())
     })
     setSubmitId(submitId + 1)
   }, [submitId])
 
   const inputs = useMemo(() => {
-    return employeeFilterFields.map(
-      (field): JSX.Element => {
+    return filterableFields.map(
+      (filter): JSX.Element => {
         let filterComponent
         let colWidth = 2
-        switch (field.type) {
-          case 'date':
-            filterComponent = <DateFilterInput filterField={field} />
+        switch (filter.type) {
+          case FilterType.Date:
+            filterComponent = <DateFilterInput filter={filter as DateFilter} />
             colWidth = 3
             break
-          case 'enum':
+          case FilterType.Enum:
             filterComponent = (
               <EnumFilterInput
-                filterField={field}
+                filter={filter as EnumFilter}
                 resetTimestamp={resetTimestamp}
               />
             )
             colWidth = 3
             break
-          case 'string':
+          case FilterType.String:
           default:
-            filterComponent = <TextFilterInput filterField={field} />
+            filterComponent = <TextFilterInput filter={filter as TextFilter} />
         }
         return (
-          <div key={field.fieldName} className={`col-${colWidth}`}>
+          <div key={filter.fieldName} className={`col-${colWidth}`}>
             {filterComponent}
           </div>
         )
@@ -164,6 +163,7 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
                 onClick={setActiveUsers}
               />
             </div>
+
             <div className="col-6 form-group LabelledItem">
               {/* <label>&nbsp;</label> */}
               <div className="text-right">
