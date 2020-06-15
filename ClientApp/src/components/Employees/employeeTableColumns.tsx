@@ -14,6 +14,9 @@ type EmployeeCellProps = React.PropsWithChildren<
 export const employeeTableColumns = (): Column<Employee>[] => [
   {
     Header: 'Telkey',
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
+    ),
     accessor: 'telkey'
   },
   {
@@ -22,16 +25,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   },
   {
     Header: 'First name',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
-    ),
     accessor: 'firstName'
   },
   {
     Header: 'Last name',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
-    ),
     accessor: 'lastName'
   },
   {
