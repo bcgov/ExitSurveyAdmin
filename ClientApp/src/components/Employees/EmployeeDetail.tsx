@@ -9,6 +9,7 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import ContentWrapper from '../Wrappers/ContentWrapper'
 import CLText from '../DisplayHelpers/ColumnarLabelledText'
 import Date from '../DisplayHelpers/FormattedDate'
+import Address from '../DisplayHelpers/Address'
 import EditableAddress from './EditableAddress'
 import LabelledText from '../DisplayHelpers/LabelledText'
 import TimelineEntryList from './TimelineEntryList'
@@ -91,11 +92,12 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.firstName}>
+              <CLText label={labels.firstName}>{e.firstName}</CLText>
+              <CLText label={labels.preferredFirstName}>
                 <EditableStringField
                   employeeDatabaseId={e.id!}
-                  fieldName={'firstName'}
-                  fieldValue={e.firstName!}
+                  fieldName={'preferredFirstName'}
+                  fieldValue={e.preferredFirstName!}
                   refreshDataCallback={this.populateData}
                 />
               </CLText>
@@ -108,21 +110,25 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.governmentEmail}>
+              <CLText label={labels.governmentEmail}>{e.preferredEmail}</CLText>
+              <CLText label={labels.preferredEmail}>
                 <EditableStringField
                   employeeDatabaseId={e.id!}
-                  fieldName={'governmentEmail'}
-                  fieldValue={e.governmentEmail!}
+                  fieldName={'preferredEmail'}
+                  fieldValue={e.preferredEmail!}
                   refreshDataCallback={this.populateData}
                 />
               </CLText>
+              <CLText label={labels.phone}>{e.phone}</CLText>
               <CLText label={'Address'}>
+                <Address employee={e} />
+              </CLText>
+              <CLText label={'Preferred address'}>
                 <EditableAddress
                   employee={e}
                   refreshDataCallback={this.populateData}
                 />
               </CLText>
-              <CLText label={labels.phone}>{e.phone}</CLText>
             </div>
             <hr />
             <div className="row">
