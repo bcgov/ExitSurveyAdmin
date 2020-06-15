@@ -17,12 +17,6 @@ import AddComment from './AddComment'
 import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
-import ***REMOVED***
-  AppointmentStatus,
-  AppointmentStatusEnum
-***REMOVED*** from '../../types/AppointmentStatus'
-import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
 
 interface IParams ***REMOVED***
