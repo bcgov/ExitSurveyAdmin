@@ -1,25 +1,19 @@
-using ExitSurveyAdmin.Services;
-using Sieve.Attributes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ExitSurveyAdmin.Models
 {
     public class EmployeePatchDto
     {
-        public string GovernmentEmail { get; set; }
-        public string FirstName { get; set; }
-        public string AppointmentStatus { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string AddressCity { get; set; }
-        public string AddressProvince { get; set; }
-        public string AddressPostCode { get; set; }
+        public string PreferredEmail { get; set; }
+        public string PreferredFirstName { get; set; }
+        public string PreferredAddress1 { get; set; }
+        public string PreferredAddress2 { get; set; }
+        public string PreferredAddressCity { get; set; }
+        public string PreferredAddressProvince { get; set; }
+        public string PreferredAddressPostCode { get; set; }
         public string CurrentEmployeeStatusCode { get; set; }
-        public string Reason { get; set; }
         public string AdminUserName { get; set; }
 
 
