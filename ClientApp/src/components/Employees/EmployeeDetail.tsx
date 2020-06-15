@@ -143,19 +143,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***labels.effectiveDate***REMOVED***>
                 <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***labels.reason***REMOVED***>
-                <EditableDropdown
-                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
-                  fieldName="reason"
-                  fieldValue=***REMOVED***e.reason!.reasonCode***REMOVED***
-                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
-                  options=***REMOVED***Reason.toOptionsByAppointmentStatus(
-                    (AppointmentStatusEnum as FixTypeLater)[
-                      e.appointmentStatus!.code
-                    ]
-                  )***REMOVED***
-                />
-              </CLText>
+              <CLText label=***REMOVED***labels.reason***REMOVED***>***REMOVED***e.reason!.reasonCode***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.exitCount***REMOVED***>***REMOVED***e.exitCount***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.recordCount***REMOVED***>***REMOVED***e.recordCount***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.backDated***REMOVED***>***REMOVED***e.backDated***REMOVED***</CLText>
@@ -165,13 +153,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***labels.ministry***REMOVED***>***REMOVED***e.ministry***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.departmentId***REMOVED***>***REMOVED***e.departmentId***REMOVED***</CLText>
               <CLText label=***REMOVED***labels.appointmentStatus***REMOVED***>
-                <EditableDropdown
-                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
-                  fieldName="appointmentStatus"
-                  fieldValue=***REMOVED***e.appointmentStatus!.code***REMOVED***
-                  refreshDataCallback=***REMOVED***this.populateData***REMOVED***
-                  options=***REMOVED***AppointmentStatus.toOptions()***REMOVED***
-                />
+                ***REMOVED***e.appointmentStatus!.code***REMOVED***
               </CLText>
               <CLText label=***REMOVED***labels.classificationGroup***REMOVED***>
                 ***REMOVED***e.classificationGroup***REMOVED***
