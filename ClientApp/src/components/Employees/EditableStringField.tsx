@@ -10,25 +10,38 @@ interface IProps {
   fieldName: string
   fieldValue: string
   refreshDataCallback: () => void
+  validator?: (value: string) => boolean
 }
 
 const EditableStringField = (props: IProps): JSX.Element => {
-  const { employeeDatabaseId, fieldName, fieldValue } = props
+  const { employeeDatabaseId, fieldName, fieldValue, validator } = props
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
+  const [isValid, setIsValid] = React.useState(true)
 
   const toggleEditable = (): void => {
     setIsEditable(!isEditable)
   }
 
+  // Select the field when it becomes editable
   React.useEffect(() => {
     if (isEditable) {
       inputRef.current?.select()
     }
   }, [isEditable])
+
+  const onValueChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setNewValue(event.target.value)
+      if (validator) {
+        setIsValid(validator(event.target.value))
+      }
+    },
+    [validator]
+  )
 
   const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -56,7 +69,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
             type="text"
             className="form-control form-control-sm"
             value={newValue}
-            onChange={(e): void => setNewValue(e.target.value)}
+            onChange={onValueChange}
             placeholder="Edit field"
             ref={inputRef}
           />
@@ -67,8 +80,9 @@ const EditableStringField = (props: IProps): JSX.Element => {
             onClick={toggleEditable}
           />
           <input
+            disabled={!isValid}
             type="submit"
-            value="Save"
+            value={isValid ? 'Save' : 'Field is invalid'}
             className="btn btn-sm btn-primary mt-2"
           />
         </form>

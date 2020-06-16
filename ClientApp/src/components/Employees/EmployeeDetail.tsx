@@ -18,6 +18,7 @@ import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
 import { EmployeeStatus } from '../../types/EmployeeStatus'
 import { plainToClass } from 'class-transformer'
+import * as EmailValidator from 'email-validator'
 
 interface IParams {
   employeeId: string
@@ -109,6 +110,9 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               </CLText>
               <CLText label={labelFor('preferredEmail')}>
                 <EditableStringField
+                  validator={(email: string): boolean =>
+                    EmailValidator.validate(email)
+                  }
                   employeeDatabaseId={e.id!}
                   fieldName={'preferredEmail'}
                   fieldValue={e.preferredEmail!}
