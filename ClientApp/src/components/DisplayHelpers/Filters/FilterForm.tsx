@@ -11,11 +11,9 @@ import TextFilterInput from './Inputs/TextFilterInput'
 import DateFilterInput from './Inputs/DateFilterInput'
 import EnumFilterInput from './Inputs/EnumFilterInput'
 import moment from 'moment'
-// import { defaultFormat } from '../../helpers/dateHelper'
 import DateFilter from './FilterClasses/DateFilter'
 import EnumFilter from './FilterClasses/EnumFilter'
 import TextFilter from './FilterClasses/TextFilter'
-import { defaultFormat } from '../../../helpers/dateHelper'
 
 interface IProps {
   addFilters: (filters: IFilter[]) => void
@@ -102,7 +100,12 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
         let colWidth = 2
         switch (filter.type) {
           case FilterType.Date:
-            filterComponent = <DateFilterInput filter={filter as DateFilter} />
+            filterComponent = (
+              <DateFilterInput
+                filter={filter as DateFilter}
+                resetTimestamp={resetTimestamp}
+              />
+            )
             colWidth = 3
             break
           case FilterType.Enum:
