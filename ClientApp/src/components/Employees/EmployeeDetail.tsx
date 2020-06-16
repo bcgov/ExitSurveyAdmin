@@ -2,7 +2,7 @@
 
 import React from 'react'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** employeeFieldLabels as labels ***REMOVED*** from '../../helpers/labelHelper'
+import ***REMOVED*** labelFor ***REMOVED*** from '../../helpers/labelHelper'
 import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
@@ -78,16 +78,16 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
         <div className="row">
           <div className="col-8">
             <div className="row">
-              <CLText label=***REMOVED***labels.id***REMOVED***>***REMOVED***e.id***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.telkey***REMOVED***>***REMOVED***e.telkey***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.governmentEmployeeId***REMOVED***>
+              <CLText label=***REMOVED***labelFor('id')***REMOVED***>***REMOVED***e.id***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('telkey')***REMOVED***>***REMOVED***e.telkey***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('governmentEmployeeId')***REMOVED***>
                 ***REMOVED***e.governmentEmployeeId***REMOVED***
               </CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***labels.firstName***REMOVED***>***REMOVED***e.firstName***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.preferredFirstName***REMOVED***>
+              <CLText label=***REMOVED***labelFor('firstName')***REMOVED***>***REMOVED***e.firstName***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('preferredFirstName')***REMOVED***>
                 <EditableStringField
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName=***REMOVED***'preferredFirstName'***REMOVED***
@@ -95,19 +95,19 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                 />
               </CLText>
-              <CLText label=***REMOVED***labels.lastName***REMOVED***>***REMOVED***e.lastName***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.gender***REMOVED***>***REMOVED***e.gender***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.birthDate***REMOVED***>
+              <CLText label=***REMOVED***labelFor('lastName')***REMOVED***>***REMOVED***e.lastName***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('gender')***REMOVED***>***REMOVED***e.gender***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('birthDate')***REMOVED***>
                 <Date date=***REMOVED***e.birthDate***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***labels.age***REMOVED***>***REMOVED***e.age***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('age')***REMOVED***>***REMOVED***e.age***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***labels.governmentEmail***REMOVED***>
+              <CLText label=***REMOVED***labelFor('governmentEmail')***REMOVED***>
                 ***REMOVED***e.governmentEmail***REMOVED***
               </CLText>
-              <CLText label=***REMOVED***labels.preferredEmail***REMOVED***>
+              <CLText label=***REMOVED***labelFor('preferredEmail')***REMOVED***>
                 <EditableStringField
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName=***REMOVED***'preferredEmail'***REMOVED***
@@ -115,7 +115,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                 />
               </CLText>
-              <CLText label=***REMOVED***labels.phone***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('phone')***REMOVED***>***REMOVED***e.phone***REMOVED***</CLText>
               <CLText label=***REMOVED***'Address'***REMOVED***>
                 <Address employee=***REMOVED***e***REMOVED*** />
               </CLText>
@@ -128,48 +128,52 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***labels.originalHireDate***REMOVED***>
+              <CLText label=***REMOVED***labelFor('originalHireDate')***REMOVED***>
                 <Date date=***REMOVED***e.originalHireDate***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***labels.lastDayWorkedDate***REMOVED***>
+              <CLText label=***REMOVED***labelFor('lastDayWorkedDate')***REMOVED***>
                 <Date date=***REMOVED***e.lastDayWorkedDate***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***labels.effectiveDate***REMOVED***>
+              <CLText label=***REMOVED***labelFor('effectiveDate')***REMOVED***>
                 <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***labels.reason***REMOVED***>***REMOVED***e.reason!.reasonCode***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.exitCount***REMOVED***>***REMOVED***e.exitCount***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.recordCount***REMOVED***>***REMOVED***e.recordCount***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.backDated***REMOVED***>***REMOVED***e.backDated***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('reason')***REMOVED***>***REMOVED***e.reason!.reasonCode***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('exitCount')***REMOVED***>***REMOVED***e.exitCount***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('recordCount')***REMOVED***>***REMOVED***e.recordCount***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('backDated')***REMOVED***>***REMOVED***e.backDated***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label=***REMOVED***labels.ministry***REMOVED***>***REMOVED***e.ministry***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.departmentId***REMOVED***>***REMOVED***e.departmentId***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.appointmentStatus***REMOVED***>
+              <CLText label=***REMOVED***labelFor('ministry')***REMOVED***>***REMOVED***e.ministry***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('departmentId')***REMOVED***>***REMOVED***e.departmentId***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('appointmentStatus')***REMOVED***>
                 ***REMOVED***e.appointmentStatus!.code***REMOVED***
               </CLText>
-              <CLText label=***REMOVED***labels.classificationGroup***REMOVED***>
+              <CLText label=***REMOVED***labelFor('classificationGroup')***REMOVED***>
                 ***REMOVED***e.classificationGroup***REMOVED***
               </CLText>
-              <CLText label=***REMOVED***labels.classification***REMOVED***>***REMOVED***e.classification***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.jobFunctionCode***REMOVED***>
+              <CLText label=***REMOVED***labelFor('classification')***REMOVED***>
+                ***REMOVED***e.classification***REMOVED***
+              </CLText>
+              <CLText label=***REMOVED***labelFor('jobFunctionCode')***REMOVED***>
                 ***REMOVED***e.jobFunctionCode***REMOVED***
               </CLText>
-              <CLText label=***REMOVED***labels.jobCode***REMOVED***>***REMOVED***e.jobCode***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.locationCity***REMOVED***>***REMOVED***e.locationCity***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.serviceYears***REMOVED***>***REMOVED***e.serviceYears***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.positionTitle***REMOVED***>***REMOVED***e.positionTitle***REMOVED***</CLText>
-              <CLText label=***REMOVED***labels.positionCode***REMOVED***>***REMOVED***e.positionCode***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('jobCode')***REMOVED***>***REMOVED***e.jobCode***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('locationCity')***REMOVED***>***REMOVED***e.locationCity***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('serviceYears')***REMOVED***>***REMOVED***e.serviceYears***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('positionTitle')***REMOVED***>
+                ***REMOVED***e.positionTitle***REMOVED***
+              </CLText>
+              <CLText label=***REMOVED***labelFor('positionCode')***REMOVED***>***REMOVED***e.positionCode***REMOVED***</CLText>
             </div>
             <hr />
             <div className="row text-muted">
-              <CLText label=***REMOVED***labels.createdTs***REMOVED***>
+              <CLText label=***REMOVED***labelFor('createdTs')***REMOVED***>
                 <small>
                   <Date date=***REMOVED***e.createdTs***REMOVED*** showTime showLocalTimezone />
                 </small>
               </CLText>
-              <CLText label=***REMOVED***labels.modifiedTs***REMOVED***>
+              <CLText label=***REMOVED***labelFor('modifiedTs')***REMOVED***>
                 <small>
                   <Date date=***REMOVED***e.modifiedTs***REMOVED*** showTime showLocalTimezone />
                 </small>

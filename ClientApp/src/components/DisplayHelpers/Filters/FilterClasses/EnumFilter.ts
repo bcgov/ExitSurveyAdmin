@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
+import ***REMOVED*** optionsFor ***REMOVED*** from '../../../../helpers/labelHelper'
 
 const OR_OPERATOR = '|'
 
@@ -45,7 +47,7 @@ export default class EnumFilter implements IFilter ***REMOVED***
       console.warn(`EnumFilter for $***REMOVED***this._fieldName***REMOVED***: value is 0-length`)
       return ''
   ***REMOVED***
-    return `$***REMOVED***this._fieldName***REMOVED***@=$***REMOVED***this._enumKeys***REMOVED***`
+    return `$***REMOVED***this._fieldName***REMOVED***@=$***REMOVED***this._enumKeys.join(OR_OPERATOR)***REMOVED***`
 ***REMOVED***
 
   decode(input: string[]): EnumFilter ***REMOVED***
@@ -63,14 +65,10 @@ export default class EnumFilter implements IFilter ***REMOVED***
 ***REMOVED***
 
   get displayString(): string ***REMOVED***
-    // valueString = values
-    // .map(
-    //   v =>
-    //     enumItemsForField(fieldName).find(enumItem => enumItem.value === v)!
-    //       .name
-    // )
-    // .filter(v => v && v.length > 0)
-    // .join(' or ')
-    return this._enumKeys.join(', ')
+    const valueString = this._enumKeys
+      .map(v => optionsFor(this._fieldName).find(opt => opt.value === v)!.name)
+      .filter(v => v && v.length > 0)
+      .join(' or ')
+    return valueString
 ***REMOVED***
 ***REMOVED***

@@ -6,6 +6,7 @@ import CollectionSelect, ***REMOVED***
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
 import EnumFilter from '../FilterClasses/EnumFilter'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
+import ***REMOVED*** labelFor, optionsFor ***REMOVED*** from '../../../../helpers/labelHelper'
 
 interface IProps ***REMOVED***
   filter: EnumFilter
@@ -40,15 +41,15 @@ const EnumFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IPr
 ***REMOVED*** [filter, selectValues, dispatch])
 
   const handleChange = React.useCallback((changeObj): void => ***REMOVED***
-    console.log('changeObj', changeObj)
+    // console.log('changeObj', changeObj)
     changeObj == null ? setSelectValues([]) : setSelectValues(changeObj)
 ***REMOVED*** [])
 
   return (
     <div className="LabelledItem">
       <CollectionSelect<INameValuePair>
-        label=***REMOVED***filter.fieldName***REMOVED***
-        items=***REMOVED***enumItemsForField(filter.fieldName)***REMOVED***
+        label=***REMOVED***labelFor(filter.fieldName)***REMOVED***
+        items=***REMOVED***optionsFor(filter.fieldName)***REMOVED***
         id=***REMOVED***filter.fieldName***REMOVED***
         nameAccessor=***REMOVED***(item): string => item.name***REMOVED***
         valueAccessor=***REMOVED***(item): string => item.value***REMOVED***

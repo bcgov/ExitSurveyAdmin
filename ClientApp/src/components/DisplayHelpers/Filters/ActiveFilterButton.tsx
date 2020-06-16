@@ -2,6 +2,7 @@
 import React from 'react'
 import IconButton from '../Interface/Buttons/IconButton'
 import ***REMOVED*** IFilter ***REMOVED*** from './FilterClasses/FilterTypes'
+import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
 
 interface IProps ***REMOVED***
   filter: IFilter
@@ -15,7 +16,7 @@ const ActiveFilterButton = (***REMOVED*** filter, removeFilter ***REMOVED***: IP
 
   const label = (
     <>
-      ***REMOVED***filter.fieldName***REMOVED***: <strong>***REMOVED***filter.displayString***REMOVED***</strong>
+      ***REMOVED***labelFor(filter.fieldName)***REMOVED***: <strong>***REMOVED***filter.displayString***REMOVED***</strong>
     </>
   )
 

@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
 import DateFilter from '../FilterClasses/DateFilter'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
+import ***REMOVED*** labelFor ***REMOVED*** from '../../../../helpers/labelHelper'
 
 interface IProps ***REMOVED***
   filter: DateFilter
@@ -31,7 +32,7 @@ const DateFilterInput = (***REMOVED*** filter ***REMOVED***: IProps): JSX.Elemen
 
   return (
     <div className="LabelledItem">
-      <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***name***REMOVED***</label>
+      <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***labelFor(name)***REMOVED***</label>
       <div className="d-flex w-100">
         <div className="w-50 mr-2">
           <DatePicker
