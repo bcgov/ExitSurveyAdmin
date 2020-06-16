@@ -22,7 +22,14 @@ namespace ExitSurveyAdmin.Models
                     d.PropertyInfo.Name != nameof(CurrentEmployeeStatus) &&
                     d.PropertyInfo.Name != nameof(TimelineEntries) &&
                     d.PropertyInfo.Name != nameof(CreatedTs) &&
-                    d.PropertyInfo.Name != nameof(ModifiedTs)
+                    d.PropertyInfo.Name != nameof(ModifiedTs) &&
+                    d.PropertyInfo.Name != nameof(PreferredFirstName) &&
+                    d.PropertyInfo.Name != nameof(PreferredEmail) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddress1) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddress2) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode)
                 );
         }
 
