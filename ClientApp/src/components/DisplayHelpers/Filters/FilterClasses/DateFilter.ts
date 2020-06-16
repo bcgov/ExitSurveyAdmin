@@ -42,12 +42,6 @@ export default class DateFilter implements IFilter {
   }
 
   encode(): string {
-    // if (this._value.length < 1) {
-    //   console.warn(`DateFilter for ${this._fieldName}: value is 0-length`)
-    //   return ''
-    // }
-    // return `${this._fieldName}@=${this._value}`
-
     if (!this.isSet) {
       console.warn(`DateFilter for ${this._fieldName}: from and to both undef.`)
       return ''
