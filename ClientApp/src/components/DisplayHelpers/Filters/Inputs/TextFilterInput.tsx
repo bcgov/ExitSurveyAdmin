@@ -3,6 +3,7 @@ import LabelledInput from '../../Interface/LabelledItems/LabelledInput'
 import { FilterDispatch } from '../FilterForm'
 import TextFilter from '../FilterClasses/TextFilter'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
+import { labelFor } from '../../../../helpers/labelHelper'
 
 interface IProps {
   filter: TextFilter
@@ -22,7 +23,7 @@ const TextFilterInput = ({ filter }: IProps): JSX.Element => {
 
   return (
     <LabelledInput
-      title={filter.fieldName}
+      title={labelFor(filter.fieldName)}
       name={filter.fieldName}
       onChange={handleChange}
     />

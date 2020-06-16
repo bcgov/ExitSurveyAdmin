@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Employee } from '../../types/Employee'
-import { employeeFieldLabels as labels } from '../../helpers/labelHelper'
+import { labelFor } from '../../helpers/labelHelper'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
@@ -78,16 +78,16 @@ class EmployeeDetail extends React.Component<IProps, IState> {
         <div className="row">
           <div className="col-8">
             <div className="row">
-              <CLText label={labels.id}>{e.id}</CLText>
-              <CLText label={labels.telkey}>{e.telkey}</CLText>
-              <CLText label={labels.governmentEmployeeId}>
+              <CLText label={labelFor('id')}>{e.id}</CLText>
+              <CLText label={labelFor('telkey')}>{e.telkey}</CLText>
+              <CLText label={labelFor('governmentEmployeeId')}>
                 {e.governmentEmployeeId}
               </CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.firstName}>{e.firstName}</CLText>
-              <CLText label={labels.preferredFirstName}>
+              <CLText label={labelFor('firstName')}>{e.firstName}</CLText>
+              <CLText label={labelFor('preferredFirstName')}>
                 <EditableStringField
                   employeeDatabaseId={e.id!}
                   fieldName={'preferredFirstName'}
@@ -95,19 +95,19 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                   refreshDataCallback={this.populateData}
                 />
               </CLText>
-              <CLText label={labels.lastName}>{e.lastName}</CLText>
-              <CLText label={labels.gender}>{e.gender}</CLText>
-              <CLText label={labels.birthDate}>
+              <CLText label={labelFor('lastName')}>{e.lastName}</CLText>
+              <CLText label={labelFor('gender')}>{e.gender}</CLText>
+              <CLText label={labelFor('birthDate')}>
                 <Date date={e.birthDate} />
               </CLText>
-              <CLText label={labels.age}>{e.age}</CLText>
+              <CLText label={labelFor('age')}>{e.age}</CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.governmentEmail}>
+              <CLText label={labelFor('governmentEmail')}>
                 {e.governmentEmail}
               </CLText>
-              <CLText label={labels.preferredEmail}>
+              <CLText label={labelFor('preferredEmail')}>
                 <EditableStringField
                   employeeDatabaseId={e.id!}
                   fieldName={'preferredEmail'}
@@ -115,7 +115,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                   refreshDataCallback={this.populateData}
                 />
               </CLText>
-              <CLText label={labels.phone}>{e.phone}</CLText>
+              <CLText label={labelFor('phone')}>{e.phone}</CLText>
               <CLText label={'Address'}>
                 <Address employee={e} />
               </CLText>
@@ -128,48 +128,52 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.originalHireDate}>
+              <CLText label={labelFor('originalHireDate')}>
                 <Date date={e.originalHireDate} />
               </CLText>
-              <CLText label={labels.lastDayWorkedDate}>
+              <CLText label={labelFor('lastDayWorkedDate')}>
                 <Date date={e.lastDayWorkedDate} />
               </CLText>
-              <CLText label={labels.effectiveDate}>
+              <CLText label={labelFor('effectiveDate')}>
                 <Date date={e.effectiveDate} />
               </CLText>
-              <CLText label={labels.reason}>{e.reason!.reasonCode}</CLText>
-              <CLText label={labels.exitCount}>{e.exitCount}</CLText>
-              <CLText label={labels.recordCount}>{e.recordCount}</CLText>
-              <CLText label={labels.backDated}>{e.backDated}</CLText>
+              <CLText label={labelFor('reason')}>{e.reason!.reasonCode}</CLText>
+              <CLText label={labelFor('exitCount')}>{e.exitCount}</CLText>
+              <CLText label={labelFor('recordCount')}>{e.recordCount}</CLText>
+              <CLText label={labelFor('backDated')}>{e.backDated}</CLText>
             </div>
             <hr />
             <div className="row">
-              <CLText label={labels.ministry}>{e.ministry}</CLText>
-              <CLText label={labels.departmentId}>{e.departmentId}</CLText>
-              <CLText label={labels.appointmentStatus}>
+              <CLText label={labelFor('ministry')}>{e.ministry}</CLText>
+              <CLText label={labelFor('departmentId')}>{e.departmentId}</CLText>
+              <CLText label={labelFor('appointmentStatus')}>
                 {e.appointmentStatus!.code}
               </CLText>
-              <CLText label={labels.classificationGroup}>
+              <CLText label={labelFor('classificationGroup')}>
                 {e.classificationGroup}
               </CLText>
-              <CLText label={labels.classification}>{e.classification}</CLText>
-              <CLText label={labels.jobFunctionCode}>
+              <CLText label={labelFor('classification')}>
+                {e.classification}
+              </CLText>
+              <CLText label={labelFor('jobFunctionCode')}>
                 {e.jobFunctionCode}
               </CLText>
-              <CLText label={labels.jobCode}>{e.jobCode}</CLText>
-              <CLText label={labels.locationCity}>{e.locationCity}</CLText>
-              <CLText label={labels.serviceYears}>{e.serviceYears}</CLText>
-              <CLText label={labels.positionTitle}>{e.positionTitle}</CLText>
-              <CLText label={labels.positionCode}>{e.positionCode}</CLText>
+              <CLText label={labelFor('jobCode')}>{e.jobCode}</CLText>
+              <CLText label={labelFor('locationCity')}>{e.locationCity}</CLText>
+              <CLText label={labelFor('serviceYears')}>{e.serviceYears}</CLText>
+              <CLText label={labelFor('positionTitle')}>
+                {e.positionTitle}
+              </CLText>
+              <CLText label={labelFor('positionCode')}>{e.positionCode}</CLText>
             </div>
             <hr />
             <div className="row text-muted">
-              <CLText label={labels.createdTs}>
+              <CLText label={labelFor('createdTs')}>
                 <small>
                   <Date date={e.createdTs} showTime showLocalTimezone />
                 </small>
               </CLText>
-              <CLText label={labels.modifiedTs}>
+              <CLText label={labelFor('modifiedTs')}>
                 <small>
                   <Date date={e.modifiedTs} showTime showLocalTimezone />
                 </small>
