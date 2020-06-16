@@ -18,6 +18,7 @@ import EditableStringField from './EditableStringField'
 import EditableDropdown from './EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
 import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
+import * as EmailValidator from 'email-validator'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -109,6 +110,9 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               </CLText>
               <CLText label=***REMOVED***labelFor('preferredEmail')***REMOVED***>
                 <EditableStringField
+                  validator=***REMOVED***(email: string): boolean =>
+                    EmailValidator.validate(email)
+                ***REMOVED***
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName=***REMOVED***'preferredEmail'***REMOVED***
                   fieldValue=***REMOVED***e.preferredEmail!***REMOVED***
