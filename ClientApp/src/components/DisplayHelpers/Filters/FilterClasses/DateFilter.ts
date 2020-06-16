@@ -42,12 +42,6 @@ export default class DateFilter implements IFilter ***REMOVED***
 ***REMOVED***
 
   encode(): string ***REMOVED***
-    // if (this._value.length < 1) ***REMOVED***
-    //   console.warn(`DateFilter for $***REMOVED***this._fieldName***REMOVED***: value is 0-length`)
-    //   return ''
-    // ***REMOVED***
-    // return `$***REMOVED***this._fieldName***REMOVED***@=$***REMOVED***this._value***REMOVED***`
-
     if (!this.isSet) ***REMOVED***
       console.warn(`DateFilter for $***REMOVED***this._fieldName***REMOVED***: from and to both undef.`)
       return ''

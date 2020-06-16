@@ -11,11 +11,9 @@ import TextFilterInput from './Inputs/TextFilterInput'
 import DateFilterInput from './Inputs/DateFilterInput'
 import EnumFilterInput from './Inputs/EnumFilterInput'
 import moment from 'moment'
-// import ***REMOVED*** defaultFormat ***REMOVED*** from '../../helpers/dateHelper'
 import DateFilter from './FilterClasses/DateFilter'
 import EnumFilter from './FilterClasses/EnumFilter'
 import TextFilter from './FilterClasses/TextFilter'
-import ***REMOVED*** defaultFormat ***REMOVED*** from '../../../helpers/dateHelper'
 
 interface IProps ***REMOVED***
   addFilters: (filters: IFilter[]) => void
@@ -102,7 +100,12 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
         let colWidth = 2
         switch (filter.type) ***REMOVED***
           case FilterType.Date:
-            filterComponent = <DateFilterInput filter=***REMOVED***filter as DateFilter***REMOVED*** />
+            filterComponent = (
+              <DateFilterInput
+                filter=***REMOVED***filter as DateFilter***REMOVED***
+                resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
+              />
+            )
             colWidth = 3
             break
           case FilterType.Enum:

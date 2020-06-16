@@ -13,22 +13,6 @@ interface IProps ***REMOVED***
   resetTimestamp: number
 ***REMOVED***
 
-export const enumItemsForField = (fieldName: string): INameValuePair[] => ***REMOVED***
-  switch (fieldName) ***REMOVED***
-    default:
-      return [
-        ***REMOVED***
-          name: 'Name1',
-          value: 'name1'
-      ***REMOVED***
-        ***REMOVED***
-          name: 'Name2',
-          value: 'name2'
-      ***REMOVED***
-      ]
-***REMOVED***
-***REMOVED***
-
 const EnumFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
