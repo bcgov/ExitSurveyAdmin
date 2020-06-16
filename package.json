@@ -1,9 +1,4 @@
 {
-  "devDependencies": {
-    "eslint-plugin-react-hooks": "^4.0.4"
-  },
-  "dependencies": {
-    "class-transformer": "^0.2.3",
-    "reflect-metadata": "^0.1.13"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
