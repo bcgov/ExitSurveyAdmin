@@ -1,4 +1,8 @@
-export const employeeFieldLabels: { [key: string]: string } = {
+import { ISelectOption } from '../components/Employees/EditableSelect'
+import { EmployeeStatus } from '../types/EmployeeStatus'
+import { Reason } from '../types/Reason'
+
+const fieldLabels: { [key: string]: string } = {
   id: 'Database ID',
   telkey: 'Telkey',
   recordCount: 'Record count',
@@ -47,4 +51,18 @@ export const employeeFieldLabels: { [key: string]: string } = {
   timelineEntries: '',
   createdTs: 'Created date',
   modifiedTs: 'Last modified date'
+}
+
+const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
+  currentEmployeeStatusCode: EmployeeStatus.toOptions,
+  reason: Reason.toOptions
+}
+
+export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
+
+export const optionsFor = (fieldName: string): ISelectOption[] => {
+  const options = optionsForEnum[fieldName]().sort((a, b) =>
+    a.name.localeCompare(b.name)
+  )
+  return options
 }

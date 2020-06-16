@@ -2,6 +2,7 @@
 import React from 'react'
 import IconButton from '../Interface/Buttons/IconButton'
 import { IFilter } from './FilterClasses/FilterTypes'
+import { labelFor } from '../../../helpers/labelHelper'
 
 interface IProps {
   filter: IFilter
@@ -15,7 +16,7 @@ const ActiveFilterButton = ({ filter, removeFilter }: IProps): JSX.Element => {
 
   const label = (
     <>
-      {filter.fieldName}: <strong>{filter.displayString}</strong>
+      {labelFor(filter.fieldName)}: <strong>{filter.displayString}</strong>
     </>
   )
 

@@ -32,15 +32,8 @@ type FilterMap = { [key: string]: IFilter }
 function reducer(state: FilterMap, action: FilterMapAction): FilterMap {
   const { type, filter } = action
   const filterMapClone = { ...state }
-  console.log(
-    'filterMapClone before switching on type -->',
-    filterMapClone,
-    'action',
-    filter
-  )
   switch (type) {
     case 'setFilter':
-      console.log(filter)
       //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       filterMapClone[filter!.fieldName] = filter!
       return filterMapClone
