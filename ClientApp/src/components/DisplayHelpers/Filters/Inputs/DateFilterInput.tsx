@@ -10,16 +10,19 @@ import { labelFor } from '../../../../helpers/labelHelper'
 
 interface IProps {
   filter: DateFilter
+  resetTimestamp: number
 }
 
-const DateFilterInput = ({ filter }: IProps): JSX.Element => {
+const DateFilterInput = ({ filter, resetTimestamp }: IProps): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const [fromDate, setFromDate] = React.useState(filter.from)
   const [toDate, setToDate] = React.useState(filter.to)
 
-  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
-  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+  React.useEffect((): void => {
+    setFromDate(undefined)
+    setToDate(undefined)
+  }, [resetTimestamp])
 
   React.useEffect((): void => {
     const clone = filter.clone()
@@ -28,12 +31,15 @@ const DateFilterInput = ({ filter }: IProps): JSX.Element => {
     dispatch({ type: 'setFilter', filter: clone })
   }, [fromDate, toDate, filter, dispatch])
 
+  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
+  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+
   const name = filter.fieldName
 
   return (
     <div className="LabelledItem">
       <label htmlFor={`${name}-From`}>{labelFor(name)}</label>
-      <div className="d-flex w-100">
+      <div key={`${resetTimestamp}`} className="d-flex w-100">
         <div className="w-50 mr-2">
           <DatePicker
             selected={fromDate}
