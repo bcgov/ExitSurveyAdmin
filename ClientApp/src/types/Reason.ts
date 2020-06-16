@@ -171,6 +171,14 @@ export class Reason {
     return Reason.array().filter(r => r.appointmentStatusCode === code)
   }
 
+  static toOptions = (): ISelectOption[] => {
+    const vals = Array.from(Reason.map().values()).map(reason => ({
+      name: reason.reasonCode,
+      value: reason.reasonCode
+    }))
+    return vals
+  }
+
   static toOptionsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
   ): ISelectOption[] => {
