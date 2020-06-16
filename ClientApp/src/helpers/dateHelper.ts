@@ -4,6 +4,7 @@ export type NullableDate = Date | null
 export const defaultFormat = 'YYYY-MM-DD'
 
 export const stringToDate = (str: string | undefined): Date | undefined => ***REMOVED***
+  if (str === undefined) return undefined
   const candidateDate = moment(str)
   return candidateDate.isValid() ? candidateDate.toDate() : undefined
 ***REMOVED***

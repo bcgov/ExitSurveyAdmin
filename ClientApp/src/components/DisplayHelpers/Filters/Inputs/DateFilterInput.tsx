@@ -10,16 +10,19 @@ import ***REMOVED*** labelFor ***REMOVED*** from '../../../../helpers/labelHelpe
 
 interface IProps ***REMOVED***
   filter: DateFilter
+  resetTimestamp: number
 ***REMOVED***
 
-const DateFilterInput = (***REMOVED*** filter ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const [fromDate, setFromDate] = React.useState(filter.from)
   const [toDate, setToDate] = React.useState(filter.to)
 
-  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
-  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+  React.useEffect((): void => ***REMOVED***
+    setFromDate(undefined)
+    setToDate(undefined)
+***REMOVED*** [resetTimestamp])
 
   React.useEffect((): void => ***REMOVED***
     const clone = filter.clone()
@@ -28,12 +31,15 @@ const DateFilterInput = (***REMOVED*** filter ***REMOVED***: IProps): JSX.Elemen
     dispatch(***REMOVED*** type: 'setFilter', filter: clone ***REMOVED***)
 ***REMOVED*** [fromDate, toDate, filter, dispatch])
 
+  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
+  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+
   const name = filter.fieldName
 
   return (
     <div className="LabelledItem">
       <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***labelFor(name)***REMOVED***</label>
-      <div className="d-flex w-100">
+      <div key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** className="d-flex w-100">
         <div className="w-50 mr-2">
           <DatePicker
             selected=***REMOVED***fromDate***REMOVED***
