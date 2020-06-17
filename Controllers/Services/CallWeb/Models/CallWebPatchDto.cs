@@ -5,6 +5,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
     // The data transfer object to use when sending a PATCH request.
     public class CallWebPatchDto
     {
+        public string Telkey { get; set; }
         public string PreferredEmail { get; set; }
         public string Ministry { get; set; }
         public string PositionTitle { get; set; }
@@ -20,6 +21,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             return new CallWebPatchDto()
             {
+                Telkey = employee.Telkey,
                 PreferredEmail = employee.PreferredEmail,
                 Ministry = employee.Ministry,
                 PositionTitle = employee.PositionTitle,
@@ -27,7 +29,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 PreferredFirstName = employee.PreferredFirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
-                LeaveCode = employee.LeaveCode, // TODO: Fix
+                LeaveCode = employee.LeaveCode,
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 CurrentStatus = employee.CurrentEmployeeStatusCode
             };
