@@ -68,7 +68,8 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             var content = ToJsonContent(patchDto);
 
-            var response = await GetClient().PatchAsync(BaseUrl, content);
+            var response = await GetClient()
+                .PatchAsync($"{BaseUrl}{patchDto.Telkey}", content);
             var callWebDto = await CallWebRowFromResponse(response);
 
             return callWebDto;
