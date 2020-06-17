@@ -1,5 +1,6 @@
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
+using ExitSurveyAdmin.Services.CallWeb;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
@@ -21,18 +22,21 @@ namespace ExitSurveyAdmin.Controllers
         private readonly SieveProcessor SieveProcessor;
         private readonly EmployeeInfoLookupService EmployeeInfoLookup;
         private readonly EmployeeReconciliationService EmployeeReconciler;
+        private readonly CallWebService callWebService;
 
         public EmployeesController(
             ExitSurveyAdminContext context,
             SieveProcessor sieveProcessor,
             EmployeeInfoLookupService employeeInfoLookup,
-            EmployeeReconciliationService employeeReconciler
+            EmployeeReconciliationService employeeReconciler,
+            CallWebService callWebService
         )
         {
             this.context = context;
             SieveProcessor = sieveProcessor;
             EmployeeInfoLookup = employeeInfoLookup;
             EmployeeReconciler = employeeReconciler;
+            this.callWebService = callWebService;
         }
 
         // GET: api/Employees
@@ -95,6 +99,10 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 await context.SaveChangesAsync();
+
+                // Patch the row in CallWeb.
+                await callWebService.UpdateSurvey(updatedEmployee);
+
                 return Ok(updatedEmployee);
             }
             catch (DbUpdateConcurrencyException)
