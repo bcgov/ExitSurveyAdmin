@@ -23,6 +23,8 @@ const processSorts = (sortBy: ITableSort[]): string => {
     : ''
 }
 
+const PAGE_SIZE = 5
+
 interface IProps extends RouteComponentProps {}
 
 const TaskLogEntryListing = (props: IProps): JSX.Element => {
@@ -52,12 +54,12 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
       // console.log(filters, filterQuery)
 
       const path = `taskLogEntries?page=${pageIndex +
-        1}${sortQuery}${filterQuery}`
+        1}${sortQuery}${filterQuery}&pageSize=${PAGE_SIZE}`
 
       if (fetchId === fetchIdRef.current) {
         requestJSONWithErrorHandler(
           `api/${path}`,
-          'get',
+          `get`,
           null,
           'TASK_LOG_ENTRY_NOT_FOUND',
           (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => {
@@ -85,6 +87,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
         loading={loading}
         controlledPageCount={pageCount}
         recordCount={recordCount}
+        pageSize={PAGE_SIZE}
       />
       <ExportData
         sortQuery={sortQuery}

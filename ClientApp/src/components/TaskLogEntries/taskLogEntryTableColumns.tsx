@@ -4,6 +4,7 @@ import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { dateOrUndefined } from '../../helpers/objectHelper'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
 import TaskOutcome from '../DisplayHelpers/TaskOutcome'
+import TaskComment from '../DisplayHelpers/TaskComment'
 
 type TaskLogEntryCellProps = React.PropsWithChildren<
   CellProps<TaskLogEntry, string | undefined>
@@ -34,6 +35,9 @@ export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
   },
   {
     Header: 'Comment',
+    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
+      <TaskComment comment={props.value as string} />
+    ),
     accessor: 'comment'
   }
 ]
