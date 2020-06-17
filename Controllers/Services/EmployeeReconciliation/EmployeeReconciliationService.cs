@@ -226,6 +226,9 @@ namespace ExitSurveyAdmin.Services
                         context.Entry(existingEmployee).State = EntityState.Modified;
 
                         await context.SaveChangesAsync();
+
+                        // Patch the row in CallWeb.
+                        await callWeb.UpdateSurvey(existingEmployee);
                   ***REMOVED***
               ***REMOVED***
 

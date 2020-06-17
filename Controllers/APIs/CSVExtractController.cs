@@ -121,7 +121,7 @@ namespace ExitSurveyAdmin.Controllers
               ***REMOVED***
 
                 // Step 3. For all ACTIVE users in the DB who are NOT in the
-                // Csv, set them to exiting.
+                // Csv, set them to not exiting, IF they are not in a final state.
                 var activeDBEmployeesNotInCsv = context.Employees
                     .Include(e => e.TimelineEntries)
                     .Include(e => e.CurrentEmployeeStatus)
