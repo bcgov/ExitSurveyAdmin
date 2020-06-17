@@ -1,26 +1,39 @@
 import React from 'react'
+import moment from 'moment-timezone'
+import {
+  defaultDateFormat,
+  defaultNiceDatetimeFormat
+} from '../../helpers/dateHelper'
 
 interface IProps {
   date?: Date
   showTime?: boolean
   showLocalTimezone?: boolean
+  nice?: boolean
 }
 
-const LOCALE = 'en-ca'
+const TIMEZONE = 'America/Vancouver'
 
 const FormattedDate = (props: IProps): JSX.Element => {
-  const { date, showTime, showLocalTimezone } = props
-  const options: Intl.DateTimeFormatOptions = {}
-  if (!showLocalTimezone) options.timeZone = 'UTC'
-  return (
-    <span className="Date">
-      {date && showTime
-        ? date.toLocaleString(LOCALE, options)
-        : date
-        ? date.toLocaleDateString(LOCALE, options)
-        : ''}
-    </span>
-  )
+  const { date, showTime, showLocalTimezone, nice } = props
+
+  let momentDate = moment(date)
+
+  if (showLocalTimezone) {
+    momentDate = momentDate.tz(TIMEZONE)
+  }
+
+  let displayDate = ''
+
+  if (nice) {
+    displayDate = momentDate.fromNow()
+  } else {
+    displayDate = showTime
+      ? momentDate.format(defaultNiceDatetimeFormat)
+      : momentDate.format(defaultDateFormat)
+  }
+
+  return <span className="Date">{displayDate}</span>
 }
 
 export default FormattedDate

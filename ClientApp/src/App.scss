@@ -11,6 +11,10 @@ $navbar-margin: 24px;
   height: calc(100vh - #{$navbar-height + $navbar-margin});
 }
 
+.text-extra-muted {
+  color: $gray-400;
+}
+
 .table-sm {
   font-size: 0.85rem;
   thead {
