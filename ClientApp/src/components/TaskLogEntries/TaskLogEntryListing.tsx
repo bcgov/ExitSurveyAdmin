@@ -23,6 +23,8 @@ const processSorts = (sortBy: ITableSort[]): string => ***REMOVED***
     : ''
 ***REMOVED***
 
+const PAGE_SIZE = 5
+
 interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
 
 const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
@@ -52,12 +54,12 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
       // console.log(filters, filterQuery)
 
       const path = `taskLogEntries?page=$***REMOVED***pageIndex +
-        1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
+        1***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***&pageSize=$***REMOVED***PAGE_SIZE***REMOVED***`
 
       if (fetchId === fetchIdRef.current) ***REMOVED***
         requestJSONWithErrorHandler(
           `api/$***REMOVED***path***REMOVED***`,
-          'get',
+          `get`,
           null,
           'TASK_LOG_ENTRY_NOT_FOUND',
           (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => ***REMOVED***
@@ -85,6 +87,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
         loading=***REMOVED***loading***REMOVED***
         controlledPageCount=***REMOVED***pageCount***REMOVED***
         recordCount=***REMOVED***recordCount***REMOVED***
+        pageSize=***REMOVED***PAGE_SIZE***REMOVED***
       />
       <ExportData
         sortQuery=***REMOVED***sortQuery***REMOVED***
