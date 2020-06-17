@@ -1,7 +1,12 @@
 import React from 'react'
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from '../../types/EmployeeTimelineEntry'
 // import LabelledText from '../DisplayHelpers/LabelledText'
-import Date from '../DisplayHelpers/FormattedDate'
+import moment from 'moment'
+import ***REMOVED***
+  defaultDatetimeFormat,
+  defaultNiceDatetimeFormat
+***REMOVED*** from '../../helpers/dateHelper'
+import FormattedDate from '../DisplayHelpers/FormattedDate'
 
 interface IProps ***REMOVED***
   timelineEntry: EmployeeTimelineEntry
@@ -16,12 +21,16 @@ class TimelineEntry extends React.Component<IProps> ***REMOVED***
         <div className="mb-2">
           <small>
             <span className="text-muted">
-              <Date showTime showLocalTimezone date=***REMOVED***tl.createdTs***REMOVED*** />
+              <FormattedDate date=***REMOVED***tl.createdTs***REMOVED*** nice />
+              &nbsp;
+              <span className="text-extra-muted">
+                (<FormattedDate date=***REMOVED***tl.createdTs***REMOVED*** showTime />)
+              </span>
             </span>
             <br />
             <span className="text-muted">Action</span> ***REMOVED***tl.employeeActionCode***REMOVED***
-            &nbsp;•&nbsp;
-            <span className="text-muted">Status</span> ***REMOVED***tl.employeeStatusCode***REMOVED***
+            ***REMOVED***/* &nbsp;•&nbsp; */***REMOVED***
+            ***REMOVED***/* <span className="text-muted">Status</span> ***REMOVED***tl.employeeStatusCode***REMOVED*** */***REMOVED***
             ***REMOVED***tl.adminUserName && (
               <>
                 &nbsp;•&nbsp;
