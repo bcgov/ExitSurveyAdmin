@@ -5,8 +5,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { FilterDispatch } from '../FilterForm'
 import DateFilter from '../FilterClasses/DateFilter'
-import { FixTypeLater } from '../../../../types/FixTypeLater'
-import { labelFor } from '../../../../helpers/labelHelper'
+import { FixTypeLater } from '../../../types/FixTypeLater'
+import { labelFor } from '../../../helpers/labelHelper'
 
 interface IProps {
   filter: DateFilter

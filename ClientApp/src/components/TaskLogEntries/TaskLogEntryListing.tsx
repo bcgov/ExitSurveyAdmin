@@ -11,9 +11,9 @@ import { ITableSort } from '../../types/ReactTable'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
 import GenericTable from '../DisplayHelpers/GenericTable'
 import { taskLogEntryTableColumns } from './taskLogEntryTableColumns'
-import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
-import { taskLogEntryFilters } from '../DisplayHelpers/Filters/Presets/FieldSets/taskLogEntryFilters'
-import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
+import { MasterFilterHandler } from '../Filters/MasterFilterHandler'
+import { taskLogEntryFilters } from '../Filters/Presets/FieldSets/taskLogEntryFilters'
+import FilterPanel from '../Filters/FilterPanel'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
