@@ -1,7 +1,8 @@
 import React from 'react'
 import ***REMOVED*** Route ***REMOVED*** from 'react-router-dom'
-import AuthWrapper from './AuthWrapper'
+
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import AuthWrapper from './AuthWrapper'
 
 const AuthenticatedRoute = (***REMOVED***
   component: Component,

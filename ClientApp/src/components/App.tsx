@@ -1,12 +1,13 @@
 import React from 'react'
 import ***REMOVED*** Route ***REMOVED*** from 'react-router-dom'
-import Layout from './Wrappers/Layout'
-import Home from './Home'
+
+import AuthenticatedRoute from './Wrappers/AuthenticatedRoute'
 import CallbackHandler from './Login/CallbackHandler'
 import EmployeeDetail from './Employees/EmployeeDetail'
 import EmployeeListing from './Employees/EmployeeListing'
+import Home from './Home'
+import Layout from './Wrappers/Layout'
 import TaskLogEntryListing from './TaskLogEntries/TaskLogEntryListing'
-import AuthenticatedRoute from './Wrappers/AuthenticatedRoute'
 
 import '../custom.css'
 

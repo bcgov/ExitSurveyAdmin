@@ -5,44 +5,23 @@ import ***REMOVED*** AnyJson ***REMOVED*** from '../types/JsonType'
 import ***REMOVED*** deploymentUrl ***REMOVED*** from './envHelper'
 
 export const prefixAPI = (path: string): string => ***REMOVED***
-  // const API_LOCATION = process.env.REACT_APP_API_LOCATION
   return `$***REMOVED***deploymentUrl()***REMOVED***$***REMOVED***path***REMOVED***`
-  // return path
 ***REMOVED***
-
-// const requestWithoutAuthentication = (
-//   url: string,
-//   method = 'get',
-//   body: AnyJson
-// ): Promise<Response> => ***REMOVED***
-//   const fetchObject: RequestInit = ***REMOVED***
-//     method,
-//     headers: ***REMOVED***
-//       'Content-Type': 'application/json'
-//   ***REMOVED***
-// ***REMOVED***
-//   if (method !== 'get' && body) ***REMOVED***
-//     fetchObject.body = JSON.stringify(body)
-// ***REMOVED***
-//   return window.fetch(prefixAPI(url), fetchObject)
-// ***REMOVED***
 
 const requestWithAuthentication = (
   url: string,
   method = 'get',
   body: AnyJson
 ): Promise<Response> => ***REMOVED***
-  // console.log('-->', store.getState())
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const token = store.getState()!.oidc!.user!.access_token
-  // console.log(token)
   const fetchObject: RequestInit = ***REMOVED***
     method,
     headers: ***REMOVED***
       'Content-Type': 'application/json',
       Authorization: `Bearer $***REMOVED***token***REMOVED***`
   ***REMOVED***
-    credentials: 'same-origin' // By default, fetch won't send any cookies to the server
+    credentials: 'same-origin'
 ***REMOVED***
   if (method !== 'get' && body) ***REMOVED***
     fetchObject.body = JSON.stringify(body)
@@ -60,8 +39,7 @@ export const requestJSONWithErrorHandler = async (
     pagination?: FixTypeLater
   ) => void
 ): Promise<AnyJson> => ***REMOVED***
-  const response = await requestWithAuthentication(url, method, body) // useToken
-  // : await requestWithoutAuthentication(url, method, body)
+  const response = await requestWithAuthentication(url, method, body)
   let json
   try ***REMOVED***
     json = await response.json()
@@ -78,11 +56,6 @@ export const requestJSONWithErrorHandler = async (
   ***REMOVED***
     return json
 ***REMOVED*** else ***REMOVED***
-    // const responseObj = ***REMOVED***
-    //   status: response.status,
-    //   statusText: response.statusText,
-    //   message: json ? json.msg : undefined
-    // ***REMOVED***
     setError(store.dispatch, errorCode)
     return null
 ***REMOVED***

@@ -1,5 +1,5 @@
-import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
 import ***REMOVED*** dateToString, stringToDate ***REMOVED*** from '../../../helpers/dateHelper'
+import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
 
 const GTE_OPERATOR = '>='
 const LTE_OPERATOR = '<='

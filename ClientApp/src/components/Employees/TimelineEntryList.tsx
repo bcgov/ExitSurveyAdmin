@@ -1,4 +1,5 @@
 import React from 'react'
+
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from '../../types/EmployeeTimelineEntry'
 import TimelineEntry from './TimelineEntry'
 

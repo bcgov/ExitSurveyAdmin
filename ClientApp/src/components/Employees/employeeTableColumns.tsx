@@ -1,11 +1,12 @@
 import React from 'react'
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
-import FormattedDate from '../DisplayHelpers/FormattedDate'
+
 import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/dateHelper'
-import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
+import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
+import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
+import FormattedDate from '../DisplayHelpers/FormattedDate'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>

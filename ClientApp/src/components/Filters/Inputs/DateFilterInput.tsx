@@ -1,12 +1,12 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
-
 import DatePicker from 'react-datepicker'
 
-import 'react-datepicker/dist/react-datepicker.css'
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
-import DateFilter from '../FilterClasses/DateFilter'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
+import DateFilter from '../FilterClasses/DateFilter'
+
+import 'react-datepicker/dist/react-datepicker.css'
 
 interface IProps ***REMOVED***
   filter: DateFilter

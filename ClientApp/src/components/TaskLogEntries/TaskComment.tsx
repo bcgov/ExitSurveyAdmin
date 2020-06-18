@@ -1,12 +1,13 @@
 import React from 'react'
+
 import Button from '../DisplayHelpers/Interface/Buttons/Button'
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
+
+const LONG_COMMENT_LENGTH = 500
 
 interface IProps ***REMOVED***
   comment: string
 ***REMOVED***
-
-const LONG_COMMENT_LENGTH = 500
 
 const TaskComment = (***REMOVED*** comment ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const commentLength = comment.length

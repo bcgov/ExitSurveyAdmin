@@ -1,9 +1,9 @@
 import React from 'react'
 
+import ***REMOVED*** IFilter ***REMOVED*** from '../FilterClasses/FilterTypes'
 import ActiveFilterButton from './ActiveFilterButton'
 
 import './ActiveFilters.scss'
-import ***REMOVED*** IFilter ***REMOVED*** from '../FilterClasses/FilterTypes'
 
 interface IProps ***REMOVED***
   filters: IFilter[]
@@ -31,7 +31,6 @@ const ActiveFilters = (props: IProps): JSX.Element => ***REMOVED***
 
   return (
     <div className="ActiveFilters">
-      ***REMOVED***/* <h3 className="text-muted mb-0">Active filters</h3> */***REMOVED***
       <div className="Filters mb-0">***REMOVED***filterButtons***REMOVED***</div>
     </div>
   )

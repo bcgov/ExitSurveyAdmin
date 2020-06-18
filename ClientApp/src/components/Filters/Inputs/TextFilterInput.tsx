@@ -1,9 +1,10 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
-import LabelledInput from '../../DisplayHelpers/Interface/LabelledItems/LabelledInput'
+
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
-import TextFilter from '../FilterClasses/TextFilter'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
+import LabelledInput from '../../DisplayHelpers/Interface/LabelledItems/LabelledInput'
+import TextFilter from '../FilterClasses/TextFilter'
 
 interface IProps ***REMOVED***
   filter: TextFilter

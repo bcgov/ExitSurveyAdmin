@@ -1,16 +1,16 @@
 import React from 'react'
-
-import ErrorPage from './ErrorPage'
-
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** Dispatch ***REMOVED*** from 'redux'
+
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import ErrorPage from './ErrorPage'
 
 interface IOwnProps ***REMOVED***
   children: JSX.Element | JSX.Element[]
 ***REMOVED***
 
 interface IStateProps ***REMOVED***
-  error: any
+  error: FixTypeLater
 ***REMOVED***
 
 interface IDispatchProps ***REMOVED***
@@ -35,9 +35,9 @@ class ContentWrapper extends React.Component<IProps> ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-const mapStateToProps = (state: any): IStateProps => ***REMOVED***
+const mapStateToProps = (state: FixTypeLater): IStateProps => ***REMOVED***
   return ***REMOVED***
-    error: state.error.error as any
+    error: state.error.error as FixTypeLater
 ***REMOVED***
 ***REMOVED***
 

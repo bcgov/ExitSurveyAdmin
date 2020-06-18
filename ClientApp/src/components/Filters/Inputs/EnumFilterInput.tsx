@@ -1,12 +1,12 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 
+import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
+import ***REMOVED*** labelFor, optionsFor ***REMOVED*** from '../../../helpers/labelHelper'
 import CollectionSelect, ***REMOVED***
   INameValuePair
 ***REMOVED*** from '../../DisplayHelpers/Interface/Selects/CollectionSelect'
-import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
 import EnumFilter from '../FilterClasses/EnumFilter'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
-import ***REMOVED*** labelFor, optionsFor ***REMOVED*** from '../../../helpers/labelHelper'
 
 interface IProps ***REMOVED***
   filter: EnumFilter
@@ -25,7 +25,6 @@ const EnumFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IPr
 ***REMOVED*** [filter, selectValues, dispatch])
 
   const handleChange = React.useCallback((changeObj): void => ***REMOVED***
-    // console.log('changeObj', changeObj)
     changeObj == null ? setSelectValues([]) : setSelectValues(changeObj)
 ***REMOVED*** [])
 

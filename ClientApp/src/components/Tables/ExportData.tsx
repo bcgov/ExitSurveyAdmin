@@ -4,6 +4,8 @@ import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 
+const MAX_PAGE_SIZE = 1000000
+
 interface IProps ***REMOVED***
   sortQuery: string
   filterQuery: string
@@ -11,16 +13,12 @@ interface IProps ***REMOVED***
   setDownloadedDataCallback: (responseJSON: FixTypeLater[]) => FixTypeLater[]
 ***REMOVED***
 
-const MAX_PAGE_SIZE = 1000000
-
-const ExportData = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED***
-    sortQuery,
-    filterQuery,
-    listingPath,
-    setDownloadedDataCallback
-***REMOVED*** = props
-
+const ExportData = (***REMOVED***
+  filterQuery,
+  listingPath,
+  setDownloadedDataCallback,
+  sortQuery
+***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
   const csvLinkRef = React.useRef(null)
 
@@ -37,8 +35,7 @@ const ExportData = (props: IProps): JSX.Element => ***REMOVED***
         ;(csvLinkRef.current as FixTypeLater).link.click()
     ***REMOVED***
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-***REMOVED*** [sortQuery, filterQuery])
+***REMOVED*** [sortQuery, filterQuery, listingPath, setDownloadedDataCallback])
 
   return (
     <div>

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
+
 interface IProps ***REMOVED***
   gotoPage: (page: number) => void
   previousPage: () => void
@@ -13,45 +15,45 @@ interface IProps ***REMOVED***
 
 const Pagination = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED***
+    canNextPage,
+    canPreviousPage,
     gotoPage,
-    previousPage,
     nextPage,
     pageCount,
-    canPreviousPage,
-    canNextPage,
-    pageIndex
+    pageIndex,
+    previousPage
 ***REMOVED*** = props
   return (
     <div className=***REMOVED***`row align-items-center pagination my-3`***REMOVED***>
       <div className="col">
-        <button
-          className="btn btn-primary mr-1"
+        <IconButton
+          iconName="fast-backward"
+          buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => gotoPage(0)***REMOVED***
           disabled=***REMOVED***!canPreviousPage***REMOVED***
-        >
-          ***REMOVED***'<<'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <button
-          className="btn btn-primary mr-1"
+          marginClasses=***REMOVED***'mr-2'***REMOVED***
+        />
+        <IconButton
+          iconName="step-backward"
+          buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => previousPage()***REMOVED***
           disabled=***REMOVED***!canPreviousPage***REMOVED***
-        >
-          ***REMOVED***'<'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <button
-          className="btn btn-primary mr-1"
+          marginClasses=***REMOVED***'mr-2'***REMOVED***
+        />
+        <IconButton
+          iconName="step-forward"
+          buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => nextPage()***REMOVED***
           disabled=***REMOVED***!canNextPage***REMOVED***
-        >
-          ***REMOVED***'>'***REMOVED***
-        </button>***REMOVED***' '***REMOVED***
-        <button
-          className="btn btn-primary mr-1"
+          marginClasses=***REMOVED***'mr-2'***REMOVED***
+        />
+        <IconButton
+          iconName="step-forward"
+          buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => gotoPage(pageCount - 1)***REMOVED***
           disabled=***REMOVED***!canNextPage***REMOVED***
-        >
-          ***REMOVED***'>>'***REMOVED***
-        </button>
+          marginClasses=***REMOVED***'mr-2'***REMOVED***
+        />
       </div>
       <div className="col text-center">
         <span>

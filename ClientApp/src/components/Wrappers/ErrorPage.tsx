@@ -1,15 +1,17 @@
 import React from 'react'
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
+
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
 
-const smallCodeWrapper = (content: string) => (
+const smallCodeWrapper = (content: string): JSX.Element => (
   <code>
     <small>***REMOVED***content***REMOVED***</small>
   </code>
 )
 
 interface IProps ***REMOVED***
-  error?: any
+  error?: FixTypeLater
 ***REMOVED***
 
 class ErrorPage extends React.Component<IProps> ***REMOVED***
@@ -39,7 +41,7 @@ class ErrorPage extends React.Component<IProps> ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-const mapStateToProps = (state: any) => (***REMOVED***
+const mapStateToProps = (state: FixTypeLater): FixTypeLater => (***REMOVED***
   error: state.error
 ***REMOVED***)
 

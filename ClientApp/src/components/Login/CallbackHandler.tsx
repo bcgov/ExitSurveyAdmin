@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 import React, ***REMOVED*** Dispatch ***REMOVED*** from 'react'
 import ***REMOVED*** AnyAction ***REMOVED*** from 'redux'
-import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** CallbackComponent ***REMOVED*** from 'redux-oidc'
-import userManager from '../../store/utils/userManager'
+import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router-dom'
+
 import ***REMOVED*** deploymentUrl ***REMOVED*** from '../../helpers/envHelper'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import userManager from '../../store/utils/userManager'
 
 interface IDispatchProps ***REMOVED***
   dispatch: Dispatch<AnyAction>

@@ -1,4 +1,5 @@
 import React from 'react'
+import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** IFilter ***REMOVED*** from '../Filters/FilterClasses/FilterTypes'
@@ -6,7 +7,6 @@ import ***REMOVED*** IPresetProps ***REMOVED*** from '../Filters/Presets/IPreset
 import ***REMOVED*** ITableSort ***REMOVED*** from '../../types/ITableSort'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from '../Filters/MasterFilterHandler'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 import ExportData from '../Tables/ExportData'
 import FilterPanel from '../Filters/FilterPanel'
 import GenericTable from '../Tables/GenericTable'
@@ -45,25 +45,31 @@ interface IProps<T extends object>
   extends RouteComponentProps,
     IGenericListingProps<T> ***REMOVED******REMOVED***
 
-const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => ***REMOVED***
-  const filterableFields = props.filterableFields
-
+const GenericListing = <T extends object>(***REMOVED***
+  columns,
+  dataMapper,
+  exportedDataMapper,
+  filterableFields,
+  listingPath,
+  location,
+  pageSize: propPageSize,
+  presetComponent
+***REMOVED***: IProps<T>): JSX.Element => ***REMOVED***
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
   const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
   const [filterQuery, setFilterQuery] = React.useState<string>(
-    extractFilters(filterableFields, props.location.search)
+    extractFilters(filterableFields, location.search)
   )
   const fetchIdRef = React.useRef<number>(0)
 
-  const pageSize = props.pageSize || DEFAULT_PAGE_SIZE
+  const pageSize = propPageSize || DEFAULT_PAGE_SIZE
 
   React.useEffect(
-    () =>
-      setFilterQuery(extractFilters(filterableFields, props.location.search)),
-    [props.location.search, filterableFields]
+    () => setFilterQuery(extractFilters(filterableFields, location.search)),
+    [location.search, filterableFields]
   )
 
   // Called when the table needs new data
@@ -75,7 +81,7 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => ***R
 
       const sortByQuery = processSorts(sortBy)
 
-      const path = `$***REMOVED***props.listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***pageIndex +
+      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***pageIndex +
         1***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
 
       if (fetchId === fetchIdRef.current) ***REMOVED***
@@ -90,11 +96,10 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => ***R
 
             let newPageIndex = pageIndex
             if (newPageIndex > pageCount - 1) ***REMOVED***
-              // console.log('in here')
               newPageIndex = pageCount - 1
           ***REMOVED***
             setPageIndex(newPageIndex)
-            setData(props.dataMapper(responseJSON))
+            setData(dataMapper(responseJSON))
             setPageCount(pageCount)
             setRecordCount(recordCount)
             setLoading(false)
@@ -102,7 +107,7 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => ***R
         )
     ***REMOVED***
   ***REMOVED***
-    [filterQuery, props.listingPath, pageSize]
+    [filterQuery, listingPath, pageSize, dataMapper]
   )
 
   return (
@@ -110,10 +115,10 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => ***R
       <FilterPanel
         modelName="employees"
         filterableFields=***REMOVED***filterableFields***REMOVED***
-        presetComponent=***REMOVED***props.presetComponent***REMOVED***
+        presetComponent=***REMOVED***presetComponent***REMOVED***
       />
       <GenericTable
-        columns=***REMOVED***props.columns***REMOVED***
+        columns=***REMOVED***columns***REMOVED***
         data=***REMOVED***data***REMOVED***
         fetchData=***REMOVED***fetchData***REMOVED***
         loading=***REMOVED***loading***REMOVED***
@@ -125,8 +130,8 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => ***R
       <ExportData
         sortQuery=***REMOVED***''***REMOVED***
         filterQuery=***REMOVED***filterQuery***REMOVED***
-        listingPath=***REMOVED***props.listingPath***REMOVED***
-        setDownloadedDataCallback=***REMOVED***props.exportedDataMapper***REMOVED***
+        listingPath=***REMOVED***listingPath***REMOVED***
+        setDownloadedDataCallback=***REMOVED***exportedDataMapper***REMOVED***
       />
     </>
   )

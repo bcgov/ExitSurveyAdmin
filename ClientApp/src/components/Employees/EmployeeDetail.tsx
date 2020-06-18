@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React from 'react'
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** labelFor ***REMOVED*** from '../../helpers/labelHelper'
 import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
-
-import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import ContentWrapper from '../Wrappers/ContentWrapper'
-import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
-import Date from '../DisplayHelpers/FormattedDate'
-import Address from './Address'
-import EditableAddress from './EditableAddress'
-import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
-import TimelineEntryList from './TimelineEntryList'
-import AddComment from './AddComment'
-import EditableStringField from './EditableStringField'
-import EditableDropdown from './EditableSelect'
-import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
 import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
+
+import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
+import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
+import ***REMOVED*** labelFor ***REMOVED*** from '../../helpers/labelHelper'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
+import AddComment from './AddComment'
+import Address from './Address'
+import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
+import ContentWrapper from '../Wrappers/ContentWrapper'
+import Date from '../DisplayHelpers/FormattedDate'
+import EditableAddress from './EditableAddress'
+import EditableDropdown from './EditableSelect'
+import EditableStringField from './EditableStringField'
+import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
+import TimelineEntryList from './TimelineEntryList'
 
 interface IParams ***REMOVED***
   employeeId: string

@@ -1,7 +1,7 @@
 import React from 'react'
+import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 
 import './Home.scss'
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 
 class Home extends React.Component ***REMOVED***
   render(): JSX.Element ***REMOVED***

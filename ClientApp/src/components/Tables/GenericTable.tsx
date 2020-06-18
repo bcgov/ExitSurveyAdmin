@@ -5,10 +5,11 @@
 
 import React from 'react'
 import ***REMOVED*** Column, usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
+
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ColumnSortIndicator from './ColumnSortIndicator'
-import Pagination from './Pagination'
 import LoadingRow from './LoadingRow'
+import Pagination from './Pagination'
 
 interface IProps<T extends object> ***REMOVED***
   data: T[]
@@ -23,17 +24,17 @@ interface IProps<T extends object> ***REMOVED***
 
 const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REMOVED***
   const ***REMOVED***
+    columns: propColumns,
+    controlledPageCount,
+    controlledPageIndex,
     data,
     fetchData,
     loading,
-    controlledPageCount,
-    controlledPageIndex,
-    recordCount,
-    pageSize: propPageSize
+    pageSize: propPageSize,
+    recordCount
 ***REMOVED*** = props
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const columns = React.useMemo(props.columns, [])
+  const columns = React.useMemo(propColumns, [propColumns])
   const initialPageSize = propPageSize
 
   const ***REMOVED***
@@ -79,6 +80,8 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REM
     if (controlledPageIndex !== pageIndex) ***REMOVED***
       gotoPage(controlledPageIndex)
   ***REMOVED***
+    // Intentionally only looking at controlledPageIndex
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 ***REMOVED*** [controlledPageIndex])
 
   return (

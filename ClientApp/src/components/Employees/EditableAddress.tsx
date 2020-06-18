@@ -1,11 +1,12 @@
 import React from 'react'
 
-import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
-import './EditableField.scss'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import Address from './Address'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
+import Address from './Address'
+
+import './EditableField.scss'
 
 interface IProps ***REMOVED***
   employee: Employee

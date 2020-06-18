@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
-import IconButton from '../../DisplayHelpers/Interface/Buttons/IconButton'
+
 import ***REMOVED*** IFilter ***REMOVED*** from '../FilterClasses/FilterTypes'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
+import IconButton from '../../DisplayHelpers/Interface/Buttons/IconButton'
 
 interface IProps ***REMOVED***
   filter: IFilter
