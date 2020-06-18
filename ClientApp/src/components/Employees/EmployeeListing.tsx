@@ -5,14 +5,14 @@ import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import ExportData from '../DisplayHelpers/ExportData'
 import { RouteComponentProps, withRouter } from 'react-router'
-import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
-import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
+import FilterPanel from '../Filters/FilterPanel'
+import { MasterFilterHandler } from '../Filters/MasterFilterHandler'
 import { plainToClass } from 'class-transformer'
 import { ITableSort } from '../../types/ReactTable'
 import GenericTable from '../DisplayHelpers/GenericTable'
 import { employeeTableColumns } from './employeeTableColumns'
-import { employeeFilters } from '../DisplayHelpers/Filters/Presets/FieldSets/employeeFilters'
-import EmployeePresets from '../DisplayHelpers/Filters/Presets/EmployeePresets'
+import { employeeFilters } from '../Filters/Presets/FieldSets/employeeFilters'
+import EmployeePresets from '../Filters/Presets/EmployeePresets'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
