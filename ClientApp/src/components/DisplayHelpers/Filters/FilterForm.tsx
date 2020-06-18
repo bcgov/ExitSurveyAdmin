@@ -71,24 +71,55 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
     // Note: we only care about submitId here.
   }, [submitId])
 
-  const setLastNMonths = React.useCallback((): void => {
+  const setActiveUsers = React.useCallback((): void => {
+    dispatch({
+      type: 'setFilter',
+      filter: new EnumFilter('currentEmployeeStatusCode', [
+        'New',
+        'SnailMailSent'
+      ])
+    })
+    setSubmitId(submitId + 1)
+  }, [submitId])
+
+  const setPreviousMonth = React.useCallback((): void => {
+    const startDate = moment()
+      .subtract(1, 'month')
+      .date(1)
+    const endDate = moment(startDate).add(1, 'month')
     dispatch({
       type: 'setFilter',
       filter: new DateFilter(
         'effectiveDate',
-        moment()
-          .subtract(6, 'months')
-          .toDate(),
-        undefined
+        startDate.toDate(),
+        endDate.toDate()
       )
     })
     setSubmitId(submitId + 1)
   }, [submitId])
 
-  const setActiveUsers = React.useCallback((): void => {
+  const setPreviousFiscalYear = React.useCallback((): void => {
+    let startDate = moment()
+    const currentYearApril = moment()
+      .month('April')
+      .date(1)
+
+    if (startDate.isBefore(currentYearApril)) {
+      startDate = startDate.subtract(1, 'year')
+    }
+    startDate = startDate
+      .subtract(1, 'year')
+      .month('April')
+      .date(1)
+    const endDate = moment(startDate).add(1, 'year')
+
     dispatch({
       type: 'setFilter',
-      filter: new DateFilter('effectiveDate', undefined, new Date())
+      filter: new DateFilter(
+        'effectiveDate',
+        startDate.toDate(),
+        endDate.toDate()
+      )
     })
     setSubmitId(submitId + 1)
   }, [submitId])
@@ -141,15 +172,6 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
                 <strong>Predefined filters</strong>
               </p>
               <IconButton
-                label="Effective date in last 6 months"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick={setLastNMonths}
-              />
-              <IconButton
                 label="Active users"
                 iconName="check"
                 colorType="outline-primary"
@@ -157,6 +179,24 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
                 iconMarginClasses="mr-2"
                 buttonClasses="btn-sm"
                 onClick={setActiveUsers}
+              />
+              <IconButton
+                label="Previous month"
+                iconName="check"
+                colorType="outline-primary"
+                marginClasses="mr-2"
+                iconMarginClasses="mr-2"
+                buttonClasses="btn-sm"
+                onClick={setPreviousMonth}
+              />
+              <IconButton
+                label="Previous fiscal year"
+                iconName="check"
+                colorType="outline-primary"
+                marginClasses="mr-2"
+                iconMarginClasses="mr-2"
+                buttonClasses="btn-sm"
+                onClick={setPreviousFiscalYear}
               />
             </div>
 
