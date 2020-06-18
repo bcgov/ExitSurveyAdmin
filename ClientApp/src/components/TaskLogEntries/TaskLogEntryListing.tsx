@@ -12,6 +12,8 @@ import { TaskLogEntry } from '../../types/TaskLogEntry'
 import GenericTable from '../DisplayHelpers/GenericTable'
 import { taskLogEntryTableColumns } from './taskLogEntryTableColumns'
 import { MasterFilterHandler } from '../DisplayHelpers/Filters/MasterFilterHandler'
+import { taskLogEntryFilters } from '../DisplayHelpers/Filters/Presets/FieldSets/taskLogEntryFilters'
+import FilterPanel from '../DisplayHelpers/Filters/FilterPanel'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
@@ -27,7 +29,10 @@ const processSorts = (sortBy: ITableSort[]): string => {
 const PAGE_SIZE = 5
 
 const extractFilters = (propLocationSearch: string): string =>
-  MasterFilterHandler.extractFromRawQueryString(propLocationSearch)
+  MasterFilterHandler.extractFromRawQueryString(
+    taskLogEntryFilters,
+    propLocationSearch
+  )
 
 interface IProps extends RouteComponentProps {}
 
@@ -65,7 +70,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
     const path = `taskLogEntries?page=${pageIndex +
       1}${sortingQuery}&pageSize=${PAGE_SIZE}`
 
-    console.log('fetchId', fetchId)
+    // console.log('fetchId', fetchId)
 
     if (fetchId === fetchIdRef.current) {
       requestJSONWithErrorHandler(
@@ -94,7 +99,10 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
 
   return (
     <>
-      <h1>Task log entries</h1>
+      <FilterPanel
+        modelName="task log entries"
+        filterableFields={taskLogEntryFilters}
+      />
       <GenericTable
         columns={taskLogEntryTableColumns}
         data={data}
