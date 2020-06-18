@@ -1,11 +1,6 @@
 import React from 'react'
+
 import { EmployeeTimelineEntry } from '../../types/EmployeeTimelineEntry'
-// import LabelledText from '../DisplayHelpers/LabelledText'
-import moment from 'moment'
-import {
-  defaultDatetimeFormat,
-  defaultNiceDatetimeFormat
-} from '../../helpers/dateHelper'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 
 interface IProps {
@@ -29,8 +24,6 @@ class TimelineEntry extends React.Component<IProps> {
             </span>
             <br />
             <span className="text-muted">Action</span> {tl.employeeActionCode}
-            {/* &nbsp;•&nbsp; */}
-            {/* <span className="text-muted">Status</span> {tl.employeeStatusCode} */}
             {tl.adminUserName && (
               <>
                 &nbsp;•&nbsp;

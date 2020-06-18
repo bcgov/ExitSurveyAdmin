@@ -1,10 +1,10 @@
 import React from 'react'
+import { plainToClass } from 'class-transformer'
 
 import { Employee } from '../../types/Employee'
-import { FixTypeLater } from '../../types/FixTypeLater'
-import { plainToClass } from 'class-transformer'
-import { employeeTableColumns } from './employeeTableColumns'
 import { employeeFilters } from '../Filters/Presets/FieldSets/employeeFilters'
+import { employeeTableColumns } from './employeeTableColumns'
+import { FixTypeLater } from '../../types/FixTypeLater'
 import EmployeePresets from '../Filters/Presets/EmployeePresets'
 import GenericListing from '../Listings/GenericListing'
 

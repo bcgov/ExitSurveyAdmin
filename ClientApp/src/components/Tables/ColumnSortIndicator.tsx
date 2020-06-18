@@ -1,4 +1,5 @@
 import React from 'react'
+import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
 
 export interface IColumn {
   isSorted?: boolean
@@ -12,7 +13,17 @@ interface IProps {
 const ColumnSortIndicator = (props: IProps): JSX.Element => {
   const { column } = props
   return (
-    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+    <span>
+      {column.isSorted ? (
+        column.isSortedDesc ? (
+          <FAIcon name="caret-up" marginClasses="ml-1" />
+        ) : (
+          <FAIcon name="caret-down" marginClasses="ml-1" />
+        )
+      ) : (
+        ''
+      )}
+    </span>
   )
 }
 

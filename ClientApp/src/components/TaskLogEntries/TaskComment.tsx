@@ -1,12 +1,13 @@
 import React from 'react'
+
 import Button from '../DisplayHelpers/Interface/Buttons/Button'
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
+
+const LONG_COMMENT_LENGTH = 500
 
 interface IProps {
   comment: string
 }
-
-const LONG_COMMENT_LENGTH = 500
 
 const TaskComment = ({ comment }: IProps): JSX.Element => {
   const commentLength = comment.length

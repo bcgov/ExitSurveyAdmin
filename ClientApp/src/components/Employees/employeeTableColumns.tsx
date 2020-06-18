@@ -1,11 +1,12 @@
 import React from 'react'
-import { Employee } from '../../types/Employee'
 import { CellProps, Column } from 'react-table'
 import { Link } from 'react-router-dom'
-import FormattedDate from '../DisplayHelpers/FormattedDate'
+
 import { dateOrUndefined } from '../../helpers/dateHelper'
-import { Reason } from '../../types/Reason'
+import { Employee } from '../../types/Employee'
 import { EmployeeStatus } from '../../types/EmployeeStatus'
+import { Reason } from '../../types/Reason'
+import FormattedDate from '../DisplayHelpers/FormattedDate'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>

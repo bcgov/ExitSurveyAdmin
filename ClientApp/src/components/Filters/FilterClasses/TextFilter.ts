@@ -1,5 +1,4 @@
 import { FilterType, IFilter } from './FilterTypes'
-// import { FixTypeLater } from '../../../types/FixTypeLater'
 
 const OR_OPERATOR = '|'
 

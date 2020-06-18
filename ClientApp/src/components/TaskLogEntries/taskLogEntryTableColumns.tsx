@@ -1,10 +1,11 @@
 import React from 'react'
 import { CellProps, Column } from 'react-table'
-import FormattedDate from '../DisplayHelpers/FormattedDate'
+
 import { dateOrUndefined } from '../../helpers/dateHelper'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
-import TaskOutcome from './TaskOutcome'
+import FormattedDate from '../DisplayHelpers/FormattedDate'
 import TaskComment from './TaskComment'
+import TaskOutcome from './TaskOutcome'
 
 type TaskLogEntryCellProps = React.PropsWithChildren<
   CellProps<TaskLogEntry, string | undefined>

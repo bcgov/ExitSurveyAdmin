@@ -1,8 +1,9 @@
 import React from 'react'
-import SetActiveUsers from './Buttons/SetActiveUsers'
-import SetPreviousMonth from './Buttons/SetPreviousMonth'
-import SetPreviousFiscalYear from './Buttons/SetPreviousFiscalYear'
+
 import { IPresetProps } from './IPresetProps'
+import SetActiveUsers from './Buttons/SetActiveUsers'
+import SetPreviousFiscalYear from './Buttons/SetPreviousFiscalYear'
+import SetPreviousMonth from './Buttons/SetPreviousMonth'
 
 const EmployeePresets = ({
   submitId,

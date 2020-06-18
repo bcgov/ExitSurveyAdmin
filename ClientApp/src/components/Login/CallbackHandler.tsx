@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 import React, { Dispatch } from 'react'
 import { AnyAction } from 'redux'
-import { connect } from 'react-redux'
 import { CallbackComponent } from 'redux-oidc'
-import userManager from '../../store/utils/userManager'
+import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+
 import { deploymentUrl } from '../../helpers/envHelper'
 import { FixTypeLater } from '../../types/FixTypeLater'
+import userManager from '../../store/utils/userManager'
 
 interface IDispatchProps {
   dispatch: Dispatch<AnyAction>

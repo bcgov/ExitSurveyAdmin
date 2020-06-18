@@ -1,5 +1,6 @@
-import { IFilter } from './FilterClasses/FilterTypes'
 import * as qs from 'query-string'
+
+import { IFilter } from './FilterClasses/FilterTypes'
 
 export class MasterFilterHandler {
   /** Maps the filters array produced by the react-table to a string that can be

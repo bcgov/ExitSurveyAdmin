@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import AuthWrapper from './AuthWrapper'
+
 import { FixTypeLater } from '../../types/FixTypeLater'
+import AuthWrapper from './AuthWrapper'
 
 const AuthenticatedRoute = ({
   component: Component,

@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Unauthorized from '../Login/Unauthorized'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { mapUserToPropsFromState } from '../../helpers/userHelper'
+import Unauthorized from '../Login/Unauthorized'
 
 interface IOwnProps {
   children: React.ReactNode

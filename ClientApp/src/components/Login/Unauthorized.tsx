@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react'
-import userManager from '../../store/utils/userManager'
+
 import { signinRedirectOptions } from '../../helpers/envHelper'
-
-interface IOwnProps {}
-
-interface IStateProps {}
-
-interface IDispatchProps {}
-
-interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
+import userManager from '../../store/utils/userManager'
 
 const Unauthorized = (): JSX.Element => {
   useEffect(() => {

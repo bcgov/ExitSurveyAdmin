@@ -1,4 +1,5 @@
 import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { IFilter } from '../Filters/FilterClasses/FilterTypes'
@@ -6,7 +7,6 @@ import { IPresetProps } from '../Filters/Presets/IPresetProps'
 import { ITableSort } from '../../types/ITableSort'
 import { MasterFilterHandler } from '../Filters/MasterFilterHandler'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import { RouteComponentProps, withRouter } from 'react-router'
 import ExportData from '../Tables/ExportData'
 import FilterPanel from '../Filters/FilterPanel'
 import GenericTable from '../Tables/GenericTable'
@@ -45,25 +45,31 @@ interface IProps<T extends object>
   extends RouteComponentProps,
     IGenericListingProps<T> {}
 
-const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => {
-  const filterableFields = props.filterableFields
-
+const GenericListing = <T extends object>({
+  columns,
+  dataMapper,
+  exportedDataMapper,
+  filterableFields,
+  listingPath,
+  location,
+  pageSize: propPageSize,
+  presetComponent
+}: IProps<T>): JSX.Element => {
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
   const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
   const [filterQuery, setFilterQuery] = React.useState<string>(
-    extractFilters(filterableFields, props.location.search)
+    extractFilters(filterableFields, location.search)
   )
   const fetchIdRef = React.useRef<number>(0)
 
-  const pageSize = props.pageSize || DEFAULT_PAGE_SIZE
+  const pageSize = propPageSize || DEFAULT_PAGE_SIZE
 
   React.useEffect(
-    () =>
-      setFilterQuery(extractFilters(filterableFields, props.location.search)),
-    [props.location.search, filterableFields]
+    () => setFilterQuery(extractFilters(filterableFields, location.search)),
+    [location.search, filterableFields]
   )
 
   // Called when the table needs new data
@@ -75,7 +81,7 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => {
 
       const sortByQuery = processSorts(sortBy)
 
-      const path = `${props.listingPath}?pageSize=${pageSize}&page=${pageIndex +
+      const path = `${listingPath}?pageSize=${pageSize}&page=${pageIndex +
         1}${sortByQuery}${filterQuery}`
 
       if (fetchId === fetchIdRef.current) {
@@ -90,11 +96,10 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => {
 
             let newPageIndex = pageIndex
             if (newPageIndex > pageCount - 1) {
-              // console.log('in here')
               newPageIndex = pageCount - 1
             }
             setPageIndex(newPageIndex)
-            setData(props.dataMapper(responseJSON))
+            setData(dataMapper(responseJSON))
             setPageCount(pageCount)
             setRecordCount(recordCount)
             setLoading(false)
@@ -102,7 +107,7 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => {
         )
       }
     },
-    [filterQuery, props.listingPath, pageSize]
+    [filterQuery, listingPath, pageSize, dataMapper]
   )
 
   return (
@@ -110,10 +115,10 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => {
       <FilterPanel
         modelName="employees"
         filterableFields={filterableFields}
-        presetComponent={props.presetComponent}
+        presetComponent={presetComponent}
       />
       <GenericTable
-        columns={props.columns}
+        columns={columns}
         data={data}
         fetchData={fetchData}
         loading={loading}
@@ -125,8 +130,8 @@ const GenericListing = <T extends object>(props: IProps<T>): JSX.Element => {
       <ExportData
         sortQuery={''}
         filterQuery={filterQuery}
-        listingPath={props.listingPath}
-        setDownloadedDataCallback={props.exportedDataMapper}
+        listingPath={listingPath}
+        setDownloadedDataCallback={exportedDataMapper}
       />
     </>
   )
