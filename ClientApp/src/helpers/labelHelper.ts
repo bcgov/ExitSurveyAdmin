@@ -52,7 +52,8 @@ const fieldLabels: { [key: string]: string } = {
   timelineEntries: '',
   createdTs: 'Created date',
   modifiedTs: 'Last modified date',
-  taskOutcomeCode: 'Status'
+  taskOutcomeCode: 'Status',
+  comment: 'Comment'
 }
 
 const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
