@@ -77,8 +77,23 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
 
   return (
     <>
-      <table className="table table-sm table-striped mt-3" {...getTableProps()}>
+      <Pagination
+        gotoPage={gotoPage}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        canNextPage={canNextPage}
+        canPreviousPage={canPreviousPage}
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+      />
+      <table className="table table-sm table-striped" {...getTableProps()}>
         <thead>
+          <LoadingRow
+            loading={loading}
+            pageIndex={pageIndex}
+            pageSize={pageSize}
+            recordCount={recordCount}
+          />
           {headerGroups.map((headerGroup: FixTypeLater) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column: FixTypeLater) => (
