@@ -1,6 +1,7 @@
 import { ISelectOption } from '../components/Employees/EditableSelect'
 import { EmployeeStatus } from '../types/EmployeeStatus'
 import { Reason } from '../types/Reason'
+import { TaskOutcome } from '../types/TaskOutcome'
 
 const fieldLabels: { [key: string]: string } = {
   id: 'Database ID',
@@ -50,12 +51,14 @@ const fieldLabels: { [key: string]: string } = {
   currentEmployeeStatusCode: 'Current status',
   timelineEntries: '',
   createdTs: 'Created date',
-  modifiedTs: 'Last modified date'
+  modifiedTs: 'Last modified date',
+  taskOutcomeCode: 'Status'
 }
 
 const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
   currentEmployeeStatusCode: EmployeeStatus.toOptions,
-  reason: Reason.toOptions
+  reason: Reason.toOptions,
+  taskOutcomeCode: TaskOutcome.toOptions
 }
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
