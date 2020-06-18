@@ -18,10 +18,8 @@ interface IProps<T extends object> {
   controlledPageCount: number
   controlledPageIndex: number
   recordCount: number
-  pageSize?: number
+  pageSize: number
 }
-
-const DEFAULT_PAGE_SIZE = 20
 
 const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
   const {
@@ -36,7 +34,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = React.useMemo(props.columns, [])
-  const initialPageSize = propPageSize || DEFAULT_PAGE_SIZE
+  const initialPageSize = propPageSize
 
   const {
     getTableProps,
