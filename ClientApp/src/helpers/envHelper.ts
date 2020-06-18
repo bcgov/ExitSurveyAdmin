@@ -12,10 +12,10 @@ export const deploymentUrl = (): string => {
 export const signinRedirectOptions = {
   data: {
     href: window.location.href
-  },
-  extraQueryParams: {
-    kc_idp_hint: 'idir'
   }
+  // extraQueryParams: {
+  //   kc_idp_hint: 'idir'
+  // }
 }
 
 export const userManagerConfig = {
@@ -24,7 +24,7 @@ export const userManagerConfig = {
   response_type: env('AUTH_RESPONSE_TYPE'),
   scope: env('AUTH_SCOPE'),
   authority: env('AUTH_URL'),
-  silent_redirect_uri: `${deploymentUrl()}silent_renew.html`,
+  // silent_redirect_uri: `${deploymentUrl()}silent_renew.html`,
   automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
   filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
   loadUserInfo: env('AUTH_LOAD_USER_INFO'),
