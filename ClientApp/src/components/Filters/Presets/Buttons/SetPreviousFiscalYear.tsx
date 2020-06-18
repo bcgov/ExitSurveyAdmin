@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import IconButton from '../../../Interface/Buttons/IconButton'
+import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 import { FilterDispatch } from '../../FilterForm'
-import { FixTypeLater } from '../../../../../types/FixTypeLater'
+import { FixTypeLater } from '../../../../types/FixTypeLater'
 import DateFilter from '../../FilterClasses/DateFilter'
 import moment from 'moment'
 
