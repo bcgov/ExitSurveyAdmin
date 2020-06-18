@@ -13,9 +13,9 @@ export const signinRedirectOptions = ***REMOVED***
   data: ***REMOVED***
     href: window.location.href
 ***REMOVED***
-  extraQueryParams: ***REMOVED***
-    kc_idp_hint: 'idir'
-***REMOVED***
+  // extraQueryParams: ***REMOVED***
+  //   kc_idp_hint: 'idir'
+  // ***REMOVED***
 ***REMOVED***
 
 export const userManagerConfig = ***REMOVED***
@@ -24,7 +24,7 @@ export const userManagerConfig = ***REMOVED***
   response_type: env('AUTH_RESPONSE_TYPE'),
   scope: env('AUTH_SCOPE'),
   authority: env('AUTH_URL'),
-  silent_redirect_uri: `$***REMOVED***deploymentUrl()***REMOVED***silent_renew.html`,
+  // silent_redirect_uri: `$***REMOVED***deploymentUrl()***REMOVED***silent_renew.html`,
   automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
   filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
   loadUserInfo: env('AUTH_LOAD_USER_INFO'),
