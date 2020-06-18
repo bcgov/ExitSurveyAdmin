@@ -4,7 +4,7 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { AnyJson } from '../../types/JsonType'
 import './EditableField.scss'
 import { Employee } from '../../types/Employee'
-import Address from '../DisplayHelpers/Address'
+import Address from './Address'
 import { userNameFromState } from '../../helpers/userHelper'
 
 interface IProps {

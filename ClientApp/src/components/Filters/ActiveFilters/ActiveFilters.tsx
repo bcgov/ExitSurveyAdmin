@@ -3,7 +3,7 @@ import React from 'react'
 import ActiveFilterButton from './ActiveFilterButton'
 
 import './ActiveFilters.scss'
-import { IFilter } from './FilterClasses/FilterTypes'
+import { IFilter } from '../FilterClasses/FilterTypes'
 
 interface IProps {
   filters: IFilter[]

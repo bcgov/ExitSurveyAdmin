@@ -78,12 +78,12 @@ export const requestJSONWithErrorHandler = async (
     }
     return json
   } else {
-    const responseObj = {
-      status: response.status,
-      statusText: response.statusText,
-      message: json ? json.msg : undefined
-    }
-    setError(store.dispatch, errorCode, responseObj)
+    // const responseObj = {
+    //   status: response.status,
+    //   statusText: response.statusText,
+    //   message: json ? json.msg : undefined
+    // }
+    setError(store.dispatch, errorCode)
     return null
   }
 }

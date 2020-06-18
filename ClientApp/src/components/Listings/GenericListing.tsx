@@ -7,9 +7,9 @@ import { ITableSort } from '../../types/ITableSort'
 import { MasterFilterHandler } from '../Filters/MasterFilterHandler'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { RouteComponentProps, withRouter } from 'react-router'
-import ExportData from '../DisplayHelpers/ExportData'
+import ExportData from '../Tables/ExportData'
 import FilterPanel from '../Filters/FilterPanel'
-import GenericTable from '../DisplayHelpers/GenericTable'
+import GenericTable from '../Tables/GenericTable'
 
 const DEFAULT_PAGE_SIZE = 20
 
