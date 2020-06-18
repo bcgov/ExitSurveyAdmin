@@ -16,6 +16,12 @@ const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
   if (index > -1) arr.splice(index, 1)
 }
 
+const removeIfRequired = (arr: IFilter[], candidate: IFilter): void => {
+  if (candidate.mustReplace) {
+    removeIfExists(arr, candidate)
+  }
+}
+
 const FilterPanel = (props: IProps): JSX.Element => {
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<IFilter[]>(() =>
@@ -27,10 +33,12 @@ const FilterPanel = (props: IProps): JSX.Element => {
       const filtersClone = [...filters]
 
       filtersToAdd.forEach(newFilter => {
-        // If a new filter exists in the existing array, remove it
-        removeIfExists(filtersClone, newFilter)
+        // If a new filter exists in the existing array, and this is a replace
+        // filter, remove it
+        removeIfRequired(filtersClone, newFilter)
         filtersClone.push(newFilter) // Then push the new filter
       })
+      console.log(filters)
       setFilters(filtersClone)
     },
     [filters]
