@@ -6,9 +6,9 @@
 import React from 'react'
 import ***REMOVED*** Column, usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
-import ColumnSortIndicator from '../DisplayHelpers/ColumnSortIndicator'
-import Pagination from '../DisplayHelpers/Pagination'
-import LoadingRow from '../DisplayHelpers/LoadingRow'
+import ColumnSortIndicator from './ColumnSortIndicator'
+import Pagination from './Pagination'
+import LoadingRow from './LoadingRow'
 
 interface IProps<T extends object> ***REMOVED***
   data: T[]

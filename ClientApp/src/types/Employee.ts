@@ -1,4 +1,4 @@
-import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../helpers/objectHelper'
+import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../helpers/dateHelper'
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from './EmployeeTimelineEntry'
 import ***REMOVED*** Reason, ReasonEnum ***REMOVED*** from './Reason'
 import ***REMOVED*** EmployeeStatus, EmployeeStatusEnum ***REMOVED*** from './EmployeeStatus'

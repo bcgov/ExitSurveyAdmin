@@ -1,4 +1,4 @@
-import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../helpers/objectHelper'
+import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../helpers/dateHelper'
 import ***REMOVED*** Transform ***REMOVED*** from 'class-transformer'
 
 export class TaskLogEntry ***REMOVED***

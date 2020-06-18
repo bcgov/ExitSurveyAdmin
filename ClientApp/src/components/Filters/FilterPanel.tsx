@@ -1,5 +1,5 @@
 import React from 'react'
-import ActiveFilters from './ActiveFilters'
+import ActiveFilters from './ActiveFilters/ActiveFilters'
 import FilterForm from './FilterForm'
 
 import './FilterPanel.scss'

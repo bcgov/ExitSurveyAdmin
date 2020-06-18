@@ -78,12 +78,12 @@ export const requestJSONWithErrorHandler = async (
   ***REMOVED***
     return json
 ***REMOVED*** else ***REMOVED***
-    const responseObj = ***REMOVED***
-      status: response.status,
-      statusText: response.statusText,
-      message: json ? json.msg : undefined
-  ***REMOVED***
-    setError(store.dispatch, errorCode, responseObj)
+    // const responseObj = ***REMOVED***
+    //   status: response.status,
+    //   statusText: response.statusText,
+    //   message: json ? json.msg : undefined
+    // ***REMOVED***
+    setError(store.dispatch, errorCode)
     return null
 ***REMOVED***
 ***REMOVED***

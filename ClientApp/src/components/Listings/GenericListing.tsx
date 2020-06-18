@@ -7,9 +7,9 @@ import ***REMOVED*** ITableSort ***REMOVED*** from '../../types/ITableSort'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from '../Filters/MasterFilterHandler'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
-import ExportData from '../DisplayHelpers/ExportData'
+import ExportData from '../Tables/ExportData'
 import FilterPanel from '../Filters/FilterPanel'
-import GenericTable from '../DisplayHelpers/GenericTable'
+import GenericTable from '../Tables/GenericTable'
 
 const DEFAULT_PAGE_SIZE = 20
 

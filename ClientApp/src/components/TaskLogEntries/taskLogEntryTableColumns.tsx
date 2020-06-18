@@ -1,10 +1,10 @@
 import React from 'react'
 import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
-import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/objectHelper'
+import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/dateHelper'
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
-import TaskOutcome from '../DisplayHelpers/TaskOutcome'
-import TaskComment from '../DisplayHelpers/TaskComment'
+import TaskOutcome from './TaskOutcome'
+import TaskComment from './TaskComment'
 
 type TaskLogEntryCellProps = React.PropsWithChildren<
   CellProps<TaskLogEntry, string | undefined>

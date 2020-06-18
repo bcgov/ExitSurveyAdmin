@@ -4,7 +4,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
 import './EditableField.scss'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import Address from '../DisplayHelpers/Address'
+import Address from './Address'
 import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
 
 interface IProps ***REMOVED***

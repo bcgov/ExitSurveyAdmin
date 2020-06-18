@@ -1,5 +1,5 @@
 import ***REMOVED*** Transform ***REMOVED*** from 'class-transformer'
-import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../helpers/objectHelper'
+import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../helpers/dateHelper'
 
 export class EmployeeTimelineEntry ***REMOVED***
   id?: string

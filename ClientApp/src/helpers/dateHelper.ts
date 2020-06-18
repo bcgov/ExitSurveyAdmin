@@ -1,5 +1,6 @@
 import moment from 'moment'
 
+import ***REMOVED*** NullableString ***REMOVED*** from '../types/NullableString'
 export type NullableDate = Date | null
 export const defaultDateFormat = 'YYYY-MM-DD'
 export const defaultNiceDateFormat = 'dddd, MMMM D, yyyy'
@@ -11,6 +12,15 @@ export const stringToDate = (str: string | undefined): Date | undefined => ***RE
   const candidateDate = moment(str)
   return candidateDate.isValid() ? candidateDate.toDate() : undefined
 ***REMOVED***
+
 export const dateToString = (date: Date | undefined): string => ***REMOVED***
   return date ? moment(date).format(defaultDateFormat) : ''
+***REMOVED***
+
+export function createDateAsUTCFromString(dateString: string): Date ***REMOVED***
+  return moment.utc(dateString).toDate()
+***REMOVED***
+
+export function dateOrUndefined(dateString: NullableString): Date | undefined ***REMOVED***
+  return dateString ? createDateAsUTCFromString(dateString) : undefined
 ***REMOVED***

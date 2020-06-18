@@ -1,6 +1,6 @@
 import React from 'react'
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
-import LabelledText from '../DisplayHelpers/LabelledText'
+import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
 
 const smallCodeWrapper = (content: string) => (
   <code>

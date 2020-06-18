@@ -1,14 +1,14 @@
 import React from 'react'
 import ***REMOVED*** Route ***REMOVED*** from 'react-router-dom'
-import Layout from './components/Wrappers/Layout'
-import Home from './components/Home'
-import CallbackHandler from './components/Login/CallbackHandler'
-import EmployeeDetail from './components/Employees/EmployeeDetail'
-import EmployeeListing from './components/Employees/EmployeeListing'
-import TaskLogEntryListing from './components/TaskLogEntries/TaskLogEntryListing'
-import AuthenticatedRoute from './components/Wrappers/AuthenticatedRoute'
+import Layout from './Wrappers/Layout'
+import Home from './Home'
+import CallbackHandler from './Login/CallbackHandler'
+import EmployeeDetail from './Employees/EmployeeDetail'
+import EmployeeListing from './Employees/EmployeeListing'
+import TaskLogEntryListing from './TaskLogEntries/TaskLogEntryListing'
+import AuthenticatedRoute from './Wrappers/AuthenticatedRoute'
 
-import './custom.css'
+import '../custom.css'
 
 export default class App extends React.Component ***REMOVED***
   static displayName = App.name

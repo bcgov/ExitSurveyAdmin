@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from './Interface/Buttons/Button'
-import FAIcon from './Interface/Icons/FAIcon'
+import Button from '../DisplayHelpers/Interface/Buttons/Button'
+import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
 
 interface IProps ***REMOVED***
   comment: string
