@@ -37,7 +37,7 @@ const EmployeeListing = (props: IProps): JSX.Element => {
   const [pageCount, setPageCount] = React.useState<number>(0)
   const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
-  const [sortQuery, setSortQuery] = React.useState<string>('')
+  // const [sortQuery, setSortQuery] = React.useState<string>('')
   const [filterQuery, setFilterQuery] = React.useState<string>(
     extractFilters(props.location.search)
   )
@@ -55,13 +55,14 @@ const EmployeeListing = (props: IProps): JSX.Element => {
       setLoading(true)
 
       // Get the sort and filter querystrings for the server call
-      setSortQuery(processSorts(sortBy))
+      // setSortQuery(processSorts(sortBy))
       // setFilterQuery(processFilters(filters))
+      const sortByQuery = processSorts(sortBy)
 
       // console.log(sortBy, sortQuery)
       // console.log(filters, filterQuery)
 
-      const path = `employees?page=${pageIndex + 1}${sortQuery}${filterQuery}`
+      const path = `employees?page=${pageIndex + 1}${sortByQuery}${filterQuery}`
 
       if (fetchId === fetchIdRef.current) {
         requestJSONWithErrorHandler(
@@ -87,7 +88,7 @@ const EmployeeListing = (props: IProps): JSX.Element => {
         )
       }
     },
-    [sortQuery, filterQuery]
+    [filterQuery]
   )
 
   return (
@@ -103,7 +104,7 @@ const EmployeeListing = (props: IProps): JSX.Element => {
         recordCount={recordCount}
       />
       <ExportData
-        sortQuery={sortQuery}
+        sortQuery={''}
         filterQuery={filterQuery}
         apiModelName="employees"
         setDownloadedDataCallback={(
