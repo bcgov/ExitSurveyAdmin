@@ -1,4 +1,4 @@
-import { IFilter, filterableFields } from './FilterClasses/FilterTypes'
+import { IFilter } from './FilterClasses/FilterTypes'
 import * as qs from 'query-string'
 
 export class MasterFilterHandler {
@@ -12,7 +12,10 @@ export class MasterFilterHandler {
       : ''
   }
 
-  static decodeFromQueryString = (queryString: string): IFilter[] => {
+  static decodeFromQueryString = (
+    filterableFields: IFilter[],
+    queryString: string
+  ): IFilter[] => {
     const rawFilters = qs.parse(queryString).filters
     if (!rawFilters) {
       return []
@@ -38,9 +41,12 @@ export class MasterFilterHandler {
     return filters
   }
 
-  static extractFromRawQueryString = (queryString: string): string => {
+  static extractFromRawQueryString = (
+    filterableFields: IFilter[],
+    queryString: string
+  ): string => {
     return MasterFilterHandler.encodeAll(
-      MasterFilterHandler.decodeFromQueryString(queryString)
+      MasterFilterHandler.decodeFromQueryString(filterableFields, queryString)
     )
   }
 }
