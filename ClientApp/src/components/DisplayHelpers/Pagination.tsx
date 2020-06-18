@@ -8,6 +8,7 @@ interface IProps {
   canPreviousPage: boolean
   canNextPage: boolean
   pageIndex: number
+  className?: string
 }
 
 const Pagination = (props: IProps): JSX.Element => {
@@ -21,7 +22,7 @@ const Pagination = (props: IProps): JSX.Element => {
     pageIndex
   } = props
   return (
-    <div className="row align-items-center pagination">
+    <div className={`row align-items-center pagination my-3`}>
       <div className="col">
         <button
           className="btn btn-primary mr-1"
