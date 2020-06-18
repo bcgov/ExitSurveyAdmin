@@ -77,8 +77,23 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REM
 
   return (
     <>
-      <table className="table table-sm table-striped mt-3" ***REMOVED***...getTableProps()***REMOVED***>
+      <Pagination
+        gotoPage=***REMOVED***gotoPage***REMOVED***
+        nextPage=***REMOVED***nextPage***REMOVED***
+        previousPage=***REMOVED***previousPage***REMOVED***
+        canNextPage=***REMOVED***canNextPage***REMOVED***
+        canPreviousPage=***REMOVED***canPreviousPage***REMOVED***
+        pageCount=***REMOVED***pageCount***REMOVED***
+        pageIndex=***REMOVED***pageIndex***REMOVED***
+      />
+      <table className="table table-sm table-striped" ***REMOVED***...getTableProps()***REMOVED***>
         <thead>
+          <LoadingRow
+            loading=***REMOVED***loading***REMOVED***
+            pageIndex=***REMOVED***pageIndex***REMOVED***
+            pageSize=***REMOVED***pageSize***REMOVED***
+            recordCount=***REMOVED***recordCount***REMOVED***
+          />
           ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => (
             <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>
               ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => (
