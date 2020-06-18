@@ -39,7 +39,10 @@ const TaskComment = ({ comment }: IProps): JSX.Element => {
               </>
             ) : (
               <>
-                <FAIcon name="plus" /> Show more
+                <FAIcon name="plus" /> Show more{' '}
+                <small className="text-muted">
+                  ({commentLength.toLocaleString()} chars total)
+                </small>
               </>
             )}
           </Button>
