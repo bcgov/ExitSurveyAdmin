@@ -16,6 +16,7 @@ interface IProps<T extends object> {
   fetchData: (options: FixTypeLater) => FixTypeLater
   loading: boolean
   controlledPageCount: number
+  controlledPageIndex: number
   recordCount: number
   pageSize?: number
 }
@@ -28,6 +29,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
     fetchData,
     loading,
     controlledPageCount,
+    controlledPageIndex,
     recordCount,
     pageSize: propPageSize
   } = props
@@ -74,6 +76,12 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
   React.useEffect(() => {
     fetchData({ pageIndex, sortBy })
   }, [fetchData, pageIndex, sortBy])
+
+  React.useEffect(() => {
+    if (controlledPageIndex !== pageIndex) {
+      gotoPage(controlledPageIndex)
+    }
+  }, [controlledPageIndex])
 
   return (
     <>

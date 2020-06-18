@@ -34,6 +34,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
   const [data, setData] = React.useState<TaskLogEntry[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
+  const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
   const [sortQuery, setSortQuery] = React.useState<string>('')
   const [filterQuery, setFilterQuery] = React.useState<string>('')
@@ -66,6 +67,13 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
             const pageCount = pagination.PageCount
             const recordCount = pagination.RecordCount
 
+            let newPageIndex = pageIndex
+            if (newPageIndex > pageCount - 1) {
+              // console.log('in here')
+              newPageIndex = pageCount - 1
+            }
+            setPageIndex(newPageIndex)
+
             setData(responseJSON.map(t => plainToClass(TaskLogEntry, t)))
             setPageCount(pageCount)
             setRecordCount(recordCount)
@@ -86,6 +94,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => {
         fetchData={fetchData}
         loading={loading}
         controlledPageCount={pageCount}
+        controlledPageIndex={pageIndex}
         recordCount={recordCount}
         pageSize={PAGE_SIZE}
       />
