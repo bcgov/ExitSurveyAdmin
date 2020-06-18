@@ -7,7 +7,7 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 interface IProps {
   sortQuery: string
   filterQuery: string
-  apiModelName: string
+  listingPath: string
   setDownloadedDataCallback: (responseJSON: FixTypeLater[]) => FixTypeLater[]
 }
 
@@ -17,7 +17,7 @@ const ExportData = (props: IProps): JSX.Element => {
   const {
     sortQuery,
     filterQuery,
-    apiModelName,
+    listingPath,
     setDownloadedDataCallback
   } = props
 
@@ -26,7 +26,7 @@ const ExportData = (props: IProps): JSX.Element => {
 
   const downloadData = React.useCallback((): void => {
     requestJSONWithErrorHandler(
-      `api/${apiModelName}?pageSize=${MAX_PAGE_SIZE}${sortQuery}${filterQuery}`,
+      `api/${listingPath}?pageSize=${MAX_PAGE_SIZE}${sortQuery}${filterQuery}`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
