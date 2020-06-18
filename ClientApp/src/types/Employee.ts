@@ -1,4 +1,4 @@
-import { dateOrUndefined } from '../helpers/objectHelper'
+import { dateOrUndefined } from '../helpers/dateHelper'
 import { EmployeeTimelineEntry } from './EmployeeTimelineEntry'
 import { Reason, ReasonEnum } from './Reason'
 import { EmployeeStatus, EmployeeStatusEnum } from './EmployeeStatus'

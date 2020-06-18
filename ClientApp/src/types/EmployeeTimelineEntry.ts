@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer'
-import { dateOrUndefined } from '../helpers/objectHelper'
+import { dateOrUndefined } from '../helpers/dateHelper'
 
 export class EmployeeTimelineEntry {
   id?: string

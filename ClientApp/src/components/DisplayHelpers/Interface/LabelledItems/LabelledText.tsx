@@ -1,19 +1,23 @@
 import React from 'react'
 
-import './LabelledItem.scss'
+import './LabelledText.scss'
 
 interface IProps {
-  title: string
-  text: React.ReactNode
+  children: React.ReactNode
+  helperText?: string
+  label: string
 }
 
-export default class LabelledText extends React.Component<IProps> {
-  public render(): JSX.Element {
-    return (
-      <div className="LabelledItem mb-3">
-        <label>{this.props.title}</label>
-        <div>{this.props.text}</div>
-      </div>
-    )
-  }
+const LabelledText = (props: IProps): JSX.Element => {
+  return (
+    <div className="LabelledText">
+      <span className="Label">{props.label}</span>
+      {props.helperText && (
+        <span className="HelperText">{props.helperText}</span>
+      )}
+      <span className="Text">{props.children}</span>
+    </div>
+  )
 }
+
+export default LabelledText
