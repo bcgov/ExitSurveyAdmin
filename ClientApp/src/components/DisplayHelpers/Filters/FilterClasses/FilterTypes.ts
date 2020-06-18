@@ -1,7 +1,3 @@
-import TextFilter from './TextFilter'
-import DateFilter from './DateFilter'
-import EnumFilter from './EnumFilter'
-
 export enum FilterType ***REMOVED***
   String = 'string',
   Date = 'date',
@@ -24,15 +20,3 @@ export interface ISort ***REMOVED***
   id: string
   desc: boolean
 ***REMOVED***
-
-export const filterableFields: IFilter[] = [
-  new TextFilter('telkey'),
-  new TextFilter('governmentEmployeeId'),
-  new TextFilter('firstName'),
-  new TextFilter('lastName'),
-  new TextFilter('governmentEmail'),
-  new TextFilter('classification'),
-  new DateFilter('effectiveDate'),
-  new EnumFilter('currentEmployeeStatusCode'),
-  new EnumFilter('reason')
-]

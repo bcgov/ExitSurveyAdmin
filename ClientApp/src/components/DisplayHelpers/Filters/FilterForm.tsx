@@ -2,22 +2,20 @@
 import React, ***REMOVED*** useMemo ***REMOVED*** from 'react'
 
 import IconButton from '../Interface/Buttons/IconButton'
-import ***REMOVED***
-  FilterType,
-  IFilter,
-  filterableFields
-***REMOVED*** from './FilterClasses/FilterTypes'
+import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterClasses/FilterTypes'
 import TextFilterInput from './Inputs/TextFilterInput'
 import DateFilterInput from './Inputs/DateFilterInput'
 import EnumFilterInput from './Inputs/EnumFilterInput'
-import moment from 'moment'
 import DateFilter from './FilterClasses/DateFilter'
 import EnumFilter from './FilterClasses/EnumFilter'
 import TextFilter from './FilterClasses/TextFilter'
+import ***REMOVED*** IPresetProps ***REMOVED*** from './Presets/IPresetProps'
 
 interface IProps ***REMOVED***
   addFilters: (filters: IFilter[]) => void
   resetFilters: () => void
+  filterableFields: IFilter[]
+  presetComponent?: React.FC<IPresetProps>
 ***REMOVED***
 
 export type FilterMapAction = ***REMOVED***
@@ -42,7 +40,12 @@ function reducer(state: FilterMap, action: FilterMapAction): FilterMap ***REMOVE
 
 export const FilterDispatch = React.createContext(***REMOVED******REMOVED***)
 
-const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const FilterForm = (***REMOVED***
+  addFilters,
+  resetFilters,
+  filterableFields,
+  presetComponent
+***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const [filterMap, dispatch] = React.useReducer(reducer, ***REMOVED******REMOVED***)
   const [resetTimestamp, setResetTimestamp] = React.useState<number>(0)
   const [submitId, setSubmitId] = React.useState<number>(0)
@@ -69,59 +72,6 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
     formRef.current!.reset()
     setResetTimestamp(Date.now())
     // Note: we only care about submitId here.
-***REMOVED*** [submitId])
-
-  const setActiveUsers = React.useCallback((): void => ***REMOVED***
-    dispatch(***REMOVED***
-      type: 'setFilter',
-      filter: new EnumFilter('currentEmployeeStatusCode', [
-        'New',
-        'SnailMailSent'
-      ])
-  ***REMOVED***)
-    setSubmitId(submitId + 1)
-***REMOVED*** [submitId])
-
-  const setPreviousMonth = React.useCallback((): void => ***REMOVED***
-    const startDate = moment()
-      .subtract(1, 'month')
-      .date(1)
-    const endDate = moment(startDate).add(1, 'month')
-    dispatch(***REMOVED***
-      type: 'setFilter',
-      filter: new DateFilter(
-        'effectiveDate',
-        startDate.toDate(),
-        endDate.toDate()
-      )
-  ***REMOVED***)
-    setSubmitId(submitId + 1)
-***REMOVED*** [submitId])
-
-  const setPreviousFiscalYear = React.useCallback((): void => ***REMOVED***
-    let startDate = moment()
-    const currentYearApril = moment()
-      .month('April')
-      .date(1)
-
-    if (startDate.isBefore(currentYearApril)) ***REMOVED***
-      startDate = startDate.subtract(1, 'year')
-  ***REMOVED***
-    startDate = startDate
-      .subtract(1, 'year')
-      .month('April')
-      .date(1)
-    const endDate = moment(startDate).add(1, 'year')
-
-    dispatch(***REMOVED***
-      type: 'setFilter',
-      filter: new DateFilter(
-        'effectiveDate',
-        startDate.toDate(),
-        endDate.toDate()
-      )
-  ***REMOVED***)
-    setSubmitId(submitId + 1)
 ***REMOVED*** [submitId])
 
   const inputs = useMemo(() => ***REMOVED***
@@ -161,6 +111,8 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
     )
 ***REMOVED*** [resetTimestamp])
 
+  const PresetComponent = presetComponent
+
   return (
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <div className="FilterForm">
@@ -168,40 +120,14 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
           <div className="row">***REMOVED***inputs***REMOVED***</div>
           <div className="row align-items-center">
             <div className="col-6 form-group">
-              <p className="mb-1">
-                <strong>Predefined filters</strong>
-              </p>
-              <IconButton
-                label="Active users"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick=***REMOVED***setActiveUsers***REMOVED***
-              />
-              <IconButton
-                label="Previous month"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick=***REMOVED***setPreviousMonth***REMOVED***
-              />
-              <IconButton
-                label="Previous fiscal year"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick=***REMOVED***setPreviousFiscalYear***REMOVED***
-              />
+              ***REMOVED***PresetComponent && (
+                <PresetComponent
+                  submitId=***REMOVED***submitId***REMOVED***
+                  setSubmitId=***REMOVED***setSubmitId***REMOVED***
+                />
+              )***REMOVED***
             </div>
-
             <div className="col-6 form-group LabelledItem">
-              ***REMOVED***/* <label>&nbsp;</label> */***REMOVED***
               <div className="text-right">
                 <IconButton
                   label="Set filters"
@@ -222,7 +148,6 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
             </div>
           </div>
         </form>
-        ***REMOVED***/* <hr className="mt-0" /> */***REMOVED***
       </div>
     </FilterDispatch.Provider>
   )

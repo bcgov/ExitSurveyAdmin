@@ -8,8 +8,13 @@ import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-r
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from './MasterFilterHandler'
 import ExpandPanel from './FilterPanelExpandButton'
 import HidePanel from './FilterPanelHideButton'
+import ***REMOVED*** IPresetProps ***REMOVED*** from './Presets/IPresetProps'
 
-interface IProps extends RouteComponentProps ***REMOVED******REMOVED***
+interface IProps extends RouteComponentProps ***REMOVED***
+  modelName: string
+  filterableFields: IFilter[]
+  presetComponent?: React.FC<IPresetProps>
+***REMOVED***
 
 const removeIfExists = (arr: IFilter[], candidate: IFilter): void => ***REMOVED***
   const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
@@ -25,7 +30,10 @@ const removeIfRequired = (arr: IFilter[], candidate: IFilter): void => ***REMOVE
 const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<IFilter[]>(() =>
-    MasterFilterHandler.decodeFromQueryString(props.location.search)
+    MasterFilterHandler.decodeFromQueryString(
+      props.filterableFields,
+      props.location.search
+    )
   )
 
   const addFilters = React.useCallback(
@@ -38,7 +46,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
         removeIfRequired(filtersClone, newFilter)
         filtersClone.push(newFilter) // Then push the new filter
     ***REMOVED***)
-      console.log(filters)
+      // console.log(filters)
       setFilters(filtersClone)
   ***REMOVED***
     [filters]
@@ -75,7 +83,7 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
           <div className="d-flex align-items-center">
             <div className="mr-3">
               <h2 className="mb-0">
-                <i className="fas fa-filter mr-2"></i>Filter employees
+                <i className="fas fa-filter mr-2"></i>Filter ***REMOVED***props.modelName***REMOVED***
               </h2>
             </div>
             <div>
@@ -96,7 +104,12 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
       ***REMOVED******REMOVED***
       >
         <div className="col py-3">
-          <FilterForm addFilters=***REMOVED***addFilters***REMOVED*** resetFilters=***REMOVED***resetFilters***REMOVED*** />
+          <FilterForm
+            filterableFields=***REMOVED***props.filterableFields***REMOVED***
+            addFilters=***REMOVED***addFilters***REMOVED***
+            resetFilters=***REMOVED***resetFilters***REMOVED***
+            presetComponent=***REMOVED***props.presetComponent***REMOVED***
+          />
         </div>
       </div>
     </div>
