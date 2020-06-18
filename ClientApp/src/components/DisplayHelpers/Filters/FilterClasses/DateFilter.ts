@@ -41,6 +41,10 @@ export default class DateFilter implements IFilter ***REMOVED***
     return !(this._from === undefined && this._to === undefined)
 ***REMOVED***
 
+  get mustReplace(): boolean ***REMOVED***
+    return true
+***REMOVED***
+
   encode(): string ***REMOVED***
     if (!this.isSet) ***REMOVED***
       console.warn(`DateFilter for $***REMOVED***this._fieldName***REMOVED***: from and to both undef.`)

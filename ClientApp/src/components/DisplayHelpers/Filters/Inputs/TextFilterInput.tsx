@@ -15,7 +15,7 @@ const TextFilterInput = (***REMOVED*** filter ***REMOVED***: IProps): JSX.Elemen
   const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => ***REMOVED***
       const clone = filter.clone()
-      clone.value = event.target.value
+      clone.values = [event.target.value]
       dispatch(***REMOVED*** type: 'setFilter', filter: clone ***REMOVED***)
   ***REMOVED***
     [filter, dispatch]

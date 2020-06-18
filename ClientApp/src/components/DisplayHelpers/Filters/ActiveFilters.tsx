@@ -23,7 +23,7 @@ const ActiveFilters = (props: IProps): JSX.Element => ***REMOVED***
     .filter(f => f.isSet)
     .map(f => (
       <ActiveFilterButton
-        key=***REMOVED***f.fieldName***REMOVED***
+        key=***REMOVED***`$***REMOVED***f.fieldName***REMOVED***$***REMOVED***Math.random()***REMOVED***`***REMOVED***
         filter=***REMOVED***f***REMOVED***
         removeFilter=***REMOVED***props.removeFilter***REMOVED***
       />

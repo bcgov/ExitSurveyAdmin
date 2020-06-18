@@ -17,6 +17,7 @@ export interface IFilter ***REMOVED***
   clone: () => ThisType<this>
   displayString: string
   isSet: boolean
+  mustReplace: boolean
 ***REMOVED***
 
 export interface ISort ***REMOVED***
