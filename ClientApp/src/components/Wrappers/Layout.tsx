@@ -1,4 +1,5 @@
 import React from 'react'
+
 import NavMenu from '../NavMenu'
 
 interface IProps {

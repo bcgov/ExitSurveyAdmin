@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
-import EnumFilter from '../../FilterClasses/EnumFilter'
-import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
+
 import { FilterDispatch } from '../../FilterForm'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
+import EnumFilter from '../../FilterClasses/EnumFilter'
+import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
 interface IProps {
   submitId: number

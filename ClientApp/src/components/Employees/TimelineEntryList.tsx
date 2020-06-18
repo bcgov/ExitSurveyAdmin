@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { EmployeeTimelineEntry } from '../../types/EmployeeTimelineEntry'
 import TimelineEntry from './TimelineEntry'
 

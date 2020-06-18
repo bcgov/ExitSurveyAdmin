@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { AnyJson } from '../../types/JsonType'
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { userNameFromState } from '../../helpers/userHelper'
 
 interface IProps {

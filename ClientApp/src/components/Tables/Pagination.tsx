@@ -1,5 +1,7 @@
 import React from 'react'
 
+import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
+
 interface IProps {
   gotoPage: (page: number) => void
   previousPage: () => void
@@ -13,45 +15,45 @@ interface IProps {
 
 const Pagination = (props: IProps): JSX.Element => {
   const {
+    canNextPage,
+    canPreviousPage,
     gotoPage,
-    previousPage,
     nextPage,
     pageCount,
-    canPreviousPage,
-    canNextPage,
-    pageIndex
+    pageIndex,
+    previousPage
   } = props
   return (
     <div className={`row align-items-center pagination my-3`}>
       <div className="col">
-        <button
-          className="btn btn-primary mr-1"
+        <IconButton
+          iconName="fast-backward"
+          buttonClasses={'btn-sm'}
           onClick={(): void => gotoPage(0)}
           disabled={!canPreviousPage}
-        >
-          {'<<'}
-        </button>{' '}
-        <button
-          className="btn btn-primary mr-1"
+          marginClasses={'mr-2'}
+        />
+        <IconButton
+          iconName="step-backward"
+          buttonClasses={'btn-sm'}
           onClick={(): void => previousPage()}
           disabled={!canPreviousPage}
-        >
-          {'<'}
-        </button>{' '}
-        <button
-          className="btn btn-primary mr-1"
+          marginClasses={'mr-2'}
+        />
+        <IconButton
+          iconName="step-forward"
+          buttonClasses={'btn-sm'}
           onClick={(): void => nextPage()}
           disabled={!canNextPage}
-        >
-          {'>'}
-        </button>{' '}
-        <button
-          className="btn btn-primary mr-1"
+          marginClasses={'mr-2'}
+        />
+        <IconButton
+          iconName="step-forward"
+          buttonClasses={'btn-sm'}
           onClick={(): void => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
-        >
-          {'>>'}
-        </button>
+          marginClasses={'mr-2'}
+        />
       </div>
       <div className="col text-center">
         <span>

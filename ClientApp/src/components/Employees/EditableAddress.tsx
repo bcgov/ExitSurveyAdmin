@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { AnyJson } from '../../types/JsonType'
-import './EditableField.scss'
 import { Employee } from '../../types/Employee'
-import Address from './Address'
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { userNameFromState } from '../../helpers/userHelper'
+import Address from './Address'
+
+import './EditableField.scss'
 
 interface IProps {
   employee: Employee

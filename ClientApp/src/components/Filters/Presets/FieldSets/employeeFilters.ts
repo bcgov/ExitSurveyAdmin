@@ -1,7 +1,7 @@
-import TextFilter from '../../FilterClasses/TextFilter'
+import { IFilter } from '../../FilterClasses/FilterTypes'
 import DateFilter from '../../FilterClasses/DateFilter'
 import EnumFilter from '../../FilterClasses/EnumFilter'
-import { IFilter } from '../../FilterClasses/FilterTypes'
+import TextFilter from '../../FilterClasses/TextFilter'
 
 export const employeeFilters: IFilter[] = [
   new TextFilter('telkey'),

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useMemo } from 'react'
 
-import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 import { FilterType, IFilter } from './FilterClasses/FilterTypes'
-import TextFilterInput from './Inputs/TextFilterInput'
-import DateFilterInput from './Inputs/DateFilterInput'
-import EnumFilterInput from './Inputs/EnumFilterInput'
-import DateFilter from './FilterClasses/DateFilter'
-import EnumFilter from './FilterClasses/EnumFilter'
-import TextFilter from './FilterClasses/TextFilter'
 import { IPresetProps } from './Presets/IPresetProps'
+import DateFilter from './FilterClasses/DateFilter'
+import DateFilterInput from './Inputs/DateFilterInput'
+import EnumFilter from './FilterClasses/EnumFilter'
+import EnumFilterInput from './Inputs/EnumFilterInput'
+import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
+import TextFilter from './FilterClasses/TextFilter'
+import TextFilterInput from './Inputs/TextFilterInput'
 
 interface IProps {
   addFilters: (filters: IFilter[]) => void
@@ -72,6 +72,7 @@ const FilterForm = ({
     formRef.current!.reset()
     setResetTimestamp(Date.now())
     // Note: we only care about submitId here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitId])
 
   const inputs = useMemo(() => {
@@ -109,7 +110,7 @@ const FilterForm = ({
         )
       }
     )
-  }, [resetTimestamp])
+  }, [resetTimestamp, filterableFields])
 
   const PresetComponent = presetComponent
 

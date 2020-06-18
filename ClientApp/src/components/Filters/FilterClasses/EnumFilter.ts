@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { FilterType, IFilter } from './FilterTypes'
 import { optionsFor } from '../../../helpers/labelHelper'
 
