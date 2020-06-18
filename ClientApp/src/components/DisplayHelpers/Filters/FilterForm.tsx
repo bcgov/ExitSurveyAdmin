@@ -2,22 +2,20 @@
 import React, { useMemo } from 'react'
 
 import IconButton from '../Interface/Buttons/IconButton'
-import {
-  FilterType,
-  IFilter,
-  filterableFields
-} from './FilterClasses/FilterTypes'
+import { FilterType, IFilter } from './FilterClasses/FilterTypes'
 import TextFilterInput from './Inputs/TextFilterInput'
 import DateFilterInput from './Inputs/DateFilterInput'
 import EnumFilterInput from './Inputs/EnumFilterInput'
-import moment from 'moment'
 import DateFilter from './FilterClasses/DateFilter'
 import EnumFilter from './FilterClasses/EnumFilter'
 import TextFilter from './FilterClasses/TextFilter'
+import { IPresetProps } from './Presets/IPresetProps'
 
 interface IProps {
   addFilters: (filters: IFilter[]) => void
   resetFilters: () => void
+  filterableFields: IFilter[]
+  presetComponent?: React.FC<IPresetProps>
 }
 
 export type FilterMapAction = {
@@ -42,7 +40,12 @@ function reducer(state: FilterMap, action: FilterMapAction): FilterMap {
 
 export const FilterDispatch = React.createContext({})
 
-const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
+const FilterForm = ({
+  addFilters,
+  resetFilters,
+  filterableFields,
+  presetComponent
+}: IProps): JSX.Element => {
   const [filterMap, dispatch] = React.useReducer(reducer, {})
   const [resetTimestamp, setResetTimestamp] = React.useState<number>(0)
   const [submitId, setSubmitId] = React.useState<number>(0)
@@ -69,59 +72,6 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
     formRef.current!.reset()
     setResetTimestamp(Date.now())
     // Note: we only care about submitId here.
-  }, [submitId])
-
-  const setActiveUsers = React.useCallback((): void => {
-    dispatch({
-      type: 'setFilter',
-      filter: new EnumFilter('currentEmployeeStatusCode', [
-        'New',
-        'SnailMailSent'
-      ])
-    })
-    setSubmitId(submitId + 1)
-  }, [submitId])
-
-  const setPreviousMonth = React.useCallback((): void => {
-    const startDate = moment()
-      .subtract(1, 'month')
-      .date(1)
-    const endDate = moment(startDate).add(1, 'month')
-    dispatch({
-      type: 'setFilter',
-      filter: new DateFilter(
-        'effectiveDate',
-        startDate.toDate(),
-        endDate.toDate()
-      )
-    })
-    setSubmitId(submitId + 1)
-  }, [submitId])
-
-  const setPreviousFiscalYear = React.useCallback((): void => {
-    let startDate = moment()
-    const currentYearApril = moment()
-      .month('April')
-      .date(1)
-
-    if (startDate.isBefore(currentYearApril)) {
-      startDate = startDate.subtract(1, 'year')
-    }
-    startDate = startDate
-      .subtract(1, 'year')
-      .month('April')
-      .date(1)
-    const endDate = moment(startDate).add(1, 'year')
-
-    dispatch({
-      type: 'setFilter',
-      filter: new DateFilter(
-        'effectiveDate',
-        startDate.toDate(),
-        endDate.toDate()
-      )
-    })
-    setSubmitId(submitId + 1)
   }, [submitId])
 
   const inputs = useMemo(() => {
@@ -161,6 +111,8 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
     )
   }, [resetTimestamp])
 
+  const PresetComponent = presetComponent
+
   return (
     <FilterDispatch.Provider value={dispatch}>
       <div className="FilterForm">
@@ -168,40 +120,14 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
           <div className="row">{inputs}</div>
           <div className="row align-items-center">
             <div className="col-6 form-group">
-              <p className="mb-1">
-                <strong>Predefined filters</strong>
-              </p>
-              <IconButton
-                label="Active users"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick={setActiveUsers}
-              />
-              <IconButton
-                label="Previous month"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick={setPreviousMonth}
-              />
-              <IconButton
-                label="Previous fiscal year"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick={setPreviousFiscalYear}
-              />
+              {PresetComponent && (
+                <PresetComponent
+                  submitId={submitId}
+                  setSubmitId={setSubmitId}
+                />
+              )}
             </div>
-
             <div className="col-6 form-group LabelledItem">
-              {/* <label>&nbsp;</label> */}
               <div className="text-right">
                 <IconButton
                   label="Set filters"
@@ -222,7 +148,6 @@ const FilterForm = ({ addFilters, resetFilters }: IProps): JSX.Element => {
             </div>
           </div>
         </form>
-        {/* <hr className="mt-0" /> */}
       </div>
     </FilterDispatch.Provider>
   )

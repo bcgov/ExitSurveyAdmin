@@ -8,8 +8,13 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { MasterFilterHandler } from './MasterFilterHandler'
 import ExpandPanel from './FilterPanelExpandButton'
 import HidePanel from './FilterPanelHideButton'
+import { IPresetProps } from './Presets/IPresetProps'
 
-interface IProps extends RouteComponentProps {}
+interface IProps extends RouteComponentProps {
+  modelName: string
+  filterableFields: IFilter[]
+  presetComponent?: React.FC<IPresetProps>
+}
 
 const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
   const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
@@ -25,7 +30,10 @@ const removeIfRequired = (arr: IFilter[], candidate: IFilter): void => {
 const FilterPanel = (props: IProps): JSX.Element => {
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<IFilter[]>(() =>
-    MasterFilterHandler.decodeFromQueryString(props.location.search)
+    MasterFilterHandler.decodeFromQueryString(
+      props.filterableFields,
+      props.location.search
+    )
   )
 
   const addFilters = React.useCallback(
@@ -38,7 +46,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
         removeIfRequired(filtersClone, newFilter)
         filtersClone.push(newFilter) // Then push the new filter
       })
-      console.log(filters)
+      // console.log(filters)
       setFilters(filtersClone)
     },
     [filters]
@@ -75,7 +83,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
           <div className="d-flex align-items-center">
             <div className="mr-3">
               <h2 className="mb-0">
-                <i className="fas fa-filter mr-2"></i>Filter employees
+                <i className="fas fa-filter mr-2"></i>Filter {props.modelName}
               </h2>
             </div>
             <div>
@@ -96,7 +104,12 @@ const FilterPanel = (props: IProps): JSX.Element => {
         }}
       >
         <div className="col py-3">
-          <FilterForm addFilters={addFilters} resetFilters={resetFilters} />
+          <FilterForm
+            filterableFields={props.filterableFields}
+            addFilters={addFilters}
+            resetFilters={resetFilters}
+            presetComponent={props.presetComponent}
+          />
         </div>
       </div>
     </div>

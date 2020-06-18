@@ -11,6 +11,8 @@ import { plainToClass } from 'class-transformer'
 import { ITableSort } from '../../types/ReactTable'
 import GenericTable from '../DisplayHelpers/GenericTable'
 import { employeeTableColumns } from './employeeTableColumns'
+import { employeeFilters } from '../DisplayHelpers/Filters/Presets/FieldSets/employeeFilters'
+import EmployeePresets from '../DisplayHelpers/Filters/Presets/EmployeePresets'
 
 /** Maps the sortBy array produced by the react-table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
@@ -24,7 +26,10 @@ const processSorts = (sortBy: ITableSort[]): string => {
 }
 
 const extractFilters = (propLocationSearch: string): string =>
-  MasterFilterHandler.extractFromRawQueryString(propLocationSearch)
+  MasterFilterHandler.extractFromRawQueryString(
+    employeeFilters,
+    propLocationSearch
+  )
 
 interface IProps extends RouteComponentProps {}
 
@@ -93,7 +98,11 @@ const EmployeeListing = (props: IProps): JSX.Element => {
 
   return (
     <>
-      <FilterPanel />
+      <FilterPanel
+        modelName="employees"
+        filterableFields={employeeFilters}
+        presetComponent={EmployeePresets}
+      />
       <GenericTable
         columns={employeeTableColumns}
         data={data}
