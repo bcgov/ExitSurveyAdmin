@@ -17,6 +17,7 @@ export interface IFilter {
   clone: () => ThisType<this>
   displayString: string
   isSet: boolean
+  mustReplace: boolean
 }
 
 export interface ISort {

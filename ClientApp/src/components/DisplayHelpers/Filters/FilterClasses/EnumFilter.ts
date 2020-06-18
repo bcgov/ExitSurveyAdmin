@@ -42,6 +42,10 @@ export default class EnumFilter implements IFilter {
     return this._enumKeys.length >= 1
   }
 
+  get mustReplace(): boolean {
+    return false
+  }
+
   encode(): string {
     if (!this.isSet) {
       console.warn(`EnumFilter for ${this._fieldName}: value is 0-length`)
@@ -50,14 +54,17 @@ export default class EnumFilter implements IFilter {
     return `${this._fieldName}@=${this._enumKeys.join(OR_OPERATOR)}`
   }
 
-  decode(input: string[]): EnumFilter {
-    // This takes multiple values, but will only use the first one.
-    const [fieldName, values] = input[0].split('@=')
-    if (!fieldName || !values) {
-      throw new Error(`EnumFilter: Could not parse input '${input}'`)
-    }
-
-    return new EnumFilter(fieldName, values.split(OR_OPERATOR))
+  decode(inputs: string[]): EnumFilter {
+    const values: string[] = []
+    const fieldName = inputs[0].split('@=')[0]
+    inputs.forEach(input => {
+      const valueString = input.split('@=')[1]
+      if (!fieldName || !values) {
+        throw new Error(`EnumFilter: Could not parse input '${input}'`)
+      }
+      valueString.split(OR_OPERATOR).forEach(v => values.push(v))
+    })
+    return new EnumFilter(fieldName, values)
   }
 
   clone(): EnumFilter {

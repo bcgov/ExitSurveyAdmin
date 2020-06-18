@@ -1,14 +1,16 @@
 import { FilterType, IFilter } from './FilterTypes'
 // import { FixTypeLater } from '../../../types/FixTypeLater'
 
+const OR_OPERATOR = '|'
+
 export default class TextFilter implements IFilter {
   _type = FilterType.String
   _fieldName: string
-  _value: string
+  _values: string[]
 
-  constructor(fieldName: string, value?: string) {
+  constructor(fieldName: string, values?: string[]) {
     this._fieldName = fieldName
-    this._value = value || ''
+    this._values = values || []
   }
 
   get type(): FilterType {
@@ -19,16 +21,20 @@ export default class TextFilter implements IFilter {
     return this._fieldName
   }
 
-  set value(newValue: string) {
-    this._value = newValue
+  set values(newValues: string[]) {
+    this._values = newValues
   }
 
   reset(): void {
-    this.value = ''
+    this._values = []
   }
 
   get isSet(): boolean {
-    return this._value.length >= 1
+    return this._values.length >= 1
+  }
+
+  get mustReplace(): boolean {
+    return false
   }
 
   encode(): string {
@@ -36,23 +42,27 @@ export default class TextFilter implements IFilter {
       console.warn(`TextFilter for ${this._fieldName}: value is 0-length`)
       return ''
     }
-    return `${this._fieldName}@=${this._value}`
+    return `${this._fieldName}@=${this._values.join(OR_OPERATOR)}`
   }
 
-  decode(input: string[]): TextFilter {
-    // This takes multiple values, but will only use the first one.
-    const [fieldName, value] = input[0].split('@=')
-    if (!fieldName || !value) {
-      throw new Error(`TextFilter: Could not parse input '${input}'`)
-    }
-    return new TextFilter(fieldName, value)
+  decode(inputs: string[]): TextFilter {
+    const values: string[] = []
+    const fieldName = inputs[0].split('@=')[0]
+    inputs.forEach(input => {
+      const valueString = input.split('@=')[1]
+      if (!fieldName || !valueString) {
+        throw new Error(`TextFilter: Could not parse input '${input}'`)
+      }
+      valueString.split(OR_OPERATOR).forEach(v => values.push(v))
+    })
+    return new TextFilter(fieldName, values)
   }
 
   clone(): TextFilter {
-    return new TextFilter(this._fieldName, this._value)
+    return new TextFilter(this._fieldName, this._values)
   }
 
   get displayString(): string {
-    return this._value
+    return this._values.join(' or ')
   }
 }
