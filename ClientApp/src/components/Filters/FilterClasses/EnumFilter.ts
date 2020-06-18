@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
-import ***REMOVED*** optionsFor ***REMOVED*** from '../../../../helpers/labelHelper'
+import ***REMOVED*** optionsFor ***REMOVED*** from '../../../helpers/labelHelper'
 
 const OR_OPERATOR = '|'
 

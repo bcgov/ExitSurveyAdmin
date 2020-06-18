@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, ***REMOVED*** useMemo ***REMOVED*** from 'react'
 
-import IconButton from '../Interface/Buttons/IconButton'
+import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterClasses/FilterTypes'
 import TextFilterInput from './Inputs/TextFilterInput'
 import DateFilterInput from './Inputs/DateFilterInput'

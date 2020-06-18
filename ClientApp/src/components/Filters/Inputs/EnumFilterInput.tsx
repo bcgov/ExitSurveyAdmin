@@ -2,11 +2,11 @@ import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 
 import CollectionSelect, ***REMOVED***
   INameValuePair
-***REMOVED*** from '../../Interface/Selects/CollectionSelect'
+***REMOVED*** from '../../DisplayHelpers/Interface/Selects/CollectionSelect'
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
 import EnumFilter from '../FilterClasses/EnumFilter'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
-import ***REMOVED*** labelFor, optionsFor ***REMOVED*** from '../../../../helpers/labelHelper'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'
+import ***REMOVED*** labelFor, optionsFor ***REMOVED*** from '../../../helpers/labelHelper'
 
 interface IProps ***REMOVED***
   filter: EnumFilter

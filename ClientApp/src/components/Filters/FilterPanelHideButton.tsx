@@ -1,5 +1,5 @@
 import React from 'react'
-import IconButton from '../Interface/Buttons/IconButton'
+import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
 interface IProps ***REMOVED***
   toggleExpanded: () => void
