@@ -71,24 +71,55 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
     // Note: we only care about submitId here.
 ***REMOVED*** [submitId])
 
-  const setLastNMonths = React.useCallback((): void => ***REMOVED***
+  const setActiveUsers = React.useCallback((): void => ***REMOVED***
+    dispatch(***REMOVED***
+      type: 'setFilter',
+      filter: new EnumFilter('currentEmployeeStatusCode', [
+        'New',
+        'SnailMailSent'
+      ])
+  ***REMOVED***)
+    setSubmitId(submitId + 1)
+***REMOVED*** [submitId])
+
+  const setPreviousMonth = React.useCallback((): void => ***REMOVED***
+    const startDate = moment()
+      .subtract(1, 'month')
+      .date(1)
+    const endDate = moment(startDate).add(1, 'month')
     dispatch(***REMOVED***
       type: 'setFilter',
       filter: new DateFilter(
         'effectiveDate',
-        moment()
-          .subtract(6, 'months')
-          .toDate(),
-        undefined
+        startDate.toDate(),
+        endDate.toDate()
       )
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [submitId])
 
-  const setActiveUsers = React.useCallback((): void => ***REMOVED***
+  const setPreviousFiscalYear = React.useCallback((): void => ***REMOVED***
+    let startDate = moment()
+    const currentYearApril = moment()
+      .month('April')
+      .date(1)
+
+    if (startDate.isBefore(currentYearApril)) ***REMOVED***
+      startDate = startDate.subtract(1, 'year')
+  ***REMOVED***
+    startDate = startDate
+      .subtract(1, 'year')
+      .month('April')
+      .date(1)
+    const endDate = moment(startDate).add(1, 'year')
+
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: new DateFilter('effectiveDate', undefined, new Date())
+      filter: new DateFilter(
+        'effectiveDate',
+        startDate.toDate(),
+        endDate.toDate()
+      )
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [submitId])
@@ -141,15 +172,6 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
                 <strong>Predefined filters</strong>
               </p>
               <IconButton
-                label="Effective date in last 6 months"
-                iconName="check"
-                colorType="outline-primary"
-                marginClasses="mr-2"
-                iconMarginClasses="mr-2"
-                buttonClasses="btn-sm"
-                onClick=***REMOVED***setLastNMonths***REMOVED***
-              />
-              <IconButton
                 label="Active users"
                 iconName="check"
                 colorType="outline-primary"
@@ -157,6 +179,24 @@ const FilterForm = (***REMOVED*** addFilters, resetFilters ***REMOVED***: IProps
                 iconMarginClasses="mr-2"
                 buttonClasses="btn-sm"
                 onClick=***REMOVED***setActiveUsers***REMOVED***
+              />
+              <IconButton
+                label="Previous month"
+                iconName="check"
+                colorType="outline-primary"
+                marginClasses="mr-2"
+                iconMarginClasses="mr-2"
+                buttonClasses="btn-sm"
+                onClick=***REMOVED***setPreviousMonth***REMOVED***
+              />
+              <IconButton
+                label="Previous fiscal year"
+                iconName="check"
+                colorType="outline-primary"
+                marginClasses="mr-2"
+                iconMarginClasses="mr-2"
+                buttonClasses="btn-sm"
+                onClick=***REMOVED***setPreviousFiscalYear***REMOVED***
               />
             </div>
 
