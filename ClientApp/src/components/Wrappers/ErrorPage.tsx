@@ -1,15 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
+import { FixTypeLater } from '../../types/FixTypeLater'
 import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
 
-const smallCodeWrapper = (content: string) => (
+const smallCodeWrapper = (content: string): JSX.Element => (
   <code>
     <small>{content}</small>
   </code>
 )
 
 interface IProps {
-  error?: any
+  error?: FixTypeLater
 }
 
 class ErrorPage extends React.Component<IProps> {
@@ -39,7 +41,7 @@ class ErrorPage extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: FixTypeLater): FixTypeLater => ({
   error: state.error
 })
 

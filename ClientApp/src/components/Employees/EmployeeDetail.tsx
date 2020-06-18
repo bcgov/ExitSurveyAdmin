@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React from 'react'
-import { Employee } from '../../types/Employee'
-import { labelFor } from '../../helpers/labelHelper'
 import { Link, RouteComponentProps } from 'react-router-dom'
-
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import ContentWrapper from '../Wrappers/ContentWrapper'
-import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
-import Date from '../DisplayHelpers/FormattedDate'
-import Address from './Address'
-import EditableAddress from './EditableAddress'
-import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
-import TimelineEntryList from './TimelineEntryList'
-import AddComment from './AddComment'
-import EditableStringField from './EditableStringField'
-import EditableDropdown from './EditableSelect'
-import { EmployeeStatus } from '../../types/EmployeeStatus'
 import { plainToClass } from 'class-transformer'
 import * as EmailValidator from 'email-validator'
+
+import { Employee } from '../../types/Employee'
+import { EmployeeStatus } from '../../types/EmployeeStatus'
+import { labelFor } from '../../helpers/labelHelper'
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
+import AddComment from './AddComment'
+import Address from './Address'
+import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
+import ContentWrapper from '../Wrappers/ContentWrapper'
+import Date from '../DisplayHelpers/FormattedDate'
+import EditableAddress from './EditableAddress'
+import EditableDropdown from './EditableSelect'
+import EditableStringField from './EditableStringField'
+import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
+import TimelineEntryList from './TimelineEntryList'
 
 interface IParams {
   employeeId: string

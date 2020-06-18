@@ -5,10 +5,11 @@
 
 import React from 'react'
 import { Column, usePagination, useSortBy, useTable } from 'react-table'
+
 import { FixTypeLater } from '../../types/FixTypeLater'
 import ColumnSortIndicator from './ColumnSortIndicator'
-import Pagination from './Pagination'
 import LoadingRow from './LoadingRow'
+import Pagination from './Pagination'
 
 interface IProps<T extends object> {
   data: T[]
@@ -23,17 +24,17 @@ interface IProps<T extends object> {
 
 const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
   const {
+    columns: propColumns,
+    controlledPageCount,
+    controlledPageIndex,
     data,
     fetchData,
     loading,
-    controlledPageCount,
-    controlledPageIndex,
-    recordCount,
-    pageSize: propPageSize
+    pageSize: propPageSize,
+    recordCount
   } = props
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const columns = React.useMemo(props.columns, [])
+  const columns = React.useMemo(propColumns, [propColumns])
   const initialPageSize = propPageSize
 
   const {
@@ -79,6 +80,8 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
     if (controlledPageIndex !== pageIndex) {
       gotoPage(controlledPageIndex)
     }
+    // Intentionally only looking at controlledPageIndex
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controlledPageIndex])
 
   return (

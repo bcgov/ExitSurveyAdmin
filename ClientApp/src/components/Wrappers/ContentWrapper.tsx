@@ -1,16 +1,16 @@
 import React from 'react'
-
-import ErrorPage from './ErrorPage'
-
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
+
+import { FixTypeLater } from '../../types/FixTypeLater'
+import ErrorPage from './ErrorPage'
 
 interface IOwnProps {
   children: JSX.Element | JSX.Element[]
 }
 
 interface IStateProps {
-  error: any
+  error: FixTypeLater
 }
 
 interface IDispatchProps {
@@ -35,9 +35,9 @@ class ContentWrapper extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: any): IStateProps => {
+const mapStateToProps = (state: FixTypeLater): IStateProps => {
   return {
-    error: state.error.error as any
+    error: state.error.error as FixTypeLater
   }
 }
 

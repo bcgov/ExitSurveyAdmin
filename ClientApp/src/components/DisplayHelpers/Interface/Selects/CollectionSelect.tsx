@@ -2,8 +2,9 @@ import React from 'react'
 import ReactSelect from 'react-select'
 import { ValueType } from 'react-select/src/types'
 
-import './CollectionSelect.scss'
+import { FixTypeLater } from '../../../../types/FixTypeLater'
 
+import './CollectionSelect.scss'
 import styles from '../../../../_common.module.scss'
 
 const { baseColor, focusShadowColor, focusBorderColor } = styles
@@ -53,7 +54,7 @@ export interface ICollectionSelect<T> {
 }
 
 const customReactSelectStyles = {
-  option: (provided: any, state: any): any => ({
+  option: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => ({
     ...provided,
     borderRadius: '0px',
     backgroundColor: state.isSelected
@@ -62,11 +63,11 @@ const customReactSelectStyles = {
       ? focusShadowColor
       : 'white'
   }),
-  menu: (provided: any, state: any): any => ({
+  menu: (provided: FixTypeLater): FixTypeLater => ({
     ...provided,
     borderRadius: '0px'
   }),
-  control: (provided: any, state: any): any => {
+  control: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => {
     const styles = {
       ...provided,
       boxShadow: 'none',

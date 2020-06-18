@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { AnyJson } from '../../types/JsonType'
-import './EditableField.scss'
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { userNameFromState } from '../../helpers/userHelper'
+
+import './EditableField.scss'
 
 interface IProps {
   employeeDatabaseId: string

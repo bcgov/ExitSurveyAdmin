@@ -1,14 +1,15 @@
 import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router'
+
+import { IFilter } from './FilterClasses/FilterTypes'
+import { IPresetProps } from './Presets/IPresetProps'
+import { MasterFilterHandler } from './MasterFilterHandler'
 import ActiveFilters from './ActiveFilters/ActiveFilters'
+import ExpandPanel from './FilterPanelExpandButton'
 import FilterForm from './FilterForm'
+import HidePanel from './FilterPanelHideButton'
 
 import './FilterPanel.scss'
-import { IFilter } from './FilterClasses/FilterTypes'
-import { RouteComponentProps, withRouter } from 'react-router'
-import { MasterFilterHandler } from './MasterFilterHandler'
-import ExpandPanel from './FilterPanelExpandButton'
-import HidePanel from './FilterPanelHideButton'
-import { IPresetProps } from './Presets/IPresetProps'
 
 interface IProps extends RouteComponentProps {
   modelName: string
@@ -46,7 +47,6 @@ const FilterPanel = (props: IProps): JSX.Element => {
         removeIfRequired(filtersClone, newFilter)
         filtersClone.push(newFilter) // Then push the new filter
       })
-      // console.log(filters)
       setFilters(filtersClone)
     },
     [filters]
