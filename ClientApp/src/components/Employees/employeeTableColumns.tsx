@@ -3,7 +3,7 @@ import { Employee } from '../../types/Employee'
 import { CellProps, Column } from 'react-table'
 import { Link } from 'react-router-dom'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
-import { dateOrUndefined } from '../../helpers/objectHelper'
+import { dateOrUndefined } from '../../helpers/dateHelper'
 import { Reason } from '../../types/Reason'
 import { EmployeeStatus } from '../../types/EmployeeStatus'
 

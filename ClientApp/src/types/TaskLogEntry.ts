@@ -1,4 +1,4 @@
-import { dateOrUndefined } from '../helpers/objectHelper'
+import { dateOrUndefined } from '../helpers/dateHelper'
 import { Transform } from 'class-transformer'
 
 export class TaskLogEntry {
