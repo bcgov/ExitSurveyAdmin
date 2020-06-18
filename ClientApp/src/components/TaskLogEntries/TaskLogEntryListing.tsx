@@ -34,6 +34,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
   const [data, setData] = React.useState<TaskLogEntry[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
+  const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [recordCount, setRecordCount] = React.useState<number>(0)
   const [sortQuery, setSortQuery] = React.useState<string>('')
   const [filterQuery, setFilterQuery] = React.useState<string>('')
@@ -66,6 +67,13 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
             const pageCount = pagination.PageCount
             const recordCount = pagination.RecordCount
 
+            let newPageIndex = pageIndex
+            if (newPageIndex > pageCount - 1) ***REMOVED***
+              // console.log('in here')
+              newPageIndex = pageCount - 1
+          ***REMOVED***
+            setPageIndex(newPageIndex)
+
             setData(responseJSON.map(t => plainToClass(TaskLogEntry, t)))
             setPageCount(pageCount)
             setRecordCount(recordCount)
@@ -86,6 +94,7 @@ const TaskLogEntryListing = (props: IProps): JSX.Element => ***REMOVED***
         fetchData=***REMOVED***fetchData***REMOVED***
         loading=***REMOVED***loading***REMOVED***
         controlledPageCount=***REMOVED***pageCount***REMOVED***
+        controlledPageIndex=***REMOVED***pageIndex***REMOVED***
         recordCount=***REMOVED***recordCount***REMOVED***
         pageSize=***REMOVED***PAGE_SIZE***REMOVED***
       />
