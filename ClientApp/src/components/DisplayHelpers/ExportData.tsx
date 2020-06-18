@@ -7,7 +7,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 interface IProps ***REMOVED***
   sortQuery: string
   filterQuery: string
-  apiModelName: string
+  listingPath: string
   setDownloadedDataCallback: (responseJSON: FixTypeLater[]) => FixTypeLater[]
 ***REMOVED***
 
@@ -17,7 +17,7 @@ const ExportData = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED***
     sortQuery,
     filterQuery,
-    apiModelName,
+    listingPath,
     setDownloadedDataCallback
 ***REMOVED*** = props
 
@@ -26,7 +26,7 @@ const ExportData = (props: IProps): JSX.Element => ***REMOVED***
 
   const downloadData = React.useCallback((): void => ***REMOVED***
     requestJSONWithErrorHandler(
-      `api/$***REMOVED***apiModelName***REMOVED***?pageSize=$***REMOVED***MAX_PAGE_SIZE***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
+      `api/$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***MAX_PAGE_SIZE***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',

@@ -52,7 +52,8 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
   timelineEntries: '',
   createdTs: 'Created date',
   modifiedTs: 'Last modified date',
-  taskOutcomeCode: 'Status'
+  taskOutcomeCode: 'Status',
+  comment: 'Comment'
 ***REMOVED***
 
 const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMOVED*** = ***REMOVED***
