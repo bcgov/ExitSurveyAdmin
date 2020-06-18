@@ -1,6 +1,7 @@
 import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../types/EmployeeStatus'
 import ***REMOVED*** Reason ***REMOVED*** from '../types/Reason'
+import ***REMOVED*** TaskOutcome ***REMOVED*** from '../types/TaskOutcome'
 
 const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVED***
   id: 'Database ID',
@@ -50,12 +51,14 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
   currentEmployeeStatusCode: 'Current status',
   timelineEntries: '',
   createdTs: 'Created date',
-  modifiedTs: 'Last modified date'
+  modifiedTs: 'Last modified date',
+  taskOutcomeCode: 'Status'
 ***REMOVED***
 
 const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMOVED*** = ***REMOVED***
   currentEmployeeStatusCode: EmployeeStatus.toOptions,
-  reason: Reason.toOptions
+  reason: Reason.toOptions,
+  taskOutcomeCode: TaskOutcome.toOptions
 ***REMOVED***
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
