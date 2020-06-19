@@ -5,7 +5,7 @@ import { FixTypeLater } from '../../../../types/FixTypeLater'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
-export const getActiveUsersFilter = (): EnumFilter => {
+export const getActiveEmployeesFilter = (): EnumFilter => {
   return new EnumFilter('currentEmployeeStatusCode', ['New', 'SnailMailSent'])
 }
 
@@ -14,13 +14,13 @@ interface IProps {
   setSubmitId: (submitId: number) => void
 }
 
-const SetActiveUsers = ({ submitId, setSubmitId }: IProps): JSX.Element => {
+const SetActiveEmployees = ({ submitId, setSubmitId }: IProps): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-  const setActiveUsers = React.useCallback((): void => {
+  const setActiveEmployees = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getActiveUsersFilter()
+      filter: getActiveEmployeesFilter()
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])
@@ -28,16 +28,16 @@ const SetActiveUsers = ({ submitId, setSubmitId }: IProps): JSX.Element => {
   return (
     <FilterDispatch.Provider value={dispatch}>
       <IconButton
-        label="Active users"
-        iconName="check"
+        label="Active employees"
+        iconName="user-check"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"
         buttonClasses="btn-sm"
-        onClick={setActiveUsers}
+        onClick={setActiveEmployees}
       />
     </FilterDispatch.Provider>
   )
 }
 
-export default SetActiveUsers
+export default SetActiveEmployees

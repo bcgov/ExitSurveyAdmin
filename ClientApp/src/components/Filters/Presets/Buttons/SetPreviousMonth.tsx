@@ -34,7 +34,7 @@ const SetPreviousMonth = ({ submitId, setSubmitId }: IProps): JSX.Element => {
     <FilterDispatch.Provider value={dispatch}>
       <IconButton
         label="Previous month"
-        iconName="check"
+        iconName="calendar-minus"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"
