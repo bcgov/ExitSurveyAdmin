@@ -6,6 +6,14 @@ import { FixTypeLater } from '../../../../types/FixTypeLater'
 import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
+export const getPreviousMonthFilter = (): DateFilter => {
+  const startDate = moment()
+    .subtract(1, 'month')
+    .date(1)
+  const endDate = moment(startDate).add(1, 'month')
+  return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
+}
+
 interface IProps {
   submitId: number
   setSubmitId: (submitId: number) => void
@@ -15,17 +23,9 @@ const SetPreviousMonth = ({ submitId, setSubmitId }: IProps): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setPreviousMonth = React.useCallback((): void => {
-    const startDate = moment()
-      .subtract(1, 'month')
-      .date(1)
-    const endDate = moment(startDate).add(1, 'month')
     dispatch({
       type: 'setFilter',
-      filter: new DateFilter(
-        'effectiveDate',
-        startDate.toDate(),
-        endDate.toDate()
-      )
+      filter: getPreviousMonthFilter()
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])
@@ -33,7 +33,7 @@ const SetPreviousMonth = ({ submitId, setSubmitId }: IProps): JSX.Element => {
   return (
     <FilterDispatch.Provider value={dispatch}>
       <IconButton
-        label="Active users"
+        label="Previous month"
         iconName="check"
         colorType="outline-primary"
         marginClasses="mr-2"
