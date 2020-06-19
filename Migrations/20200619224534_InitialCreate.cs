@@ -107,7 +107,8 @@ namespace ExitSurveyAdmin.Migrations
                     ClassificationGroup = table.Column<string>(nullable: false),
                     ServiceGroup = table.Column<string>(nullable: false),
                     LocationGroup = table.Column<string>(nullable: false),
-                    CurrentEmployeeStatusCode = table.Column<string>(nullable: false)
+                    CurrentEmployeeStatusCode = table.Column<string>(nullable: false),
+                    TriedToUpdateInFinalState = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
