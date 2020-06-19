@@ -190,27 +190,17 @@ namespace ExitSurveyAdmin.Services
                     List<string> fieldsUpdatedList = new List<string>();
                     foreach (PropertyVariance pv in differentProperties)
                     {
-                        // Note: we don't log if the email address was set to
-                        // empty, because if it is empty, it will automatically
-                        // be reset when the user is saved.
-                        if (string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
-                            && string.IsNullOrWhiteSpace(pv.ValueB as string)
-                        )
-                        {
-                            continue;
-                        }
-
                         var newValue = pv.PropertyInfo.GetValue(employee);
                         pv.PropertyInfo.SetValue(existingEmployee, newValue);
                         fieldsUpdatedList
                             .Add($"{pv.PropertyInfo.Name}: `{pv.ValueA}` → `{pv.ValueB}`");
                     }
 
-                    // If there is > 1 field updated, update the object (note
-                    // that if just email was set to ``, we might have no
-                    // updated fields).
+                    // If there is > 1 field updated, update the object.
                     if (fieldsUpdatedList.Count > 0)
                     {
+
+
                         string fieldsUpdated = String.Join(", ", fieldsUpdatedList);
 
                         // Create a new timeline entry.
