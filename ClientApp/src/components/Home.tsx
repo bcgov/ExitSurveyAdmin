@@ -38,7 +38,7 @@ const Home = (): JSX.Element => {
 
   return (
     <div className="Centered row">
-      <div className="col-6 offset-3">
+      <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <h1 className="text-primary display-4 my-5">
           <i className="fas fa-envelope-open-text mr-4"></i>Exit Survey Admin
         </h1>
