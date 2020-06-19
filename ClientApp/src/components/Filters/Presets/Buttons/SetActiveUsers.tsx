@@ -5,6 +5,10 @@ import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeL
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
+export const getActiveUsersFilter = (): EnumFilter => ***REMOVED***
+  return new EnumFilter('currentEmployeeStatusCode', ['New', 'SnailMailSent'])
+***REMOVED***
+
 interface IProps ***REMOVED***
   submitId: number
   setSubmitId: (submitId: number) => void
@@ -16,10 +20,7 @@ const SetActiveUsers = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IProp
   const setActiveUsers = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: new EnumFilter('currentEmployeeStatusCode', [
-        'New',
-        'SnailMailSent'
-      ])
+      filter: getActiveUsersFilter()
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])

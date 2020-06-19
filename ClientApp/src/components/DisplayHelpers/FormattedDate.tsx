@@ -10,13 +10,18 @@ interface IProps ***REMOVED***
   showTime?: boolean
   showLocalTimezone?: boolean
   nice?: boolean
+  customFormat?: string
 ***REMOVED***
 
 const TIMEZONE = 'America/Vancouver'
 
-const FormattedDate = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED*** date, showTime, showLocalTimezone, nice ***REMOVED*** = props
-
+const FormattedDate = (***REMOVED***
+  customFormat,
+  date,
+  nice,
+  showLocalTimezone,
+  showTime
+***REMOVED***: IProps): JSX.Element => ***REMOVED***
   let momentDate = moment(date)
 
   if (showLocalTimezone) ***REMOVED***
@@ -25,7 +30,9 @@ const FormattedDate = (props: IProps): JSX.Element => ***REMOVED***
 
   let displayDate = ''
 
-  if (nice) ***REMOVED***
+  if (customFormat) ***REMOVED***
+    displayDate = momentDate.format(customFormat)
+***REMOVED*** else if (nice) ***REMOVED***
     displayDate = momentDate.fromNow()
 ***REMOVED*** else ***REMOVED***
     displayDate = showTime

@@ -6,6 +6,24 @@ import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeL
 import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
+export const getPreviousFiscalYearFilter = (): DateFilter => ***REMOVED***
+  let startDate = moment()
+  const currentYearApril = moment()
+    .month('April')
+    .date(1)
+
+  if (startDate.isBefore(currentYearApril)) ***REMOVED***
+    startDate = startDate.subtract(1, 'year')
+***REMOVED***
+  startDate = startDate
+    .subtract(1, 'year')
+    .month('April')
+    .date(1)
+  const endDate = moment(startDate).add(1, 'year')
+
+  return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
+***REMOVED***
+
 interface IProps ***REMOVED***
   submitId: number
   setSubmitId: (submitId: number) => void
@@ -18,27 +36,9 @@ const SetPreviousFiscalYear = (***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setPreviousFiscalYear = React.useCallback((): void => ***REMOVED***
-    let startDate = moment()
-    const currentYearApril = moment()
-      .month('April')
-      .date(1)
-
-    if (startDate.isBefore(currentYearApril)) ***REMOVED***
-      startDate = startDate.subtract(1, 'year')
-  ***REMOVED***
-    startDate = startDate
-      .subtract(1, 'year')
-      .month('April')
-      .date(1)
-    const endDate = moment(startDate).add(1, 'year')
-
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: new DateFilter(
-        'effectiveDate',
-        startDate.toDate(),
-        endDate.toDate()
-      )
+      filter: getPreviousFiscalYearFilter()
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])
