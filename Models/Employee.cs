@@ -29,7 +29,8 @@ namespace ExitSurveyAdmin.Models
                     d.PropertyInfo.Name != nameof(PreferredAddress2) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode)
+                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode) &&
+                    d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
                 );
         }
 
@@ -242,6 +243,12 @@ namespace ExitSurveyAdmin.Models
                         return "1";
                 }
             }
+        }
+
+        public Boolean IsActive()
+        {
+            return CurrentEmployeeStatus.State
+                .Equals(EmployeeStatusEnum.StateActive);
         }
     }
 }
