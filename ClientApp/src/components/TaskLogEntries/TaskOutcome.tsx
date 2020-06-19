@@ -12,7 +12,10 @@ const TaskOutcome = ({ taskOutcomeCode }: IProps): JSX.Element => {
       ? 'warning'
       : 'danger'
   return (
-    <span className={`btn btn-sm TaskOutcome btn-${color}`}>
+    <span
+      className={`btn btn-sm TaskOutcome btn-${color}`}
+      style={{ width: '100px' }}
+    >
       <strong>{taskOutcomeCode}</strong>
     </span>
   )
