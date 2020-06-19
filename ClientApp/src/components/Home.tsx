@@ -2,7 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { getActiveUsersFilter } from '../components/Filters/Presets/Buttons/SetActiveUsers'
+import { getActiveEmployeesFilter } from './Filters/Presets/Buttons/SetActiveEmployees'
 import { getPreviousMonthFilter } from '../components/Filters/Presets/Buttons/SetPreviousMonth'
 import { getPreviousFiscalYearFilter } from '../components/Filters/Presets/Buttons/SetPreviousFiscalYear'
 
@@ -46,12 +46,12 @@ const Home = (): JSX.Element => {
         <Link
           to={{
             pathname: '/employees',
-            search: `&filters=${getActiveUsersFilter().encode()}`
+            search: `&filters=${getActiveEmployeesFilter().encode()}`
           }}
         >
           <IconButton
-            label="Active users"
-            iconName="check"
+            label="Active employees"
+            iconName="user-check"
             colorType="outline-primary"
             marginClasses="mr-3"
             iconMarginClasses="mr-2"
@@ -65,7 +65,7 @@ const Home = (): JSX.Element => {
         >
           <IconButton
             label="Previous month"
-            iconName="check"
+            iconName="calendar-minus"
             colorType="outline-primary"
             marginClasses="mr-3"
             iconMarginClasses="mr-2"
@@ -79,7 +79,7 @@ const Home = (): JSX.Element => {
         >
           <IconButton
             label="Previous fiscal year"
-            iconName="check"
+            iconName="calendar-alt"
             colorType="outline-primary"
             marginClasses="mr-3"
             iconMarginClasses="mr-2"
