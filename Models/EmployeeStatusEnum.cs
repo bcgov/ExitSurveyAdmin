@@ -6,7 +6,7 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class EmployeeStatusEnum
     ***REMOVED***
-        private static readonly string CodeExiting = "CodeExiting";
+        private static readonly string CodeExiting = "Exiting";
         private static readonly string CodeSurveyComplete = "SurveyComplete";
         private static readonly string CodeSnailMailSent = "SnailMailSent";
         private static readonly string CodeNotExiting = "NotExiting";
