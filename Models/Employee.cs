@@ -192,6 +192,8 @@ namespace ExitSurveyAdmin.Models
 
         public virtual List<EmployeeTimelineEntry> TimelineEntries { get; set; }
 
+        public Boolean TriedToUpdateInFinalState { get; set; }
+
         public void UpdateEmail(
             EmployeeInfoLookupService infoLookupService,
             bool onlyIfNullOrWhitespace = false
@@ -211,7 +213,7 @@ namespace ExitSurveyAdmin.Models
                 .EmailByEmployeeId(GovernmentEmployeeId);
         }
 
-        public void InstantiatePreferredFields()
+        public void InstantiateFields()
         {
             PreferredFirstName = FirstName;
             PreferredEmail = GovernmentEmail;
@@ -220,6 +222,7 @@ namespace ExitSurveyAdmin.Models
             PreferredAddressCity = AddressCity;
             PreferredAddressProvince = AddressProvince;
             PreferredAddressPostCode = AddressPostCode;
+            TriedToUpdateInFinalState = false;
         }
 
         public string LeaveCode

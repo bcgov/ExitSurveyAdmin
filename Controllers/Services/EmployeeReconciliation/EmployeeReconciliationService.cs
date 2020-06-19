@@ -129,7 +129,7 @@ namespace ExitSurveyAdmin.Services
                 // Case A. The employee does not exist in the database.
 
                 // Set the status code for a new employee.
-                var newStatusCode = EmployeeStatusEnum.New.Code;
+                var newStatusCode = EmployeeStatusEnum.Exiting.Code;
                 employee.CurrentEmployeeStatusCode = newStatusCode;
 
                 // Set the email.
@@ -137,7 +137,7 @@ namespace ExitSurveyAdmin.Services
 
                 // Set other preferred fields. This only runs the first time
                 // the employee is created.
-                employee.InstantiatePreferredFields();
+                employee.InstantiateFields();
 
                 // Try to insert a row into CallWeb, and set the telkey.
                 try
