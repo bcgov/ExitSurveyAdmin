@@ -4,9 +4,13 @@ import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
+import ***REMOVED*** EmployeeStatusEnum ***REMOVED*** from '../../../../types/EmployeeStatus'
 
 export const getActiveEmployeesFilter = (): EnumFilter => ***REMOVED***
-  return new EnumFilter('currentEmployeeStatusCode', ['New', 'SnailMailSent'])
+  return new EnumFilter('currentEmployeeStatusCode', [
+    EmployeeStatusEnum.Exiting,
+    EmployeeStatusEnum.SnailMailSent
+  ])
 ***REMOVED***
 
 interface IProps ***REMOVED***
