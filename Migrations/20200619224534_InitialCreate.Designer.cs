@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 ***REMOVED***
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200615211651_InitialCreate")]
+    [Migration("20200619224534_InitialCreate")]
     partial class InitialCreate
     ***REMOVED***
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -199,6 +199,9 @@ namespace ExitSurveyAdmin.Migrations
 
                     b.Property<string>("Telkey")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TriedToUpdateInFinalState")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
