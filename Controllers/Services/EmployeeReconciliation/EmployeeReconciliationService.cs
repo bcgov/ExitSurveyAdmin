@@ -33,11 +33,13 @@ namespace ExitSurveyAdmin.Services
         )
         ***REMOVED***
             var query = context.Employees
+                .Include(e => e.CurrentEmployeeStatus)
                 .Where(e =>
                     e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
                     && e.ExitCount == candidate.ExitCount
                     && e.RecordCount == candidate.RecordCount
                 );
+
 
             if (query.Count() > 0)
             ***REMOVED***
@@ -190,32 +192,71 @@ namespace ExitSurveyAdmin.Services
                     List<string> fieldsUpdatedList = new List<string>();
                     foreach (PropertyVariance pv in differentProperties)
                     ***REMOVED***
+                        // Note: we don't log if the email address was set to
+                        // empty, because if it is empty, it will automatically
+                        // be reset when the user is saved.
+                        if (string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
+                            && string.IsNullOrWhiteSpace(pv.ValueB as string)
+                        )
+                        ***REMOVED***
+                            continue;
+                      ***REMOVED***
+
                         var newValue = pv.PropertyInfo.GetValue(employee);
-                        pv.PropertyInfo.SetValue(existingEmployee, newValue);
+                        if (existingEmployee.IsActive())
+                        ***REMOVED***
+                            // Only actually set the field if the employee is
+                            // active. Otherwise, we still want to log that the
+                            // field would have been updated, so we can report
+                            // on it (see below).
+                            pv.PropertyInfo.SetValue(existingEmployee, newValue);
+                      ***REMOVED***
                         fieldsUpdatedList
                             .Add($"***REMOVED***pv.PropertyInfo.Name***REMOVED***: `***REMOVED***pv.ValueA***REMOVED***` → `***REMOVED***pv.ValueB***REMOVED***`");
                   ***REMOVED***
 
-                    // If there is > 1 field updated, update the object.
+                    // If there is > 1 field updated, update the object (note
+                    // that if just email was set to ``, we might have no
+                    // updated fields).
                     if (fieldsUpdatedList.Count > 0)
                     ***REMOVED***
+                        var fieldsUpdated = String.Join(", ", fieldsUpdatedList);
+                        var comment = $"Fields updated by script: ***REMOVED***fieldsUpdated***REMOVED***.";
 
-
-                        string fieldsUpdated = String.Join(", ", fieldsUpdatedList);
-
-                        // Create a new timeline entry.
-                        context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                        // If the user is in a final state, log this as a
+                        // mistake instead.
+                        if (!existingEmployee.IsActive())
                         ***REMOVED***
-                            EmployeeId = existingEmployee.Id,
-                            EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                            EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                            Comment = $"Fields updated by script: ***REMOVED***fieldsUpdated***REMOVED***."
-                      ***REMOVED***);
+                            comment =
+                                $"These fields would have been updated, " +
+                                $"but they were not as this user is in a " +
+                                $"final state: ***REMOVED***fieldsUpdated***REMOVED***. The " +
+                                $"TriedToUpdateInFinalState flag was set. " +
+                                "No more updates of this kind will be logged.";
+
+                            existingEmployee.TriedToUpdateInFinalState = true;
+                      ***REMOVED***
 
                         // Save changes to employee and the new timeline entry.
-                        context.Entry(existingEmployee).State = EntityState.Modified;
+                        if (existingEmployee.IsActive() ||
+                            !existingEmployee.TriedToUpdateInFinalState)
+                        ***REMOVED***
+                            // Create a new timeline entry.
+                            context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                            ***REMOVED***
+                                EmployeeId = existingEmployee.Id,
+                                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                                Comment = comment
+                          ***REMOVED***);
 
-                        await context.SaveChangesAsync();
+                            context.Entry(existingEmployee).State = EntityState.Modified;
+                            await context.SaveChangesAsync();
+                      ***REMOVED***
+                        else
+                        ***REMOVED***
+                            return existingEmployee;
+                      ***REMOVED***
 
                         // Patch the row in CallWeb.
                         await callWeb.UpdateSurvey(existingEmployee);

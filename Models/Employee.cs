@@ -29,7 +29,8 @@ namespace ExitSurveyAdmin.Models
                     d.PropertyInfo.Name != nameof(PreferredAddress2) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode)
+                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode) &&
+                    d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
                 );
       ***REMOVED***
 
@@ -242,6 +243,12 @@ namespace ExitSurveyAdmin.Models
                         return "1";
               ***REMOVED***
           ***REMOVED***
+      ***REMOVED***
+
+        public Boolean IsActive()
+        ***REMOVED***
+            return CurrentEmployeeStatus.State
+                .Equals(EmployeeStatusEnum.StateActive);
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
