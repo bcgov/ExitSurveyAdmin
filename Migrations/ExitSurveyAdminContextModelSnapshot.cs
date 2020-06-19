@@ -198,6 +198,9 @@ namespace ExitSurveyAdmin.Migrations
                     b.Property<string>("Telkey")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("TriedToUpdateInFinalState")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentEmployeeStatusCode");
