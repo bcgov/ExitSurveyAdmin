@@ -5,7 +5,7 @@ import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeL
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
-export const getActiveUsersFilter = (): EnumFilter => ***REMOVED***
+export const getActiveEmployeesFilter = (): EnumFilter => ***REMOVED***
   return new EnumFilter('currentEmployeeStatusCode', ['New', 'SnailMailSent'])
 ***REMOVED***
 
@@ -14,13 +14,13 @@ interface IProps ***REMOVED***
   setSubmitId: (submitId: number) => void
 ***REMOVED***
 
-const SetActiveUsers = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-  const setActiveUsers = React.useCallback((): void => ***REMOVED***
+  const setActiveEmployees = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: getActiveUsersFilter()
+      filter: getActiveEmployeesFilter()
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])
@@ -28,16 +28,16 @@ const SetActiveUsers = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IProp
   return (
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <IconButton
-        label="Active users"
-        iconName="check"
+        label="Active employees"
+        iconName="user-check"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"
         buttonClasses="btn-sm"
-        onClick=***REMOVED***setActiveUsers***REMOVED***
+        onClick=***REMOVED***setActiveEmployees***REMOVED***
       />
     </FilterDispatch.Provider>
   )
 ***REMOVED***
 
-export default SetActiveUsers
+export default SetActiveEmployees

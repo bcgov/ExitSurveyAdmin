@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ***REMOVED*** IPresetProps ***REMOVED*** from './IPresetProps'
-import SetActiveUsers from './Buttons/SetActiveUsers'
+import SetActiveEmployees from './Buttons/SetActiveEmployees'
 import SetPreviousFiscalYear from './Buttons/SetPreviousFiscalYear'
 import SetPreviousMonth from './Buttons/SetPreviousMonth'
 
@@ -14,7 +14,7 @@ const EmployeePresets = (***REMOVED***
       <p className="mb-1">
         <strong>Predefined filters</strong>
       </p>
-      <SetActiveUsers submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
+      <SetActiveEmployees submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
       <SetPreviousMonth submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
       <SetPreviousFiscalYear submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
     </div>

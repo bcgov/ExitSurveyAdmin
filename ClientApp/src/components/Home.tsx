@@ -2,7 +2,7 @@
 import React from 'react'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 
-import ***REMOVED*** getActiveUsersFilter ***REMOVED*** from '../components/Filters/Presets/Buttons/SetActiveUsers'
+import ***REMOVED*** getActiveEmployeesFilter ***REMOVED*** from './Filters/Presets/Buttons/SetActiveEmployees'
 import ***REMOVED*** getPreviousMonthFilter ***REMOVED*** from '../components/Filters/Presets/Buttons/SetPreviousMonth'
 import ***REMOVED*** getPreviousFiscalYearFilter ***REMOVED*** from '../components/Filters/Presets/Buttons/SetPreviousFiscalYear'
 
@@ -46,12 +46,12 @@ const Home = (): JSX.Element => ***REMOVED***
         <Link
           to=***REMOVED******REMOVED***
             pathname: '/employees',
-            search: `&filters=$***REMOVED***getActiveUsersFilter().encode()***REMOVED***`
+            search: `&filters=$***REMOVED***getActiveEmployeesFilter().encode()***REMOVED***`
         ***REMOVED******REMOVED***
         >
           <IconButton
-            label="Active users"
-            iconName="check"
+            label="Active employees"
+            iconName="user-check"
             colorType="outline-primary"
             marginClasses="mr-3"
             iconMarginClasses="mr-2"
@@ -65,7 +65,7 @@ const Home = (): JSX.Element => ***REMOVED***
         >
           <IconButton
             label="Previous month"
-            iconName="check"
+            iconName="calendar-minus"
             colorType="outline-primary"
             marginClasses="mr-3"
             iconMarginClasses="mr-2"
@@ -79,7 +79,7 @@ const Home = (): JSX.Element => ***REMOVED***
         >
           <IconButton
             label="Previous fiscal year"
-            iconName="check"
+            iconName="calendar-alt"
             colorType="outline-primary"
             marginClasses="mr-3"
             iconMarginClasses="mr-2"

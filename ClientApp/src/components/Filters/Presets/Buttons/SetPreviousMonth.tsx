@@ -34,7 +34,7 @@ const SetPreviousMonth = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IPr
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <IconButton
         label="Previous month"
-        iconName="check"
+        iconName="calendar-minus"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"

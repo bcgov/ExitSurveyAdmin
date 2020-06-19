@@ -3,6 +3,7 @@ import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
+import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
 const MAX_PAGE_SIZE = 1000000
 
@@ -39,9 +40,13 @@ const ExportData = (***REMOVED***
 
   return (
     <div>
-      <button className="btn btn-primary mt-3" onClick=***REMOVED***downloadData***REMOVED***>
-        Export data
-      </button>
+      <IconButton
+        label="Export data"
+        iconName="file-export"
+        marginClasses="my-3"
+        iconMarginClasses="mr-2"
+        onClick=***REMOVED***downloadData***REMOVED***
+      />
       <CSVLink
         data=***REMOVED***downloadedData***REMOVED***
         filename="ExitSurveyAdminData.csv"

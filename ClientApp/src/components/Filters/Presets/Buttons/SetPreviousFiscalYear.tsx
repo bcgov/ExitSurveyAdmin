@@ -47,7 +47,7 @@ const SetPreviousFiscalYear = (***REMOVED***
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <IconButton
         label="Previous fiscal year"
-        iconName="check"
+        iconName="calendar-alt"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"
