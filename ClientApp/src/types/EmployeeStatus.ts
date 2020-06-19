@@ -3,10 +3,7 @@
 import { ISelectOption } from '../components/Employees/EditableSelect'
 
 export enum EmployeeStatusEnum {
-  New = 'New',
-  WelcomeEmailSent = 'WelcomeEmailSent',
-  Reminder1Sent = 'Reminder1Sent',
-  Reminder2Sent = 'Reminder2Sent',
+  Exiting = 'Exiting',
   SurveyComplete = 'SurveyComplete',
   SnailMailSent = 'SnailMailSent',
   NotExiting = 'NotExiting',
@@ -38,29 +35,11 @@ export class EmployeeStatus {
     this.description = description
   }
 
-  static NEW: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusEnum.New,
+  static EXITING: EmployeeStatus = new EmployeeStatus(
+    EmployeeStatusEnum.Exiting,
     EmployeeStatusStateEnum.Active,
-    'New',
-    'Newly-added. No email sent yet. Initial state for all employees.'
-  )
-  static WELCOME_EMAIL_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusEnum.WelcomeEmailSent,
-    EmployeeStatusStateEnum.Active,
-    'Welcome email sent',
-    'First email sent.'
-  )
-  static REMINDER_1_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusEnum.Reminder1Sent,
-    EmployeeStatusStateEnum.Active,
-    'Reminder 1 sent',
-    'First reminder sent.'
-  )
-  static REMINDER_2_SENT: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusEnum.Reminder2Sent,
-    EmployeeStatusStateEnum.Active,
-    'Reminder 2 sent',
-    'Second reminder sent.'
+    'Exiting',
+    'Employee is exiting.'
   )
   static SURVEY_COMPLETE: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.SurveyComplete,
@@ -100,10 +79,7 @@ export class EmployeeStatus {
   )
 
   static array = (): EmployeeStatus[] => [
-    EmployeeStatus.NEW,
-    EmployeeStatus.WELCOME_EMAIL_SENT,
-    EmployeeStatus.REMINDER_1_SENT,
-    EmployeeStatus.REMINDER_2_SENT,
+    EmployeeStatus.EXITING,
     EmployeeStatus.SURVEY_COMPLETE,
     EmployeeStatus.SNAIL_MAIL_SENT,
     EmployeeStatus.NOT_EXITING,
