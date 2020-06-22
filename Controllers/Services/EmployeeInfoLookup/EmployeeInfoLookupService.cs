@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
 
@@ -71,8 +72,10 @@ namespace ExitSurveyAdmin.Services
                     }
                 }
 
-                // Return null if we don't find a user with that employeeId.
-                return null;
+                // Throw an exception if we don't find a user with that employeeId.
+                throw new InvalidOperationException(
+                    $"User with id {employeeId} has no email address in LDAP."
+                );
             }
         }
     }
