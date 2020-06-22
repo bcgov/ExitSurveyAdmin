@@ -48,7 +48,7 @@ const Pagination = (props: IProps): JSX.Element => ***REMOVED***
           marginClasses=***REMOVED***'mr-2'***REMOVED***
         />
         <IconButton
-          iconName="step-forward"
+          iconName="fast-forward"
           buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => gotoPage(pageCount - 1)***REMOVED***
           disabled=***REMOVED***!canNextPage***REMOVED***
