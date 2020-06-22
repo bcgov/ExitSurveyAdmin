@@ -196,20 +196,9 @@ namespace ExitSurveyAdmin.Models
         public Boolean TriedToUpdateInFinalState ***REMOVED*** get; set; ***REMOVED***
 
         public void UpdateEmail(
-            EmployeeInfoLookupService infoLookupService,
-            bool onlyIfNullOrWhitespace = false
+            EmployeeInfoLookupService infoLookupService
         )
         ***REMOVED***
-            // If the onlyIfNullOrWhitespace flag is set, and the email is
-            // NOT null or whitespace, i.e. is set already, just return; the
-            // function is a no-op in this case.
-            if (onlyIfNullOrWhitespace &&
-                !string.IsNullOrWhiteSpace(GovernmentEmail))
-            ***REMOVED***
-                return;
-          ***REMOVED***
-
-            // Otherwise, set the email.
             GovernmentEmail = infoLookupService
                 .EmailByEmployeeId(GovernmentEmployeeId);
       ***REMOVED***

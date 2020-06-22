@@ -72,10 +72,8 @@ namespace ExitSurveyAdmin.Services
                   ***REMOVED***
               ***REMOVED***
 
-                // Throw an exception if we don't find a user with that employeeId.
-                throw new InvalidOperationException(
-                    $"User with id ***REMOVED***employeeId***REMOVED*** has no email address in LDAP."
-                );
+                // Return blank if we don't find an email for that employee.
+                return "";
           ***REMOVED***
       ***REMOVED***
   ***REMOVED***
