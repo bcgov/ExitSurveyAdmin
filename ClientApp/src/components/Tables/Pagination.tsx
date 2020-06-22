@@ -48,7 +48,7 @@ const Pagination = (props: IProps): JSX.Element => {
           marginClasses={'mr-2'}
         />
         <IconButton
-          iconName="step-forward"
+          iconName="fast-forward"
           buttonClasses={'btn-sm'}
           onClick={(): void => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
