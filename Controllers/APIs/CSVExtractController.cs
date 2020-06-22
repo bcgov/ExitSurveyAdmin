@@ -99,7 +99,7 @@ namespace ExitSurveyAdmin.Controllers
                     if (goodEmployees.Count != goodRecords.Count)
                     ***REMOVED***
                         message +=
-                            $"There were ***REMOVED***badEmployees.Count***REMOVED*** malformed employees: " +
+                            $"There were ***REMOVED***badEmployees.Count***REMOVED*** employees with errors: " +
                             $"Exceptions: ***REMOVED***string.Join(newLine, badEmployees)***REMOVED*** ";
                   ***REMOVED***
                     await logger.LogWarning(TaskEnum.ReconcileCsv, message);
