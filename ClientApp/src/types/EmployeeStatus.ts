@@ -7,7 +7,7 @@ export enum EmployeeStatusEnum {
   SurveyComplete = 'SurveyComplete',
   SnailMailSent = 'SnailMailSent',
   NotExiting = 'NotExiting',
-  IneligibleOther = 'IneligibleOther',
+  OutOfScope = 'OutOfScope',
   Declined = 'Declined',
   Expired = 'Expired'
 }
@@ -44,7 +44,7 @@ export class EmployeeStatus {
   static SURVEY_COMPLETE: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.SurveyComplete,
     EmployeeStatusStateEnum.Final,
-    'Survey complete',
+    'Survey: Complete',
     'Survey has been finished.'
   )
   static SNAIL_MAIL_SENT: EmployeeStatus = new EmployeeStatus(
@@ -60,21 +60,21 @@ export class EmployeeStatus {
     'This employee is not actually exiting.'
   )
   static INELIGIBLE_OTHER: EmployeeStatus = new EmployeeStatus(
-    EmployeeStatusEnum.IneligibleOther,
+    EmployeeStatusEnum.OutOfScope,
     EmployeeStatusStateEnum.Final,
-    'Ineligible (other)',
+    'Out of scope',
     'Other ineligibility reason.'
   )
   static DECLINED: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.Declined,
-    EmployeeStatusStateEnum.Final,
-    'Employee declined',
+    EmployeeStatusStateEnum.Active,
+    'Survey: Do not remind / declined',
     'The employee has asked not to complete the survey.'
   )
   static EXPIRED: EmployeeStatus = new EmployeeStatus(
     EmployeeStatusEnum.Expired,
     EmployeeStatusStateEnum.Final,
-    'Expired',
+    'Survey: Expired',
     "The employee's effective date has passed without completing the survey."
   )
 
@@ -98,9 +98,11 @@ export class EmployeeStatus {
   }
 
   static toOptions = (): ISelectOption[] => {
-    return EmployeeStatus.array().map(status => ({
-      name: status.displayName,
-      value: status.code
-    }))
+    return EmployeeStatus.array()
+      .map(status => ({
+        name: status.displayName,
+        value: status.code
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name))
   }
 }
