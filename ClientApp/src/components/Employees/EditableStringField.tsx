@@ -5,6 +5,7 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { userNameFromState } from '../../helpers/userHelper'
 
 import './EditableField.scss'
+import SuccessMessage from './SuccessMessage'
 
 interface IProps {
   employeeDatabaseId: string
@@ -15,17 +16,24 @@ interface IProps {
 }
 
 const EditableStringField = (props: IProps): JSX.Element => {
-  const { employeeDatabaseId, fieldName, fieldValue, validator } = props
+  const {
+    employeeDatabaseId,
+    fieldName,
+    fieldValue,
+    validator,
+    refreshDataCallback
+  } = props
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [isValid, setIsValid] = React.useState(true)
+  const [successTime, setSuccessTime] = React.useState(0)
 
-  const toggleEditable = (): void => {
+  const toggleEditable = React.useCallback((): void => {
     setIsEditable(!isEditable)
-  }
+  }, [isEditable])
 
   // Select the field when it becomes editable
   React.useEffect(() => {
@@ -44,23 +52,33 @@ const EditableStringField = (props: IProps): JSX.Element => {
     [validator]
   )
 
-  const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
-    requestJSONWithErrorHandler(
-      `api/employees/${employeeDatabaseId}`,
-      'patch',
-      {
-        [fieldName]: newValue,
-        AdminUserName: userNameFromState()
-      },
-      'CANNOT_EDIT_EMPLOYEE',
-      (responseJSON: AnyJson): void => {
-        toggleEditable()
-        console.log(responseJSON)
-        props.refreshDataCallback()
-      }
-    )
-  }
+  const submitEdit = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>): void => {
+      event.preventDefault()
+      requestJSONWithErrorHandler(
+        `api/employees/${employeeDatabaseId}`,
+        'patch',
+        {
+          [fieldName]: newValue,
+          AdminUserName: userNameFromState()
+        },
+        'CANNOT_EDIT_EMPLOYEE',
+        (responseJSON: AnyJson): void => {
+          toggleEditable()
+          console.log(responseJSON)
+          refreshDataCallback()
+          setSuccessTime(Date.now())
+        }
+      )
+    },
+    [
+      employeeDatabaseId,
+      fieldName,
+      newValue,
+      refreshDataCallback,
+      toggleEditable
+    ]
+  )
 
   return (
     <div className="EditableField EditableStringField">
@@ -88,10 +106,11 @@ const EditableStringField = (props: IProps): JSX.Element => {
           />
         </form>
       ) : (
-        <span className="Editable" onClick={toggleEditable}>
+        <div className="Editable" onClick={toggleEditable}>
           {fieldValue}
-        </span>
+        </div>
       )}
+      <SuccessMessage className="pt-1" successTime={successTime} />
     </div>
   )
 }

@@ -9,14 +9,18 @@ interface IProps {
 }
 
 const SuccessMessage = ({ successTime, className }: IProps): JSX.Element => {
-  // const [successMessage, setSuccessMessage] = React.useState('')
   const [opacity, setOpacity] = React.useState('0')
+  const [display, setDisplay] = React.useState('none')
 
   useEffect(() => {
     async function showSuccessMessage(): Promise<void> {
+      setDisplay('block')
+      await timeout(10)
       setOpacity('1')
       await timeout(2000)
       setOpacity('0')
+      await timeout(500)
+      setDisplay('none')
     }
 
     if (successTime !== 0) {
@@ -24,16 +28,15 @@ const SuccessMessage = ({ successTime, className }: IProps): JSX.Element => {
     }
   }, [successTime])
 
-  // useEffect(() => {
-  //   setOpacity(successMessage && successMessage.length > 0 ? '1' : '0')
-  // }, [successMessage])
-
   return (
     <div
       className={`SuccessMessage text-success ${className}`}
-      style={{ opacity }}
+      style={{ opacity, display }}
     >
-      Success
+      <div className="btn btn-sm btn-success">
+        <i className="fas fa-check-circle mr-2" />
+        &nbsp;Success
+      </div>
     </div>
   )
 }
