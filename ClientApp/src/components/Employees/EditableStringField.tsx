@@ -107,7 +107,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
         </form>
       ) : (
         <div className="Editable" onClick={toggleEditable}>
-          {fieldValue}
+          {fieldValue || '[None set]'}
         </div>
       )}
       <SuccessMessage className="pt-1" successTime={successTime} />

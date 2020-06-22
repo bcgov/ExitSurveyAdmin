@@ -111,7 +111,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label={labelFor('preferredEmail')}>
                 <EditableStringField
                   validator={(email: string): boolean =>
-                    EmailValidator.validate(email)
+                    email.length === 0 || EmailValidator.validate(email)
                   }
                   employeeDatabaseId={e.id!}
                   fieldName={'preferredEmail'}
