@@ -7,6 +7,7 @@ import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHel
 import Address from './Address'
 
 import './EditableField.scss'
+import SuccessMessage from './SuccessMessage'
 
 interface IProps ***REMOVED***
   employee: Employee
@@ -28,6 +29,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     employee.preferredAddressPostCode || ''
   )
   const [isEditable, setIsEditable] = React.useState(false)
+  const [successTime, setSuccessTime] = React.useState(0)
 
   const toggleEditable = (): void => ***REMOVED***
     setIsEditable(!isEditable)
@@ -57,6 +59,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
         toggleEditable()
         console.log(responseJSON)
         props.refreshDataCallback()
+        setSuccessTime(Date.now())
     ***REMOVED***
     )
 ***REMOVED***
@@ -120,6 +123,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
           </div>
         </span>
       )***REMOVED***
+      <SuccessMessage className="pt-1" successTime=***REMOVED***successTime***REMOVED*** />
     </div>
   )
 ***REMOVED***

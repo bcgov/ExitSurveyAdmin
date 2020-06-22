@@ -5,6 +5,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
 
 import './EditableField.scss'
+import SuccessMessage from './SuccessMessage'
 
 export interface ISelectOption ***REMOVED***
   name: string
@@ -24,6 +25,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
+  const [successTime, setSuccessTime] = React.useState(0)
 
   const toggleEditable = (): void => ***REMOVED***
     setIsEditable(!isEditable)
@@ -43,6 +45,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
         toggleEditable()
         console.log(responseJSON)
         props.refreshDataCallback()
+        setSuccessTime(Date.now())
     ***REMOVED***
     )
 ***REMOVED***
@@ -83,6 +86,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
           ***REMOVED***fieldValue***REMOVED***
         </span>
       )***REMOVED***
+      <SuccessMessage className="pt-1 mt-2" successTime=***REMOVED***successTime***REMOVED*** />
     </div>
   )
 ***REMOVED***

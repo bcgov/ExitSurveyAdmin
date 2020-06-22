@@ -5,6 +5,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
 
 import './EditableField.scss'
+import SuccessMessage from './SuccessMessage'
 
 interface IProps ***REMOVED***
   employeeDatabaseId: string
@@ -15,17 +16,24 @@ interface IProps ***REMOVED***
 ***REMOVED***
 
 const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED*** employeeDatabaseId, fieldName, fieldValue, validator ***REMOVED*** = props
+  const ***REMOVED***
+    employeeDatabaseId,
+    fieldName,
+    fieldValue,
+    validator,
+    refreshDataCallback
+***REMOVED*** = props
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [isValid, setIsValid] = React.useState(true)
+  const [successTime, setSuccessTime] = React.useState(0)
 
-  const toggleEditable = (): void => ***REMOVED***
+  const toggleEditable = React.useCallback((): void => ***REMOVED***
     setIsEditable(!isEditable)
-***REMOVED***
+***REMOVED*** [isEditable])
 
   // Select the field when it becomes editable
   React.useEffect(() => ***REMOVED***
@@ -44,23 +52,33 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     [validator]
   )
 
-  const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
-    event.preventDefault()
-    requestJSONWithErrorHandler(
-      `api/employees/$***REMOVED***employeeDatabaseId***REMOVED***`,
-      'patch',
+  const submitEdit = React.useCallback(
+    (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
+      event.preventDefault()
+      requestJSONWithErrorHandler(
+        `api/employees/$***REMOVED***employeeDatabaseId***REMOVED***`,
+        'patch',
+        ***REMOVED***
+          [fieldName]: newValue,
+          AdminUserName: userNameFromState()
       ***REMOVED***
-        [fieldName]: newValue,
-        AdminUserName: userNameFromState()
-    ***REMOVED***
-      'CANNOT_EDIT_EMPLOYEE',
-      (responseJSON: AnyJson): void => ***REMOVED***
-        toggleEditable()
-        console.log(responseJSON)
-        props.refreshDataCallback()
-    ***REMOVED***
-    )
-***REMOVED***
+        'CANNOT_EDIT_EMPLOYEE',
+        (responseJSON: AnyJson): void => ***REMOVED***
+          toggleEditable()
+          console.log(responseJSON)
+          refreshDataCallback()
+          setSuccessTime(Date.now())
+      ***REMOVED***
+      )
+  ***REMOVED***
+    [
+      employeeDatabaseId,
+      fieldName,
+      newValue,
+      refreshDataCallback,
+      toggleEditable
+    ]
+  )
 
   return (
     <div className="EditableField EditableStringField">
@@ -88,10 +106,11 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
           />
         </form>
       ) : (
-        <span className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
+        <div className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
           ***REMOVED***fieldValue***REMOVED***
-        </span>
+        </div>
       )***REMOVED***
+      <SuccessMessage className="pt-1" successTime=***REMOVED***successTime***REMOVED*** />
     </div>
   )
 ***REMOVED***

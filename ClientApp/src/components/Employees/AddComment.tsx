@@ -3,7 +3,7 @@ import React from 'react'
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
-import SuccessMessage from './SucessMessage'
+import SuccessMessage from './SuccessMessage'
 import ***REMOVED*** timeout ***REMOVED*** from '../../helpers/objectHelper'
 
 interface IProps ***REMOVED***
