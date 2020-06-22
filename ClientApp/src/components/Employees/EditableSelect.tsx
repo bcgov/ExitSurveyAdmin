@@ -5,6 +5,7 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { userNameFromState } from '../../helpers/userHelper'
 
 import './EditableField.scss'
+import SuccessMessage from './SuccessMessage'
 
 export interface ISelectOption {
   name: string
@@ -24,6 +25,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
+  const [successTime, setSuccessTime] = React.useState(0)
 
   const toggleEditable = (): void => {
     setIsEditable(!isEditable)
@@ -43,6 +45,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
         toggleEditable()
         console.log(responseJSON)
         props.refreshDataCallback()
+        setSuccessTime(Date.now())
       }
     )
   }
@@ -83,6 +86,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
           {fieldValue}
         </span>
       )}
+      <SuccessMessage className="pt-1 mt-2" successTime={successTime} />
     </div>
   )
 }
