@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExitSurveyAdmin.Migrations
 {
     [DbContext(typeof(ExitSurveyAdminContext))]
-    [Migration("20200622214556_InitialCreate")]
+    [Migration("20200622220253_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
