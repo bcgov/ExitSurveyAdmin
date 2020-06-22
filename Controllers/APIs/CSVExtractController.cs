@@ -99,7 +99,7 @@ namespace ExitSurveyAdmin.Controllers
                     if (goodEmployees.Count != goodRecords.Count)
                     {
                         message +=
-                            $"There were {badEmployees.Count} malformed employees: " +
+                            $"There were {badEmployees.Count} employees with errors: " +
                             $"Exceptions: {string.Join(newLine, badEmployees)} ";
                     }
                     await logger.LogWarning(TaskEnum.ReconcileCsv, message);
