@@ -1,7 +1,6 @@
 import React from 'react'
 import { CellProps, Column } from 'react-table'
 
-import { dateOrUndefined } from '../../helpers/dateHelper'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import TaskComment from './TaskComment'
@@ -16,7 +15,7 @@ export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
     Header: 'Date',
     Cell: (props: TaskLogEntryCellProps): JSX.Element => (
       <FormattedDate
-        date={dateOrUndefined(props.value as string)}
+        date={(props.value as unknown) as Date}
         showTime
         showLocalTimezone
       />
