@@ -105,7 +105,7 @@ namespace ExitSurveyAdmin.Controllers
                     await logger.LogWarning(TaskEnum.ReconcileCsv, message);
               ***REMOVED***
 
-                // Step 3. Update existing user statues.
+                // Step 3. Update existing user statuses.
                 // TODO: What if a user re-appears in the Csv after having been
                 // marked as exiting?
                 var nonFinalEmployees = context.Employees
