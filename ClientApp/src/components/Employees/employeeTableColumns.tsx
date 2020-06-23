@@ -24,16 +24,16 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'governmentEmployeeId'
 ***REMOVED***
   ***REMOVED***
-    Header: 'First name',
-    accessor: 'firstName'
+    Header: 'Preferred first name',
+    accessor: 'preferredFirstName'
 ***REMOVED***
   ***REMOVED***
     Header: 'Last name',
     accessor: 'lastName'
 ***REMOVED***
   ***REMOVED***
-    Header: 'Email',
-    accessor: 'governmentEmail'
+    Header: 'Preferred email',
+    accessor: 'preferredEmail'
 ***REMOVED***
   ***REMOVED***
     Header: 'Exit count',
@@ -55,9 +55,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
 ***REMOVED***
   ***REMOVED***
     Header: 'Leave reason',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <>***REMOVED***((props.value as unknown) as Reason).reasonCode***REMOVED***</>
-    ),
+    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
+      console.log('props.row.original', props.row.original)
+      return <>***REMOVED***((props.value as unknown) as Reason).reasonCode***REMOVED***</>
+  ***REMOVED***
     accessor: 'reason'
 ***REMOVED***
   ***REMOVED***
