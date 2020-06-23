@@ -6,9 +6,9 @@ import TextFilter from '../../FilterClasses/TextFilter'
 export const employeeFilters: IFilter[] = [
   new TextFilter('telkey'),
   new TextFilter('governmentEmployeeId'),
-  new TextFilter('firstName'),
+  new TextFilter('preferredFirstName'),
   new TextFilter('lastName'),
-  new TextFilter('governmentEmail'),
+  new TextFilter('preferredEmail'),
   new TextFilter('classification'),
   new DateFilter('effectiveDate'),
   new EnumFilter('currentEmployeeStatusCode'),

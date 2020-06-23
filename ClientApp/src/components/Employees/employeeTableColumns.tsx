@@ -24,16 +24,16 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'governmentEmployeeId'
   },
   {
-    Header: 'First name',
-    accessor: 'firstName'
+    Header: 'Preferred first name',
+    accessor: 'preferredFirstName'
   },
   {
     Header: 'Last name',
     accessor: 'lastName'
   },
   {
-    Header: 'Email',
-    accessor: 'governmentEmail'
+    Header: 'Preferred email',
+    accessor: 'preferredEmail'
   },
   {
     Header: 'Exit count',
@@ -55,9 +55,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   },
   {
     Header: 'Leave reason',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <>{((props.value as unknown) as Reason).reasonCode}</>
-    ),
+    Cell: (props: EmployeeCellProps): JSX.Element => {
+      console.log('props.row.original', props.row.original)
+      return <>{((props.value as unknown) as Reason).reasonCode}</>
+    },
     accessor: 'reason'
   },
   {
