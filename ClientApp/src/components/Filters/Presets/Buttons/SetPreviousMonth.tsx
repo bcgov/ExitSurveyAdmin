@@ -9,8 +9,8 @@ import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 export const getPreviousMonthFilter = (): DateFilter => ***REMOVED***
   const startDate = moment()
     .subtract(1, 'month')
-    .date(1)
-  const endDate = moment(startDate).add(1, 'month')
+    .startOf('month')
+  const endDate = moment(startDate).endOf('month')
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 ***REMOVED***
 
