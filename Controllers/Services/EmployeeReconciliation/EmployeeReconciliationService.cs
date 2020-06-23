@@ -261,6 +261,8 @@ namespace ExitSurveyAdmin.Services
                         ***REMOVED***
                             return existingEmployee;
                       ***REMOVED***
+
+                        await callWeb.UpdateSurvey(employee);
                   ***REMOVED***
               ***REMOVED***
 
