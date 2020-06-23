@@ -18,7 +18,7 @@ interface IProps extends RouteComponentProps {
 }
 
 const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
-  const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
+  const index = arr.findIndex(f => f.encode() === candidate.encode())
   if (index > -1) arr.splice(index, 1)
 }
 
