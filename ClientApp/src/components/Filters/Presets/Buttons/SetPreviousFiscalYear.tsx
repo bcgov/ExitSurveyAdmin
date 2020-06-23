@@ -10,7 +10,7 @@ export const getPreviousFiscalYearFilter = (): DateFilter => {
   let startDate = moment()
   const currentYearApril = moment()
     .month('April')
-    .date(1)
+    .startOf('month')
 
   if (startDate.isBefore(currentYearApril)) {
     startDate = startDate.subtract(1, 'year')
@@ -18,8 +18,11 @@ export const getPreviousFiscalYearFilter = (): DateFilter => {
   startDate = startDate
     .subtract(1, 'year')
     .month('April')
-    .date(1)
-  const endDate = moment(startDate).add(1, 'year')
+    .startOf('month')
+  const endDate = moment(startDate)
+    .add(1, 'year')
+    .month('March')
+    .endOf('month')
 
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 }
