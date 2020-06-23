@@ -4,7 +4,6 @@ import { AnyJson } from '../../types/JsonType'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { userNameFromState } from '../../helpers/userHelper'
 import SuccessMessage from './SuccessMessage'
-import { timeout } from '../../helpers/objectHelper'
 
 interface IProps {
   employeeDatabaseId: string
