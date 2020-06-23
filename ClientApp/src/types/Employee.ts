@@ -55,9 +55,11 @@ export class Employee {
   public effectiveDate?: Date
   @Transform((date: string) => dateOrUndefined(date))
   public leaveDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+
+  // UTC Datetimes
+  @Transform((date: string) => dateOrUndefined(date, true))
   public createdTs?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform((date: string) => dateOrUndefined(date, true))
   public modifiedTs?: Date
 
   // Fields requiring custom transformation annotations

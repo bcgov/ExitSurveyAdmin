@@ -220,6 +220,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
       null,
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: string): void => {
+        console.log('responseJSON', responseJSON)
         this.setState({ employee: plainToClass(Employee, responseJSON) })
       }
     )
