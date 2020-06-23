@@ -4,13 +4,16 @@ import { FilterDispatch } from '../../FilterForm'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
-import { EmployeeStatusEnum } from '../../../../types/EmployeeStatus'
+import {
+  EmployeeStatus,
+  EmployeeStatusStateEnum
+} from '../../../../types/EmployeeStatus'
 
 export const getActiveEmployeesFilter = (): EnumFilter => {
-  return new EnumFilter('currentEmployeeStatusCode', [
-    EmployeeStatusEnum.Exiting,
-    EmployeeStatusEnum.SnailMailSent
-  ])
+  const activeStatusKeys = EmployeeStatus.array()
+    .filter(status => status.state === EmployeeStatusStateEnum.Active)
+    .map(status => status.code)
+  return new EnumFilter('currentEmployeeStatusCode', activeStatusKeys)
 }
 
 interface IProps {
