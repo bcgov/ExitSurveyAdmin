@@ -8,6 +8,23 @@ namespace ExitSurveyAdmin.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         ***REMOVED***
             migrationBuilder.CreateTable(
+                name: "AdminSettings",
+                columns: table => new
+                ***REMOVED***
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedTs = table.Column<DateTime>(nullable: false),
+                    ModifiedTs = table.Column<DateTime>(nullable: false),
+                    Key = table.Column<string>(nullable: false),
+                    DisplayName = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: false)
+              ***REMOVED***
+                constraints: table =>
+                ***REMOVED***
+                    table.PrimaryKey("PK_AdminSettings", x => x.Id);
+              ***REMOVED***);
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeActionEnums",
                 columns: table => new
                 ***REMOVED***
@@ -225,6 +242,9 @@ namespace ExitSurveyAdmin.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         ***REMOVED***
+            migrationBuilder.DropTable(
+                name: "AdminSettings");
+
             migrationBuilder.DropTable(
                 name: "EmployeeTimelineEntries");
 

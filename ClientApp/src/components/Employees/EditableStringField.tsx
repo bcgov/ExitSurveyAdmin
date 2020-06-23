@@ -13,6 +13,8 @@ interface IProps ***REMOVED***
   fieldValue: string
   refreshDataCallback: () => void
   validator?: (value: string) => boolean
+  modelPath?: string
+  ignoreAdminUserName?: boolean
 ***REMOVED***
 
 const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
@@ -20,8 +22,10 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     employeeDatabaseId,
     fieldName,
     fieldValue,
+    modelPath,
+    refreshDataCallback,
     validator,
-    refreshDataCallback
+    ignoreAdminUserName
 ***REMOVED*** = props
 
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -54,14 +58,15 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
 
   const submitEdit = React.useCallback(
     (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
+      const patchBody = ***REMOVED*** [fieldName]: newValue ***REMOVED***
+      if (!ignoreAdminUserName) ***REMOVED***
+        patchBody['AdminUserName'] = userNameFromState()!
+    ***REMOVED***
       event.preventDefault()
       requestJSONWithErrorHandler(
-        `api/employees/$***REMOVED***employeeDatabaseId***REMOVED***`,
+        `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***employeeDatabaseId***REMOVED***`,
         'patch',
-        ***REMOVED***
-          [fieldName]: newValue,
-          AdminUserName: userNameFromState()
-      ***REMOVED***
+        patchBody,
         'CANNOT_EDIT_EMPLOYEE',
         (responseJSON: AnyJson): void => ***REMOVED***
           toggleEditable()
@@ -76,7 +81,9 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
       fieldName,
       newValue,
       refreshDataCallback,
-      toggleEditable
+      toggleEditable,
+      modelPath,
+      ignoreAdminUserName
     ]
   )
 
