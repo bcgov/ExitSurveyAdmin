@@ -56,7 +56,6 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   {
     Header: 'Leave reason',
     Cell: (props: EmployeeCellProps): JSX.Element => {
-      console.log('props.row.original', props.row.original)
       return <>{((props.value as unknown) as Reason).reasonCode}</>
     },
     accessor: 'reason'
