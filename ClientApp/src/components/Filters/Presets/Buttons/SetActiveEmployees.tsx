@@ -4,13 +4,16 @@ import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
-import ***REMOVED*** EmployeeStatusEnum ***REMOVED*** from '../../../../types/EmployeeStatus'
+import ***REMOVED***
+  EmployeeStatus,
+  EmployeeStatusStateEnum
+***REMOVED*** from '../../../../types/EmployeeStatus'
 
 export const getActiveEmployeesFilter = (): EnumFilter => ***REMOVED***
-  return new EnumFilter('currentEmployeeStatusCode', [
-    EmployeeStatusEnum.Exiting,
-    EmployeeStatusEnum.SnailMailSent
-  ])
+  const activeStatusKeys = EmployeeStatus.array()
+    .filter(status => status.state === EmployeeStatusStateEnum.Active)
+    .map(status => status.code)
+  return new EnumFilter('currentEmployeeStatusCode', activeStatusKeys)
 ***REMOVED***
 
 interface IProps ***REMOVED***
