@@ -52,14 +52,14 @@ export default class EnumFilter implements IFilter {
       console.warn(`EnumFilter for ${this._fieldName}: value is 0-length`)
       return ''
     }
-    return `${this._fieldName}@=${this._enumKeys.join(OR_OPERATOR)}`
+    return `${this._fieldName}==${this._enumKeys.join(OR_OPERATOR)}`
   }
 
   decode(inputs: string[]): EnumFilter {
     const values: string[] = []
-    const fieldName = inputs[0].split('@=')[0]
+    const fieldName = inputs[0].split('==')[0]
     inputs.forEach(input => {
-      const valueString = input.split('@=')[1]
+      const valueString = input.split('==')[1]
       if (!fieldName || !values) {
         throw new Error(`EnumFilter: Could not parse input '${input}'`)
       }
