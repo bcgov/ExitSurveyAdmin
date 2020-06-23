@@ -261,6 +261,8 @@ namespace ExitSurveyAdmin.Services
                         {
                             return existingEmployee;
                         }
+
+                        await callWeb.UpdateSurvey(employee);
                     }
                 }
 
