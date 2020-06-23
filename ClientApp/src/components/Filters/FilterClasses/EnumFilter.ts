@@ -52,14 +52,14 @@ export default class EnumFilter implements IFilter ***REMOVED***
       console.warn(`EnumFilter for $***REMOVED***this._fieldName***REMOVED***: value is 0-length`)
       return ''
   ***REMOVED***
-    return `$***REMOVED***this._fieldName***REMOVED***@=$***REMOVED***this._enumKeys.join(OR_OPERATOR)***REMOVED***`
+    return `$***REMOVED***this._fieldName***REMOVED***==$***REMOVED***this._enumKeys.join(OR_OPERATOR)***REMOVED***`
 ***REMOVED***
 
   decode(inputs: string[]): EnumFilter ***REMOVED***
     const values: string[] = []
-    const fieldName = inputs[0].split('@=')[0]
+    const fieldName = inputs[0].split('==')[0]
     inputs.forEach(input => ***REMOVED***
-      const valueString = input.split('@=')[1]
+      const valueString = input.split('==')[1]
       if (!fieldName || !values) ***REMOVED***
         throw new Error(`EnumFilter: Could not parse input '$***REMOVED***input***REMOVED***'`)
     ***REMOVED***
