@@ -21,6 +21,17 @@ export function createDateAsUTCFromString(dateString: string): Date ***REMOVED**
   return moment.utc(dateString).toDate()
 ***REMOVED***
 
-export function dateOrUndefined(dateString: NullableString): Date | undefined ***REMOVED***
-  return dateString ? createDateAsUTCFromString(dateString) : undefined
+export function createDateFromString(dateString: string): Date ***REMOVED***
+  return moment(dateString).toDate()
+***REMOVED***
+
+export function dateOrUndefined(
+  dateString: NullableString,
+  asUTC?: boolean
+): Date | undefined ***REMOVED***
+  if (asUTC) ***REMOVED***
+    return dateString ? createDateAsUTCFromString(dateString) : undefined
+***REMOVED*** else ***REMOVED***
+    return dateString ? createDateFromString(dateString) : undefined
+***REMOVED***
 ***REMOVED***

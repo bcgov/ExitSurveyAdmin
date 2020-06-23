@@ -2,7 +2,6 @@ import React from 'react'
 import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 
-import ***REMOVED*** dateOrUndefined ***REMOVED*** from '../../helpers/dateHelper'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
 import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
@@ -49,7 +48,7 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate
         showLocalTimezone
-        date=***REMOVED***dateOrUndefined(props.value as string)***REMOVED***
+        date=***REMOVED***(props.value as unknown) as Date***REMOVED***
       />
     ),
     accessor: 'effectiveDate'
@@ -72,7 +71,7 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     Header: 'Last modified date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate
-        date=***REMOVED***dateOrUndefined(props.value as string)***REMOVED***
+        date=***REMOVED***(props.value as unknown) as Date***REMOVED***
         showTime
         showLocalTimezone
       />

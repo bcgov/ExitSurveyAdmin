@@ -220,6 +220,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
       null,
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: string): void => ***REMOVED***
+        console.log('responseJSON', responseJSON)
         this.setState(***REMOVED*** employee: plainToClass(Employee, responseJSON) ***REMOVED***)
     ***REMOVED***
     )
