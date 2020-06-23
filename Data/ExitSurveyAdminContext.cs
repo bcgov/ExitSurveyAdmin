@@ -26,6 +26,7 @@ namespace ExitSurveyAdmin.Models
         public DbSet<TaskLogEntry> TaskLogEntries { get; set; }
         public DbSet<TaskEnum> TaskEnums { get; set; }
         public DbSet<TaskOutcomeEnum> TaskOutcomeEnums { get; set; }
+        public DbSet<AdminSetting> AdminSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
