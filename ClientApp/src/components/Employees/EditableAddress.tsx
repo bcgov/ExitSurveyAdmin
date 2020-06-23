@@ -14,7 +14,7 @@ interface IProps {
   refreshDataCallback: () => void
 }
 
-const EditableStringField = (props: IProps): JSX.Element => {
+const EditableAddress = (props: IProps): JSX.Element => {
   const { employee } = props
 
   const line1Ref = React.useRef<HTMLInputElement>(null)
@@ -128,4 +128,4 @@ const EditableStringField = (props: IProps): JSX.Element => {
   )
 }
 
-export default EditableStringField
+export default EditableAddress

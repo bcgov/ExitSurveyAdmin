@@ -284,8 +284,15 @@ namespace ExitSurveyAdmin.Services
 
             // An employee only has a set amount of time to complete a survey.
             // If that time has expired, then expire the user.
-            // TODO: What is the appropriate amount of time to wait for a user?
-            if (employee.EffectiveDate.AddMonths(6) < DateTime.UtcNow)
+            var employeeNotExitingThresholdSetting = await context
+                .AdminSettings
+                .FirstAsync(a => a.Key == AdminSetting.EmployeeNotExitingThreshold);
+
+            var thresholdInDays = System.Convert.ToInt32(
+                employeeNotExitingThresholdSetting.Value
+            );
+
+            if (employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow)
             {
                 return await SaveStatusAndAddTimelineEntry(employee,
                     EmployeeStatusEnum.Expired);

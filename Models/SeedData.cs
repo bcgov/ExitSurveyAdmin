@@ -38,6 +38,15 @@ namespace ExitSurveyAdmin.Models
                     TaskOutcomeEnum.AllValues
                 );
 
+                context.AdminSettings.Add(
+                    new AdminSetting()
+                    {
+                        Key = AdminSetting.EmployeeNotExitingThreshold,
+                        DisplayName = "Employee not exiting threshold (days)",
+                        Value = "180"
+                    }
+                );
+
                 context.SaveChanges();
             }
         }

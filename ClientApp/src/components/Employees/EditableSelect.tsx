@@ -20,7 +20,7 @@ interface IProps {
   refreshDataCallback: () => void
 }
 
-const EditableStringField = (props: IProps): JSX.Element => {
+const EditableSelect = (props: IProps): JSX.Element => {
   const { employeeDatabaseId, fieldName, fieldValue, options } = props
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
@@ -91,4 +91,4 @@ const EditableStringField = (props: IProps): JSX.Element => {
   )
 }
 
-export default EditableStringField
+export default EditableSelect

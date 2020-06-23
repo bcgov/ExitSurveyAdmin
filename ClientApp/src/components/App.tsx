@@ -8,6 +8,7 @@ import EmployeeListing from './Employees/EmployeeListing'
 import Home from './Home'
 import Layout from './Wrappers/Layout'
 import TaskLogEntryListing from './TaskLogEntries/TaskLogEntryListing'
+import AdminInterface from './Admin/AdminInterface'
 
 import '../custom.css'
 
@@ -34,6 +35,7 @@ export default class App extends React.Component {
           path="/task-log-entries"
           component={TaskLogEntryListing}
         />
+        <AuthenticatedRoute exact path="/admin" component={AdminInterface} />
       </Layout>
     )
   }

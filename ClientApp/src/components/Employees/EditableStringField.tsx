@@ -13,6 +13,8 @@ interface IProps {
   fieldValue: string
   refreshDataCallback: () => void
   validator?: (value: string) => boolean
+  modelPath?: string
+  ignoreAdminUserName?: boolean
 }
 
 const EditableStringField = (props: IProps): JSX.Element => {
@@ -20,8 +22,10 @@ const EditableStringField = (props: IProps): JSX.Element => {
     employeeDatabaseId,
     fieldName,
     fieldValue,
+    modelPath,
+    refreshDataCallback,
     validator,
-    refreshDataCallback
+    ignoreAdminUserName
   } = props
 
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -54,14 +58,15 @@ const EditableStringField = (props: IProps): JSX.Element => {
 
   const submitEdit = React.useCallback(
     (event: React.FormEvent<HTMLFormElement>): void => {
+      const patchBody = { [fieldName]: newValue }
+      if (!ignoreAdminUserName) {
+        patchBody['AdminUserName'] = userNameFromState()!
+      }
       event.preventDefault()
       requestJSONWithErrorHandler(
-        `api/employees/${employeeDatabaseId}`,
+        `api/${modelPath || 'employees'}/${employeeDatabaseId}`,
         'patch',
-        {
-          [fieldName]: newValue,
-          AdminUserName: userNameFromState()
-        },
+        patchBody,
         'CANNOT_EDIT_EMPLOYEE',
         (responseJSON: AnyJson): void => {
           toggleEditable()
@@ -76,7 +81,9 @@ const EditableStringField = (props: IProps): JSX.Element => {
       fieldName,
       newValue,
       refreshDataCallback,
-      toggleEditable
+      toggleEditable,
+      modelPath,
+      ignoreAdminUserName
     ]
   )
 
