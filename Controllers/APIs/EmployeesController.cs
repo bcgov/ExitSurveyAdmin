@@ -130,22 +130,6 @@ namespace ExitSurveyAdmin.Controllers
             return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
         }
 
-        // DELETE: api/Employees/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(int id)
-        {
-            var employee = await context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            context.Employees.Remove(employee);
-            await context.SaveChangesAsync();
-
-            return employee;
-        }
-
         private bool EmployeeExists(int id)
         {
             return context.Employees.Any(e => e.Id == id);
