@@ -171,6 +171,7 @@ namespace ExitSurveyAdmin.Models
         public string BackDated { get; set; }
 
         [Required]
+        [Sieve(CanFilter = true, CanSort = true)]
         public string ExitCount { get; set; }
 
         [Required]
