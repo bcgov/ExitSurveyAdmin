@@ -33,7 +33,7 @@ const SuccessMessage = (***REMOVED*** successTime, className ***REMOVED***: IPro
       className=***REMOVED***`SuccessMessage text-success $***REMOVED***className***REMOVED***`***REMOVED***
       style=***REMOVED******REMOVED*** opacity, display ***REMOVED******REMOVED***
     >
-      <div className="btn btn-sm btn-success">
+      <div className="badge badge-success">
         <i className="fas fa-check-circle mr-2" />
         &nbsp;Success
       </div>

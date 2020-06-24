@@ -13,7 +13,7 @@ const TaskOutcome = (***REMOVED*** taskOutcomeCode ***REMOVED***: IProps): JSX.E
       : 'danger'
   return (
     <span
-      className=***REMOVED***`btn btn-sm TaskOutcome btn-$***REMOVED***color***REMOVED***`***REMOVED***
+      className=***REMOVED***`TaskOutcome badge badge-$***REMOVED***color***REMOVED***`***REMOVED***
       style=***REMOVED******REMOVED*** width: '100px' ***REMOVED******REMOVED***
     >
       <strong>***REMOVED***taskOutcomeCode***REMOVED***</strong>
