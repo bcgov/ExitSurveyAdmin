@@ -33,7 +33,7 @@ const SuccessMessage = ({ successTime, className }: IProps): JSX.Element => {
       className={`SuccessMessage text-success ${className}`}
       style={{ opacity, display }}
     >
-      <div className="btn btn-sm btn-success">
+      <div className="badge badge-success">
         <i className="fas fa-check-circle mr-2" />
         &nbsp;Success
       </div>
