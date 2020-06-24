@@ -53,7 +53,8 @@ const GenericListing = <T extends object>(***REMOVED***
   listingPath,
   location,
   pageSize: propPageSize,
-  presetComponent
+  presetComponent,
+  modelName
 ***REMOVED***: IProps<T>): JSX.Element => ***REMOVED***
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -128,7 +129,7 @@ const GenericListing = <T extends object>(***REMOVED***
   return (
     <>
       <FilterPanel
-        modelName="employees"
+        modelName=***REMOVED***modelName***REMOVED***
         filterableFields=***REMOVED***filterableFields***REMOVED***
         presetComponent=***REMOVED***presetComponent***REMOVED***
       />
