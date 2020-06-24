@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
@@ -65,6 +65,12 @@ const GenericListing = <T extends object>({
   )
   const fetchIdRef = React.useRef<number>(0)
 
+  // Keep track of the previous value of the filterQuery in a ref
+  const prevFilterQueryRef = React.useRef<string>()
+  useEffect(() => {
+    prevFilterQueryRef.current = filterQuery
+  }, [filterQuery])
+
   const pageSize = propPageSize || DEFAULT_PAGE_SIZE
 
   React.useEffect(
@@ -81,7 +87,13 @@ const GenericListing = <T extends object>({
 
       const sortByQuery = processSorts(sortBy)
 
-      const path = `${listingPath}?pageSize=${pageSize}&page=${pageIndex +
+      // Set page index
+      let newPageIndex = pageIndex
+      if (filterQuery != prevFilterQueryRef.current && pageIndex !== 0) {
+        newPageIndex = 0
+      }
+
+      const path = `${listingPath}?pageSize=${pageSize}&page=${newPageIndex +
         1}${sortByQuery}${filterQuery}`
 
       if (fetchId === fetchIdRef.current) {
@@ -94,10 +106,13 @@ const GenericListing = <T extends object>({
             const pageCount = pagination.PageCount
             const recordCount = pagination.RecordCount
 
-            let newPageIndex = pageIndex
-            if (newPageIndex > pageCount - 1) {
-              newPageIndex = pageCount - 1
-            }
+            console.log(
+              'filterQuery',
+              filterQuery,
+              'prevFilterQueryRef',
+              prevFilterQueryRef.current
+            )
+
             setPageIndex(newPageIndex)
             setData(dataMapper(responseJSON))
             setPageCount(pageCount)
