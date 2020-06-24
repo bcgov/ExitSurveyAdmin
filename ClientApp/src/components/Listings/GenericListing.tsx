@@ -90,38 +90,31 @@ const GenericListing = <T extends object>(***REMOVED***
 
       // Set page index
       let newPageIndex = pageIndex
-      if (filterQuery != prevFilterQueryRef.current && pageIndex !== 0) ***REMOVED***
+      if (filterQuery !== prevFilterQueryRef.current && pageIndex !== 0) ***REMOVED***
         newPageIndex = 0
     ***REMOVED***
 
       const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***newPageIndex +
         1***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
 
-      if (fetchId === fetchIdRef.current) ***REMOVED***
-        requestJSONWithErrorHandler(
-          `api/$***REMOVED***path***REMOVED***`,
-          'get',
-          null,
-          'ENTRY_NOT_FOUND',
-          (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => ***REMOVED***
-            const pageCount = pagination.PageCount
-            const recordCount = pagination.RecordCount
+      requestJSONWithErrorHandler(
+        `api/$***REMOVED***path***REMOVED***`,
+        'get',
+        null,
+        'ENTRY_NOT_FOUND',
+        (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => ***REMOVED***
+          const pageCount = pagination.PageCount
+          const recordCount = pagination.RecordCount
 
-            console.log(
-              'filterQuery',
-              filterQuery,
-              'prevFilterQueryRef',
-              prevFilterQueryRef.current
-            )
-
+          if (fetchId === fetchIdRef.current) ***REMOVED***
             setPageIndex(newPageIndex)
             setData(dataMapper(responseJSON))
             setPageCount(pageCount)
             setRecordCount(recordCount)
             setLoading(false)
         ***REMOVED***
-        )
-    ***REMOVED***
+      ***REMOVED***
+      )
   ***REMOVED***
     [filterQuery, listingPath, pageSize, dataMapper]
   )

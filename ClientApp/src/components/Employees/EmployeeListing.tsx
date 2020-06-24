@@ -10,17 +10,15 @@ import EmployeePresets from '../Filters/Presets/EmployeePresets'
 import GenericListing from '../Listings/GenericListing'
 import ***REMOVED*** defaultDateFormat ***REMOVED*** from '../../helpers/dateHelper'
 
-const EmployeeListing = (): JSX.Element => (
-  <GenericListing
-    modelName="employees"
-    filterableFields=***REMOVED***employeeFilters***REMOVED***
-    columns=***REMOVED***employeeTableColumns***REMOVED***
-    presetComponent=***REMOVED***EmployeePresets***REMOVED***
-    listingPath="employees"
-    dataMapper=***REMOVED***(responseJSON: FixTypeLater[]): Employee[] =>
-      responseJSON.map(e => plainToClass(Employee, e))
-  ***REMOVED***
-    exportedDataMapper=***REMOVED***(responseJSON: FixTypeLater[]): FixTypeLater[] =>
+const EmployeeListing = (): JSX.Element => ***REMOVED***
+  const dataMapperCallback = React.useCallback(
+    (responseJSON: FixTypeLater[]): Employee[] =>
+      responseJSON.map(e => plainToClass(Employee, e)),
+    []
+  )
+
+  const exportedDataMapperCallback = React.useCallback(
+    (responseJSON: FixTypeLater[]): FixTypeLater[] =>
       responseJSON.map(e => ***REMOVED***
         delete e.timelineEntries
         delete e.currentEmployeeStatus
@@ -34,9 +32,21 @@ const EmployeeListing = (): JSX.Element => (
         e.effectiveDate = moment(e.effectiveDate).format(defaultDateFormat)
         e.leaveDate = moment(e.leaveDate).format(defaultDateFormat)
         return e
-    ***REMOVED***)
-  ***REMOVED***
-  />
-)
+    ***REMOVED***),
+    []
+  )
+
+  return (
+    <GenericListing
+      modelName="employees"
+      filterableFields=***REMOVED***employeeFilters***REMOVED***
+      columns=***REMOVED***employeeTableColumns***REMOVED***
+      presetComponent=***REMOVED***EmployeePresets***REMOVED***
+      listingPath="employees"
+      dataMapper=***REMOVED***dataMapperCallback***REMOVED***
+      exportedDataMapper=***REMOVED***exportedDataMapperCallback***REMOVED***
+    />
+  )
+***REMOVED***
 
 export default EmployeeListing
