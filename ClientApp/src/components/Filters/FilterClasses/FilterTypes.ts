@@ -1,7 +1,8 @@
 export enum FilterType ***REMOVED***
   String = 'string',
   Date = 'date',
-  Enum = 'enum'
+  Enum = 'enum',
+  Custom = 'custom'
 ***REMOVED***
 
 export interface IFilter ***REMOVED***
@@ -9,8 +10,8 @@ export interface IFilter ***REMOVED***
   type: FilterType
   reset: () => void
   encode: () => string
-  decode: (input: string[]) => ThisType<this>
-  clone: () => ThisType<this>
+  decode: (input: string[]) => IFilter
+  clone: () => IFilter
   displayString: string
   isSet: boolean
   mustReplace: boolean

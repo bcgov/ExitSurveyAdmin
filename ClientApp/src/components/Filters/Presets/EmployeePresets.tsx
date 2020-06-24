@@ -4,6 +4,7 @@ import ***REMOVED*** IPresetProps ***REMOVED*** from './IPresetProps'
 import SetActiveEmployees from './Buttons/SetActiveEmployees'
 import SetPreviousFiscalYear from './Buttons/SetPreviousFiscalYear'
 import SetPreviousMonth from './Buttons/SetPreviousMonth'
+import SetBlankEmail from './Buttons/SetBlankEmail'
 
 const EmployeePresets = (***REMOVED***
   submitId,
@@ -17,6 +18,7 @@ const EmployeePresets = (***REMOVED***
       <SetActiveEmployees submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
       <SetPreviousMonth submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
       <SetPreviousFiscalYear submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
+      <SetBlankEmail submitId=***REMOVED***submitId***REMOVED*** setSubmitId=***REMOVED***setSubmitId***REMOVED*** />
     </div>
   )
 ***REMOVED***

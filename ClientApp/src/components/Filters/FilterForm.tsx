@@ -76,40 +76,45 @@ const FilterForm = (***REMOVED***
 ***REMOVED*** [submitId])
 
   const inputs = useMemo(() => ***REMOVED***
-    return filterableFields.map(
-      (filter): JSX.Element => ***REMOVED***
-        let filterComponent
-        let colWidth = 2
-        switch (filter.type) ***REMOVED***
-          case FilterType.Date:
-            filterComponent = (
-              <DateFilterInput
-                filter=***REMOVED***filter as DateFilter***REMOVED***
-                resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
-              />
-            )
-            colWidth = 3
-            break
-          case FilterType.Enum:
-            filterComponent = (
-              <EnumFilterInput
-                filter=***REMOVED***filter as EnumFilter***REMOVED***
-                resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
-              />
-            )
-            colWidth = 3
-            break
-          case FilterType.String:
-          default:
-            filterComponent = <TextFilterInput filter=***REMOVED***filter as TextFilter***REMOVED*** />
+    // Ignore Custom fields
+    return filterableFields
+      .filter(f => f.type !== FilterType.Custom)
+      .map(
+        (filter): JSX.Element => ***REMOVED***
+          let filterComponent
+          let colWidth = 2
+          switch (filter.type) ***REMOVED***
+            case FilterType.Date:
+              filterComponent = (
+                <DateFilterInput
+                  filter=***REMOVED***filter as DateFilter***REMOVED***
+                  resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
+                />
+              )
+              colWidth = 3
+              break
+            case FilterType.Enum:
+              filterComponent = (
+                <EnumFilterInput
+                  filter=***REMOVED***filter as EnumFilter***REMOVED***
+                  resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
+                />
+              )
+              colWidth = 3
+              break
+            case FilterType.String:
+            default:
+              filterComponent = (
+                <TextFilterInput filter=***REMOVED***filter as TextFilter***REMOVED*** />
+              )
+        ***REMOVED***
+          return (
+            <div key=***REMOVED***filter.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
+              ***REMOVED***filterComponent***REMOVED***
+            </div>
+          )
       ***REMOVED***
-        return (
-          <div key=***REMOVED***filter.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
-            ***REMOVED***filterComponent***REMOVED***
-          </div>
-        )
-    ***REMOVED***
-    )
+      )
 ***REMOVED*** [resetTimestamp, filterableFields])
 
   const PresetComponent = presetComponent
