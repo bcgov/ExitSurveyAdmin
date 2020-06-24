@@ -76,40 +76,45 @@ const FilterForm = ({
   }, [submitId])
 
   const inputs = useMemo(() => {
-    return filterableFields.map(
-      (filter): JSX.Element => {
-        let filterComponent
-        let colWidth = 2
-        switch (filter.type) {
-          case FilterType.Date:
-            filterComponent = (
-              <DateFilterInput
-                filter={filter as DateFilter}
-                resetTimestamp={resetTimestamp}
-              />
-            )
-            colWidth = 3
-            break
-          case FilterType.Enum:
-            filterComponent = (
-              <EnumFilterInput
-                filter={filter as EnumFilter}
-                resetTimestamp={resetTimestamp}
-              />
-            )
-            colWidth = 3
-            break
-          case FilterType.String:
-          default:
-            filterComponent = <TextFilterInput filter={filter as TextFilter} />
+    // Ignore Custom fields
+    return filterableFields
+      .filter(f => f.type !== FilterType.Custom)
+      .map(
+        (filter): JSX.Element => {
+          let filterComponent
+          let colWidth = 2
+          switch (filter.type) {
+            case FilterType.Date:
+              filterComponent = (
+                <DateFilterInput
+                  filter={filter as DateFilter}
+                  resetTimestamp={resetTimestamp}
+                />
+              )
+              colWidth = 3
+              break
+            case FilterType.Enum:
+              filterComponent = (
+                <EnumFilterInput
+                  filter={filter as EnumFilter}
+                  resetTimestamp={resetTimestamp}
+                />
+              )
+              colWidth = 3
+              break
+            case FilterType.String:
+            default:
+              filterComponent = (
+                <TextFilterInput filter={filter as TextFilter} />
+              )
+          }
+          return (
+            <div key={filter.fieldName} className={`col-${colWidth}`}>
+              {filterComponent}
+            </div>
+          )
         }
-        return (
-          <div key={filter.fieldName} className={`col-${colWidth}`}>
-            {filterComponent}
-          </div>
-        )
-      }
-    )
+      )
   }, [resetTimestamp, filterableFields])
 
   const PresetComponent = presetComponent

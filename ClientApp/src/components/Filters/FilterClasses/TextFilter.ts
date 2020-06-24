@@ -41,27 +41,45 @@ export default class TextFilter implements IFilter {
       console.warn(`TextFilter for ${this._fieldName}: value is 0-length`)
       return ''
     }
+    // Special case where all values are blank; this is how we search for empty
+    // items, per https://github.com/Biarity/Sieve/issues/50
+    if (this._values.every((v: string) => v.length === 0)) {
+      return `${this._fieldName}==${OR_OPERATOR}`
+    }
     return `${this._fieldName}@=${this._values.join(OR_OPERATOR)}`
   }
 
   decode(inputs: string[]): TextFilter {
     const values: string[] = []
-    const fieldName = inputs[0].split('@=')[0]
-    inputs.forEach(input => {
-      const valueString = input.split('@=')[1]
+    let fieldName = inputs[0].split('@=')[0]
+    for (const input of inputs) {
+      let valueString = input.split('@=')[1]
       if (!fieldName || !valueString) {
-        throw new Error(`TextFilter: Could not parse input '${input}'`)
+        // This might be the special case from above; try splitting on the ==
+        ;[fieldName, valueString] = input.split('==')
+        if (valueString) {
+          return new TextFilter(fieldName, ['', ''])
+        } else {
+          // If still no valueString, throw an error
+          throw new Error(`TextFilter: Could not parse input '${input}'`)
+        }
       }
       valueString.split(OR_OPERATOR).forEach(v => values.push(v))
-    })
+    }
     return new TextFilter(fieldName, values)
   }
 
   clone(): TextFilter {
-    return new TextFilter(this._fieldName, this._values)
+    const clone = new TextFilter(this._fieldName, this._values)
+    return clone
   }
 
   get displayString(): string {
-    return this._values.join(' or ')
+    // Special case for all blanks
+    if (this._values.every(v => v.length === 0)) {
+      return 'is blank'
+    } else {
+      return this._values.join(' or ')
+    }
   }
 }

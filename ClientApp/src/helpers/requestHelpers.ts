@@ -15,7 +15,7 @@ const requestWithAuthentication = (
 ): Promise<Response> => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const token = store.getState()!.oidc!.user!.access_token
-  console.log(token)
+  // console.log(token)
   const fetchObject: RequestInit = {
     method,
     headers: {

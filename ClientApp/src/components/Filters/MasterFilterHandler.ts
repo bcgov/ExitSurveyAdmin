@@ -22,7 +22,9 @@ export class MasterFilterHandler {
       return []
     }
     if (Array.isArray(rawFilters)) {
-      throw new Error(`decodeFromQueryString: filters should not be an array`)
+      throw new Error(
+        `MFH.decodeFromQueryString: filters should not be an array`
+      )
     }
 
     const filterStrings = rawFilters.split(',')
@@ -34,8 +36,11 @@ export class MasterFilterHandler {
       const matchingFilters = filterStrings.filter(filterString =>
         filterString.startsWith(filter.fieldName)
       )
+      // console.log('matchingFilters', matchingFilters)
       if (matchingFilters.length > 0) {
-        filters.push(filter.decode(matchingFilters) as IFilter)
+        const clone = filter.clone()
+        const decoded = clone.decode(matchingFilters)
+        filters.push(decoded as IFilter)
       }
     })
 
