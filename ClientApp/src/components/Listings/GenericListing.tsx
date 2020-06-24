@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
@@ -65,6 +65,12 @@ const GenericListing = <T extends object>(***REMOVED***
   )
   const fetchIdRef = React.useRef<number>(0)
 
+  // Keep track of the previous value of the filterQuery in a ref
+  const prevFilterQueryRef = React.useRef<string>()
+  useEffect(() => ***REMOVED***
+    prevFilterQueryRef.current = filterQuery
+***REMOVED*** [filterQuery])
+
   const pageSize = propPageSize || DEFAULT_PAGE_SIZE
 
   React.useEffect(
@@ -81,7 +87,13 @@ const GenericListing = <T extends object>(***REMOVED***
 
       const sortByQuery = processSorts(sortBy)
 
-      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***pageIndex +
+      // Set page index
+      let newPageIndex = pageIndex
+      if (filterQuery != prevFilterQueryRef.current && pageIndex !== 0) ***REMOVED***
+        newPageIndex = 0
+    ***REMOVED***
+
+      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***newPageIndex +
         1***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
 
       if (fetchId === fetchIdRef.current) ***REMOVED***
@@ -94,10 +106,13 @@ const GenericListing = <T extends object>(***REMOVED***
             const pageCount = pagination.PageCount
             const recordCount = pagination.RecordCount
 
-            let newPageIndex = pageIndex
-            if (newPageIndex > pageCount - 1) ***REMOVED***
-              newPageIndex = pageCount - 1
-          ***REMOVED***
+            console.log(
+              'filterQuery',
+              filterQuery,
+              'prevFilterQueryRef',
+              prevFilterQueryRef.current
+            )
+
             setPageIndex(newPageIndex)
             setData(dataMapper(responseJSON))
             setPageCount(pageCount)
