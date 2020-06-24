@@ -120,7 +120,7 @@ const FilterForm = (***REMOVED***
         <form onSubmit=***REMOVED***submitForm***REMOVED*** ref=***REMOVED***formRef***REMOVED***>
           <div className="row">***REMOVED***inputs***REMOVED***</div>
           <div className="row align-items-center">
-            <div className="col-6 form-group">
+            <div className="col-8 form-group">
               ***REMOVED***PresetComponent && (
                 <PresetComponent
                   submitId=***REMOVED***submitId***REMOVED***
@@ -128,7 +128,7 @@ const FilterForm = (***REMOVED***
                 />
               )***REMOVED***
             </div>
-            <div className="col-6 form-group LabelledItem">
+            <div className="col-4 form-group LabelledItem">
               <div className="text-right">
                 <IconButton
                   label="Set filters"
