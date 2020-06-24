@@ -10,17 +10,15 @@ import EmployeePresets from '../Filters/Presets/EmployeePresets'
 import GenericListing from '../Listings/GenericListing'
 import { defaultDateFormat } from '../../helpers/dateHelper'
 
-const EmployeeListing = (): JSX.Element => (
-  <GenericListing
-    modelName="employees"
-    filterableFields={employeeFilters}
-    columns={employeeTableColumns}
-    presetComponent={EmployeePresets}
-    listingPath="employees"
-    dataMapper={(responseJSON: FixTypeLater[]): Employee[] =>
-      responseJSON.map(e => plainToClass(Employee, e))
-    }
-    exportedDataMapper={(responseJSON: FixTypeLater[]): FixTypeLater[] =>
+const EmployeeListing = (): JSX.Element => {
+  const dataMapperCallback = React.useCallback(
+    (responseJSON: FixTypeLater[]): Employee[] =>
+      responseJSON.map(e => plainToClass(Employee, e)),
+    []
+  )
+
+  const exportedDataMapperCallback = React.useCallback(
+    (responseJSON: FixTypeLater[]): FixTypeLater[] =>
       responseJSON.map(e => {
         delete e.timelineEntries
         delete e.currentEmployeeStatus
@@ -34,9 +32,21 @@ const EmployeeListing = (): JSX.Element => (
         e.effectiveDate = moment(e.effectiveDate).format(defaultDateFormat)
         e.leaveDate = moment(e.leaveDate).format(defaultDateFormat)
         return e
-      })
-    }
-  />
-)
+      }),
+    []
+  )
+
+  return (
+    <GenericListing
+      modelName="employees"
+      filterableFields={employeeFilters}
+      columns={employeeTableColumns}
+      presetComponent={EmployeePresets}
+      listingPath="employees"
+      dataMapper={dataMapperCallback}
+      exportedDataMapper={exportedDataMapperCallback}
+    />
+  )
+}
 
 export default EmployeeListing

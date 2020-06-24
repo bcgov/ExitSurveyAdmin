@@ -90,38 +90,31 @@ const GenericListing = <T extends object>({
 
       // Set page index
       let newPageIndex = pageIndex
-      if (filterQuery != prevFilterQueryRef.current && pageIndex !== 0) {
+      if (filterQuery !== prevFilterQueryRef.current && pageIndex !== 0) {
         newPageIndex = 0
       }
 
       const path = `${listingPath}?pageSize=${pageSize}&page=${newPageIndex +
         1}${sortByQuery}${filterQuery}`
 
-      if (fetchId === fetchIdRef.current) {
-        requestJSONWithErrorHandler(
-          `api/${path}`,
-          'get',
-          null,
-          'ENTRY_NOT_FOUND',
-          (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => {
-            const pageCount = pagination.PageCount
-            const recordCount = pagination.RecordCount
+      requestJSONWithErrorHandler(
+        `api/${path}`,
+        'get',
+        null,
+        'ENTRY_NOT_FOUND',
+        (responseJSON: FixTypeLater[], pagination: FixTypeLater): void => {
+          const pageCount = pagination.PageCount
+          const recordCount = pagination.RecordCount
 
-            console.log(
-              'filterQuery',
-              filterQuery,
-              'prevFilterQueryRef',
-              prevFilterQueryRef.current
-            )
-
+          if (fetchId === fetchIdRef.current) {
             setPageIndex(newPageIndex)
             setData(dataMapper(responseJSON))
             setPageCount(pageCount)
             setRecordCount(recordCount)
             setLoading(false)
           }
-        )
-      }
+        }
+      )
     },
     [filterQuery, listingPath, pageSize, dataMapper]
   )
