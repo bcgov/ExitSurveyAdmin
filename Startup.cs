@@ -66,8 +66,9 @@ namespace ExitSurveyAdmin
           ***REMOVED***);
 
             services.Configure<SieveOptions>(Configuration.GetSection("Sieve"));
-            services.AddScoped<SieveProcessor>();
             services.AddScoped<ISieveCustomSortMethods, SieveCustomSortMethods>();
+            services.AddScoped<ISieveCustomFilterMethods, SieveCustomFilterMethods>();
+            services.AddScoped<SieveProcessor>();
 
             services
                 .AddAuthentication(options =>

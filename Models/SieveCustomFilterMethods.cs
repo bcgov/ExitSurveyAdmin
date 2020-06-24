@@ -5,7 +5,14 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class SieveCustomFilterMethods : ISieveCustomFilterMethods
     ***REMOVED***
-        // Stub class for now.
-        // Docs at https://github.com/Biarity/Sieve
+
+        // The method is given the ***REMOVED***Operator***REMOVED*** & ***REMOVED***Value***REMOVED***
+        public IQueryable<Employee> BlankEmail(
+            IQueryable<Employee> source, string op, string[] values)
+        ***REMOVED***
+            var result = source.Where(e => e.PreferredEmail.Length == 0);
+
+            return result; // Must return modified IQueryable<TEntity>
+      ***REMOVED***
   ***REMOVED***
 ***REMOVED***
