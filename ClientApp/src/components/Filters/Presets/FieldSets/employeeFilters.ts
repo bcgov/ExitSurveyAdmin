@@ -2,6 +2,7 @@ import { IFilter } from '../../FilterClasses/FilterTypes'
 import DateFilter from '../../FilterClasses/DateFilter'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import TextFilter from '../../FilterClasses/TextFilter'
+import CustomFilter from '../../FilterClasses/CustomFilter'
 
 export const employeeFilters: IFilter[] = [
   new TextFilter('telkey'),
@@ -12,5 +13,6 @@ export const employeeFilters: IFilter[] = [
   new TextFilter('classification'),
   new DateFilter('effectiveDate'),
   new EnumFilter('currentEmployeeStatusCode'),
-  new EnumFilter('reason')
+  new EnumFilter('reason'),
+  new CustomFilter('blankEmail')
 ]
