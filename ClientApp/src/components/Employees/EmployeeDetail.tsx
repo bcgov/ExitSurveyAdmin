@@ -141,7 +141,9 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***labelFor('effectiveDate')***REMOVED***>
                 <Date date=***REMOVED***e.effectiveDate***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***labelFor('reason')***REMOVED***>***REMOVED***e.reason!.reasonCode***REMOVED***</CLText>
+              <CLText label=***REMOVED***labelFor('reason')***REMOVED***>
+                ***REMOVED***e.reason ? e.reason.reasonCode : '[Unknown reason]'***REMOVED***
+              </CLText>
               <CLText label=***REMOVED***labelFor('exitCount')***REMOVED***>***REMOVED***e.exitCount***REMOVED***</CLText>
               <CLText label=***REMOVED***labelFor('recordCount')***REMOVED***>***REMOVED***e.recordCount***REMOVED***</CLText>
               <CLText label=***REMOVED***labelFor('backDated')***REMOVED***>***REMOVED***e.backDated***REMOVED***</CLText>

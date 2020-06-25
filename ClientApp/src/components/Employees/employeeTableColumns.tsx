@@ -56,7 +56,8 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   ***REMOVED***
     Header: 'Leave reason',
     Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      return <>***REMOVED***((props.value as unknown) as Reason).reasonCode***REMOVED***</>
+      const reason = (props.value as unknown) as Reason
+      return <>***REMOVED***reason ? reason.reasonCode : '[Unknown Reason]'***REMOVED***</>
   ***REMOVED***
     accessor: 'reason'
 ***REMOVED***
