@@ -227,7 +227,7 @@ namespace ExitSurveyAdmin.Models
                     case "Rejection on Probation":
                         return "3";
                     case "Layoff (With Recall)":
-                    case "Job Ends/End of Recall limit":
+                    case "Job Ends/End of Recall Limit":
                         return "2";
                     default: // All other cases; no need to enumerate here
                         return "1";
