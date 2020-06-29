@@ -142,7 +142,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <Date date={e.effectiveDate} />
               </CLText>
               <CLText label={labelFor('reason')}>
-                {e.reason ? e.reason.reasonCode : '[Unknown reason]'}
+                {e.reason ? e.reason.reasonCode : '[Unknown Reason]'}
               </CLText>
               <CLText label={labelFor('exitCount')}>{e.exitCount}</CLText>
               <CLText label={labelFor('recordCount')}>{e.recordCount}</CLText>
