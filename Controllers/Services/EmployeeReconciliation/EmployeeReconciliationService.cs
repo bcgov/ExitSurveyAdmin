@@ -229,7 +229,7 @@ namespace ExitSurveyAdmin.Services
 
                         // If the user is in a final state, log this as a
                         // mistake instead.
-                        if (!existingEmployee.IsActive())
+                        if (!existingEmployee.IsActive() && !existingEmployee.TriedToUpdateInFinalState)
                         {
                             comment =
                                 $"These fields would have been updated, " +
@@ -239,6 +239,17 @@ namespace ExitSurveyAdmin.Services
                                 "No more updates of this kind will be logged.";
 
                             existingEmployee.TriedToUpdateInFinalState = true;
+                            // Create a new timeline entry.
+                            context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                            {
+                                EmployeeId = existingEmployee.Id,
+                                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                                Comment = comment
+                            });
+
+                            context.Entry(existingEmployee).State = EntityState.Modified;
+                            await context.SaveChangesAsync();
                         }
 
                         // Save changes to employee and the new timeline entry.
