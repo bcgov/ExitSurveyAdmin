@@ -262,7 +262,7 @@ namespace ExitSurveyAdmin.Services
                             return existingEmployee;
                       ***REMOVED***
 
-                        await callWeb.UpdateSurvey(employee);
+                        await callWeb.UpdateSurvey(existingEmployee);
                   ***REMOVED***
               ***REMOVED***
 
