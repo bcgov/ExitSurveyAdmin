@@ -41,8 +41,8 @@ namespace ExitSurveyAdmin.Models
                 context.AdminSettings.Add(
                     new AdminSetting()
                     ***REMOVED***
-                        Key = AdminSetting.EmployeeNotExitingThreshold,
-                        DisplayName = "Employee not exiting threshold (days)",
+                        Key = AdminSetting.EmployeeExpirationThreshold,
+                        DisplayName = "Employee expiration threshold (days)",
                         Value = "180"
                   ***REMOVED***
                 );
