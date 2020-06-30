@@ -12,9 +12,7 @@ const LabelledText = (props: IProps): JSX.Element => {
   return (
     <div className="LabelledText">
       <span className="Label">{props.label}</span>
-      {props.helperText && (
-        <span className="HelperText">{props.helperText}</span>
-      )}
+      {props.helperText && <div className="HelperText">{props.helperText}</div>}
       <span className="Text">{props.children}</span>
     </div>
   )
