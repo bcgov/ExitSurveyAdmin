@@ -16,12 +16,19 @@ interface IProps ***REMOVED***
   employeeDatabaseId: string
   fieldName: string
   fieldValue: string
+  valueToDisplayAccessor?: (value: string) => string
   options: ISelectOption[]
   refreshDataCallback: () => void
 ***REMOVED***
 
 const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED*** employeeDatabaseId, fieldName, fieldValue, options ***REMOVED*** = props
+  const ***REMOVED***
+    employeeDatabaseId,
+    fieldName,
+    fieldValue,
+    options,
+    valueToDisplayAccessor
+***REMOVED*** = props
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
@@ -83,7 +90,9 @@ const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
         </form>
       ) : (
         <span className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
-          ***REMOVED***fieldValue***REMOVED***
+          ***REMOVED***valueToDisplayAccessor
+            ? valueToDisplayAccessor(fieldValue)
+            : fieldValue***REMOVED***
         </span>
       )***REMOVED***
       <SuccessMessage className="pt-1 mt-2" successTime=***REMOVED***successTime***REMOVED*** />

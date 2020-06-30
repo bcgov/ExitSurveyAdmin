@@ -6,7 +6,7 @@ import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
+import ***REMOVED*** EmployeeStatus, EmployeeStatusEnum ***REMOVED*** from '../../types/EmployeeStatus'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../helpers/labelHelper'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import AddComment from './AddComment'
@@ -67,9 +67,13 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                 <EditableDropdown
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName="currentEmployeeStatusCode"
-                  fieldValue=***REMOVED***e.currentEmployeeStatusCode!.displayName***REMOVED***
+                  fieldValue=***REMOVED***e.currentEmployeeStatusCode!.code***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
                   options=***REMOVED***EmployeeStatus.toOptions()***REMOVED***
+                  valueToDisplayAccessor=***REMOVED***(value: string): string =>
+                    EmployeeStatus.fromKey(value as EmployeeStatusEnum)
+                      .displayName
+                ***REMOVED***
                 />
               </h3>
             </LabelledText>
