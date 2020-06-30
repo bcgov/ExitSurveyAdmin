@@ -6,7 +6,7 @@ import { plainToClass } from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
 import { Employee } from '../../types/Employee'
-import { EmployeeStatus } from '../../types/EmployeeStatus'
+import { EmployeeStatus, EmployeeStatusEnum } from '../../types/EmployeeStatus'
 import { labelFor } from '../../helpers/labelHelper'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import AddComment from './AddComment'
@@ -67,9 +67,13 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                 <EditableDropdown
                   employeeDatabaseId={e.id!}
                   fieldName="currentEmployeeStatusCode"
-                  fieldValue={e.currentEmployeeStatusCode!.displayName}
+                  fieldValue={e.currentEmployeeStatusCode!.code}
                   refreshDataCallback={this.populateData}
                   options={EmployeeStatus.toOptions()}
+                  valueToDisplayAccessor={(value: string): string =>
+                    EmployeeStatus.fromKey(value as EmployeeStatusEnum)
+                      .displayName
+                  }
                 />
               </h3>
             </LabelledText>
