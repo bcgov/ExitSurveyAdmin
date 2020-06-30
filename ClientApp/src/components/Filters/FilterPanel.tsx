@@ -80,6 +80,12 @@ const FilterPanel = (props: IProps): JSX.Element => ***REMOVED***
     props.history.push(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***)
 ***REMOVED*** [filters, props.history])
 
+  React.useEffect(() => ***REMOVED***
+    if (props.location.search === '') ***REMOVED***
+      setFilters([])
+  ***REMOVED***
+***REMOVED*** [props.location.search])
+
   const expandedHeight = expanded ? '400px' : '0px'
   const expandedClass = expanded ? 'Expanded' : ''
 
