@@ -236,10 +236,17 @@ namespace ExitSurveyAdmin.Models
             }
         }
 
+        public string SurveyWindowFlag
+        {
+            get
+            {
+                return IsActive() ? "0" : "1";
+            }
+        }
+
         public Boolean IsActive()
         {
-            return CurrentEmployeeStatus.State
-                .Equals(EmployeeStatusEnum.StateActive);
+            return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
         }
     }
 }
