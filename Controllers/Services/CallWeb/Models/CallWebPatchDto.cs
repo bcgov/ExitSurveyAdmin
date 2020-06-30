@@ -16,6 +16,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         public string LeaveCode { get; set; }
         public string EffectiveDate { get; set; }
         public string CurrentStatus { get; set; }
+        public string SurveyWindowFlag { get; set; }
 
         public static CallWebPatchDto FromEmployee(Employee employee)
         {
@@ -31,7 +32,8 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 LeaveReason = employee.Reason,
                 LeaveCode = employee.LeaveCode,
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
-                CurrentStatus = employee.CurrentEmployeeStatusCode
+                CurrentStatus = employee.CurrentEmployeeStatusCode,
+                SurveyWindowFlag = employee.SurveyWindowFlag
             };
         }
     }

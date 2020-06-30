@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -71,6 +72,12 @@ namespace ExitSurveyAdmin.Models
             Declined,
             Expired
         };
+
+        public static Boolean IsActiveStatus(string statusCode)
+        {
+            var status = AllValues.Find(s => s.Code == statusCode);
+            return status.State == StateActive;
+        }
 
 
         [Key]
