@@ -35,7 +35,7 @@ const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: I
   return (
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <IconButton
-        label="Active employees"
+        label="Exiting employees"
         iconName="user-check"
         colorType="outline-primary"
         marginClasses="mr-2"
