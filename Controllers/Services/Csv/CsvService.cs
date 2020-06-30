@@ -97,5 +97,60 @@ namespace ExitSurveyAdmin.Services
                 return Tuple.Create(goodRecords, badRecords);
             }
         }
+
+        public async Task<List<Employee>> ProcessCsv(
+            Microsoft.AspNetCore.Http.HttpRequest request,
+            EmployeeReconciliationService employeeReconciler,
+            LoggingService logger
+        )
+        {
+            var csvServiceTuple = await EmployeesFromCsv(request.Body, Encoding.UTF8);
+            var goodRecords = csvServiceTuple.Item1;
+            var badRecords = csvServiceTuple.Item2;
+            var totalRecordCount = goodRecords.Count + badRecords.Count;
+
+            // Reconcile the employees with the database.
+            var reconcilerTuple = await employeeReconciler
+                .ReconcileEmployees(goodRecords);
+            var goodEmployees = reconcilerTuple.Item1;
+            var badEmployees = reconcilerTuple.Item2;
+            var totalEmployeeCount = goodEmployees.Count + badEmployees.Count;
+
+            if (
+                goodRecords.Count == totalRecordCount &&
+                goodEmployees.Count == totalRecordCount
+            )
+            {
+                await logger.LogSuccess(TaskEnum.ReconcileCsv,
+                    $"From a CSV with {totalRecordCount} rows, " +
+                    $"reconciled {totalRecordCount} employees. "
+                );
+            }
+            else
+            {
+                var newLine = System.Environment.NewLine;
+
+                var message =
+                    $"From a CSV with {totalRecordCount} rows, " +
+                    $"successfully read {goodRecords.Count} rows " +
+                    $"and reconciled {goodEmployees.Count} employees. ";
+
+                if (goodRecords.Count != totalRecordCount)
+                {
+                    message +=
+                        $"There were {badRecords.Count} bad rows: " +
+                        $"Exceptions: {string.Join(newLine, badRecords)} ";
+                }
+                if (goodEmployees.Count != goodRecords.Count)
+                {
+                    message +=
+                        $"There were {badEmployees.Count} employees with errors: " +
+                        $"Exceptions: {string.Join(newLine, badEmployees)} ";
+                }
+                await logger.LogWarning(TaskEnum.ReconcileCsv, message);
+            }
+
+            return goodEmployees;
+        }
     }
 }

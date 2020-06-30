@@ -23,13 +23,15 @@ namespace ExitSurveyAdmin.Controllers
         private readonly EmployeeInfoLookupService EmployeeInfoLookup;
         private readonly EmployeeReconciliationService EmployeeReconciler;
         private readonly CallWebService callWebService;
+        private readonly LoggingService logger;
 
         public EmployeesController(
             ExitSurveyAdminContext context,
             SieveProcessor sieveProcessor,
             EmployeeInfoLookupService employeeInfoLookup,
             EmployeeReconciliationService employeeReconciler,
-            CallWebService callWebService
+            CallWebService callWebService,
+            LoggingService loggingService
         )
         {
             this.context = context;
@@ -37,6 +39,7 @@ namespace ExitSurveyAdmin.Controllers
             EmployeeInfoLookup = employeeInfoLookup;
             EmployeeReconciler = employeeReconciler;
             this.callWebService = callWebService;
+            logger = loggingService;
         }
 
         // GET: api/Employees
@@ -128,6 +131,29 @@ namespace ExitSurveyAdmin.Controllers
                 .ReconcileEmployee(employee);
 
             return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
+        }
+
+        [HttpPost("RefreshEmployeeStatus")]
+        public async Task<ActionResult> RefreshEmployeeStatus()
+        {
+            try
+            {
+                // Update existing employee statuses.
+                await EmployeeReconciler.UpdateEmployeeStatuses();
+
+                await logger.LogSuccess(TaskEnum.RefreshStatuses,
+                    $"Manually-triggered refresh of employee statuses."
+                );
+            }
+            catch (Exception e)
+            {
+                await logger.LogFailure(TaskEnum.ReconcileCsv,
+                    $"Error refreshing employee statuses. Stacktrace:\r\n" +
+                    e.StackTrace
+                );
+            }
+
+            return Ok();
         }
 
         private bool EmployeeExists(int id)
