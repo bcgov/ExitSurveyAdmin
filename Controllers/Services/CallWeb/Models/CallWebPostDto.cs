@@ -17,6 +17,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         public string ExitCount { get; set; }
         public string AdditionalJobCount { get; set; }
         public string CurrentStatus { get; set; }
+        public string SurveyWindowFlag { get; set; }
 
         public static CallWebPostDto FromEmployee(Employee employee)
         {
@@ -30,11 +31,12 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 PreferredFirstName = employee.PreferredFirstName,
                 LastName = employee.LastName,
                 LeaveReason = employee.Reason,
-                LeaveCode = employee.LeaveCode, // TODO: adjust
+                LeaveCode = employee.LeaveCode,
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 ExitCount = employee.ExitCount,
                 AdditionalJobCount = employee.RecordCount,
-                CurrentStatus = employee.CurrentEmployeeStatusCode
+                CurrentStatus = employee.CurrentEmployeeStatusCode,
+                SurveyWindowFlag = employee.SurveyWindowFlag
             };
         }
     }

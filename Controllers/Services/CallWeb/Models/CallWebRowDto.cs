@@ -14,5 +14,6 @@ namespace ExitSurveyAdmin.Services.CallWeb
         public string EffectiveDate { get; set; }
         public string CurrentStatus { get; set; }
         public string IsSurveyComplete { get; set; }
+        public string SurveyWindowFlag { get; set; }
     }
 }
