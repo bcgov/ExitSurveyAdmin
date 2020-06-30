@@ -40,6 +40,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'exitCount'
 ***REMOVED***
   ***REMOVED***
+    Header: 'Record count',
+    accessor: 'recordCount'
+***REMOVED***
+  ***REMOVED***
     Header: 'Classification',
     accessor: 'classification'
 ***REMOVED***
