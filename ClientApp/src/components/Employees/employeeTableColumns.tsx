@@ -6,6 +6,7 @@ import { Employee } from '../../types/Employee'
 import { EmployeeStatus } from '../../types/EmployeeStatus'
 import { Reason } from '../../types/Reason'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
+import { AppointmentStatus } from '../../types/AppointmentStatus'
 
 type EmployeeCellProps = React.PropsWithChildren<
   CellProps<Employee, string | undefined>
@@ -44,8 +45,18 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'recordCount'
   },
   {
-    Header: 'Classification',
-    accessor: 'classification'
+    Header: 'Appointment status',
+    Cell: (props: EmployeeCellProps): JSX.Element => {
+      const appointmentStatus = (props.value as unknown) as AppointmentStatus
+      return (
+        <>
+          {appointmentStatus
+            ? appointmentStatus.code
+            : '[Unknown Appointment Status]'}
+        </>
+      )
+    },
+    accessor: 'appointmentStatus'
   },
   {
     Header: 'Exit effective date',
