@@ -17,12 +17,19 @@ interface IProps extends RouteComponentProps {
   presetComponent?: React.FC<IPresetProps>
 }
 
-const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
+const removeExactMatch = (arr: IFilter[], candidate: IFilter): void => {
   const index = arr.findIndex(f => f.encode() === candidate.encode())
   if (index > -1) arr.splice(index, 1)
 }
 
+const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
+  const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
+  if (index > -1) arr.splice(index, 1)
+}
+
 const removeIfRequired = (arr: IFilter[], candidate: IFilter): void => {
+  // Remove exact matches
+  removeExactMatch(arr, candidate)
   if (candidate.mustReplace) {
     removeIfExists(arr, candidate)
   }
