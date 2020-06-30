@@ -332,7 +332,54 @@ namespace ExitSurveyAdmin.Services
                     EmployeeStatusEnum.Expired);
             }
 
+            // Conversely, re-open expired users if they are now inside the
+            // threshold, for instance if the threshold was extended.
+            if (
+                employee.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code &&
+                employee.EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow
+            )
+            {
+                return await SaveStatusAndAddTimelineEntry(employee,
+                    EmployeeStatusEnum.Exiting);
+            }
+
             return employee;
+        }
+
+        public async Task UpdateNotExiting(List<Employee> reconciledEmployeeList)
+        {
+            var activeDBEmployeesNotInCsv = context.Employees
+                .Include(e => e.TimelineEntries)
+                .Include(e => e.CurrentEmployeeStatus)
+                .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) // Reproject this as the status might have changed
+                .ToList()
+                .Where(e => reconciledEmployeeList.All(e2 => e2.Id != e.Id)) // This finds all nonFinalEmployees whose Id is not in the reconciledEmployeeList
+                .ToList();
+
+            foreach (Employee e in activeDBEmployeesNotInCsv)
+            {
+                var employee = await SaveStatusAndAddTimelineEntry(
+                    e, EmployeeStatusEnum.NotExiting
+                );
+            }
+        }
+
+        public async Task UpdateEmployeeStatuses()
+        {
+            // For all non-final employees and expired employees, update.
+            var candidateEmployees = context.Employees
+                .Include(e => e.TimelineEntries)
+                .Include(e => e.CurrentEmployeeStatus)
+                .Where(
+                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) ||
+                         (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
+                )
+                .ToList();
+
+            foreach (Employee e in candidateEmployees)
+            {
+                var employee = await UpdateEmployeeStatus(e);
+            }
         }
     }
 }
