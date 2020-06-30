@@ -44,7 +44,7 @@ export default class EnumFilter implements IFilter ***REMOVED***
 ***REMOVED***
 
   get mustReplace(): boolean ***REMOVED***
-    return false
+    return true
 ***REMOVED***
 
   encode(): string ***REMOVED***
