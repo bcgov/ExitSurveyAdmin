@@ -44,7 +44,7 @@ export default class EnumFilter implements IFilter {
   }
 
   get mustReplace(): boolean {
-    return false
+    return true
   }
 
   encode(): string {
