@@ -298,12 +298,12 @@ namespace ExitSurveyAdmin.Services
 
             // An employee only has a set amount of time to complete a survey.
             // If that time has expired, then expire the user.
-            var employeeNotExitingThresholdSetting = await context
+            var employeeExpirationThresholdSetting = await context
                 .AdminSettings
-                .FirstAsync(a => a.Key == AdminSetting.EmployeeNotExitingThreshold);
+                .FirstAsync(a => a.Key == AdminSetting.EmployeeExpirationThreshold);
 
             var thresholdInDays = System.Convert.ToInt32(
-                employeeNotExitingThresholdSetting.Value
+                employeeExpirationThresholdSetting.Value
             );
 
             if (employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow)
