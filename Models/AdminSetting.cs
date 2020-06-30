@@ -6,7 +6,7 @@ namespace ExitSurveyAdmin.Models
 {
     public class AdminSetting : BaseEntity
     {
-        public static readonly string EmployeeNotExitingThreshold = "EmployeeNotExitingThreshold";
+        public static readonly string EmployeeExpirationThreshold = "EmployeeExpirationThreshold";
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
