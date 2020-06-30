@@ -2,6 +2,7 @@ import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/E
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../types/EmployeeStatus'
 import ***REMOVED*** Reason ***REMOVED*** from '../types/Reason'
 import ***REMOVED*** TaskOutcome ***REMOVED*** from '../types/TaskOutcome'
+import ***REMOVED*** AppointmentStatus ***REMOVED*** from '../types/AppointmentStatus'
 
 const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVED***
   id: 'Database ID',
@@ -61,7 +62,8 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
 const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMOVED*** = ***REMOVED***
   currentEmployeeStatusCode: EmployeeStatus.toOptions,
   reason: Reason.toOptions,
-  taskOutcomeCode: TaskOutcome.toOptions
+  taskOutcomeCode: TaskOutcome.toOptions,
+  appointmentStatus: AppointmentStatus.toOptions
 ***REMOVED***
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
