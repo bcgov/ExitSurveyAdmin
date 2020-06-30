@@ -48,7 +48,7 @@ class NavMenu extends React.Component<IProps, IState> {
             </li>
             <li className="nav-item">
               <Link to="/admin" className="nav-link text-primary">
-                Admin settings
+                Admin interface
               </Link>
             </li>
           </ul>

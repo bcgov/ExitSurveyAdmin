@@ -76,10 +76,13 @@ namespace ExitSurveyAdmin.Controllers
                     goodEmployees.Count == totalRecordCount
                 )
                 {
-                    await logger.LogSuccess(TaskEnum.ReconcileCsv,
-                        $"From a CSV with {totalRecordCount} rows, " +
-                        $"reconciled {totalRecordCount} employees. "
-                    );
+                    // If there are no records, then this was an employee data
+                    // refresh. Indicate as such.
+                    var message = (totalRecordCount == 0)
+                        ? "Refreshed employee data."
+                        : $"From a CSV with {totalRecordCount} rows, " +
+                          $"reconciled {totalRecordCount} employees. ";
+                    await logger.LogSuccess(TaskEnum.ReconcileCsv, message);
                 }
                 else
                 {
@@ -120,7 +123,7 @@ namespace ExitSurveyAdmin.Controllers
                         .UpdateEmployeeStatus(e);
                 }
 
-                // Step 3. For all ACTIVE users in the DB who are NOT in the
+                // Step 4. For all ACTIVE users in the DB who are NOT in the
                 // Csv, set them to not exiting, IF they are not in a final state.
                 var activeDBEmployeesNotInCsv = context.Employees
                     .Include(e => e.TimelineEntries)
