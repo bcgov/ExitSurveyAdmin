@@ -67,6 +67,7 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string LastName { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string RecordCount { get; set; }
 

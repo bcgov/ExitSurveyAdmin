@@ -40,6 +40,10 @@ export const employeeTableColumns = (): Column<Employee>[] => [
     accessor: 'exitCount'
   },
   {
+    Header: 'Record count',
+    accessor: 'recordCount'
+  },
+  {
     Header: 'Classification',
     accessor: 'classification'
   },
