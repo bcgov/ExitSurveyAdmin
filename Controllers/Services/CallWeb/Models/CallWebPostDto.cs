@@ -36,7 +36,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 ExitCount = employee.ExitCount,
                 AdditionalJobCount = employee.RecordCount,
                 CurrentStatus = employee.CurrentEmployeeStatusCode,
-                SurveyWindowFlag = employee.SurveyWindowFlag
+                SurveyWindowFlag = employee.SurveyWindowFlag()
             };
         }
     }
