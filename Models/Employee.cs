@@ -236,10 +236,17 @@ namespace ExitSurveyAdmin.Models
           ***REMOVED***
       ***REMOVED***
 
+        public string SurveyWindowFlag
+        ***REMOVED***
+            get
+            ***REMOVED***
+                return IsActive() ? "0" : "1";
+          ***REMOVED***
+      ***REMOVED***
+
         public Boolean IsActive()
         ***REMOVED***
-            return CurrentEmployeeStatus.State
-                .Equals(EmployeeStatusEnum.StateActive);
+            return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

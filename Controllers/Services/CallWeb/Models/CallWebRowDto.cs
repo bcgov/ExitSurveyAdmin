@@ -14,5 +14,6 @@ namespace ExitSurveyAdmin.Services.CallWeb
         public string EffectiveDate ***REMOVED*** get; set; ***REMOVED***
         public string CurrentStatus ***REMOVED*** get; set; ***REMOVED***
         public string IsSurveyComplete ***REMOVED*** get; set; ***REMOVED***
+        public string SurveyWindowFlag ***REMOVED*** get; set; ***REMOVED***
   ***REMOVED***
 ***REMOVED***
