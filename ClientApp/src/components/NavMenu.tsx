@@ -43,7 +43,7 @@ class NavMenu extends React.Component<IProps, IState> {
             </li>
             <li className="nav-item">
               <Link to="/employees" className="nav-link text-primary">
-                Exiting employees
+                Employee database
               </Link>
             </li>
             <li className="nav-item">
