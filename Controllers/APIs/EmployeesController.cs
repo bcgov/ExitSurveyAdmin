@@ -23,13 +23,15 @@ namespace ExitSurveyAdmin.Controllers
         private readonly EmployeeInfoLookupService EmployeeInfoLookup;
         private readonly EmployeeReconciliationService EmployeeReconciler;
         private readonly CallWebService callWebService;
+        private readonly LoggingService logger;
 
         public EmployeesController(
             ExitSurveyAdminContext context,
             SieveProcessor sieveProcessor,
             EmployeeInfoLookupService employeeInfoLookup,
             EmployeeReconciliationService employeeReconciler,
-            CallWebService callWebService
+            CallWebService callWebService,
+            LoggingService loggingService
         )
         ***REMOVED***
             this.context = context;
@@ -37,6 +39,7 @@ namespace ExitSurveyAdmin.Controllers
             EmployeeInfoLookup = employeeInfoLookup;
             EmployeeReconciler = employeeReconciler;
             this.callWebService = callWebService;
+            logger = loggingService;
       ***REMOVED***
 
         // GET: api/Employees
@@ -128,6 +131,29 @@ namespace ExitSurveyAdmin.Controllers
                 .ReconcileEmployee(employee);
 
             return CreatedAtAction(nameof(GetEmployee), new ***REMOVED*** id = newEmployee.Id ***REMOVED***, newEmployee);
+      ***REMOVED***
+
+        [HttpPost("RefreshEmployeeStatus")]
+        public async Task<ActionResult> RefreshEmployeeStatus()
+        ***REMOVED***
+            try
+            ***REMOVED***
+                // Update existing employee statuses.
+                await EmployeeReconciler.UpdateEmployeeStatuses();
+
+                await logger.LogSuccess(TaskEnum.RefreshStatuses,
+                    $"Manually-triggered refresh of employee statuses."
+                );
+          ***REMOVED***
+            catch (Exception e)
+            ***REMOVED***
+                await logger.LogFailure(TaskEnum.ReconcileCsv,
+                    $"Error refreshing employee statuses. Stacktrace:\r\n" +
+                    e.StackTrace
+                );
+          ***REMOVED***
+
+            return Ok();
       ***REMOVED***
 
         private bool EmployeeExists(int id)

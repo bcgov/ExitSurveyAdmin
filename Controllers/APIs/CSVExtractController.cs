@@ -52,94 +52,18 @@ namespace ExitSurveyAdmin.Controllers
         ***REMOVED***
             var reconciledEmployeeList = new List<Employee>();
 
-            // TODO: Break apart this functionality.
             try
             ***REMOVED***
                 // Step 1. Get a list of candidate Employee objects based on the
                 // Csv.
-                var csvServiceTuple = await csv
-                    .EmployeesFromCsv(Request.Body, Encoding.UTF8);
-                var goodRecords = csvServiceTuple.Item1;
-                var badRecords = csvServiceTuple.Item2;
-                var totalRecordCount = goodRecords.Count + badRecords.Count;
+                reconciledEmployeeList = await csv.ProcessCsv(Request, employeeReconciler, logger);
 
-                // Step 2. Reconcile the employees with the database.
-                var reconcilerTuple = await employeeReconciler
-                    .ReconcileEmployees(goodRecords);
-                var goodEmployees = reconcilerTuple.Item1;
-                var badEmployees = reconcilerTuple.Item2;
-                var totalEmployeeCount = goodEmployees.Count + badEmployees.Count;
-                reconciledEmployeeList = goodEmployees;
+                // Step 2. Update existing employee statuses.
+                await employeeReconciler.UpdateEmployeeStatuses();
 
-                if (
-                    goodRecords.Count == totalRecordCount &&
-                    goodEmployees.Count == totalRecordCount
-                )
-                ***REMOVED***
-                    // If there are no records, then this was an employee data
-                    // refresh. Indicate as such.
-                    var message = (totalRecordCount == 0)
-                        ? "Refreshed employee data."
-                        : $"From a CSV with ***REMOVED***totalRecordCount***REMOVED*** rows, " +
-                          $"reconciled ***REMOVED***totalRecordCount***REMOVED*** employees. ";
-                    await logger.LogSuccess(TaskEnum.ReconcileCsv, message);
-              ***REMOVED***
-                else
-                ***REMOVED***
-                    var newLine = System.Environment.NewLine;
-
-                    var message =
-                        $"From a CSV with ***REMOVED***totalRecordCount***REMOVED*** rows, " +
-                        $"successfully read ***REMOVED***goodRecords.Count***REMOVED*** rows " +
-                        $"and reconciled ***REMOVED***goodEmployees.Count***REMOVED*** employees. ";
-
-                    if (goodRecords.Count != totalRecordCount)
-                    ***REMOVED***
-                        message +=
-                            $"There were ***REMOVED***badRecords.Count***REMOVED*** bad rows: " +
-                            $"Exceptions: ***REMOVED***string.Join(newLine, badRecords)***REMOVED*** ";
-                  ***REMOVED***
-                    if (goodEmployees.Count != goodRecords.Count)
-                    ***REMOVED***
-                        message +=
-                            $"There were ***REMOVED***badEmployees.Count***REMOVED*** employees with errors: " +
-                            $"Exceptions: ***REMOVED***string.Join(newLine, badEmployees)***REMOVED*** ";
-                  ***REMOVED***
-                    await logger.LogWarning(TaskEnum.ReconcileCsv, message);
-              ***REMOVED***
-
-                // Step 3. Update existing user statuses.
-                // TODO: What if a user re-appears in the Csv after having been
-                // marked as exiting?
-                var nonFinalEmployees = context.Employees
-                    .Include(e => e.TimelineEntries)
-                    .Include(e => e.CurrentEmployeeStatus)
-                    .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
-                    .ToList();
-
-                foreach (Employee e in nonFinalEmployees)
-                ***REMOVED***
-                    var employee = await employeeReconciler
-                        .UpdateEmployeeStatus(e);
-              ***REMOVED***
-
-                // Step 4. For all ACTIVE users in the DB who are NOT in the
+                // Step 3. For all ACTIVE users in the DB who are NOT in the
                 // Csv, set them to not exiting, IF they are not in a final state.
-                var activeDBEmployeesNotInCsv = context.Employees
-                    .Include(e => e.TimelineEntries)
-                    .Include(e => e.CurrentEmployeeStatus)
-                    .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) // Reproject this as the status might have changed
-                    .ToList()
-                    .Where(e => reconciledEmployeeList.All(e2 => e2.Id != e.Id)) // This finds all nonFinalEmployees whose Id is not in the reconciledEmployeeList
-                    .ToList();
-
-                foreach (Employee e in activeDBEmployeesNotInCsv)
-                ***REMOVED***
-                    var employee = await employeeReconciler
-                        .SaveStatusAndAddTimelineEntry(
-                            e, EmployeeStatusEnum.NotExiting
-                        );
-              ***REMOVED***
+                await employeeReconciler.UpdateNotExiting(reconciledEmployeeList);
           ***REMOVED***
             catch (Exception e)
             ***REMOVED***

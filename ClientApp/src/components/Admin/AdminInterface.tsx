@@ -30,7 +30,7 @@ const AdminInterface = (props: IProps): JSX.Element => ***REMOVED***
   const reconcileEmployees = React.useCallback(() => ***REMOVED***
     setRefreshButtonActive(true)
     requestJSONWithErrorHandler(
-      `api/CSVExtract/EmployeesFromCSV`,
+      `api/Employees/RefreshEmployeeStatus`,
       'post',
       null,
       'RECONCILIATION_FAILED',
