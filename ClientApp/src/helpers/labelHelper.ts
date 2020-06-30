@@ -54,7 +54,8 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
   modifiedTs: 'Last modified date',
   taskOutcomeCode: 'Status',
   comment: 'Comment',
-  blankEmail: 'Preferred email'
+  blankEmail: 'Preferred email',
+  triedToUpdateInFinalState: 'Tried to update in final state'
 ***REMOVED***
 
 const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMOVED*** = ***REMOVED***

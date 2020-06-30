@@ -184,6 +184,9 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                   <Date date=***REMOVED***e.modifiedTs***REMOVED*** showTime showLocalTimezone />
                 </small>
               </CLText>
+              <CLText label=***REMOVED***labelFor('triedToUpdateInFinalState')***REMOVED***>
+                ***REMOVED***e.triedToUpdateInFinalState ? 'True' : 'False'***REMOVED***
+              </CLText>
             </div>
           </div>
           <div className="col-4">

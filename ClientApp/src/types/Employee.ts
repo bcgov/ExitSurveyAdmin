@@ -43,6 +43,7 @@ export class Employee ***REMOVED***
   public classificationGroup?: string
   public serviceGroup?: string
   public locationGroup?: string
+  public triedToUpdateInFinalState?: boolean
 
   // Dates
   @Transform((date: string) => dateOrUndefined(date))
