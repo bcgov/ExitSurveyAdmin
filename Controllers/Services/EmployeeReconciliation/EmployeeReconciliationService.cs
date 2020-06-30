@@ -193,6 +193,7 @@ namespace ExitSurveyAdmin.Services
                     });
                     context.Entry(existingEmployee).State = EntityState.Modified;
                     await context.SaveChangesAsync();
+                    await callWeb.UpdateSurvey(existingEmployee);
                 }
 
                 // Now compare properties.
