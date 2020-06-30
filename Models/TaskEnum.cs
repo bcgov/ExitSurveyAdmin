@@ -7,6 +7,7 @@ namespace ExitSurveyAdmin.Models
     public class TaskEnum
     {
         private static readonly string CodeReconcileCsv = "ReconcileCSV";
+        private static readonly string CodeRefreshStatuses = "RefreshStatuses";
         private static readonly string CodeEmailUsers = "EmailUsers";
         private static readonly string CodeRetrieveSurveyStatus = "RetrieveSurveyStatus";
 
@@ -14,6 +15,11 @@ namespace ExitSurveyAdmin.Models
         {
             Code = CodeReconcileCsv,
             Description = "The task to reconcile the new CSV with the existing database."
+        };
+        public static readonly TaskEnum RefreshStatuses = new TaskEnum
+        {
+            Code = CodeRefreshStatuses,
+            Description = "A manually-triggered refresh of employee statuses."
         };
         public static readonly TaskEnum EmailUsers = new TaskEnum
         {
@@ -29,6 +35,7 @@ namespace ExitSurveyAdmin.Models
         public static readonly List<TaskEnum> AllValues = new List<TaskEnum>
         {
             ReconcileCsv,
+            RefreshStatuses,
             EmailUsers,
             RetrieveSurveyStatus
         };
