@@ -10,7 +10,7 @@ export const employeeFilters: IFilter[] = [
   new TextFilter('preferredFirstName'),
   new TextFilter('lastName'),
   new TextFilter('preferredEmail'),
-  new TextFilter('classification'),
+  new EnumFilter('appointmentStatus'),
   new DateFilter('effectiveDate'),
   new EnumFilter('currentEmployeeStatusCode'),
   new EnumFilter('reason'),

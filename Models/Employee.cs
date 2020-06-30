@@ -148,6 +148,7 @@ namespace ExitSurveyAdmin.Models
         public string Phone { get; set; }
 
         [Required]
+        [Sieve(CanFilter = true, CanSort = true)]
         public string AppointmentStatus { get; set; }
 
         [Required]
