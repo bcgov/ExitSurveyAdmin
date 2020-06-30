@@ -236,12 +236,9 @@ namespace ExitSurveyAdmin.Models
           ***REMOVED***
       ***REMOVED***
 
-        public string SurveyWindowFlag
+        public string SurveyWindowFlag()
         ***REMOVED***
-            get
-            ***REMOVED***
-                return IsActive() ? "0" : "1";
-          ***REMOVED***
+            return IsActive() ? "0" : "1";
       ***REMOVED***
 
         public Boolean IsActive()

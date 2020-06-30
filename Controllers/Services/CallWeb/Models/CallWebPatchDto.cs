@@ -33,7 +33,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 LeaveCode = employee.LeaveCode,
                 EffectiveDate = employee.EffectiveDate.ToString("yyyy-MM-dd"),
                 CurrentStatus = employee.CurrentEmployeeStatusCode,
-                SurveyWindowFlag = employee.SurveyWindowFlag
+                SurveyWindowFlag = employee.SurveyWindowFlag()
           ***REMOVED***;
       ***REMOVED***
   ***REMOVED***
