@@ -54,7 +54,8 @@ const fieldLabels: { [key: string]: string } = {
   modifiedTs: 'Last modified date',
   taskOutcomeCode: 'Status',
   comment: 'Comment',
-  blankEmail: 'Preferred email'
+  blankEmail: 'Preferred email',
+  triedToUpdateInFinalState: 'Tried to update in final state'
 }
 
 const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
