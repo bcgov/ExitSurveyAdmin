@@ -236,12 +236,9 @@ namespace ExitSurveyAdmin.Models
             }
         }
 
-        public string SurveyWindowFlag
+        public string SurveyWindowFlag()
         {
-            get
-            {
-                return IsActive() ? "0" : "1";
-            }
+            return IsActive() ? "0" : "1";
         }
 
         public Boolean IsActive()

@@ -177,6 +177,25 @@ namespace ExitSurveyAdmin.Services
             else
             {
                 // Case B. The unique user DOES exist in the database.
+
+                // If the employee is marked as "not exiting," update their
+                // status back to "exiting".
+                if (existingEmployee.CurrentEmployeeStatusCode
+                    == EmployeeStatusEnum.NotExiting.Code)
+                {
+                    existingEmployee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
+                    context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
+                    {
+                        EmployeeId = existingEmployee.Id,
+                        EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                        EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
+                        Comment = "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the CSV."
+                    });
+                    context.Entry(existingEmployee).State = EntityState.Modified;
+                    await context.SaveChangesAsync();
+                }
+
+                // Now compare properties.
                 var differentProperties = existingEmployee.PropertyCompare(employee);
 
                 if (differentProperties.Count() == 0)
