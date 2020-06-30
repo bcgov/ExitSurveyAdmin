@@ -50,7 +50,7 @@ const Home = (): JSX.Element => {
           }}
         >
           <IconButton
-            label="Active employees"
+            label="Exiting employees"
             iconName="user-check"
             colorType="outline-primary"
             marginClasses="mr-3"
