@@ -28,7 +28,9 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IPr
     const clone = filter.clone()
     clone.from = fromDate
     clone.to = toDate
-    dispatch(***REMOVED*** type: 'setFilter', filter: clone ***REMOVED***)
+    if (fromDate || toDate) ***REMOVED***
+      dispatch(***REMOVED*** type: 'setFilter', filter: clone ***REMOVED***)
+  ***REMOVED***
 ***REMOVED*** [fromDate, toDate, filter, dispatch])
 
   const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
