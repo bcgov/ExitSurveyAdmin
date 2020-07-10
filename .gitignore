@@ -175,6 +175,8 @@ ClientBin/
 ~$*
 *~
 *.dbmdl
+*.db-shm
+*.db-wal
 *.dbproj.schemaview
 *.pfx
 *.publishsettings
@@ -230,3 +232,17 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# SQLite database
+*.db
+
+# SampleInput
+SampleInput/*
+!SampleInput/.gitkeep
+
+# EmailTemplates
+EmailTemplates/*
+!EmailTemplates/.gitkeep
+
+# App settings
+**/appsettings.Development.json

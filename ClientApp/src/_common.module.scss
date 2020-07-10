@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+:export {
+  baseColor: $primary;
+  focusShadowColor: $input-btn-focus-color;
+  focusBorderColor: $input-focus-border-color;
+}
+
+.react-datepicker {
+  font-family: BCSans, Verdana, Arial, sans-serif !important;
+}
