@@ -1,0 +1,30 @@
+@import "~@bcgov/bootstrap-theme/dist/scss/bootstrap-theme";
+
+$navbar-height: 60px;
+$navbar-margin: 24px;
+
+.navbar {
+  height: $navbar-height;
+}
+
+.Centered {
+  height: calc(100vh - #{$navbar-height + $navbar-margin});
+}
+
+.text-extra-muted {
+  color: $gray-400;
+}
+
+.table-sm {
+  font-size: 0.85rem;
+  thead {
+    input {
+      max-width: 120px;
+    }
+  }
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
