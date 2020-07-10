@@ -1,0 +1,18 @@
+@import "../../../../variables";
+
+.LabelledText {
+  .Label {
+    color: $color-grey;
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    .text-muted {
+      color: $color-lightest-grey;
+    }
+  }
+  .HelperText {
+    color: $color-grey;
+    font-size: 0.8rem;
+  }
+  margin-bottom: 1rem;
+}

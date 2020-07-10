@@ -1,0 +1,33 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+$transitionTime: 0.3s;
+
+.FilterPanel {
+  background-color: $gray-100;
+  border-bottom: solid white 0px;
+  margin-top: -24px;
+
+  .FilterPanelHeader {
+    background-color: $gray-200;
+    // color: white;
+    h2 {
+      font-size: 140%;
+      // font-weight: 600;
+      // color: $primary;
+    }
+    border-bottom: solid $gray-400 2px;
+  }
+
+  .FilterPanelBody {
+    background-color: $gray-100;
+    border-bottom: solid white 0px;
+    overflow: hidden;
+    transition: max-height $transitionTime, border-width $transitionTime,
+      border-color $transitionTime;
+    &.Expanded {
+      border-bottom: solid $gray-500 2px;
+      overflow: visible;
+    }
+  }
+}
