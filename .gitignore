@@ -246,3 +246,6 @@ EmailTemplates/*
 
 # App settings
 **/appsettings.Development.json
+
+# Various
+.DS_Store
