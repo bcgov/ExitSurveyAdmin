@@ -19,15 +19,19 @@ const EditableAddress = (props: IProps): JSX.Element => {
 
   const line1Ref = React.useRef<HTMLInputElement>(null)
 
-  const [line1, setLine1] = React.useState(employee.preferredAddress1 || '')
-  const [line2, setLine2] = React.useState(employee.preferredAddress2 || '')
-  const [city, setCity] = React.useState(employee.preferredAddressCity || '')
-  const [province, setProvince] = React.useState(
-    employee.preferredAddressProvince || ''
-  )
-  const [postCode, setPostCode] = React.useState(
-    employee.preferredAddressPostCode || ''
-  )
+  const {
+    preferredAddress1,
+    preferredAddress2,
+    preferredAddressCity,
+    preferredAddressProvince,
+    preferredAddressPostCode
+  } = employee
+
+  const [line1, setLine1] = React.useState(preferredAddress1 || '')
+  const [line2, setLine2] = React.useState(preferredAddress2 || '')
+  const [city, setCity] = React.useState(preferredAddressCity || '')
+  const [province, setProvince] = React.useState(preferredAddressProvince || '')
+  const [postCode, setPostCode] = React.useState(preferredAddressPostCode || '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [successTime, setSuccessTime] = React.useState(0)
 
@@ -40,6 +44,14 @@ const EditableAddress = (props: IProps): JSX.Element => {
       line1Ref.current?.select()
     }
   }, [isEditable])
+
+  const isDirty = !(
+    line1 === preferredAddress1 &&
+    line2 === preferredAddress2 &&
+    city === preferredAddressCity &&
+    province === preferredAddressProvince &&
+    postCode === preferredAddressPostCode
+  )
 
   const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -111,8 +123,9 @@ const EditableAddress = (props: IProps): JSX.Element => {
             onClick={toggleEditable}
           />
           <input
+            disabled={!isDirty}
             type="submit"
-            value="Save"
+            value={!isDirty ? 'No changes made' : 'Save changes'}
             className="btn btn-sm btn-primary mt-2"
           />
         </form>

@@ -21,7 +21,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
   const {
     employeeDatabaseId,
     fieldName,
-    fieldValue,
+    fieldValue: originalFieldValue,
     modelPath,
     refreshDataCallback,
     validator,
@@ -30,7 +30,7 @@ const EditableStringField = (props: IProps): JSX.Element => {
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
-  const [newValue, setNewValue] = React.useState(fieldValue || '')
+  const [newValue, setNewValue] = React.useState(originalFieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [isValid, setIsValid] = React.useState(true)
   const [successTime, setSuccessTime] = React.useState(0)
@@ -87,6 +87,14 @@ const EditableStringField = (props: IProps): JSX.Element => {
     ]
   )
 
+  const isDirty = originalFieldValue !== newValue
+  const isSaveDisabled = !(isValid && isDirty)
+  const saveButtonText = !isValid
+    ? 'Field is invalid'
+    : !isDirty
+    ? 'No changes made'
+    : 'Save changes'
+
   return (
     <div className="EditableField EditableStringField">
       {isEditable ? (
@@ -106,15 +114,15 @@ const EditableStringField = (props: IProps): JSX.Element => {
             onClick={toggleEditable}
           />
           <input
-            disabled={!isValid}
+            disabled={isSaveDisabled}
             type="submit"
-            value={isValid ? 'Save' : 'Field is invalid'}
+            value={saveButtonText}
             className="btn btn-sm btn-primary mt-2"
           />
         </form>
       ) : (
         <div className="Editable" onClick={toggleEditable}>
-          {fieldValue || '[None set]'}
+          {originalFieldValue || '[None set]'}
         </div>
       )}
       <SuccessMessage className="pt-1" successTime={successTime} />
