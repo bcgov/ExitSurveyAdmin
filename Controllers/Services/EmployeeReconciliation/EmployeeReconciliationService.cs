@@ -246,6 +246,11 @@ namespace ExitSurveyAdmin.Services
                             .Add($"***REMOVED***pv.PropertyInfo.Name***REMOVED***: `***REMOVED***pv.ValueA***REMOVED***` → `***REMOVED***pv.ValueB***REMOVED***`");
                   ***REMOVED***
 
+                    // Now update the preferred fields when they've not already
+                    // been overwritten by the admin. See the definition of
+                    // the UpdatePreferredFields method for logic.
+                    existingEmployee.UpdatePreferredFields();
+
                     // If there is > 1 field updated, update the object (note
                     // that if just email was set to ``, we might have no
                     // updated fields).
