@@ -45,9 +45,10 @@ namespace ExitSurveyAdmin.Models
                 if (existingProperty != null)
                 ***REMOVED***
                     var existingValue = existingProperty.GetValue(existingEmployee);
-                    if (patchedValue != null)
+                    if (patchedValue != null && !existingValue.Equals(patchedValue))
                     ***REMOVED***
-                        // Only set the value if it's not null.
+                        // Only set the value if it's not null and if it's not
+                        // equal to the existing value.
                         existingProperty
                             .SetValue(existingEmployee, patchedValue);
                         fieldsUpdatedList
