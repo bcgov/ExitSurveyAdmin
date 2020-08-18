@@ -63,6 +63,9 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string PreferredFirstName { get; set; }
 
+        [Required]
+        public Boolean PreferredFirstNameFlag { get; set; }
+
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string LastName { get; set; }
@@ -83,6 +86,9 @@ namespace ExitSurveyAdmin.Models
 
         [Sieve(CanFilter = true, CanSort = true)]
         public string PreferredEmail { get; set; }
+
+        [Required]
+        public Boolean PreferredEmailFlag { get; set; }
 
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
@@ -133,16 +139,30 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string PreferredAddress1 { get; set; }
 
+        [Required]
+        public Boolean PreferredAddress1Flag { get; set; }
+
         public string PreferredAddress2 { get; set; }
 
         [Required]
+        public Boolean PreferredAddress2Flag { get; set; }
+
+        [Required]
         public string PreferredAddressCity { get; set; }
+
+        public Boolean PreferredAddressCityFlag { get; set; }
 
         [Required]
         public string PreferredAddressProvince { get; set; }
 
         [Required]
+        public Boolean PreferredAddressProvinceFlag { get; set; }
+
+        [Required]
         public string PreferredAddressPostCode { get; set; }
+
+        [Required]
+        public Boolean PreferredAddressPostCodeFlag { get; set; }
 
         [Required]
         public string Phone { get; set; }
@@ -209,12 +229,19 @@ namespace ExitSurveyAdmin.Models
         public void InstantiateFields()
         {
             PreferredFirstName = FirstName;
+            PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;
+            PreferredEmailFlag = false;
             PreferredAddress1 = Address1;
+            PreferredAddress1Flag = false;
             PreferredAddress2 = Address2;
+            PreferredAddress2Flag = false;
             PreferredAddressCity = AddressCity;
+            PreferredAddressCityFlag = false;
             PreferredAddressProvince = AddressProvince;
+            PreferredAddressProvinceFlag = false;
             PreferredAddressPostCode = AddressPostCode;
+            PreferredAddressPostCodeFlag = false;
             TriedToUpdateInFinalState = false;
         }
 
