@@ -51,7 +51,7 @@ namespace ExitSurveyAdmin.Models
         [Sieve(CanFilter = true, CanSort = true)]
         public virtual string Telkey ***REMOVED*** get; set; ***REMOVED***
 
-        [Sieve(CanFilter = true, CanSort = true)]
+        [Sieve(CanFilter = true)]
         [Required]
         public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***
 
@@ -67,7 +67,7 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string LastName ***REMOVED*** get; set; ***REMOVED***
 
-        [Sieve(CanFilter = true, CanSort = true)]
+        [Sieve(CanFilter = true)]
         [Required]
         public string RecordCount ***REMOVED*** get; set; ***REMOVED***
 
@@ -173,7 +173,7 @@ namespace ExitSurveyAdmin.Models
         public string BackDated ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        [Sieve(CanFilter = true, CanSort = true)]
+        [Sieve(CanFilter = true)]
         public string ExitCount ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
