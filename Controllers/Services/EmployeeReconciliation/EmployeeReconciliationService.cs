@@ -178,6 +178,13 @@ namespace ExitSurveyAdmin.Services
             ***REMOVED***
                 // Case B. The unique user DOES exist in the database.
 
+                // If the employee is marked as "survey complete," skip them.
+                if (existingEmployee.CurrentEmployeeStatusCode
+                    == EmployeeStatusEnum.SurveyComplete.Code)
+                ***REMOVED***
+                    return existingEmployee;
+              ***REMOVED***
+
                 // If the employee is marked as "not exiting," update their
                 // status back to "exiting".
                 if (existingEmployee.CurrentEmployeeStatusCode
