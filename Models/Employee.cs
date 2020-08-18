@@ -63,6 +63,9 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string PreferredFirstName ***REMOVED*** get; set; ***REMOVED***
 
+        [Required]
+        public Boolean PreferredFirstNameFlag ***REMOVED*** get; set; ***REMOVED***
+
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string LastName ***REMOVED*** get; set; ***REMOVED***
@@ -83,6 +86,9 @@ namespace ExitSurveyAdmin.Models
 
         [Sieve(CanFilter = true, CanSort = true)]
         public string PreferredEmail ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public Boolean PreferredEmailFlag ***REMOVED*** get; set; ***REMOVED***
 
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
@@ -133,16 +139,30 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string PreferredAddress1 ***REMOVED*** get; set; ***REMOVED***
 
+        [Required]
+        public Boolean PreferredAddress1Flag ***REMOVED*** get; set; ***REMOVED***
+
         public string PreferredAddress2 ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
+        public Boolean PreferredAddress2Flag ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
         public string PreferredAddressCity ***REMOVED*** get; set; ***REMOVED***
+
+        public Boolean PreferredAddressCityFlag ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string PreferredAddressProvince ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
+        public Boolean PreferredAddressProvinceFlag ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
         public string PreferredAddressPostCode ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public Boolean PreferredAddressPostCodeFlag ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string Phone ***REMOVED*** get; set; ***REMOVED***
@@ -209,12 +229,19 @@ namespace ExitSurveyAdmin.Models
         public void InstantiateFields()
         ***REMOVED***
             PreferredFirstName = FirstName;
+            PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;
+            PreferredEmailFlag = false;
             PreferredAddress1 = Address1;
+            PreferredAddress1Flag = false;
             PreferredAddress2 = Address2;
+            PreferredAddress2Flag = false;
             PreferredAddressCity = AddressCity;
+            PreferredAddressCityFlag = false;
             PreferredAddressProvince = AddressProvince;
+            PreferredAddressProvinceFlag = false;
             PreferredAddressPostCode = AddressPostCode;
+            PreferredAddressPostCodeFlag = false;
             TriedToUpdateInFinalState = false;
       ***REMOVED***
 
