@@ -53,6 +53,16 @@ namespace ExitSurveyAdmin.Models
                             .SetValue(existingEmployee, patchedValue);
                         fieldsUpdatedList
                             .Add($"{newProperty.Name}: `{existingValue}` → `{patchedValue}`");
+
+                        // Also, set the flag if the property starts with
+                        // "Preferred".
+                        if (existingProperty.Name.StartsWith("Preferred"))
+                        {
+                            var preferredPropertyFlag = existingProperties
+                                .First(p => p.Name == $"{existingProperty.Name}Flag");
+
+                            preferredPropertyFlag.SetValue(existingEmployee, true);
+                        }
                     }
                 }
                 else
