@@ -6,14 +6,11 @@ import { AdminSetting } from '../../types/AdminSetting'
 import { plainToClass } from 'class-transformer'
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import EditableStringField from '../Employees/EditableStringField'
-import SuccessMessage from '../Employees/SuccessMessage'
 
-interface IProps {}
+import RefreshStatusButton from './RefreshStatusButton'
 
-const AdminInterface = (props: IProps): JSX.Element => {
+const AdminInterface = (): JSX.Element => {
   const [adminSettings, setAdminSettings] = React.useState<AdminSetting[]>([])
-  const [successTime, setSuccessTime] = React.useState(0)
-  const [refreshButtonActive, setRefreshButtonActive] = React.useState(false)
 
   React.useEffect((): void => {
     requestJSONWithErrorHandler(
@@ -23,20 +20,6 @@ const AdminInterface = (props: IProps): JSX.Element => {
       'ADMIN_SETTINGS_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => {
         setAdminSettings(responseJSON.map(s => plainToClass(AdminSetting, s)))
-      }
-    )
-  }, [])
-
-  const reconcileEmployees = React.useCallback(() => {
-    setRefreshButtonActive(true)
-    requestJSONWithErrorHandler(
-      `api/Employees/RefreshEmployeeStatus`,
-      'post',
-      null,
-      'RECONCILIATION_FAILED',
-      (): void => {
-        setRefreshButtonActive(false)
-        setSuccessTime(Date.now())
       }
     )
   }, [])
@@ -78,22 +61,7 @@ const AdminInterface = (props: IProps): JSX.Element => {
                 />
               </ColumnarLabelledText>
             ))}
-            <ColumnarLabelledText
-              helperText="This will immediately refresh all employee statuses and reconcile employees with CallWeb."
-              label="Run reconciliation process"
-              columnClass="col-12 mt-3"
-            >
-              <button
-                className="btn btn-primary mt-2"
-                onClick={reconcileEmployees}
-                disabled={refreshButtonActive}
-              >
-                {refreshButtonActive
-                  ? 'Reconciling...'
-                  : 'Run reconciliation process'}
-              </button>
-              <SuccessMessage className="mt-2" successTime={successTime} />
-            </ColumnarLabelledText>
+            <RefreshStatusButton />
           </div>
         )}
       </div>
