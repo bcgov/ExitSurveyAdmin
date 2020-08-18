@@ -54,12 +54,12 @@ namespace ExitSurveyAdmin.Controllers
 
             try
             {
-                // Step 1. Get a list of candidate Employee objects based on the
+                // Step 1. Update existing employee statuses.
+                await employeeReconciler.UpdateEmployeeStatuses();
+
+                // Step 2. Get a list of candidate Employee objects based on the
                 // Csv.
                 reconciledEmployeeList = await csv.ProcessCsv(Request, employeeReconciler, logger);
-
-                // Step 2. Update existing employee statuses.
-                await employeeReconciler.UpdateEmployeeStatuses();
 
                 // Step 3. For all ACTIVE users in the DB who are NOT in the
                 // Csv, set them to not exiting, IF they are not in a final state.
