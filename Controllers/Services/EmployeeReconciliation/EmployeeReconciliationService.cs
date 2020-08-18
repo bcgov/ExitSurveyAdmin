@@ -326,7 +326,10 @@ namespace ExitSurveyAdmin.Services
                 employeeExpirationThresholdSetting.Value
             );
 
-            if (employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow)
+            if (
+                employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow &&
+                employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
+            )
             {
                 return await SaveStatusAndAddTimelineEntry(employee,
                     EmployeeStatusEnum.Expired);
