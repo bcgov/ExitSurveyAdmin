@@ -7,7 +7,7 @@ interface IProps ***REMOVED***
   columnClass?: string
   children: React.ReactNode
   helperText?: string
-  label: string
+  label: React.ReactNode
 ***REMOVED***
 
 const ColumnarLabelledText = (***REMOVED***

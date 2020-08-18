@@ -5,7 +5,7 @@ import './LabelledText.scss'
 interface IProps ***REMOVED***
   children: React.ReactNode
   helperText?: string
-  label: string
+  label: React.ReactNode
 ***REMOVED***
 
 const LabelledText = (props: IProps): JSX.Element => ***REMOVED***

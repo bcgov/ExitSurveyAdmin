@@ -12,10 +12,12 @@ export class Employee ***REMOVED***
   public governmentEmployeeId?: string
   public firstName?: string
   public preferredFirstName?: string
+  public preferredFirstNameFlag?: boolean
   public lastName?: string
   public gender?: string
   public governmentEmail?: string
   public preferredEmail?: string
+  public preferredEmailFlag?: boolean
   public classification?: string
   public ministry?: string
   public departmentId?: string
@@ -31,6 +33,11 @@ export class Employee ***REMOVED***
   public preferredAddressCity?: string
   public preferredAddressProvince?: string
   public preferredAddressPostCode?: string
+  public preferredAddress1Flag?: boolean
+  public preferredAddress2Flag?: boolean
+  public preferredAddressCityFlag?: boolean
+  public preferredAddressProvinceFlag?: boolean
+  public preferredAddressPostCodeFlag?: boolean
   public phone?: string
   public positionCode?: string
   public positionTitle?: string
