@@ -58,7 +58,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           <div className="col">
             <h3 className="text-muted">Employee</h3>
             <h2>
-              ***REMOVED***e.firstName***REMOVED*** ***REMOVED***e.lastName***REMOVED***
+              ***REMOVED***e.preferredFirstName***REMOVED*** ***REMOVED***e.lastName***REMOVED***
             </h2>
           </div>
           <div className="col">
