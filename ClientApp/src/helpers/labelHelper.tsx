@@ -1,8 +1,12 @@
+import React from 'react'
+
 import { ISelectOption } from '../components/Employees/EditableSelect'
 import { EmployeeStatus } from '../types/EmployeeStatus'
 import { Reason } from '../types/Reason'
 import { TaskOutcome } from '../types/TaskOutcome'
 import { AppointmentStatus } from '../types/AppointmentStatus'
+import { Employee } from '../types/Employee'
+import FAIcon from '../components/DisplayHelpers/Interface/Icons/FAIcon'
 
 const fieldLabels: { [key: string]: string } = {
   id: 'Database ID',
@@ -30,6 +34,7 @@ const fieldLabels: { [key: string]: string } = {
   addressCity: 'Address city',
   addressProvince: 'Address province',
   addressPostCode: 'Address post code',
+  preferredAddress: 'Preferred address',
   preferredAddress1: 'Preferred address line 1',
   preferredAddress2: 'Preferred address line 2',
   preferredAddressCity: 'Preferred address city',
@@ -67,6 +72,24 @@ const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
 }
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
+
+export const labelForWithFlag = (
+  fieldName: string,
+  employee: Employee,
+  flagTest?: (e: Employee) => boolean
+): JSX.Element => {
+  const flagIsSet = flagTest
+    ? flagTest(employee)
+    : employee[`${fieldName}Flag` as keyof Employee]
+  return (
+    <span
+      title={flagIsSet ? 'This field has been edited by an admin' : undefined}
+    >
+      {fieldLabels[fieldName]}{' '}
+      {flagIsSet && <FAIcon name="flag" marginClasses="ml-1" />}
+    </span>
+  )
+}
 
 export const optionsFor = (fieldName: string): ISelectOption[] => {
   const options = optionsForEnum[fieldName]().sort((a, b) =>

@@ -7,7 +7,7 @@ import * as EmailValidator from 'email-validator'
 
 import { Employee } from '../../types/Employee'
 import { EmployeeStatus, EmployeeStatusEnum } from '../../types/EmployeeStatus'
-import { labelFor } from '../../helpers/labelHelper'
+import { labelFor, labelForWithFlag } from '../../helpers/labelHelper'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import AddComment from './AddComment'
 import Address from './Address'
@@ -92,7 +92,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             <hr />
             <div className="row">
               <CLText label={labelFor('firstName')}>{e.firstName}</CLText>
-              <CLText label={labelFor('preferredFirstName')}>
+              <CLText label={labelForWithFlag('preferredFirstName', e)}>
                 <EditableStringField
                   employeeDatabaseId={e.id!}
                   fieldName={'preferredFirstName'}
@@ -112,7 +112,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label={labelFor('governmentEmail')}>
                 {e.governmentEmail}
               </CLText>
-              <CLText label={labelFor('preferredEmail')}>
+              <CLText label={labelForWithFlag('preferredEmail', e)}>
                 <EditableStringField
                   validator={(email: string): boolean =>
                     email.length === 0 || EmailValidator.validate(email)
@@ -127,7 +127,21 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label={'Address'}>
                 <Address employee={e} />
               </CLText>
-              <CLText label={'Preferred address'}>
+              <CLText
+                label={labelForWithFlag(
+                  'preferredAddress',
+                  e,
+                  (e: Employee): boolean => {
+                    return (
+                      e.preferredAddress1Flag! ||
+                      e.preferredAddress2Flag! ||
+                      e.preferredAddressCityFlag! ||
+                      e.preferredAddressProvinceFlag! ||
+                      e.preferredAddressPostCodeFlag!
+                    )
+                  }
+                )}
+              >
                 <EditableAddress
                   employee={e}
                   refreshDataCallback={this.populateData}

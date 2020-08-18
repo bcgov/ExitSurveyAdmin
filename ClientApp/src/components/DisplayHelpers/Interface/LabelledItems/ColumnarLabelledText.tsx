@@ -7,7 +7,7 @@ interface IProps {
   columnClass?: string
   children: React.ReactNode
   helperText?: string
-  label: string
+  label: React.ReactNode
 }
 
 const ColumnarLabelledText = ({
