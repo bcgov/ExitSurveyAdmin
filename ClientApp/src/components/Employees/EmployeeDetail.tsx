@@ -58,7 +58,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
           <div className="col">
             <h3 className="text-muted">Employee</h3>
             <h2>
-              {e.firstName} {e.lastName}
+              {e.preferredFirstName} {e.lastName}
             </h2>
           </div>
           <div className="col">
