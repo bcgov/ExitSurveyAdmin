@@ -30,6 +30,13 @@ namespace ExitSurveyAdmin.Models
                     d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressPostCode) &&
+                    d.PropertyInfo.Name != nameof(PreferredFirstNameFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredEmailFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddress1Flag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddress2Flag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressCityFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag) &&
                     d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
                 );
         }
@@ -226,6 +233,8 @@ namespace ExitSurveyAdmin.Models
                 .EmailByEmployeeId(GovernmentEmployeeId);
         }
 
+        // Initialize all Preferred fields to be the equivalent of the base
+        // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         {
             PreferredFirstName = FirstName;
@@ -243,6 +252,20 @@ namespace ExitSurveyAdmin.Models
             PreferredAddressPostCode = AddressPostCode;
             PreferredAddressPostCodeFlag = false;
             TriedToUpdateInFinalState = false;
+        }
+
+        // Update all Preferred fields to be the equivalent of the base field,
+        // so long as the Preferred field has never been overwritten (i.e. the
+        // corresponding `Flag` is false).
+        public void UpdatePreferredFields()
+        {
+            if (!PreferredFirstNameFlag) PreferredFirstName = FirstName;
+            if (!PreferredEmailFlag) PreferredEmail = GovernmentEmail;
+            if (!PreferredAddress1Flag) PreferredAddress1 = Address1;
+            if (!PreferredAddress2Flag) PreferredAddress2 = Address2;
+            if (!PreferredAddressCityFlag) PreferredAddressCity = AddressCity;
+            if (!PreferredAddressProvinceFlag) PreferredAddressProvince = AddressProvince;
+            if (!PreferredAddressPostCodeFlag) PreferredAddressPostCode = AddressPostCode;
         }
 
         public string LeaveCode
