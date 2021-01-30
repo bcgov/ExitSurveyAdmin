@@ -178,6 +178,13 @@ namespace ExitSurveyAdmin.Services
             {
                 // Case B. The unique user DOES exist in the database.
 
+                // If the employee is marked as "survey complete," skip them.
+                if (existingEmployee.CurrentEmployeeStatusCode
+                    == EmployeeStatusEnum.SurveyComplete.Code)
+                {
+                    return existingEmployee;
+                }
+
                 // If the employee is marked as "not exiting," update their
                 // status back to "exiting".
                 if (existingEmployee.CurrentEmployeeStatusCode
@@ -238,6 +245,11 @@ namespace ExitSurveyAdmin.Services
                         fieldsUpdatedList
                             .Add($"{pv.PropertyInfo.Name}: `{pv.ValueA}` → `{pv.ValueB}`");
                     }
+
+                    // Now update the preferred fields when they've not already
+                    // been overwritten by the admin. See the definition of
+                    // the UpdatePreferredFields method for logic.
+                    existingEmployee.UpdatePreferredFields();
 
                     // If there is > 1 field updated, update the object (note
                     // that if just email was set to ``, we might have no
@@ -326,7 +338,10 @@ namespace ExitSurveyAdmin.Services
                 employeeExpirationThresholdSetting.Value
             );
 
-            if (employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow)
+            if (
+                employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow &&
+                employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
+            )
             {
                 return await SaveStatusAndAddTimelineEntry(employee,
                     EmployeeStatusEnum.Expired);

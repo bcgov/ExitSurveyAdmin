@@ -5,7 +5,7 @@ import './LabelledText.scss'
 interface IProps {
   children: React.ReactNode
   helperText?: string
-  label: string
+  label: React.ReactNode
 }
 
 const LabelledText = (props: IProps): JSX.Element => {
