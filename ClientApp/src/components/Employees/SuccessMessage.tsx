@@ -6,9 +6,14 @@ import ***REMOVED*** timeout ***REMOVED*** from '../../helpers/objectHelper'
 interface IProps ***REMOVED***
   successTime: number
   className?: string
+  successMessage?: string
 ***REMOVED***
 
-const SuccessMessage = (***REMOVED*** successTime, className ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const SuccessMessage = (***REMOVED***
+  successTime,
+  className,
+  successMessage
+***REMOVED***: IProps): JSX.Element => ***REMOVED***
   const [opacity, setOpacity] = React.useState('0')
   const [display, setDisplay] = React.useState('none')
 
@@ -35,7 +40,7 @@ const SuccessMessage = (***REMOVED*** successTime, className ***REMOVED***: IPro
     >
       <div className="badge badge-success">
         <i className="fas fa-check-circle mr-2" />
-        &nbsp;Success
+        &nbsp;***REMOVED***successMessage || 'Success'***REMOVED***
       </div>
     </div>
   )

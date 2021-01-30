@@ -16,4 +16,5 @@
   "files.exclude": ***REMOVED***
     "**/*.css": true
 ***REMOVED***
+  "csharp.referencesCodeLens.enabled": false
 ***REMOVED***

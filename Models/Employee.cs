@@ -30,6 +30,13 @@ namespace ExitSurveyAdmin.Models
                     d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
                     d.PropertyInfo.Name != nameof(PreferredAddressPostCode) &&
+                    d.PropertyInfo.Name != nameof(PreferredFirstNameFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredEmailFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddress1Flag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddress2Flag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressCityFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag) &&
+                    d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag) &&
                     d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
                 );
       ***REMOVED***
@@ -51,7 +58,7 @@ namespace ExitSurveyAdmin.Models
         [Sieve(CanFilter = true, CanSort = true)]
         public virtual string Telkey ***REMOVED*** get; set; ***REMOVED***
 
-        [Sieve(CanFilter = true, CanSort = true)]
+        [Sieve(CanFilter = true)]
         [Required]
         public string GovernmentEmployeeId ***REMOVED*** get; set; ***REMOVED***
 
@@ -63,11 +70,14 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string PreferredFirstName ***REMOVED*** get; set; ***REMOVED***
 
+        [Required]
+        public Boolean PreferredFirstNameFlag ***REMOVED*** get; set; ***REMOVED***
+
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
         public string LastName ***REMOVED*** get; set; ***REMOVED***
 
-        [Sieve(CanFilter = true, CanSort = true)]
+        [Sieve(CanFilter = true)]
         [Required]
         public string RecordCount ***REMOVED*** get; set; ***REMOVED***
 
@@ -83,6 +93,9 @@ namespace ExitSurveyAdmin.Models
 
         [Sieve(CanFilter = true, CanSort = true)]
         public string PreferredEmail ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public Boolean PreferredEmailFlag ***REMOVED*** get; set; ***REMOVED***
 
         [Sieve(CanFilter = true, CanSort = true)]
         [Required]
@@ -133,16 +146,30 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string PreferredAddress1 ***REMOVED*** get; set; ***REMOVED***
 
+        [Required]
+        public Boolean PreferredAddress1Flag ***REMOVED*** get; set; ***REMOVED***
+
         public string PreferredAddress2 ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
+        public Boolean PreferredAddress2Flag ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
         public string PreferredAddressCity ***REMOVED*** get; set; ***REMOVED***
+
+        public Boolean PreferredAddressCityFlag ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string PreferredAddressProvince ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
+        public Boolean PreferredAddressProvinceFlag ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
         public string PreferredAddressPostCode ***REMOVED*** get; set; ***REMOVED***
+
+        [Required]
+        public Boolean PreferredAddressPostCodeFlag ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
         public string Phone ***REMOVED*** get; set; ***REMOVED***
@@ -173,7 +200,7 @@ namespace ExitSurveyAdmin.Models
         public string BackDated ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
-        [Sieve(CanFilter = true, CanSort = true)]
+        [Sieve(CanFilter = true)]
         public string ExitCount ***REMOVED*** get; set; ***REMOVED***
 
         [Required]
@@ -206,16 +233,39 @@ namespace ExitSurveyAdmin.Models
                 .EmailByEmployeeId(GovernmentEmployeeId);
       ***REMOVED***
 
+        // Initialize all Preferred fields to be the equivalent of the base
+        // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         ***REMOVED***
             PreferredFirstName = FirstName;
+            PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;
+            PreferredEmailFlag = false;
             PreferredAddress1 = Address1;
+            PreferredAddress1Flag = false;
             PreferredAddress2 = Address2;
+            PreferredAddress2Flag = false;
             PreferredAddressCity = AddressCity;
+            PreferredAddressCityFlag = false;
             PreferredAddressProvince = AddressProvince;
+            PreferredAddressProvinceFlag = false;
             PreferredAddressPostCode = AddressPostCode;
+            PreferredAddressPostCodeFlag = false;
             TriedToUpdateInFinalState = false;
+      ***REMOVED***
+
+        // Update all Preferred fields to be the equivalent of the base field,
+        // so long as the Preferred field has never been overwritten (i.e. the
+        // corresponding `Flag` is false).
+        public void UpdatePreferredFields()
+        ***REMOVED***
+            if (!PreferredFirstNameFlag) PreferredFirstName = FirstName;
+            if (!PreferredEmailFlag) PreferredEmail = GovernmentEmail;
+            if (!PreferredAddress1Flag) PreferredAddress1 = Address1;
+            if (!PreferredAddress2Flag) PreferredAddress2 = Address2;
+            if (!PreferredAddressCityFlag) PreferredAddressCity = AddressCity;
+            if (!PreferredAddressProvinceFlag) PreferredAddressProvince = AddressProvince;
+            if (!PreferredAddressPostCodeFlag) PreferredAddressPostCode = AddressPostCode;
       ***REMOVED***
 
         public string LeaveCode

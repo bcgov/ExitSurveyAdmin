@@ -7,7 +7,7 @@ import * as EmailValidator from 'email-validator'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** EmployeeStatus, EmployeeStatusEnum ***REMOVED*** from '../../types/EmployeeStatus'
-import ***REMOVED*** labelFor ***REMOVED*** from '../../helpers/labelHelper'
+import ***REMOVED*** labelFor, labelForWithFlag ***REMOVED*** from '../../helpers/labelHelper'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import AddComment from './AddComment'
 import Address from './Address'
@@ -58,7 +58,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           <div className="col">
             <h3 className="text-muted">Employee</h3>
             <h2>
-              ***REMOVED***e.firstName***REMOVED*** ***REMOVED***e.lastName***REMOVED***
+              ***REMOVED***e.preferredFirstName***REMOVED*** ***REMOVED***e.lastName***REMOVED***
             </h2>
           </div>
           <div className="col">
@@ -92,7 +92,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             <hr />
             <div className="row">
               <CLText label=***REMOVED***labelFor('firstName')***REMOVED***>***REMOVED***e.firstName***REMOVED***</CLText>
-              <CLText label=***REMOVED***labelFor('preferredFirstName')***REMOVED***>
+              <CLText label=***REMOVED***labelForWithFlag('preferredFirstName', e)***REMOVED***>
                 <EditableStringField
                   employeeDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName=***REMOVED***'preferredFirstName'***REMOVED***
@@ -112,7 +112,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***labelFor('governmentEmail')***REMOVED***>
                 ***REMOVED***e.governmentEmail***REMOVED***
               </CLText>
-              <CLText label=***REMOVED***labelFor('preferredEmail')***REMOVED***>
+              <CLText label=***REMOVED***labelForWithFlag('preferredEmail', e)***REMOVED***>
                 <EditableStringField
                   validator=***REMOVED***(email: string): boolean =>
                     email.length === 0 || EmailValidator.validate(email)
@@ -127,7 +127,21 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***'Address'***REMOVED***>
                 <Address employee=***REMOVED***e***REMOVED*** />
               </CLText>
-              <CLText label=***REMOVED***'Preferred address'***REMOVED***>
+              <CLText
+                label=***REMOVED***labelForWithFlag(
+                  'preferredAddress',
+                  e,
+                  (e: Employee): boolean => ***REMOVED***
+                    return (
+                      e.preferredAddress1Flag! ||
+                      e.preferredAddress2Flag! ||
+                      e.preferredAddressCityFlag! ||
+                      e.preferredAddressProvinceFlag! ||
+                      e.preferredAddressPostCodeFlag!
+                    )
+                ***REMOVED***
+                )***REMOVED***
+              >
                 <EditableAddress
                   employee=***REMOVED***e***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***

@@ -1,8 +1,12 @@
+import React from 'react'
+
 import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../types/EmployeeStatus'
 import ***REMOVED*** Reason ***REMOVED*** from '../types/Reason'
 import ***REMOVED*** TaskOutcome ***REMOVED*** from '../types/TaskOutcome'
 import ***REMOVED*** AppointmentStatus ***REMOVED*** from '../types/AppointmentStatus'
+import ***REMOVED*** Employee ***REMOVED*** from '../types/Employee'
+import FAIcon from '../components/DisplayHelpers/Interface/Icons/FAIcon'
 
 const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVED***
   id: 'Database ID',
@@ -30,6 +34,7 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
   addressCity: 'Address city',
   addressProvince: 'Address province',
   addressPostCode: 'Address post code',
+  preferredAddress: 'Preferred address',
   preferredAddress1: 'Preferred address line 1',
   preferredAddress2: 'Preferred address line 2',
   preferredAddressCity: 'Preferred address city',
@@ -67,6 +72,24 @@ const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMO
 ***REMOVED***
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
+
+export const labelForWithFlag = (
+  fieldName: string,
+  employee: Employee,
+  flagTest?: (e: Employee) => boolean
+): JSX.Element => ***REMOVED***
+  const flagIsSet = flagTest
+    ? flagTest(employee)
+    : employee[`$***REMOVED***fieldName***REMOVED***Flag` as keyof Employee]
+  return (
+    <span
+      title=***REMOVED***flagIsSet ? 'This field has been edited by an admin' : undefined***REMOVED***
+    >
+      ***REMOVED***fieldLabels[fieldName]***REMOVED******REMOVED***' '***REMOVED***
+      ***REMOVED***flagIsSet && <FAIcon name="flag" marginClasses="ml-1" />***REMOVED***
+    </span>
+  )
+***REMOVED***
 
 export const optionsFor = (fieldName: string): ISelectOption[] => ***REMOVED***
   const options = optionsForEnum[fieldName]().sort((a, b) =>

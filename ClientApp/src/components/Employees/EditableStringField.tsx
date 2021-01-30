@@ -21,7 +21,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
   const ***REMOVED***
     employeeDatabaseId,
     fieldName,
-    fieldValue,
+    fieldValue: originalFieldValue,
     modelPath,
     refreshDataCallback,
     validator,
@@ -30,7 +30,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
 
   const inputRef = React.useRef<HTMLInputElement>(null)
 
-  const [newValue, setNewValue] = React.useState(fieldValue || '')
+  const [newValue, setNewValue] = React.useState(originalFieldValue || '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [isValid, setIsValid] = React.useState(true)
   const [successTime, setSuccessTime] = React.useState(0)
@@ -87,6 +87,14 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     ]
   )
 
+  const isDirty = originalFieldValue !== newValue
+  const isSaveDisabled = !(isValid && isDirty)
+  const saveButtonText = !isValid
+    ? 'Field is invalid'
+    : !isDirty
+    ? 'No changes made'
+    : 'Save changes'
+
   return (
     <div className="EditableField EditableStringField">
       ***REMOVED***isEditable ? (
@@ -106,15 +114,15 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
             onClick=***REMOVED***toggleEditable***REMOVED***
           />
           <input
-            disabled=***REMOVED***!isValid***REMOVED***
+            disabled=***REMOVED***isSaveDisabled***REMOVED***
             type="submit"
-            value=***REMOVED***isValid ? 'Save' : 'Field is invalid'***REMOVED***
+            value=***REMOVED***saveButtonText***REMOVED***
             className="btn btn-sm btn-primary mt-2"
           />
         </form>
       ) : (
         <div className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
-          ***REMOVED***fieldValue || '[None set]'***REMOVED***
+          ***REMOVED***originalFieldValue || '[None set]'***REMOVED***
         </div>
       )***REMOVED***
       <SuccessMessage className="pt-1" successTime=***REMOVED***successTime***REMOVED*** />

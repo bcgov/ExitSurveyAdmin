@@ -4,14 +4,16 @@ using ExitSurveyAdmin.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExitSurveyAdmin.Migrations
 ***REMOVED***
     [DbContext(typeof(ExitSurveyAdminContext))]
-    partial class ExitSurveyAdminContextModelSnapshot : ModelSnapshot
+    [Migration("20200818053123_AddPreferredFlagsToEmployee")]
+    partial class AddPreferredFlagsToEmployee
     ***REMOVED***
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         ***REMOVED***
 #pragma warning disable 612, 618
             modelBuilder
