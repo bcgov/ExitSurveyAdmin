@@ -6,9 +6,14 @@ import { timeout } from '../../helpers/objectHelper'
 interface IProps {
   successTime: number
   className?: string
+  successMessage?: string
 }
 
-const SuccessMessage = ({ successTime, className }: IProps): JSX.Element => {
+const SuccessMessage = ({
+  successTime,
+  className,
+  successMessage
+}: IProps): JSX.Element => {
   const [opacity, setOpacity] = React.useState('0')
   const [display, setDisplay] = React.useState('none')
 
@@ -35,7 +40,7 @@ const SuccessMessage = ({ successTime, className }: IProps): JSX.Element => {
     >
       <div className="badge badge-success">
         <i className="fas fa-check-circle mr-2" />
-        &nbsp;Success
+        &nbsp;{successMessage || 'Success'}
       </div>
     </div>
   )
