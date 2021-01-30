@@ -45,13 +45,24 @@ namespace ExitSurveyAdmin.Models
                 if (existingProperty != null)
                 {
                     var existingValue = existingProperty.GetValue(existingEmployee);
-                    if (patchedValue != null)
+                    if (patchedValue != null && !existingValue.Equals(patchedValue))
                     {
-                        // Only set the value if it's not null.
+                        // Only set the value if it's not null and if it's not
+                        // equal to the existing value.
                         existingProperty
                             .SetValue(existingEmployee, patchedValue);
                         fieldsUpdatedList
                             .Add($"{newProperty.Name}: `{existingValue}` → `{patchedValue}`");
+
+                        // Also, set the flag if the property starts with
+                        // "Preferred".
+                        if (existingProperty.Name.StartsWith("Preferred"))
+                        {
+                            var preferredPropertyFlag = existingProperties
+                                .First(p => p.Name == $"{existingProperty.Name}Flag");
+
+                            preferredPropertyFlag.SetValue(existingEmployee, true);
+                        }
                     }
                 }
                 else
