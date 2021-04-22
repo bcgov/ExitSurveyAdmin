@@ -1,5 +1,6 @@
 ***REMOVED***
   "sdk": ***REMOVED***
-    "version": "3.1.200"
+    "version": "3.1.200",
+    "rollForward": "latestFeature"
 ***REMOVED***
 ***REMOVED***
