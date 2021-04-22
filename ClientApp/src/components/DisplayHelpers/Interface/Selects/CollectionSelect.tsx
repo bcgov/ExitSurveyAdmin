@@ -91,7 +91,9 @@ class CollectionSelect<T> extends React.Component<IProps<T>> ***REMOVED***
     this.onChange = this.onChange.bind(this)
 ***REMOVED***
 
-  protected onChange(selectedItems: ValueType<ICollectionSelectValue>): void ***REMOVED***
+  protected onChange(
+    selectedItems: ValueType<ICollectionSelectValue, FixTypeLater>
+  ): void ***REMOVED***
     if (selectedItems != null && !Array.isArray(selectedItems)) ***REMOVED***
       // Selected items is not an array. But for simplicity, we want to return
       // it as such everywhere, even when multiselect is not enabled. So
