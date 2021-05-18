@@ -66,6 +66,7 @@ namespace ExitSurveyAdmin.Controllers
 
                 // Step 4. For all ACTIVE users in the DB who are NOT in the
                 // Csv, set them to not exiting, IF they are not in a final state.
+                // Including updating Callweb.
                 await employeeReconciler.UpdateNotExiting(reconciledEmployeeList);
             }
             catch (Exception e)
