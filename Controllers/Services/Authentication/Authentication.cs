@@ -20,11 +20,11 @@ namespace ExitSurveyAdmin.Services
             options.Authority = authority;
             options.TokenValidationParameters = new TokenValidationParameters
             ***REMOVED***
-                //BC Dev Keycloack
+                //BC Dev Keycloak
                 ValidAudiences = new string[] ***REMOVED***
-                    "ExitSurveyAdmin", "account", "realm-management"
+                    "ExitSurveyAdmin", "account", "realm-management" // TODO: Check on this
               ***REMOVED***
-                RoleClaimType = "user_roles" // roles in the token for the client.
+                RoleClaimType = "role" // roles in the token for the client.
           ***REMOVED***;
             options.RequireHttpsMetadata = false; //for test only!
             options.SaveToken = true;
@@ -37,7 +37,7 @@ namespace ExitSurveyAdmin.Services
         )
         ***REMOVED***
             options.AddPolicy("UserRole", policy =>
-                policy.RequireClaim("user_roles", $"[***REMOVED***roleName***REMOVED***]")
+                policy.RequireClaim("role", $"[***REMOVED***roleName***REMOVED***]")
             );
       ***REMOVED***
 

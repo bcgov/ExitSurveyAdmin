@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
-    [Authorize(Roles = "exitsurveyadmin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeTimelineEntriesController : ControllerBase
