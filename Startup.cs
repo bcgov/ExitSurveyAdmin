@@ -35,6 +35,13 @@ namespace ExitSurveyAdmin
         {
             services.AddHttpClient();
 
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                }));
+
             services.AddControllersWithViews();
 
             services.Configure<CallWebServiceOptions>(Configuration.GetSection("CallWebApi"));
@@ -134,6 +141,8 @@ namespace ExitSurveyAdmin
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
