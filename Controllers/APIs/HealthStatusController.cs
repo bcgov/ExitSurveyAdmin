@@ -1,0 +1,47 @@
+using ExitSurveyAdmin.Services;
+using ExitSurveyAdmin.Services.CallWeb;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace NewJobSurveyAdmin.Controllers
+***REMOVED***
+    [Route("api/[controller]")]
+    [ApiController]
+    public class HealthStatusController : ControllerBase
+    ***REMOVED***
+
+        private readonly CallWebService callWebService;
+
+        public HealthStatusController(CallWebService callWebService)
+        ***REMOVED***
+            this.callWebService = callWebService;
+      ***REMOVED***
+
+        // GetStatus: Returns "Healthy." if the API is healthy.
+        // GET: api/HealthStatus/Status
+        [HttpGet("Status")]
+        public ActionResult<string> GetStatus()
+        ***REMOVED***
+            string text = "***REMOVED*** \"msg\": \"Healthy.\" ***REMOVED***";
+
+            return Ok(text);
+      ***REMOVED***
+
+        // GetStatus: Returns the count of records in CallWeb, if that API is
+        // working.
+        // GET: api/HealthStatus/Status
+        [HttpGet("CallWebApiServiceToken")]
+        public async Task<ActionResult<string>> CallWebApiServiceToken()
+        ***REMOVED***
+            var apiServiceCallResult = await this.callWebService.ListAll();
+
+            int length = apiServiceCallResult == null
+                ? -1
+                : apiServiceCallResult.Length;
+
+            string text = "***REMOVED*** \"callWebRecordCount\": \"" + length + "\" ***REMOVED***";
+
+            return Ok(text);
+      ***REMOVED***
+  ***REMOVED***
+***REMOVED***
