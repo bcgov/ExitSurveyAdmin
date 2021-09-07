@@ -16,7 +16,13 @@ namespace ExitSurveyAdmin.Services.CallWeb
             IHttpClientFactory clientFactory
         )
         ***REMOVED***
-            CallWebApi = new CallWebApi(options.Value.BaseUrl, clientFactory);
+            CallWebApi = new CallWebApi(
+                options.Value.BaseUrl,
+                options.Value.ClientId,
+                options.Value.ClientSecret,
+                options.Value.TokenRequestUrl,
+                clientFactory
+            );
       ***REMOVED***
 
         // Determines whether a survey is complete, given a telkey.
@@ -51,6 +57,13 @@ namespace ExitSurveyAdmin.Services.CallWeb
             var callWebDto = await CallWebApi.Patch(callWebPatchDto);
 
             return callWebDto;
+      ***REMOVED***
+
+        public async Task<CallWebRowDto[]> ListAll()
+        ***REMOVED***
+            var response = await CallWebApi.GetAll();
+
+            return response;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
