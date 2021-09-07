@@ -1,7 +1,10 @@
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 {
@@ -9,19 +12,88 @@ namespace ExitSurveyAdmin.Services.CallWeb
     internal class CallWebApi
     {
         private string BaseUrl;
+        private string ClientId;
+        private string ClientSecret;
+        private string TokenRequestUrl;
+
+        private CallWebServiceTokenDto ServiceToken;
 
         private readonly IHttpClientFactory ClientFactory;
 
-        public CallWebApi(string baseUrl, IHttpClientFactory clientFactory)
+        public CallWebApi(
+            string baseUrl,
+            string clientId,
+            string clientSecret,
+            string tokenRequestUrl,
+            IHttpClientFactory clientFactory
+        )
         {
             BaseUrl = baseUrl;
+            ClientId = clientId;
+            ClientSecret = clientSecret;
+            TokenRequestUrl = tokenRequestUrl;
             ClientFactory = clientFactory;
+        }
+
+        // Get an access token for the CallWeb API.
+        private async Task<string> RefreshCallWebApiServiceToken()
+        {
+            // If the service token is null, or if it's soon to expire, get a
+            // new service token.
+            if (
+                ServiceToken == null ||
+                DateTimeOffset.Now.ToUnixTimeSeconds() >= ServiceToken.expires_in
+            )
+            {
+
+                var client = GetClient();
+
+                var tokenRequestBodyDict = new Dictionary<string, string>();
+                tokenRequestBodyDict.Add("grant_type", "client_credentials");
+                tokenRequestBodyDict.Add("client_id", ClientId);
+                tokenRequestBodyDict.Add("client_secret", ClientSecret);
+
+                var res = await GetClient().PostAsync(
+                    TokenRequestUrl,
+                    new FormUrlEncodedContent(tokenRequestBodyDict)
+                );
+
+                var responseAsString = await res.Content.ReadAsStringAsync();
+
+                var token = JsonConvert.DeserializeObject<CallWebServiceTokenDto>(responseAsString);
+
+                // Set the expiry time based on the current time plus the
+                // length of time the token expires in, minus 60 seconds.
+                token.ExpiresAtUnix =
+                    DateTimeOffset.Now.ToUnixTimeSeconds()
+                    + token.expires_in - 60;
+                ServiceToken = token;
+            }
+
+            // Return the access token value from the stored service token.
+            var accessToken = ServiceToken.access_token;
+
+            return accessToken;
         }
 
         private HttpClient GetClient()
         {
             // The HttpClientName is specified as a constant in Startup.cs.
             return ClientFactory.CreateClient(Startup.HttpClientName);
+        }
+
+        // Get a client that has had the Authorization header set to use the
+        // access token.
+        private async Task<HttpClient> GetClientWithServiceToken()
+        {
+            string accessToken = await RefreshCallWebApiServiceToken();
+
+            var client = GetClient();
+
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", accessToken);
+
+            return client;
         }
 
         private StringContent ToJsonContent(object obj)
@@ -46,9 +118,32 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
+        private async Task<CallWebRowDto[]> CallWebRowsFromResponse(
+            HttpResponseMessage response
+        )
+        {
+            var responseAsString = await response.Content.ReadAsStringAsync();
+
+            var callWebDtos = JsonConvert.DeserializeObject<CallWebRowDto[]>(
+                responseAsString
+            );
+
+            return callWebDtos;
+        }
+
+        public async Task<CallWebRowDto[]> GetAll()
+        {
+            var client = await GetClientWithServiceToken();
+            var response = await client.GetAsync($"{BaseUrl}");
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
+        }
+
         public async Task<CallWebRowDto> GetOne(string telkey)
         {
-            var response = await GetClient().GetAsync($"{BaseUrl}{telkey}");
+            var client = await GetClientWithServiceToken();
+            var response = await client.GetAsync($"{BaseUrl}{telkey}");
             var callWebDto = await CallWebRowFromResponse(response);
 
             return callWebDto;
@@ -58,7 +153,8 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             var content = ToJsonContent(postDto);
 
-            var response = await GetClient().PostAsync(BaseUrl, content);
+            var client = await GetClientWithServiceToken();
+            var response = await client.PostAsync(BaseUrl, content);
             var callWebDto = await CallWebRowFromResponse(response);
 
             return callWebDto;
@@ -68,8 +164,8 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             var content = ToJsonContent(patchDto);
 
-            var response = await GetClient()
-                .PatchAsync($"{BaseUrl}{patchDto.Telkey}", content);
+            var client = await GetClientWithServiceToken();
+            var response = await client.PatchAsync($"{BaseUrl}{patchDto.Telkey}", content);
             var callWebDto = await CallWebRowFromResponse(response);
 
             return callWebDto;
