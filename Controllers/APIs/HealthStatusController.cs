@@ -27,11 +27,11 @@ namespace NewJobSurveyAdmin.Controllers
             return Ok(text);
       ***REMOVED***
 
-        // GetStatus: Returns the count of records in CallWeb, if that API is
-        // working.
-        // GET: api/HealthStatus/Status
-        [HttpGet("CallWebApiServiceToken")]
-        public async Task<ActionResult<string>> CallWebApiServiceToken()
+        // GetCallWebCount: Returns the count of records in CallWeb, if that API
+        // is working, or -1 if there has been an error.
+        // GET: api/HealthStatus/CallWebCount
+        [HttpGet("CallWebCount")]
+        public async Task<ActionResult<string>> GetCallWebCount()
         ***REMOVED***
             var apiServiceCallResult = await this.callWebService.ListAll();
 
