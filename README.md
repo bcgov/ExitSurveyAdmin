@@ -1,3 +1,5 @@
+[![img](https://img.shields.io/badge/Lifecycle-Stable-97ca00)]
+
 # ExitSurveyAdmin
 
 The Exit Survey Administration Tool will assist BC Stats in administering the BCPS Exit Survey.
