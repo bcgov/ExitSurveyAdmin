@@ -61,8 +61,12 @@ namespace ExitSurveyAdmin.Controllers
                 // Csv.
                 reconciledEmployeeList = await csv.ProcessCsv(Request, employeeReconciler, logger);
 
-                // Step 3. For all ACTIVE users in the DB who are NOT in the
+                // Step 3. Update existing employee statuses, again.
+                await employeeReconciler.UpdateEmployeeStatuses();
+
+                // Step 4. For all ACTIVE users in the DB who are NOT in the
                 // Csv, set them to not exiting, IF they are not in a final state.
+                // Including updating Callweb.
                 await employeeReconciler.UpdateNotExiting(reconciledEmployeeList);
             }
             catch (Exception e)
