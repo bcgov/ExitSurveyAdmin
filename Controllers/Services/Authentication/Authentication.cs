@@ -14,7 +14,7 @@ namespace ExitSurveyAdmin.Services
       ***REMOVED***
 
         public static void SetJwtBearerOptions(
-            JwtBearerOptions options, string authority
+            JwtBearerOptions options, string authority, string audience
         )
         ***REMOVED***
             options.Authority = authority;
@@ -22,7 +22,7 @@ namespace ExitSurveyAdmin.Services
             ***REMOVED***
                 //BC Dev Keycloack
                 ValidAudiences = new string[] ***REMOVED***
-                    "ExitSurveyAdmin", "account", "realm-management"
+                    audience, "account", "realm-management"
               ***REMOVED***
                 RoleClaimType = "user_roles" // roles in the token for the client.
           ***REMOVED***;
