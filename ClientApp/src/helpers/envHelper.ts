@@ -5,7 +5,11 @@ import { WebStorageStateStore } from 'oidc-client'
 
 export const routerBase = (): string => env('APP_PATH')
 
-export const deploymentUrl = (): string => {
+export const apiUrl = (): string => {
+  return `${env('API_DOMAIN')}${env('APP_PATH')}`
+}
+
+export const frontendUrl = (): string => {
   return `${env('APP_DOMAIN')}${env('APP_PATH')}`
 }
 
@@ -20,7 +24,7 @@ export const signinRedirectOptions = {
 
 export const userManagerConfig = {
   client_id: env('AUTH_CLIENT_ID'),
-  redirect_uri: `${deploymentUrl()}callback`,
+  redirect_uri: `${frontendUrl()}/#/callback`,
   response_type: env('AUTH_RESPONSE_TYPE'),
   scope: env('AUTH_SCOPE'),
   authority: env('AUTH_URL'),

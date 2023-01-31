@@ -31,7 +31,6 @@
     "merge": "^2.1.1",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
-    "node-sass": "^4.13.0",
     "oidc-client": "^1.9.0",
     "prettier": "^1.19.1",
     "query-string": "^6.12.1",
@@ -49,6 +48,7 @@
     "redux-persist": "^6.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.2",
+    "sass": "^1.56.2",
     "slugify": "^1.4.0",
     "typescript-eslint": "^0.0.1-alpha.0"
   },
@@ -70,7 +70,7 @@
     "extends": "react-app"
   },
   "scripts": {
-    "prestart": "react-env",
+    "prestart": "react-env --dest=public/config",
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",

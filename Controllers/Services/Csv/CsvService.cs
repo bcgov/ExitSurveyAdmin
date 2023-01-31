@@ -1,6 +1,5 @@
 using CsvHelper;
 using ExitSurveyAdmin.Models;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,34 +7,24 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExitSurveyAdmin.Services
+namespace ExitSurveyAdmin.Services.CsvService
 {
     public class CsvService
     {
-        private string PsaCsvFilePath;
+        private LoggingService logger;
 
-        public CsvService(IOptions<CsvServiceOptions> options)
+        public CsvService(LoggingService logger)
         {
-            PsaCsvFilePath = options.Value.PsaCsvFilePath;
-        }
-
-        // Returns the raw, as-is text of the PSA CSV extract.
-        public Task<string> ReadCsv()
-        {
-            return ReadCsv(PsaCsvFilePath);
-        }
-
-        public Task<string> ReadCsv(string csvPath)
-        {
-            return LocalFileService.ReadLocalFile(csvPath);
+            this.logger = logger;
         }
 
         // EmployeesFromCsv: Given the raw text of the PSA CSV extract (as
         // obtained, for instance, from the GetCsv method), transform it into an
         // array of nicely-formatted Employee JSON objects. Note that these
         // Employees are NOT saved or otherwise processed by default.
-        public async Task<Tuple<List<Employee>, List<string>>> EmployeesFromCsv(
-            Stream csvTextStream, Encoding csvEncoding
+        public Tuple<List<Employee>, List<string>> EmployeesFromCsv(
+            Stream csvTextStream,
+            Encoding csvEncoding
         )
         {
             // By default the content will not be read if it is not form or JSON
@@ -51,8 +40,7 @@ namespace ExitSurveyAdmin.Services
                 // this issue is fixed in a future release, we have had to add a
                 // TrimAllStrings() extension, which is called below.
                 // https://github.com/JoshClose/CsvHelper/issues/1400
-                csv.Configuration.TrimOptions = CsvHelper.Configuration
-                                                   .TrimOptions.InsideQuotes;
+                csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.InsideQuotes;
                 // csv.Configuration.TypeConverterCache
                 //     .RemoveConverter<DateTime>();
                 // csv.Configuration.TypeConverterCache
@@ -104,26 +92,23 @@ namespace ExitSurveyAdmin.Services
             LoggingService logger
         )
         {
-            var csvServiceTuple = await EmployeesFromCsv(request.Body, Encoding.UTF8);
+            var csvServiceTuple = EmployeesFromCsv(request.Body, Encoding.UTF8);
             var goodRecords = csvServiceTuple.Item1;
             var badRecords = csvServiceTuple.Item2;
             var totalRecordCount = goodRecords.Count + badRecords.Count;
 
             // Reconcile the employees with the database.
-            var reconcilerTuple = await employeeReconciler
-                .ReconcileEmployees(goodRecords);
+            var reconcilerTuple = await employeeReconciler.ReconcileEmployees(goodRecords);
             var goodEmployees = reconcilerTuple.Item1;
             var badEmployees = reconcilerTuple.Item2;
             var totalEmployeeCount = goodEmployees.Count + badEmployees.Count;
 
-            if (
-                goodRecords.Count == totalRecordCount &&
-                goodEmployees.Count == totalRecordCount
-            )
+            if (goodRecords.Count == totalRecordCount && goodEmployees.Count == totalRecordCount)
             {
-                await logger.LogSuccess(TaskEnum.ReconcileCsv,
-                    $"From a CSV with {totalRecordCount} rows, " +
-                    $"reconciled {totalRecordCount} employees. "
+                await logger.LogSuccess(
+                    TaskEnum.ReconcileCsv,
+                    $"From a CSV with {totalRecordCount} rows, "
+                        + $"reconciled {totalRecordCount} employees. "
                 );
             }
             else
@@ -131,21 +116,21 @@ namespace ExitSurveyAdmin.Services
                 var newLine = System.Environment.NewLine;
 
                 var message =
-                    $"From a CSV with {totalRecordCount} rows, " +
-                    $"successfully read {goodRecords.Count} rows " +
-                    $"and reconciled {goodEmployees.Count} employees. ";
+                    $"From a CSV with {totalRecordCount} rows, "
+                    + $"successfully read {goodRecords.Count} rows "
+                    + $"and reconciled {goodEmployees.Count} employees. ";
 
                 if (goodRecords.Count != totalRecordCount)
                 {
                     message +=
-                        $"There were {badRecords.Count} bad rows: " +
-                        $"Exceptions: {string.Join(newLine, badRecords)} ";
+                        $"There were {badRecords.Count} bad rows: "
+                        + $"Exceptions: {string.Join(newLine, badRecords)} ";
                 }
                 if (goodEmployees.Count != goodRecords.Count)
                 {
                     message +=
-                        $"There were {badEmployees.Count} employees with errors: " +
-                        $"Exceptions: {string.Join(newLine, badEmployees)} ";
+                        $"There were {badEmployees.Count} employees with errors: "
+                        + $"Exceptions: {string.Join(newLine, badEmployees)} ";
                 }
                 await logger.LogWarning(TaskEnum.ReconcileCsv, message);
             }
