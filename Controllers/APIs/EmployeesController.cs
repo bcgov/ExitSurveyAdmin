@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
-    [Authorize]
+    [Authorize(Policy = "UserRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
@@ -48,7 +48,6 @@ namespace ExitSurveyAdmin.Controllers
             [FromQuery] SieveModel sieveModel
         )
         ***REMOVED***
-
             // Validate the page size and page.
             if (sieveModel.PageSize < 1)
             ***REMOVED***
@@ -60,14 +59,10 @@ namespace ExitSurveyAdmin.Controllers
           ***REMOVED***
 
             // Employee query.
-            var employees = context.Employees
-                .AsNoTracking()
-                .Include(e => e.TimelineEntries);
+            var employees = context.Employees.AsNoTracking().Include(e => e.TimelineEntries);
 
-            var sievedEmployees = await SieveProcessor
-                .GetPagedAsync(employees, sieveModel);
-            Response.Headers.Add("X-Pagination", sievedEmployees
-                .SerializeMetadataToJson());
+            var sievedEmployees = await SieveProcessor.GetPagedAsync(employees, sieveModel);
+            Response.Headers.Add("X-Pagination", sievedEmployees.SerializeMetadataToJson());
 
             return Ok(sievedEmployees.Results);
       ***REMOVED***
@@ -94,8 +89,7 @@ namespace ExitSurveyAdmin.Controllers
         ***REMOVED***
             var existingEmployee = await FindById(id);
 
-            var updatedEmployee = employeePatchDto
-                .ApplyPatch(existingEmployee);
+            var updatedEmployee = employeePatchDto.ApplyPatch(existingEmployee);
 
             context.Entry(updatedEmployee).State = EntityState.Modified;
 
@@ -127,8 +121,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         ***REMOVED***
-            Employee newEmployee = await EmployeeReconciler
-                .ReconcileEmployee(employee);
+            Employee newEmployee = await EmployeeReconciler.ReconcileEmployee(employee);
 
             return CreatedAtAction(nameof(GetEmployee), new ***REMOVED*** id = newEmployee.Id ***REMOVED***, newEmployee);
       ***REMOVED***
@@ -141,15 +134,16 @@ namespace ExitSurveyAdmin.Controllers
                 // Update existing employee statuses.
                 await EmployeeReconciler.UpdateEmployeeStatuses();
 
-                await logger.LogSuccess(TaskEnum.RefreshStatuses,
+                await logger.LogSuccess(
+                    TaskEnum.RefreshStatuses,
                     $"Manually-triggered refresh of employee statuses."
                 );
           ***REMOVED***
             catch (Exception e)
             ***REMOVED***
-                await logger.LogFailure(TaskEnum.ReconcileCsv,
-                    $"Error refreshing employee statuses. Stacktrace:\r\n" +
-                    e.StackTrace
+                await logger.LogFailure(
+                    TaskEnum.ReconcileCsv,
+                    $"Error refreshing employee statuses. Stacktrace:\r\n" + e.StackTrace
                 );
           ***REMOVED***
 

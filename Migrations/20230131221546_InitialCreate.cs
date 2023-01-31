@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ExitSurveyAdmin.Migrations
 ***REMOVED***
@@ -12,7 +13,7 @@ namespace ExitSurveyAdmin.Migrations
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     Key = table.Column<string>(nullable: false),
@@ -78,19 +79,21 @@ namespace ExitSurveyAdmin.Migrations
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     Telkey = table.Column<string>(nullable: true),
                     GovernmentEmployeeId = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     PreferredFirstName = table.Column<string>(nullable: false),
+                    PreferredFirstNameFlag = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     RecordCount = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<string>(nullable: false),
                     GovernmentEmail = table.Column<string>(nullable: true),
                     PreferredEmail = table.Column<string>(nullable: true),
+                    PreferredEmailFlag = table.Column<bool>(nullable: false),
                     Classification = table.Column<string>(nullable: false),
                     Ministry = table.Column<string>(nullable: false),
                     DepartmentId = table.Column<string>(nullable: false),
@@ -106,10 +109,15 @@ namespace ExitSurveyAdmin.Migrations
                     AddressProvince = table.Column<string>(nullable: false),
                     AddressPostCode = table.Column<string>(nullable: false),
                     PreferredAddress1 = table.Column<string>(nullable: false),
+                    PreferredAddress1Flag = table.Column<bool>(nullable: false),
                     PreferredAddress2 = table.Column<string>(nullable: true),
+                    PreferredAddress2Flag = table.Column<bool>(nullable: false),
                     PreferredAddressCity = table.Column<string>(nullable: false),
+                    PreferredAddressCityFlag = table.Column<bool>(nullable: false),
                     PreferredAddressProvince = table.Column<string>(nullable: false),
+                    PreferredAddressProvinceFlag = table.Column<bool>(nullable: false),
                     PreferredAddressPostCode = table.Column<string>(nullable: false),
+                    PreferredAddressPostCodeFlag = table.Column<bool>(nullable: false),
                     Phone = table.Column<string>(nullable: false),
                     AppointmentStatus = table.Column<string>(nullable: false),
                     PositionCode = table.Column<string>(nullable: false),
@@ -143,7 +151,7 @@ namespace ExitSurveyAdmin.Migrations
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     TaskCode = table.Column<string>(nullable: false),
@@ -172,7 +180,7 @@ namespace ExitSurveyAdmin.Migrations
                 columns: table => new
                 ***REMOVED***
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedTs = table.Column<DateTime>(nullable: false),
                     ModifiedTs = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<int>(nullable: false),
@@ -185,7 +193,7 @@ namespace ExitSurveyAdmin.Migrations
                 ***REMOVED***
                     table.PrimaryKey("PK_EmployeeTimelineEntries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeTimelineEntries_EmployeeActionEnums_EmployeeActionCode",
+                        name: "FK_EmployeeTimelineEntries_EmployeeActionEnums_EmployeeActionC~",
                         column: x => x.EmployeeActionCode,
                         principalTable: "EmployeeActionEnums",
                         principalColumn: "Code",
@@ -197,7 +205,7 @@ namespace ExitSurveyAdmin.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EmployeeTimelineEntries_EmployeeStatusEnums_EmployeeStatusCode",
+                        name: "FK_EmployeeTimelineEntries_EmployeeStatusEnums_EmployeeStatusC~",
                         column: x => x.EmployeeStatusCode,
                         principalTable: "EmployeeStatusEnums",
                         principalColumn: "Code",

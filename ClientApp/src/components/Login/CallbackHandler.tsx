@@ -5,17 +5,17 @@ import ***REMOVED*** CallbackComponent ***REMOVED*** from 'redux-oidc'
 import ***REMOVED*** connect ***REMOVED*** from 'react-redux'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router-dom'
 
-import ***REMOVED*** deploymentUrl ***REMOVED*** from '../../helpers/envHelper'
+import ***REMOVED*** frontendUrl ***REMOVED*** from '../../helpers/envHelper'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import userManager from '../../store/utils/userManager'
 
-interface IDispatchProps ***REMOVED***
+interface DispatchProps ***REMOVED***
   dispatch: Dispatch<AnyAction>
 ***REMOVED***
 
-interface IProps extends IDispatchProps, RouteComponentProps ***REMOVED******REMOVED***
+interface Props extends DispatchProps, RouteComponentProps ***REMOVED******REMOVED***
 
-class CallbackPage extends React.Component<IProps> ***REMOVED***
+class CallbackPage extends React.Component<Props> ***REMOVED***
   render(): JSX.Element ***REMOVED***
     return (
       <CallbackComponent
@@ -26,7 +26,7 @@ class CallbackPage extends React.Component<IProps> ***REMOVED***
         errorCallback=***REMOVED***(error: FixTypeLater): void => ***REMOVED***
           console.log('Login error')
           console.error(error)
-          window.location.href = deploymentUrl()
+          window.location.href = frontendUrl()
       ***REMOVED******REMOVED***
       >
         <div className="Centered row">

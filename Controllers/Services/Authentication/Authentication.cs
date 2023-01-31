@@ -14,71 +14,27 @@ namespace ExitSurveyAdmin.Services
       ***REMOVED***
 
         public static void SetJwtBearerOptions(
-            JwtBearerOptions options, string authority
+            JwtBearerOptions options,
+            string authority,
+            string audience,
+            string roleClaimType
         )
         ***REMOVED***
             options.Authority = authority;
             options.TokenValidationParameters = new TokenValidationParameters
             ***REMOVED***
-                //BC Dev Keycloak
-                ValidAudiences = new string[] ***REMOVED***
-                    "ExitSurveyAdmin", "account", "realm-management" // TODO: Check on this
-              ***REMOVED***
-                RoleClaimType = "role" // roles in the token for the client.
+                ValidAudiences = new string[] ***REMOVED*** audience ***REMOVED***,
+                RoleClaimType = roleClaimType
           ***REMOVED***;
-            options.RequireHttpsMetadata = false; //for test only!
+            options.RequireHttpsMetadata = true;
             options.SaveToken = true;
 
             options.Validate();
       ***REMOVED***
 
-        public static void SetAuthorizationOptions(
-            AuthorizationOptions options, string roleName
-        )
+        public static void SetAuthorizationOptions(AuthorizationOptions options, string roleName)
         ***REMOVED***
-            options.AddPolicy("UserRole", policy =>
-                policy.RequireClaim("role", $"[***REMOVED***roleName***REMOVED***]")
-            );
+            options.AddPolicy("UserRole", policy => policy.RequireRole(roleName));
       ***REMOVED***
-
-        /*                 
-        options.Events = new JwtBearerEvents()
-        ***REMOVED***
-
-            OnAuthenticationFailed = async c => 
-            ***REMOVED***
-                c.NoResult();
-                c.Response.StatusCode = 500;
-                c.Response.ContentType = "text/plain";
-                //await c.Response.StartAsyncyes("Startup Authentication failed:" + c.Exception.ToString());
-
-          ***REMOVED***
-
-            OnTokenValidated = async ctx =>
-            ***REMOVED***
-                var token= ctx.SecurityToken;
-                //var jwt = (ctx.SecurityToken as JwtSecurityToken)?.ToString();
-                // get your JWT token here if you need to decode it e.g on https://jwt.io
-                // And you can re-add role claim if it has different name in token compared to what you want to use in your ClaimIdentity:  
-                // AddRoleClaims(ctx.Principal);
-                // return Task.CompletedTask;
-
-                //// Check if the user has an OID claim(oid = object id = user id)
-                //if (!ctx.Principal.HasClaim(c => c.Type == "http://schemas.microsoft.co..."))
-                //***REMOVED***
-                //    ctx.Fail($"The claim 'oid' is not present in the token.");
-                //***REMOVED***
-
-                // ClaimsPrincipal userPrincipal = ctx.Principal;
-
-                ////cu.CreateUser(userPrincipal, services.BuildServiceProvider());
-
-                //var claims = new List<Claim> ***REMOVED***new Claim(ClaimTypes.Role, "Admin")***REMOVED***;
-                //var appIdentity = new ClaimsIdentity(claims);
-                //ctx.Principal.AddIdentity(appIdentity);
-                //***REMOVED***
-          ***REMOVED***
-      ***REMOVED***;
-         */
   ***REMOVED***
 ***REMOVED***

@@ -3,13 +3,12 @@ using ExitSurveyAdmin.Services.CallWeb;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace NewJobSurveyAdmin.Controllers
+namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
     [Route("api/[controller]")]
     [ApiController]
     public class HealthStatusController : ControllerBase
     ***REMOVED***
-
         private readonly CallWebService callWebService;
 
         public HealthStatusController(CallWebService callWebService)
@@ -35,9 +34,7 @@ namespace NewJobSurveyAdmin.Controllers
         ***REMOVED***
             var apiServiceCallResult = await this.callWebService.ListAll();
 
-            int length = apiServiceCallResult == null
-                ? -1
-                : apiServiceCallResult.Length;
+            int length = apiServiceCallResult == null ? -1 : apiServiceCallResult.Length;
 
             string text = "***REMOVED*** \"callWebRecordCount\": \"" + length + "\" ***REMOVED***";
 

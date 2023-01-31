@@ -3,25 +3,23 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
     "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
     "react",
     "@typescript-eslint",
-    "prettier",
-    "react-hooks"
+    "prettier"
   ],
   "env": ***REMOVED***
     "browser": true,
     "jasmine": true,
     "jest": true,
-    "node": true
+    "node": true,
+    "es6": true
 ***REMOVED***
   "rules": ***REMOVED***
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
     "sort-imports": [
       "error",
       ***REMOVED***
@@ -29,39 +27,49 @@
     ***REMOVED***
     ],
     "react/display-name": "off",
-    "@typescript-eslint/ban-ts-ignore": "warn",
-    "@typescript-eslint/interface-name-prefix": [
-      "error",
-      "always"
-    ],
-    "@typescript-eslint/no-empty-interface": "off",
     "space-before-function-paren": [
       "error",
       ***REMOVED***
-        "anonymous": "never",
+        "anonymous": "always",
         "asyncArrow": "always",
         "named": "never"
     ***REMOVED***
     ],
-    "comma-dangle": [
-      "error",
-      "never"
-    ],
-    "no-console": [
-      "error",
-      ***REMOVED***
-        "allow": ["warn", "error"]
+    "@typescript-eslint/member-delimiter-style": ["error", ***REMOVED***
+      "multiline": ***REMOVED***
+        "delimiter": "none",    // 'none' or 'semi' or 'comma'
+        "requireLast": true
     ***REMOVED***
-    ],
+      "singleline": ***REMOVED***
+        "delimiter": "semi",    // 'semi' or 'comma'
+        "requireLast": false
+    ***REMOVED***
+  ***REMOVED***],
     "prettier/prettier": [
       "error",
       ***REMOVED***
+        "endOfLine": "auto",
         "singleQuote": true,
-        "trailingCommas": "none",
+        "trailingCommas": "es5",
         "semi": false
     ***REMOVED***
     ]
 ***REMOVED***
+  "overrides": [
+    ***REMOVED***
+      "files": ["**"],
+      "rules": ***REMOVED***
+        "space-before-function-paren": [
+          "error",
+          ***REMOVED***
+            "anonymous": "always",
+            "asyncArrow": "always",
+            "named": "never"
+        ***REMOVED***
+        ]
+    ***REMOVED***
+  ***REMOVED***
+  ],
   "settings": ***REMOVED***
     "react": ***REMOVED***
       "pragma": "React",
