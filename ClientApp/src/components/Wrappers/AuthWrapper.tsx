@@ -5,19 +5,17 @@ import { FixTypeLater } from '../../types/FixTypeLater'
 import { mapUserToPropsFromState } from '../../helpers/userHelper'
 import Unauthorized from '../Login/Unauthorized'
 
-interface IOwnProps {
+interface OwnProps {
   children: React.ReactNode
 }
 
-interface IStateProps {
+interface StateProps {
   user: FixTypeLater
 }
 
-interface IDispatchProps {}
+interface Props extends OwnProps, StateProps {}
 
-interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
-
-class AuthWrapper extends React.Component<IProps> {
+class AuthWrapper extends React.Component<Props> {
   render(): React.ReactNode {
     const { user } = this.props
 
