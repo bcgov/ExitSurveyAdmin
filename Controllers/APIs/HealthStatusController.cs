@@ -10,10 +10,12 @@ namespace ExitSurveyAdmin.Controllers
     public class HealthStatusController : ControllerBase
     {
         private readonly CallWebService callWebService;
+        private readonly EmailService emailService;
 
-        public HealthStatusController(CallWebService callWebService)
+        public HealthStatusController(CallWebService callWebService, EmailService emailService)
         {
             this.callWebService = callWebService;
+            this.emailService = emailService;
         }
 
         // GetStatus: Returns "Healthy." if the API is healthy.
@@ -39,6 +41,14 @@ namespace ExitSurveyAdmin.Controllers
             string text = "{ \"callWebRecordCount\": \"" + length + "\" }";
 
             return Ok(text);
+        }
+
+        [HttpGet("SendEmail")]
+        public async Task<ActionResult<string>> SendEmail()
+        {
+            await emailService.SendTestEmail("Test subject", "Test body");
+
+            return Ok();
         }
     }
 }
