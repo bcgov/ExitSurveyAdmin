@@ -14,12 +14,12 @@ export const getPreviousMonthFilter = (): DateFilter => {
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 }
 
-interface IProps {
+interface Props {
   submitId: number
   setSubmitId: (submitId: number) => void
 }
 
-const SetPreviousMonth = ({ submitId, setSubmitId }: IProps): JSX.Element => {
+const SetPreviousMonth = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setPreviousMonth = React.useCallback((): void => {
