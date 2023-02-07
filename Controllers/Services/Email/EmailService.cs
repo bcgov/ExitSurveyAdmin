@@ -111,7 +111,7 @@ namespace ExitSurveyAdmin.Services
                 missingVars += "ToName ";
 
             if (string.IsNullOrEmpty(ToAddress))
-                missingVars += "FromAddress ";
+                missingVars += "ToAddress ";
 
             if (string.IsNullOrEmpty(SmtpServer))
                 missingVars += "SmtpServer ";
