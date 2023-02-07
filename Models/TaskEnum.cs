@@ -9,7 +9,7 @@ namespace ExitSurveyAdmin.Models
     ***REMOVED***
         private static readonly string CodeReconcileCsv = "ReconcileCSV";
         private static readonly string CodeRefreshStatuses = "RefreshStatuses";
-        private static readonly string CodeEmailUsers = "EmailUsers";
+        private static readonly string CodeEmailAdmins = "EmailAdmins";
         private static readonly string CodeRetrieveSurveyStatus = "RetrieveSurveyStatus";
         private static readonly string CodeReconcileEmployees = "ReconcileEmployees";
         private static readonly string CodeLoadPsa = "LoadPsa";
@@ -77,10 +77,10 @@ namespace ExitSurveyAdmin.Models
                 "The scheduled task that runs daily, pulling from PSA API and updating statuses as required."
       ***REMOVED***;
 
-        public static readonly TaskEnum EmailUsers = new TaskEnum
+        public static readonly TaskEnum EmailAdmins = new TaskEnum
         ***REMOVED***
-            Code = CodeEmailUsers,
-            Description = "The task to email employees."
+            Code = CodeEmailAdmins,
+            Description = "The task to email admins."
       ***REMOVED***;
 
         public static readonly TaskEnum RetrieveSurveyStatus = new TaskEnum
@@ -93,7 +93,7 @@ namespace ExitSurveyAdmin.Models
         ***REMOVED***
             ReconcileCsv,
             RefreshStatuses,
-            EmailUsers,
+            EmailAdmins,
             RetrieveSurveyStatus
       ***REMOVED***;
 

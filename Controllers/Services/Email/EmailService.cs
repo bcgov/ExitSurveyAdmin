@@ -3,11 +3,14 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
 using ExitSurveyAdmin.Models;
+using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
     public class EmailService
     ***REMOVED***
+        private LoggingService logger;
+
         private string FromName ***REMOVED*** get; set; ***REMOVED***
         private string FromAddress ***REMOVED*** get; set; ***REMOVED***
         private string ToName ***REMOVED*** get; set; ***REMOVED***
@@ -16,8 +19,10 @@ namespace ExitSurveyAdmin.Services
         private int SmtpPort ***REMOVED*** get; set; ***REMOVED***
 
         // Sends an email.
-        public EmailService(IOptions<EmailServiceOptions> options)
+        public EmailService(IOptions<EmailServiceOptions> options, LoggingService logger)
         ***REMOVED***
+            this.logger = logger;
+
             FromName = options.Value.FromName;
             FromAddress = options.Value.FromAddress;
             ToName = options.Value.ToName;
@@ -26,11 +31,11 @@ namespace ExitSurveyAdmin.Services
             SmtpPort = options.Value.SmtpPort;
       ***REMOVED***
 
-        public void SendTaskResultEmail(EmployeeTaskResult taskResult)
+        public async void SendTaskResultEmail(EmployeeTaskResult taskResult)
         ***REMOVED***
             try
             ***REMOVED***
-                SendEmail(
+                await SendEmail(
                     MessageHelper.EmailSubjectFromTaskAndOutcome(
                         taskResult.Task,
                         taskResult.TaskOutcome
@@ -38,36 +43,40 @@ namespace ExitSurveyAdmin.Services
                     taskResult.Message
                 );
           ***REMOVED***
-            catch
+            catch (Exception emailSendingException)
             ***REMOVED***
-                // Fail silently; this is currently offered on a best-effort
-                // basis.
+                await logger.Log(
+                    TaskEnum.EmailAdmins,
+                    TaskOutcomeEnum.Fail,
+                    $"Failed to send email: ***REMOVED***emailSendingException.Message***REMOVED***"
+                );
           ***REMOVED***
       ***REMOVED***
 
-        public void SendFailureEmail(TaskEnum task, Exception e)
+        public async void SendFailureEmail(TaskEnum task, Exception e)
         ***REMOVED***
             try
             ***REMOVED***
-                SendEmail(
+                await SendEmail(
                     MessageHelper.EmailSubjectFromTaskAndOutcome(task, TaskOutcomeEnum.Fail),
                     MessageHelper.MessageFromException(e)
                 );
           ***REMOVED***
-            catch
+            catch (Exception emailSendingException)
             ***REMOVED***
-                // Fail silently; this is currently offered on a best-effort
-                // basis.
+                await logger.Log(
+                    TaskEnum.EmailAdmins,
+                    TaskOutcomeEnum.Fail,
+                    $"Failed to send email: ***REMOVED***emailSendingException.Message***REMOVED***"
+                );
           ***REMOVED***
       ***REMOVED***
 
-        protected void SendEmail(string subject, string text)
+        protected async Task SendEmail(string subject, string text)
         ***REMOVED***
-            // This is a no-op if either ToName and ToAddress are null or blank
-            if (ToName == null || ToName.Equals("") || ToAddress == null || ToAddress.Equals(""))
-            ***REMOVED***
+            var isValid = await this.ValidateConfig();
+            if (!isValid)
                 return;
-          ***REMOVED***
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(FromName, FromAddress));
@@ -83,6 +92,44 @@ namespace ExitSurveyAdmin.Services
                 client.Send(message);
                 client.Disconnect(true);
           ***REMOVED***
+      ***REMOVED***
+
+        protected async Task<Boolean> ValidateConfig()
+        ***REMOVED***
+            // TODO: validate email config. If/when we update the project to
+            // .NET 6+, we can instead use the ValidateOnStart method.
+
+            var missingVars = "";
+
+            if (string.IsNullOrEmpty(FromName))
+                missingVars += "FromName ";
+
+            if (string.IsNullOrEmpty(FromAddress))
+                missingVars += "FromAddress ";
+
+            if (string.IsNullOrEmpty(ToName))
+                missingVars += "ToName ";
+
+            if (string.IsNullOrEmpty(ToAddress))
+                missingVars += "FromAddress ";
+
+            if (string.IsNullOrEmpty(SmtpServer))
+                missingVars += "SmtpServer ";
+
+            if (SmtpPort == 0)
+                missingVars += "SmtpPort ";
+
+            if (missingVars.Length > 0)
+            ***REMOVED***
+                await logger.Log(
+                    TaskEnum.EmailAdmins,
+                    TaskOutcomeEnum.Fail,
+                    $"Failed to send email. Missing config vars: ***REMOVED***missingVars***REMOVED***"
+                );
+                return false;
+          ***REMOVED***
+
+            return true;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
