@@ -23,6 +23,7 @@ bin/
 Bin/
 obj/
 Obj/
+*.binlog
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -246,6 +247,18 @@ EmailTemplates/*
 
 # App settings
 **/appsettings.Development.json
+**/appsettings.Production.json
+/secret/appsettings.json
+/config/appsettings.json
+**/deploy_api_vars.sh
+**/deploy_frontend_vars.sh
+
+# Auto-generated env.js in ClientApp
+ClientApp/.env*
+!ClientApp/.env.example
+ClientApp/public/env.js
+ClientApp/public/config/__ENV.js
 
 # Various
 .DS_Store
+.odo/odo-file-index.json

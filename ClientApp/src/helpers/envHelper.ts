@@ -5,7 +5,11 @@ import ***REMOVED*** WebStorageStateStore ***REMOVED*** from 'oidc-client'
 
 export const routerBase = (): string => env('APP_PATH')
 
-export const deploymentUrl = (): string => ***REMOVED***
+export const apiUrl = (): string => ***REMOVED***
+  return `$***REMOVED***env('API_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
+***REMOVED***
+
+export const frontendUrl = (): string => ***REMOVED***
   return `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
 ***REMOVED***
 
@@ -20,7 +24,7 @@ export const signinRedirectOptions = ***REMOVED***
 
 export const userManagerConfig = ***REMOVED***
   client_id: env('AUTH_CLIENT_ID'),
-  redirect_uri: `$***REMOVED***deploymentUrl()***REMOVED***callback`,
+  redirect_uri: `$***REMOVED***frontendUrl()***REMOVED***/#/callback`,
   response_type: env('AUTH_RESPONSE_TYPE'),
   scope: env('AUTH_SCOPE'),
   authority: env('AUTH_URL'),

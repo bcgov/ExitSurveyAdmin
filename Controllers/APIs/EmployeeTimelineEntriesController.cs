@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
-    [Authorize(Roles = "exitsurveyadmin")]
+    [Authorize(Policy = "UserRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeTimelineEntriesController : ControllerBase
@@ -22,7 +22,9 @@ namespace ExitSurveyAdmin.Controllers
 
         // GET: api/EmployeeTimelineEntries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmployeeTimelineEntry>>> GetEmployeeTimelineEntries()
+        public async Task<
+            ActionResult<IEnumerable<EmployeeTimelineEntry>>
+        > GetEmployeeTimelineEntries()
         ***REMOVED***
             return await context.EmployeeTimelineEntries
                 .Include(ete => ete.EmployeeAction)
@@ -35,9 +37,9 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<EmployeeTimelineEntry>> GetEmployeeTimelineEntry(int id)
         ***REMOVED***
             var employeeTimelineEntry = await context.EmployeeTimelineEntries
-                    .Include(ete => ete.EmployeeAction)
-                    .Include(ete => ete.EmployeeStatus)
-                    .FirstOrDefaultAsync(ete => ete.Id == id);
+                .Include(ete => ete.EmployeeAction)
+                .Include(ete => ete.EmployeeStatus)
+                .FirstOrDefaultAsync(ete => ete.Id == id);
 
             if (employeeTimelineEntry == null)
             ***REMOVED***
@@ -51,13 +53,19 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<EmployeeTimelineEntry>> PostEmployeeTimelineEntry(EmployeeTimelineEntry employeeTimelineEntry)
+        public async Task<ActionResult<EmployeeTimelineEntry>> PostEmployeeTimelineEntry(
+            EmployeeTimelineEntry employeeTimelineEntry
+        )
         ***REMOVED***
             // TODO: Do proper validation here.
             context.EmployeeTimelineEntries.Add(employeeTimelineEntry);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetEmployeeTimelineEntry), new ***REMOVED*** id = employeeTimelineEntry.Id ***REMOVED***, employeeTimelineEntry);
+            return CreatedAtAction(
+                nameof(GetEmployeeTimelineEntry),
+                new ***REMOVED*** id = employeeTimelineEntry.Id ***REMOVED***,
+                employeeTimelineEntry
+            );
       ***REMOVED***
 
         private bool EmployeeTimelineEntryExists(int id)

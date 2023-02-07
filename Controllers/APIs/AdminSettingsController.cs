@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 ***REMOVED***
-    [Authorize(Roles = "exitsurveyadmin")]
+    [Authorize(Policy = "UserRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminSettingsController : ControllerBase
@@ -31,8 +31,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("***REMOVED***id***REMOVED***")]
         public async Task<ActionResult<AdminSetting>> GetAdminSetting(int id)
         ***REMOVED***
-            var adminSetting = await context.AdminSettings
-                .FirstOrDefaultAsync(ete => ete.Id == id);
+            var adminSetting = await context.AdminSettings.FirstOrDefaultAsync(ete => ete.Id == id);
 
             if (adminSetting == null)
             ***REMOVED***
@@ -46,7 +45,10 @@ namespace ExitSurveyAdmin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPatch("***REMOVED***id***REMOVED***")]
-        public async Task<ActionResult<AdminSetting>> PatchAdminSetting(int id, AdminSettingPatchDto adminSetting)
+        public async Task<ActionResult<AdminSetting>> PatchAdminSetting(
+            int id,
+            AdminSettingPatchDto adminSetting
+        )
         ***REMOVED***
             var existingAdminSetting = await FindById(id);
             existingAdminSetting.Value = adminSetting.Value;
@@ -79,8 +81,7 @@ namespace ExitSurveyAdmin.Controllers
 
         private async Task<AdminSetting> FindById(int id)
         ***REMOVED***
-            var adminSetting = await context.AdminSettings
-                .FirstOrDefaultAsync(i => i.Id == id);
+            var adminSetting = await context.AdminSettings.FirstOrDefaultAsync(i => i.Id == id);
 
             return adminSetting;
       ***REMOVED***
