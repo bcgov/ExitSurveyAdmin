@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { IFilter } from '../Filters/FilterClasses/FilterTypes'
-import { IPresetProps } from '../Filters/Presets/IPresetProps'
+import { PresetProps } from '../Filters/Presets/PresetProps'
 import { ITableSort } from '../../types/ITableSort'
 import { MasterFilterHandler } from '../Filters/MasterFilterHandler'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
@@ -34,7 +34,7 @@ export interface IGenericListingProps<T extends object> {
   filterableFields: IFilter[]
   listingPath: string
   modelName: string
-  presetComponent?: React.FC<IPresetProps>
+  presetComponent?: React.FC<PresetProps>
   columns: () => FixTypeLater[]
   dataMapper: (responseJSON: FixTypeLater[]) => T[]
   exportedDataMapper: (responseJSON: FixTypeLater[]) => FixTypeLater[]

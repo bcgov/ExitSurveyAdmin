@@ -16,12 +16,12 @@ export const getActiveEmployeesFilter = (): EnumFilter => {
   return new EnumFilter('currentEmployeeStatusCode', activeStatusKeys)
 }
 
-interface IProps {
+interface Props {
   submitId: number
   setSubmitId: (submitId: number) => void
 }
 
-const SetActiveEmployees = ({ submitId, setSubmitId }: IProps): JSX.Element => {
+const SetActiveEmployees = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setActiveEmployees = React.useCallback((): void => {

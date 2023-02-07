@@ -1,12 +1,17 @@
 import React, { useContext } from 'react'
+import moment from 'moment'
 
 import { FilterDispatch } from '../../FilterForm'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
+import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
-import CustomFilter from '../../FilterClasses/CustomFilter'
 
-export const getBlankEmailFilter = (): CustomFilter => {
-  return new CustomFilter('blankEmail')
+export const get2MonthsAgoFilter = (): DateFilter => {
+  const startDate = moment()
+    .subtract(2, 'month')
+    .startOf('month')
+  const endDate = moment(startDate).endOf('month')
+  return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 }
 
 interface Props {
@@ -14,13 +19,13 @@ interface Props {
   setSubmitId: (submitId: number) => void
 }
 
-const SetActiveEmployees = ({ submitId, setSubmitId }: Props): JSX.Element => {
+const Set2MonthsAgo = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-  const setActiveEmployees = React.useCallback((): void => {
+  const setPreviousMonth = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getBlankEmailFilter()
+      filter: get2MonthsAgoFilter()
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])
@@ -28,16 +33,16 @@ const SetActiveEmployees = ({ submitId, setSubmitId }: Props): JSX.Element => {
   return (
     <FilterDispatch.Provider value={dispatch}>
       <IconButton
-        label="Blank email"
-        iconName="envelope-open"
+        label="2 months ago"
+        iconName="calendar-minus"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"
         buttonClasses="btn-sm"
-        onClick={setActiveEmployees}
+        onClick={setPreviousMonth}
       />
     </FilterDispatch.Provider>
   )
 }
 
-export default SetActiveEmployees
+export default Set2MonthsAgo
