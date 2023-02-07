@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using ExitSurveyAdmin.Services;
 using ExitSurveyAdmin.Services.CallWeb;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Controllers
@@ -21,7 +21,7 @@ namespace ExitSurveyAdmin.Controllers
         [HttpGet("Status")]
         public ActionResult<string> GetStatus()
         {
-            string text = "{ \"msg\": \"Healthy.\" }";
+            string text = "{ \"msg\": \"ESA API is healthy.\" }";
 
             return Ok(text);
         }
