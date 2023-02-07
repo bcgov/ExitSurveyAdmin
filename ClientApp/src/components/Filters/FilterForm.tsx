@@ -2,7 +2,7 @@
 import React, ***REMOVED*** useMemo ***REMOVED*** from 'react'
 
 import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterClasses/FilterTypes'
-import ***REMOVED*** IPresetProps ***REMOVED*** from './Presets/IPresetProps'
+import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
 import DateFilter from './FilterClasses/DateFilter'
 import DateFilterInput from './Inputs/DateFilterInput'
 import EnumFilter from './FilterClasses/EnumFilter'
@@ -15,7 +15,7 @@ interface IProps ***REMOVED***
   addFilters: (filters: IFilter[]) => void
   resetFilters: () => void
   filterableFields: IFilter[]
-  presetComponent?: React.FC<IPresetProps>
+  presetComponent?: React.FC<PresetProps>
 ***REMOVED***
 
 export type FilterMapAction = ***REMOVED***

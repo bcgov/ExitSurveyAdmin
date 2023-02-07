@@ -1,19 +1,17 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
+import moment from 'moment'
 
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
-import EnumFilter from '../../FilterClasses/EnumFilter'
+import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
-import ***REMOVED***
-  EmployeeStatus,
-  EmployeeStatusStateEnum
-***REMOVED*** from '../../../../types/EmployeeStatus'
 
-export const getActiveEmployeesFilter = (): EnumFilter => ***REMOVED***
-  const activeStatusKeys = EmployeeStatus.array()
-    .filter(status => status.state === EmployeeStatusStateEnum.Active)
-    .map(status => status.code)
-  return new EnumFilter('currentEmployeeStatusCode', activeStatusKeys)
+export const get2MonthsAgoFilter = (): DateFilter => ***REMOVED***
+  const startDate = moment()
+    .subtract(2, 'month')
+    .startOf('month')
+  const endDate = moment(startDate).endOf('month')
+  return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 ***REMOVED***
 
 interface Props ***REMOVED***
@@ -21,13 +19,13 @@ interface Props ***REMOVED***
   setSubmitId: (submitId: number) => void
 ***REMOVED***
 
-const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Props): JSX.Element => ***REMOVED***
+const Set2MonthsAgo = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
-  const setActiveEmployees = React.useCallback((): void => ***REMOVED***
+  const setPreviousMonth = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: getActiveEmployeesFilter()
+      filter: get2MonthsAgoFilter()
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])
@@ -35,16 +33,16 @@ const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: P
   return (
     <FilterDispatch.Provider value=***REMOVED***dispatch***REMOVED***>
       <IconButton
-        label="Exiting employees"
-        iconName="user-check"
+        label="2 months ago"
+        iconName="calendar-minus"
         colorType="outline-primary"
         marginClasses="mr-2"
         iconMarginClasses="mr-2"
         buttonClasses="btn-sm"
-        onClick=***REMOVED***setActiveEmployees***REMOVED***
+        onClick=***REMOVED***setPreviousMonth***REMOVED***
       />
     </FilterDispatch.Provider>
   )
 ***REMOVED***
 
-export default SetActiveEmployees
+export default Set2MonthsAgo

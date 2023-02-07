@@ -2,7 +2,7 @@ import React from 'react'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** IFilter ***REMOVED*** from './FilterClasses/FilterTypes'
-import ***REMOVED*** IPresetProps ***REMOVED*** from './Presets/IPresetProps'
+import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from './MasterFilterHandler'
 import ActiveFilters from './ActiveFilters/ActiveFilters'
 import ExpandPanel from './FilterPanelExpandButton'
@@ -14,7 +14,7 @@ import './FilterPanel.scss'
 interface IProps extends RouteComponentProps ***REMOVED***
   modelName: string
   filterableFields: IFilter[]
-  presetComponent?: React.FC<IPresetProps>
+  presetComponent?: React.FC<PresetProps>
 ***REMOVED***
 
 const removeExactMatch = (arr: IFilter[], candidate: IFilter): void => ***REMOVED***
