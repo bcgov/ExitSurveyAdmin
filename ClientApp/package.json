@@ -70,7 +70,7 @@
     "extends": "react-app"
   },
   "scripts": {
-    "prestart": "react-env",
+    "prestart": "react-env --dest=public/config",
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
