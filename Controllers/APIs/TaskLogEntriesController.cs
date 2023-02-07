@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 {
-    [Authorize(Roles = "exitsurveyadmin")]
+    [Authorize(Policy = "UserRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class TaskLogEntriesController : ControllerBase
@@ -51,10 +51,11 @@ namespace ExitSurveyAdmin.Controllers
                 .Include(tle => tle.Task)
                 .Include(tle => tle.TaskOutcome);
 
-            var sievedTaskLogEntries = await SieveProcessor
-                .GetPagedAsync(taskLogEntries, sieveModel);
-            Response.Headers.Add("X-Pagination", sievedTaskLogEntries
-                .SerializeMetadataToJson());
+            var sievedTaskLogEntries = await SieveProcessor.GetPagedAsync(
+                taskLogEntries,
+                sieveModel
+            );
+            Response.Headers.Add("X-Pagination", sievedTaskLogEntries.SerializeMetadataToJson());
 
             return Ok(sievedTaskLogEntries.Results);
         }
@@ -64,9 +65,9 @@ namespace ExitSurveyAdmin.Controllers
         public async Task<ActionResult<TaskLogEntry>> GetTaskLogEntry(int id)
         {
             var taskLogEntry = await context.TaskLogEntries
-                    .Include(tle => tle.Task)
-                    .Include(tle => tle.TaskOutcome)
-                    .FirstOrDefaultAsync(tle => tle.Id == id);
+                .Include(tle => tle.Task)
+                .Include(tle => tle.TaskOutcome)
+                .FirstOrDefaultAsync(tle => tle.Id == id);
 
             if (taskLogEntry == null)
             {
@@ -86,7 +87,11 @@ namespace ExitSurveyAdmin.Controllers
             context.TaskLogEntries.Add(taskLogEntry);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetTaskLogEntry), new { id = taskLogEntry.Id }, taskLogEntry);
+            return CreatedAtAction(
+                nameof(GetTaskLogEntry),
+                new { id = taskLogEntry.Id },
+                taskLogEntry
+            );
         }
 
         private bool TaskLogEntryExists(int id)
