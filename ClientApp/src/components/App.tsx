@@ -11,6 +11,7 @@ import TaskLogEntryListing from './TaskLogEntries/TaskLogEntryListing'
 import AdminInterface from './Admin/AdminInterface'
 
 import '../custom.css'
+import HealthStatus from './HealthStatus/HealthStatus'
 
 export default class App extends React.Component ***REMOVED***
   static displayName = App.name
@@ -20,6 +21,7 @@ export default class App extends React.Component ***REMOVED***
       <Layout>
         <AuthenticatedRoute exact path="/" component=***REMOVED***Home***REMOVED*** />
         <Route path="/callback" component=***REMOVED***CallbackHandler***REMOVED*** />
+        <Route path="/status" component=***REMOVED***HealthStatus***REMOVED*** />
         <AuthenticatedRoute
           exact
           path="/employees/:employeeId"
