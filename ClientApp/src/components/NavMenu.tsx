@@ -1,14 +1,9 @@
-import React from 'react'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
+import React from 'react'
+
 import './NavMenu.scss'
 
-interface IProps ***REMOVED******REMOVED***
-
-interface IState ***REMOVED***
-  name?: string
-***REMOVED***
-
-class NavMenu extends React.Component<IProps, IState> ***REMOVED***
+class NavMenu extends React.Component ***REMOVED***
   static displayName = NavMenu.name
 
   render(): JSX.Element ***REMOVED***
@@ -36,6 +31,11 @@ class NavMenu extends React.Component<IProps, IState> ***REMOVED***
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/status" className="nav-link text-primary">
+                Health status
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/task-log-entries" className="nav-link text-primary">
                 Task log
