@@ -42,13 +42,5 @@ namespace ExitSurveyAdmin.Controllers
 
             return Ok(text);
       ***REMOVED***
-
-        [HttpGet("SendEmail")]
-        public async Task<ActionResult<string>> SendEmail()
-        ***REMOVED***
-            await emailService.SendTestEmail("Test subject", "Test body");
-
-            return Ok();
-      ***REMOVED***
   ***REMOVED***
 ***REMOVED***
