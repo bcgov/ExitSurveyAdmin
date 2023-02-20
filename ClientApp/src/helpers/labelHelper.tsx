@@ -7,67 +7,87 @@ import ***REMOVED*** TaskOutcome ***REMOVED*** from '../types/TaskOutcome'
 import ***REMOVED*** AppointmentStatus ***REMOVED*** from '../types/AppointmentStatus'
 import ***REMOVED*** Employee ***REMOVED*** from '../types/Employee'
 import FAIcon from '../components/DisplayHelpers/Interface/Icons/FAIcon'
+import ***REMOVED*** TaskEnum ***REMOVED*** from '../types/TaskEnum'
 
 const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVED***
-  id: 'Database ID',
-  telkey: 'Telkey',
-  recordCount: 'Record count',
-  governmentEmployeeId: 'Employee ID',
-  firstName: 'First name',
-  preferredFirstName: 'Preferred first name',
-  lastName: 'Last name',
-  birthDate: 'Birth date',
-  gender: 'Gender',
-  governmentEmail: 'Email',
-  preferredEmail: 'Preferred email',
-  classification: 'Classification',
-  ministry: 'Ministry',
-  departmentId: 'Department ID',
-  jobFunctionCode: 'Job function code',
-  locationCity: 'Location city',
-  originalHireDate: 'Original hire date',
-  lastDayWorkedDate: 'Last day worked date',
-  effectiveDate: 'Effective date',
-  reason: 'Reason',
   address1: 'Address line 1',
   address2: 'Address line 2',
   addressCity: 'Address city',
-  addressProvince: 'Address province',
   addressPostCode: 'Address post code',
+  addressProvince: 'Address province',
+  age: 'Age',
+  ageGroup: 'Age group',
+  appointmentStatus: 'Appointment status',
+  backDated: 'Back dated',
+  birthDate: 'Birth date',
+  blankEmail: 'Preferred email',
+  classification: 'Classification',
+  classificationGroup: 'Classification group',
+  comment: 'Comment',
+  createdTs: 'Created date',
+  currentEmployeeStatusCode: 'Current status',
+  departmentId: 'Department ID',
+  effectiveDate: 'Effective date',
+  exitCount: 'Exit count',
+  firstName: 'First name',
+  gender: 'Gender',
+  governmentEmail: 'Email',
+  governmentEmployeeId: 'Employee ID',
+  id: 'Database ID',
+  jobCode: 'Job code',
+  jobFunctionCode: 'Job function code',
+  lastDayWorkedDate: 'Last day worked date',
+  lastName: 'Last name',
+  leaveDate: 'Leave date',
+  locationCity: 'Location city',
+  locationGroup: 'Location group',
+  ministry: 'Ministry',
+  logDate: 'Log date',
+  modifiedTs: 'Last modified date',
+  originalHireDate: 'Original hire date',
+  phone: 'Phone',
+  positionCode: 'Position code',
+  positionTitle: 'Position title',
   preferredAddress: 'Preferred address',
   preferredAddress1: 'Preferred address line 1',
   preferredAddress2: 'Preferred address line 2',
   preferredAddressCity: 'Preferred address city',
-  preferredAddressProvince: 'Preferred address province',
   preferredAddressPostCode: 'Preferred address post code',
-  phone: 'Phone',
-  appointmentStatus: 'Appointment status',
-  positionCode: 'Position code',
-  positionTitle: 'Position title',
-  age: 'Age',
-  leaveDate: 'Leave date',
-  serviceYears: 'Service years',
-  jobCode: 'Job code',
-  backDated: 'Back dated',
-  exitCount: 'Exit count',
-  ageGroup: 'Age group',
-  classificationGroup: 'Classification group',
+  preferredAddressProvince: 'Preferred address province',
+  preferredEmail: 'Preferred email',
+  preferredFirstName: 'Preferred first name',
+  reason: 'Reason',
+  recordCount: 'Record count',
   serviceGroup: 'Service group',
-  locationGroup: 'Location group',
-  currentEmployeeStatusCode: 'Current status',
-  timelineEntries: '',
-  createdTs: 'Created date',
-  modifiedTs: 'Last modified date',
+  serviceYears: 'Service years',
+  taskCode: 'Task',
   taskOutcomeCode: 'Status',
-  comment: 'Comment',
-  blankEmail: 'Preferred email',
-  triedToUpdateInFinalState: 'Tried to update in final state'
+  telkey: 'Telkey',
+  timelineEntries: '',
+  triedToUpdateInFinalState: 'Tried to update in final state',
+***REMOVED***
+
+const mapEnumToOptions = (
+  enumeration: Record<string, string>
+): (() => ISelectOption[]) => ***REMOVED***
+  console.log('enumeration', enumeration)
+  Object.values(enumeration).map(v => ***REMOVED***
+    console.log('v', v)
+***REMOVED***)
+
+  return (): ISelectOption[] => ***REMOVED***
+    return Object.keys(enumeration).map(enumKey => (***REMOVED***
+      name: enumeration[enumKey],
+      value: enumKey
+  ***REMOVED***))
+***REMOVED***
 ***REMOVED***
 
 const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMOVED*** = ***REMOVED***
   currentEmployeeStatusCode: EmployeeStatus.toOptions,
   reason: Reason.toOptions,
   taskOutcomeCode: TaskOutcome.toOptions,
+  taskCode: mapEnumToOptions(TaskEnum),
   appointmentStatus: AppointmentStatus.toOptions
 ***REMOVED***
 
