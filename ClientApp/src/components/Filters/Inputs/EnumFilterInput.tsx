@@ -24,7 +24,7 @@ const EnumFilterInput = ({ filter, resetTimestamp }: IProps): JSX.Element => {
     dispatch({ type: 'setFilter', filter: clone })
   }, [filter, selectValues, dispatch])
 
-  const handleChange = React.useCallback((changeObj): void => {
+  const handleChange = React.useCallback((changeObj: FixTypeLater): void => {
     changeObj == null ? setSelectValues([]) : setSelectValues(changeObj)
   }, [])
 
