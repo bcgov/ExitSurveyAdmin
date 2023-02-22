@@ -18,17 +18,18 @@ interface Props extends DispatchProps, RouteComponentProps {}
 class CallbackPage extends React.Component<Props> {
   render(): JSX.Element {
     return (
-      <CallbackComponent
-        userManager={userManager}
-        successCallback={(user): void => {
-          window.location.href = user.state.href
-        }}
-        errorCallback={(error: FixTypeLater): void => {
-          console.log('Login error')
-          console.error(error)
-          window.location.href = frontendUrl()
-        }}
-      >
+      <>
+        <CallbackComponent
+          userManager={userManager}
+          successCallback={(user: FixTypeLater): void => {
+            window.location.href = user.state.href
+          }}
+          errorCallback={(error: FixTypeLater): void => {
+            console.log('Login error')
+            console.error(error)
+            window.location.href = frontendUrl()
+          }}
+        />
         <div className="Centered row">
           <div className="col-6 offset-3">
             <h1 className="text-primary display-4 my-5">
@@ -40,7 +41,7 @@ class CallbackPage extends React.Component<Props> {
             </p>
           </div>
         </div>
-      </CallbackComponent>
+      </>
     )
   }
 }
