@@ -16,39 +16,40 @@ type EmployeeCellProps = React.PropsWithChildren<
 export const employeeTableColumns = (): Column<Employee>[] => [
   ***REMOVED***
     Header: 'Telkey',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
-    ),
-    accessor: 'telkey'
+    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
+      console.log('props.value -->', props.value)
+      return <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
+  ***REMOVED***
+    accessor: 'telkey',
 ***REMOVED***
   ***REMOVED***
     Header: 'Employee ID',
-    accessor: 'governmentEmployeeId'
+    accessor: 'governmentEmployeeId',
 ***REMOVED***
   ***REMOVED***
     Header: 'Preferred first name',
-    accessor: 'preferredFirstName'
+    accessor: 'preferredFirstName',
 ***REMOVED***
   ***REMOVED***
     Header: 'Last name',
-    accessor: 'lastName'
+    accessor: 'lastName',
 ***REMOVED***
   ***REMOVED***
     Header: 'Preferred email',
-    accessor: 'preferredEmail'
+    accessor: 'preferredEmail',
 ***REMOVED***
   ***REMOVED***
     Header: 'Exit count',
-    accessor: 'exitCount'
+    accessor: 'exitCount',
 ***REMOVED***
   ***REMOVED***
     Header: 'Record count',
-    accessor: 'recordCount'
+    accessor: 'recordCount',
 ***REMOVED***
   ***REMOVED***
     Header: 'Appointment status',
     Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      const appointmentStatus = (props.value as unknown) as AppointmentStatus
+      const appointmentStatus = props.value as unknown as AppointmentStatus
       return (
         <>
           ***REMOVED***appointmentStatus
@@ -57,46 +58,44 @@ export const employeeTableColumns = (): Column<Employee>[] => [
         </>
       )
   ***REMOVED***
-    accessor: 'appointmentStatus'
+    accessor: 'appointmentStatus',
 ***REMOVED***
   ***REMOVED***
     Header: 'Exit effective date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
-      <FormattedDate
-        showLocalTimezone
-        date=***REMOVED***(props.value as unknown) as Date***REMOVED***
-      />
+      <FormattedDate showLocalTimezone date=***REMOVED***props.value as unknown as Date***REMOVED*** />
     ),
-    accessor: 'effectiveDate'
+    accessor: 'effectiveDate',
 ***REMOVED***
   ***REMOVED***
     Header: 'Leave reason',
     Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      const reason = (props.value as unknown) as Reason
+      const reason = props.value as unknown as Reason
       return <>***REMOVED***reason ? reason.reasonCode : '[Unknown Reason]'***REMOVED***</>
   ***REMOVED***
-    accessor: 'reason'
+    accessor: 'reason',
 ***REMOVED***
   ***REMOVED***
     Header: 'Status',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <>***REMOVED***((props.value as unknown) as EmployeeStatus).displayName***REMOVED***</>
-    ),
-    accessor: 'currentEmployeeStatusCode'
+    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
+      console.log('props ####>', props.value)
+      return <>***REMOVED***(props.value as unknown as EmployeeStatus).displayName***REMOVED***</>
+  ***REMOVED***
+    accessor: 'currentEmployeeStatusCode',
 ***REMOVED***
   ***REMOVED***
     Header: 'Last modified date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate
-        date=***REMOVED***(props.value as unknown) as Date***REMOVED***
+        date=***REMOVED***props.value as unknown as Date***REMOVED***
         showTime
         showLocalTimezone
       />
     ),
-    accessor: 'modifiedTs'
+    accessor: 'modifiedTs',
 ***REMOVED***
   ***REMOVED***
     Header: 'Timeline Entries',
-    accessor: 'timelineEntryCount'
+    accessor: 'timelineEntryCount',
 ***REMOVED***
 ]

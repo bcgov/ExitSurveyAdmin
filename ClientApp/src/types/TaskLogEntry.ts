@@ -7,9 +7,9 @@ export class TaskLogEntry ***REMOVED***
   taskOutcomeCode?: string
   comment?: string
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   createdTs?: Date
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   modifiedTs?: Date
 ***REMOVED***

@@ -29,18 +29,19 @@ class CallbackPage extends React.Component<Props> ***REMOVED***
             console.error(error)
             window.location.href = frontendUrl()
         ***REMOVED******REMOVED***
-        />
-        <div className="Centered row">
-          <div className="col-6 offset-3">
-            <h1 className="text-primary display-4 my-5">
-              <i className="fas fa-spinner fa-spin mr-4"></i>Completing
-              login&hellip;
-            </h1>
-            <p>
-              If you are not redirected, there was an error (see the console)
-            </p>
+        >
+          <div className="Centered row">
+            <div className="col-6 offset-3">
+              <h1 className="text-primary display-4 my-5">
+                <i className="fas fa-spinner fa-spin mr-4"></i>Completing
+                login&hellip;
+              </h1>
+              <p>
+                If you are not redirected, there was an error (see the console)
+              </p>
+            </div>
           </div>
-        </div>
+        </CallbackComponent>
       </>
     )
 ***REMOVED***
