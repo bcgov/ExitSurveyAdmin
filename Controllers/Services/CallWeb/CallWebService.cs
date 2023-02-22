@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 {
-
     public class CallWebService
     {
         private CallWebApi CallWebApi;
@@ -30,7 +29,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         {
             var callWebDto = await CallWebApi.GetOne(employee.Telkey);
 
-            if (callWebDto.IsSurveyComplete.Equals("1"))
+            if (callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1"))
             {
                 return EmployeeStatusEnum.SurveyComplete.Code;
             }

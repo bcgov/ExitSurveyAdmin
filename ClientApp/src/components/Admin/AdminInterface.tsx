@@ -8,6 +8,8 @@ import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/Colu
 import EditableStringField from '../Employees/EditableStringField'
 
 import RefreshStatusButton from './RefreshStatusButton'
+import ScheduledLoadAndUpdateButton from './ScheduledLoadAndUpdateButton'
+import LoadPsaApiButton from './LoadPsaApiButton'
 
 const AdminInterface = (): JSX.Element => {
   const [adminSettings, setAdminSettings] = React.useState<AdminSetting[]>([])
@@ -62,6 +64,8 @@ const AdminInterface = (): JSX.Element => {
               </ColumnarLabelledText>
             ))}
             <RefreshStatusButton />
+            <ScheduledLoadAndUpdateButton />
+            <LoadPsaApiButton />
           </div>
         )}
       </div>

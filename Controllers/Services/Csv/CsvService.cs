@@ -22,10 +22,7 @@ namespace ExitSurveyAdmin.Services.CsvService
         // obtained, for instance, from the GetCsv method), transform it into an
         // array of nicely-formatted Employee JSON objects. Note that these
         // Employees are NOT saved or otherwise processed by default.
-        public Tuple<List<Employee>, List<string>> EmployeesFromCsv(
-            Stream csvTextStream,
-            Encoding csvEncoding
-        )
+        public EmployeeTaskResult EmployeesFromCsv(Stream csvTextStream, Encoding csvEncoding)
         {
             // By default the content will not be read if it is not form or JSON
             // type so we need to use a stream reader to read the request body.
@@ -82,60 +79,41 @@ namespace ExitSurveyAdmin.Services.CsvService
                     line++;
                 }
 
-                return Tuple.Create(goodRecords, badRecords);
+                return new EmployeeTaskResult(
+                    TaskEnum.ReadCsv,
+                    goodRecords.Count + badRecords.Count,
+                    goodRecords,
+                    badRecords
+                );
             }
         }
 
-        public async Task<List<Employee>> ProcessCsv(
-            Microsoft.AspNetCore.Http.HttpRequest request,
-            EmployeeReconciliationService employeeReconciler,
-            LoggingService logger
+        public async Task<EmployeeTaskResult> ProcessCsvAndLog(
+            Microsoft.AspNetCore.Http.HttpRequest request
         )
         {
-            var csvServiceTuple = EmployeesFromCsv(request.Body, Encoding.UTF8);
-            var goodRecords = csvServiceTuple.Item1;
-            var badRecords = csvServiceTuple.Item2;
-            var totalRecordCount = goodRecords.Count + badRecords.Count;
+            var readResult = EmployeesFromCsv(request.Body, Encoding.UTF8);
 
-            // Reconcile the employees with the database.
-            var reconcilerTuple = await employeeReconciler.ReconcileEmployees(goodRecords);
-            var goodEmployees = reconcilerTuple.Item1;
-            var badEmployees = reconcilerTuple.Item2;
-            var totalEmployeeCount = goodEmployees.Count + badEmployees.Count;
+            var newLine = System.Environment.NewLine;
 
-            if (goodRecords.Count == totalRecordCount && goodEmployees.Count == totalRecordCount)
+            var message =
+                $"From a CSV with {readResult.TotalRecordCount} rows, "
+                + $"successfully read {readResult.GoodRecordCount} rows. ";
+
+            if (!readResult.HasExceptions)
             {
-                await logger.LogSuccess(
-                    TaskEnum.ReconcileCsv,
-                    $"From a CSV with {totalRecordCount} rows, "
-                        + $"reconciled {totalRecordCount} employees. "
-                );
+                // No exceptions. Log a success.
+                await logger.LogSuccess(TaskEnum.ReadCsv, message);
             }
             else
             {
-                var newLine = System.Environment.NewLine;
-
-                var message =
-                    $"From a CSV with {totalRecordCount} rows, "
-                    + $"successfully read {goodRecords.Count} rows "
-                    + $"and reconciled {goodEmployees.Count} employees. ";
-
-                if (goodRecords.Count != totalRecordCount)
-                {
-                    message +=
-                        $"There were {badRecords.Count} bad rows: "
-                        + $"Exceptions: {string.Join(newLine, badRecords)} ";
-                }
-                if (goodEmployees.Count != goodRecords.Count)
-                {
-                    message +=
-                        $"There were {badEmployees.Count} employees with errors: "
-                        + $"Exceptions: {string.Join(newLine, badEmployees)} ";
-                }
-                await logger.LogWarning(TaskEnum.ReconcileCsv, message);
+                message +=
+                    $"There were {readResult.ExceptionCount} bad rows: "
+                    + $"Exceptions: {string.Join(newLine, readResult.Exceptions)} ";
+                await logger.LogWarning(TaskEnum.ReadCsv, message);
             }
 
-            return goodEmployees;
+            return readResult;
         }
     }
 }
