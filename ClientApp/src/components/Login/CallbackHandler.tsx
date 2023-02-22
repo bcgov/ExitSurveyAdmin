@@ -18,17 +18,18 @@ interface Props extends DispatchProps, RouteComponentProps ***REMOVED******REMOV
 class CallbackPage extends React.Component<Props> ***REMOVED***
   render(): JSX.Element ***REMOVED***
     return (
-      <CallbackComponent
-        userManager=***REMOVED***userManager***REMOVED***
-        successCallback=***REMOVED***(user): void => ***REMOVED***
-          window.location.href = user.state.href
-      ***REMOVED******REMOVED***
-        errorCallback=***REMOVED***(error: FixTypeLater): void => ***REMOVED***
-          console.log('Login error')
-          console.error(error)
-          window.location.href = frontendUrl()
-      ***REMOVED******REMOVED***
-      >
+      <>
+        <CallbackComponent
+          userManager=***REMOVED***userManager***REMOVED***
+          successCallback=***REMOVED***(user: FixTypeLater): void => ***REMOVED***
+            window.location.href = user.state.href
+        ***REMOVED******REMOVED***
+          errorCallback=***REMOVED***(error: FixTypeLater): void => ***REMOVED***
+            console.log('Login error')
+            console.error(error)
+            window.location.href = frontendUrl()
+        ***REMOVED******REMOVED***
+        />
         <div className="Centered row">
           <div className="col-6 offset-3">
             <h1 className="text-primary display-4 my-5">
@@ -40,7 +41,7 @@ class CallbackPage extends React.Component<Props> ***REMOVED***
             </p>
           </div>
         </div>
-      </CallbackComponent>
+      </>
     )
 ***REMOVED***
 ***REMOVED***

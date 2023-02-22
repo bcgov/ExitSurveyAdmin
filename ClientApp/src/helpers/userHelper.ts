@@ -12,7 +12,7 @@ export const mapUserToPropsFromState = (
 ***REMOVED***
 
 export const userNameFromState = (): string | null => ***REMOVED***
-  const state = store.getState()
+  const state = store.getState() as FixTypeLater
   if (state && state.oidc && state.oidc.user) ***REMOVED***
     const user = state.oidc.user
     if (user && user.profile && user.profile.name) ***REMOVED***

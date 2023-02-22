@@ -1,5 +1,3 @@
-/* globals Promise */
-
 export function undefinedIfNull<T>(obj: T | null): T | undefined ***REMOVED***
   return obj === null ? undefined : obj
 ***REMOVED***

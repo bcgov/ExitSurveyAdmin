@@ -1,5 +1,6 @@
 import React from 'react'
 import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
@@ -7,7 +8,7 @@ import TaskComment from './TaskComment'
 import TaskOutcome from './TaskOutcome'
 
 type TaskLogEntryCellProps = React.PropsWithChildren<
-  CellProps<TaskLogEntry, string | undefined>
+  CellProps<TaskLogEntry, FixTypeLater>
 >
 
 export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
