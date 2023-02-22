@@ -34,46 +34,56 @@ namespace ExitSurveyAdmin.Services
                 return OverrideEmail;
           ***REMOVED***
 
-            // Otherwise, continue on, using the LDAP connection to filter by
-            // the employee ID and find the user's mail (email) attribute.
-            using (var ldapConnection = new LdapConnection())
+            try
             ***REMOVED***
-                ldapConnection.Connect(Host, Port);
-                ldapConnection.Bind(Username, Password);
-
-                ILdapSearchResults results = ldapConnection.Search(
-                    Base,
-                    LdapConnection.ScopeSub,
-                    $"(employeeID=***REMOVED***employeeId***REMOVED***)",
-                    new string[] ***REMOVED*** "mail" ***REMOVED***,
-                    false
-                );
-
-                while (results.HasMore())
+                // Otherwise, continue on, using the LDAP connection to filter by
+                // the employee ID and find the user's mail (email) attribute.
+                using (var ldapConnection = new LdapConnection())
                 ***REMOVED***
-                    LdapEntry nextEntry = results.Next();
-                    LdapAttributeSet attributes = nextEntry.GetAttributeSet();
-                    System.Collections.IEnumerator ienum = attributes.GetEnumerator();
+                    ldapConnection.Connect(Host, Port);
+                    ldapConnection.Bind(Username, Password);
 
-                    // Parse through the attribute set to get the attributes and the
-                    // corresponding values
-                    while (ienum.MoveNext())
+                    ILdapSearchResults results = ldapConnection.Search(
+                        Base,
+                        LdapConnection.ScopeSub,
+                        $"(employeeID=***REMOVED***employeeId***REMOVED***)",
+                        new string[] ***REMOVED*** "mail" ***REMOVED***,
+                        false
+                    );
+
+                    while (results.HasMore())
                     ***REMOVED***
-                        LdapAttribute attribute = (LdapAttribute)ienum.Current;
-                        string attributeName = attribute.Name;
-                        string attributeVal = attribute.StringValue;
+                        LdapEntry nextEntry = results.Next();
+                        LdapAttributeSet attributes = nextEntry.GetAttributeSet();
+                        System.Collections.IEnumerator ienum = attributes.GetEnumerator();
 
-                        if (attributeName == "mail")
+                        // Parse through the attribute set to get the attributes and the
+                        // corresponding values
+                        while (ienum.MoveNext())
                         ***REMOVED***
-                            // Success. Return the mail attribute value, which
-                            // is the user's email address.
-                            return attributeVal;
+                            LdapAttribute attribute = (LdapAttribute)ienum.Current;
+                            string attributeName = attribute.Name;
+                            string attributeVal = attribute.StringValue;
+
+                            if (attributeName == "mail")
+                            ***REMOVED***
+                                // Success. Return the mail attribute value, which
+                                // is the user's email address.
+                                return attributeVal;
+                          ***REMOVED***
                       ***REMOVED***
                   ***REMOVED***
-              ***REMOVED***
 
-                // Return blank if we don't find an email for that employee.
-                return "";
+                    // Return blank if we don't find an email for that employee.
+                    return "";
+              ***REMOVED***
+          ***REMOVED***
+            catch (Exception exception)
+            ***REMOVED***
+                throw new LdapConnectionException(
+                    "Could not connect to LDAP server; check login info and network status.",
+                    exception
+                );
           ***REMOVED***
       ***REMOVED***
   ***REMOVED***

@@ -22,10 +22,7 @@ namespace ExitSurveyAdmin.Services.CsvService
         // obtained, for instance, from the GetCsv method), transform it into an
         // array of nicely-formatted Employee JSON objects. Note that these
         // Employees are NOT saved or otherwise processed by default.
-        public Tuple<List<Employee>, List<string>> EmployeesFromCsv(
-            Stream csvTextStream,
-            Encoding csvEncoding
-        )
+        public EmployeeTaskResult EmployeesFromCsv(Stream csvTextStream, Encoding csvEncoding)
         ***REMOVED***
             // By default the content will not be read if it is not form or JSON
             // type so we need to use a stream reader to read the request body.
@@ -82,60 +79,41 @@ namespace ExitSurveyAdmin.Services.CsvService
                     line++;
               ***REMOVED***
 
-                return Tuple.Create(goodRecords, badRecords);
+                return new EmployeeTaskResult(
+                    TaskEnum.ReadCsv,
+                    goodRecords.Count + badRecords.Count,
+                    goodRecords,
+                    badRecords
+                );
           ***REMOVED***
       ***REMOVED***
 
-        public async Task<List<Employee>> ProcessCsv(
-            Microsoft.AspNetCore.Http.HttpRequest request,
-            EmployeeReconciliationService employeeReconciler,
-            LoggingService logger
+        public async Task<EmployeeTaskResult> ProcessCsvAndLog(
+            Microsoft.AspNetCore.Http.HttpRequest request
         )
         ***REMOVED***
-            var csvServiceTuple = EmployeesFromCsv(request.Body, Encoding.UTF8);
-            var goodRecords = csvServiceTuple.Item1;
-            var badRecords = csvServiceTuple.Item2;
-            var totalRecordCount = goodRecords.Count + badRecords.Count;
+            var readResult = EmployeesFromCsv(request.Body, Encoding.UTF8);
 
-            // Reconcile the employees with the database.
-            var reconcilerTuple = await employeeReconciler.ReconcileEmployees(goodRecords);
-            var goodEmployees = reconcilerTuple.Item1;
-            var badEmployees = reconcilerTuple.Item2;
-            var totalEmployeeCount = goodEmployees.Count + badEmployees.Count;
+            var newLine = System.Environment.NewLine;
 
-            if (goodRecords.Count == totalRecordCount && goodEmployees.Count == totalRecordCount)
+            var message =
+                $"From a CSV with ***REMOVED***readResult.TotalRecordCount***REMOVED*** rows, "
+                + $"successfully read ***REMOVED***readResult.GoodRecordCount***REMOVED*** rows. ";
+
+            if (!readResult.HasExceptions)
             ***REMOVED***
-                await logger.LogSuccess(
-                    TaskEnum.ReconcileCsv,
-                    $"From a CSV with ***REMOVED***totalRecordCount***REMOVED*** rows, "
-                        + $"reconciled ***REMOVED***totalRecordCount***REMOVED*** employees. "
-                );
+                // No exceptions. Log a success.
+                await logger.LogSuccess(TaskEnum.ReadCsv, message);
           ***REMOVED***
             else
             ***REMOVED***
-                var newLine = System.Environment.NewLine;
-
-                var message =
-                    $"From a CSV with ***REMOVED***totalRecordCount***REMOVED*** rows, "
-                    + $"successfully read ***REMOVED***goodRecords.Count***REMOVED*** rows "
-                    + $"and reconciled ***REMOVED***goodEmployees.Count***REMOVED*** employees. ";
-
-                if (goodRecords.Count != totalRecordCount)
-                ***REMOVED***
-                    message +=
-                        $"There were ***REMOVED***badRecords.Count***REMOVED*** bad rows: "
-                        + $"Exceptions: ***REMOVED***string.Join(newLine, badRecords)***REMOVED*** ";
-              ***REMOVED***
-                if (goodEmployees.Count != goodRecords.Count)
-                ***REMOVED***
-                    message +=
-                        $"There were ***REMOVED***badEmployees.Count***REMOVED*** employees with errors: "
-                        + $"Exceptions: ***REMOVED***string.Join(newLine, badEmployees)***REMOVED*** ";
-              ***REMOVED***
-                await logger.LogWarning(TaskEnum.ReconcileCsv, message);
+                message +=
+                    $"There were ***REMOVED***readResult.ExceptionCount***REMOVED*** bad rows: "
+                    + $"Exceptions: ***REMOVED***string.Join(newLine, readResult.Exceptions)***REMOVED*** ";
+                await logger.LogWarning(TaskEnum.ReadCsv, message);
           ***REMOVED***
 
-            return goodEmployees;
+            return readResult;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
