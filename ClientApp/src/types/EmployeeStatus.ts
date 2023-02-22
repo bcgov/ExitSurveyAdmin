@@ -1,5 +1,3 @@
-/* globals Map */
-
 import { ISelectOption } from '../components/Employees/EditableSelect'
 
 export enum EmployeeStatusEnum {

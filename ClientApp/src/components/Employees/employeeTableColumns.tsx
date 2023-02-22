@@ -7,9 +7,10 @@ import { EmployeeStatus } from '../../types/EmployeeStatus'
 import { Reason } from '../../types/Reason'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { AppointmentStatus } from '../../types/AppointmentStatus'
+import { FixTypeLater } from '../../types/FixTypeLater'
 
 type EmployeeCellProps = React.PropsWithChildren<
-  CellProps<Employee, string | undefined>
+  CellProps<Employee, FixTypeLater>
 >
 
 export const employeeTableColumns = (): Column<Employee>[] => [
