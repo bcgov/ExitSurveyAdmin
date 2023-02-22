@@ -1,5 +1,5 @@
 import React from 'react'
-import { plainToClass } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 import moment from 'moment'
 
 import { Employee } from '../../types/Employee'
@@ -13,7 +13,7 @@ import { defaultDateFormat } from '../../helpers/dateHelper'
 const EmployeeListing = (): JSX.Element => {
   const dataMapperCallback = React.useCallback(
     (responseJSON: FixTypeLater[]): Employee[] =>
-      responseJSON.map(e => plainToClass(Employee, e)),
+      responseJSON.map(e => plainToInstance(Employee, e)),
     []
   )
 
