@@ -24,7 +24,7 @@ const EnumFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IPr
     dispatch(***REMOVED*** type: 'setFilter', filter: clone ***REMOVED***)
 ***REMOVED*** [filter, selectValues, dispatch])
 
-  const handleChange = React.useCallback((changeObj): void => ***REMOVED***
+  const handleChange = React.useCallback((changeObj: FixTypeLater): void => ***REMOVED***
     changeObj == null ? setSelectValues([]) : setSelectValues(changeObj)
 ***REMOVED*** [])
 

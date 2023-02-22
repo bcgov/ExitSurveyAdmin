@@ -9,7 +9,7 @@ import ***REMOVED*** getPreviousFiscalYearFilter ***REMOVED*** from '../componen
 import './Home.scss'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../helpers/requestHelpers'
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../types/TaskLogEntry'
-import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
+import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 import TaskOutcome from './TaskLogEntries/TaskOutcome'
 import IconButton from './DisplayHelpers/Interface/Buttons/IconButton'
@@ -30,7 +30,7 @@ const Home = (): JSX.Element => ***REMOVED***
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => ***REMOVED***
         setTaskLogEntryData(
-          responseJSON.map(t => plainToClass(TaskLogEntry, t))
+          responseJSON.map(t => plainToInstance(TaskLogEntry, t))
         )
     ***REMOVED***
     )

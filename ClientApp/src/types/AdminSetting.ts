@@ -7,9 +7,9 @@ export class AdminSetting ***REMOVED***
   displayName?: string
   value?: string
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value, true))
   createdTs?: Date
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value, true))
   modifiedTs?: Date
 ***REMOVED***

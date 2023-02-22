@@ -53,31 +53,35 @@ export class Employee ***REMOVED***
   public triedToUpdateInFinalState?: boolean
 
   // Dates
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   public birthDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   public originalHireDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   public lastDayWorkedDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   public effectiveDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value))
   public leaveDate?: Date
 
   // UTC Datetimes
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value, true))
   public createdTs?: Date
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value, true))
   public modifiedTs?: Date
 
   // Fields requiring custom transformation annotations
-  @Transform((k: ReasonEnum) => Reason.fromKey(k))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: ReasonEnum ***REMOVED***) => Reason.fromKey(value))
   public reason?: Reason
 
-  @Transform((k: AppointmentStatusEnum) => AppointmentStatus.fromKey(k))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: AppointmentStatusEnum ***REMOVED***) =>
+    AppointmentStatus.fromKey(value)
+  )
   public appointmentStatus?: AppointmentStatus
 
-  @Transform((k: EmployeeStatusEnum) => EmployeeStatus.fromKey(k))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: EmployeeStatusEnum ***REMOVED***) =>
+    EmployeeStatus.fromKey(value)
+  )
   public currentEmployeeStatusCode?: EmployeeStatus
 
   @Type(() => EmployeeTimelineEntry)
