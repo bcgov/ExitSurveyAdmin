@@ -7,47 +7,49 @@ import { EmployeeStatus } from '../../types/EmployeeStatus'
 import { Reason } from '../../types/Reason'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import { AppointmentStatus } from '../../types/AppointmentStatus'
+import { FixTypeLater } from '../../types/FixTypeLater'
 
 type EmployeeCellProps = React.PropsWithChildren<
-  CellProps<Employee, string | undefined>
+  CellProps<Employee, FixTypeLater>
 >
 
 export const employeeTableColumns = (): Column<Employee>[] => [
   {
     Header: 'Telkey',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
-    ),
-    accessor: 'telkey'
+    Cell: (props: EmployeeCellProps): JSX.Element => {
+      console.log('props.value -->', props.value)
+      return <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
+    },
+    accessor: 'telkey',
   },
   {
     Header: 'Employee ID',
-    accessor: 'governmentEmployeeId'
+    accessor: 'governmentEmployeeId',
   },
   {
     Header: 'Preferred first name',
-    accessor: 'preferredFirstName'
+    accessor: 'preferredFirstName',
   },
   {
     Header: 'Last name',
-    accessor: 'lastName'
+    accessor: 'lastName',
   },
   {
     Header: 'Preferred email',
-    accessor: 'preferredEmail'
+    accessor: 'preferredEmail',
   },
   {
     Header: 'Exit count',
-    accessor: 'exitCount'
+    accessor: 'exitCount',
   },
   {
     Header: 'Record count',
-    accessor: 'recordCount'
+    accessor: 'recordCount',
   },
   {
     Header: 'Appointment status',
     Cell: (props: EmployeeCellProps): JSX.Element => {
-      const appointmentStatus = (props.value as unknown) as AppointmentStatus
+      const appointmentStatus = props.value as unknown as AppointmentStatus
       return (
         <>
           {appointmentStatus
@@ -56,46 +58,44 @@ export const employeeTableColumns = (): Column<Employee>[] => [
         </>
       )
     },
-    accessor: 'appointmentStatus'
+    accessor: 'appointmentStatus',
   },
   {
     Header: 'Exit effective date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
-      <FormattedDate
-        showLocalTimezone
-        date={(props.value as unknown) as Date}
-      />
+      <FormattedDate showLocalTimezone date={props.value as unknown as Date} />
     ),
-    accessor: 'effectiveDate'
+    accessor: 'effectiveDate',
   },
   {
     Header: 'Leave reason',
     Cell: (props: EmployeeCellProps): JSX.Element => {
-      const reason = (props.value as unknown) as Reason
+      const reason = props.value as unknown as Reason
       return <>{reason ? reason.reasonCode : '[Unknown Reason]'}</>
     },
-    accessor: 'reason'
+    accessor: 'reason',
   },
   {
     Header: 'Status',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <>{((props.value as unknown) as EmployeeStatus).displayName}</>
-    ),
-    accessor: 'currentEmployeeStatusCode'
+    Cell: (props: EmployeeCellProps): JSX.Element => {
+      console.log('props ####>', props.value)
+      return <>{(props.value as unknown as EmployeeStatus).displayName}</>
+    },
+    accessor: 'currentEmployeeStatusCode',
   },
   {
     Header: 'Last modified date',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate
-        date={(props.value as unknown) as Date}
+        date={props.value as unknown as Date}
         showTime
         showLocalTimezone
       />
     ),
-    accessor: 'modifiedTs'
+    accessor: 'modifiedTs',
   },
   {
     Header: 'Timeline Entries',
-    accessor: 'timelineEntryCount'
-  }
+    accessor: 'timelineEntryCount',
+  },
 ]

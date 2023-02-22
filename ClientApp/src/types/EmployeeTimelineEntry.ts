@@ -9,9 +9,9 @@ export class EmployeeTimelineEntry {
   comment?: string
   adminUserName?: string
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   createdTs?: Date
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   modifiedTs?: Date
 }
