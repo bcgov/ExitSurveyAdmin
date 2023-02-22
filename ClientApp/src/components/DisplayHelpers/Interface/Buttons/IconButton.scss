@@ -1,0 +1,40 @@
+@import "../../../../common.module";
+
+.NoOutline {
+  border: none;
+}
+
+.NoBackground {
+  background: none;
+}
+
+.Round {
+  border-radius: 15px;
+  border-bottom: 0;
+}
+
+.Faded {
+  // opacity: 0.7;
+  color: $gray-600;
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  &:hover {
+    color: $gray-900;
+    background: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  &:focus {
+    border: none !important;
+    background: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  &:active {
+    border: none !important;
+    background: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
