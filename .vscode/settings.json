@@ -1,0 +1,20 @@
+***REMOVED***
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "[csharp]": ***REMOVED***
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false
+***REMOVED***
+  "[json]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
+  "files.exclude": ***REMOVED***
+    "**/*.css": true
+***REMOVED***
+  "csharp.referencesCodeLens.enabled": false
+***REMOVED***
