@@ -28,6 +28,20 @@ namespace ExitSurveyAdmin.Services
             this.infoLookupService = infoLookupService;
         }
 
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
+        {
+            var taskResult = await UpdateEmployeeStatuses();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        public async Task<EmployeeTaskResult> UpdateNotExitingAndLog(List<Employee> employees)
+        {
+            var taskResult = await UpdateNotExiting(employees);
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
         // NB. For reconciliation purposes, existence is determined by the
         // combination of EmployeeId, ExitCount, and record count.
         private Employee EmployeeExists(Employee candidate)
@@ -93,7 +107,7 @@ namespace ExitSurveyAdmin.Services
             return taskResult;
         }
 
-        public async Task<EmployeeTaskResult> ReconcileEmployees(List<Employee> employees)
+        private async Task<EmployeeTaskResult> ReconcileEmployees(List<Employee> employees)
         {
             var reconciledEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
@@ -333,7 +347,7 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
-        public async Task<Employee> UpdateEmployeeStatus(Employee employee)
+        private async Task<Employee> UpdateEmployeeStatus(Employee employee)
         {
             var callWebStatusCode = await callWeb.GetSurveyStatusCode(employee);
 
@@ -381,8 +395,13 @@ namespace ExitSurveyAdmin.Services
             return employee;
         }
 
-        public async Task UpdateNotExiting(List<Employee> reconciledEmployeeList)
+        private async Task<EmployeeTaskResult> UpdateNotExiting(
+            List<Employee> reconciledEmployeeList
+        )
         {
+            var updatedEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
+
             var activeDBEmployeesNotInCsv = context.Employees
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
@@ -393,21 +412,31 @@ namespace ExitSurveyAdmin.Services
 
             foreach (Employee e in activeDBEmployeesNotInCsv)
             {
-                var employee = await SaveStatusAndAddTimelineEntry(
-                    e,
-                    EmployeeStatusEnum.NotExiting
-                );
+                try
+                {
+                    var employee = await SaveStatusAndAddTimelineEntry(
+                        e,
+                        EmployeeStatusEnum.NotExiting
+                    );
+                }
+                catch (Exception exception)
+                {
+                    exceptionList.Add(
+                        $"Exception updating non-exiting employee {e.FullName} "
+                            + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
+                    );
+                }
             }
+
+            return new EmployeeTaskResult(
+                TaskEnum.UpdateNotExiting,
+                activeDBEmployeesNotInCsv.Count,
+                updatedEmployeeList,
+                exceptionList
+            );
         }
 
-        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
-        {
-            var taskResult = await UpdateEmployeeStatuses();
-            await logger.LogEmployeeTaskResult(taskResult);
-            return taskResult;
-        }
-
-        public async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
+        private async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
         {
             var updatedEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();

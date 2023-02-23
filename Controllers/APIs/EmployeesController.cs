@@ -286,7 +286,7 @@ namespace ExitSurveyAdmin.Controllers
                 // Step 4. For all ACTIVE users in the DB who are NOT in the
                 // data set, set them to not exiting, IF they are not in a final
                 // state. Also updates CallWeb.
-                await employeeReconciler.UpdateNotExiting(employees);
+                await employeeReconciler.UpdateNotExitingAndLog(employees);
 
                 await logger.LogSuccess(
                     TaskEnum.ScheduledTask,
