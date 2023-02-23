@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 {
@@ -158,7 +157,6 @@ namespace ExitSurveyAdmin.Controllers
 
                 if (startIndex > -1 && count > 0)
                 {
-                    // TODO: Validate.
                     employeesToLoad = currentEmployees.GoodEmployees.GetRange(startIndex, count);
                 }
                 else
@@ -178,8 +176,7 @@ namespace ExitSurveyAdmin.Controllers
             }
             catch (Exception exception)
             {
-                // TODO: Restore this
-                // emailService.SendFailureEmail(TaskEnum.ParsePsa, exception);
+                emailService.SendFailureEmail(TaskEnum.ParsePsa, exception);
 
                 return await ApiResponseHelper.LogFailureAndSendStacktrace(
                     this,
@@ -247,28 +244,6 @@ namespace ExitSurveyAdmin.Controllers
             }
         }
 
-        // New; inappropriately included
-        // [HttpPost("RefreshEmployeeStatus")]
-        // public async Task<ActionResult> RefreshEmployeeStatus()
-        // {
-        //     try
-        //     {
-        //         // Update existing employee statuses.
-        //         var taskResult = await employeeReconciler.UpdateEmployeeStatusesAndLog();
-
-        //         return Ok();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return await ApiResponseHelper.LogFailureAndSendStacktrace(
-        //             this,
-        //             TaskEnum.RefreshStatuses,
-        //             e,
-        //             logger
-        //         );
-        //     }
-        // }
-
         [HttpPost("RefreshEmployeeStatus")]
         public async Task<ActionResult> RefreshEmployeeStatus()
         {
@@ -300,11 +275,20 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 // In all cases, update existing employee statuses.
-                // TODO: Restore this!
-                // await RefreshEmployeeStatus();
+                await RefreshEmployeeStatus();
 
-                // No matter the day, pull employee data.
-                await EmployeesFromPsaApi(startIndex, count);
+                // Obtain the employees from the PSA API.
+                var result = await EmployeesFromPsaApi(startIndex, count);
+
+                var employees = (result.Result as ObjectResult).Value as List<Employee>;
+
+                // Refresh again.
+                await RefreshEmployeeStatus();
+
+                // For all ACTIVE users in the DB who are NOT in the PSA API,
+                // set them to not exiting, IF they are not in a final state.
+                // Also updates CallWeb.
+                await employeeReconciler.UpdateNotExiting(employees);
 
                 await logger.LogSuccess(
                     TaskEnum.ScheduledTask,
