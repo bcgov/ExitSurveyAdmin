@@ -13,7 +13,6 @@ namespace ExitSurveyAdmin.Services
         private LoggingService logger;
         private CallWebService callWeb;
         private ExitSurveyAdminContext context;
-
         private EmployeeInfoLookupService infoLookupService;
 
         public EmployeeReconciliationService(
@@ -29,8 +28,8 @@ namespace ExitSurveyAdmin.Services
             this.infoLookupService = infoLookupService;
         }
 
-        // NB. Existence is determined by the combination of EmployeeId,
-        // ExitCount, and record count.
+        // NB. For reconciliation purposes, existence is determined by the
+        // combination of EmployeeId, ExitCount, and record count.
         private Employee EmployeeExists(Employee candidate)
         {
             var query = context.Employees
@@ -99,7 +98,7 @@ namespace ExitSurveyAdmin.Services
             var reconciledEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
 
-            // Step 1. Insert and update employees from the CSV.
+            // Insert and update employees.
             foreach (Employee e in employees)
             {
                 try
@@ -122,21 +121,6 @@ namespace ExitSurveyAdmin.Services
                 reconciledEmployeeList,
                 exceptionList
             );
-        }
-
-        /*** Reconcile a single employee. NB! By default, this will NOT invoke
-        other methods (such as status updating) that affect multiple other
-        employees, unlike ReconcileEmployees which does so by default.
-        */
-        public async Task<Employee> ReconcileEmployee(Employee employee)
-        {
-            // Simply call the main ReconcileEmployees function, with this
-            // single employee as the sole element of a list; then get the
-            // employee from the resulting list.
-            var result = await ReconcileEmployees(new List<Employee>() { employee });
-            var reconciledEmployee = result.GoodEmployees.ElementAt(0); // TODO 2023: Check this
-
-            return reconciledEmployee;
         }
 
         private async Task<Employee> ReconcileWithDatabase(Employee employee)
@@ -416,8 +400,18 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
-        public async Task UpdateEmployeeStatuses()
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
         {
+            var taskResult = await UpdateEmployeeStatuses();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
+        {
+            var updatedEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
+
             // For all non-final employees and expired employees, update.
             var candidateEmployees = context.Employees
                 .Include(e => e.TimelineEntries)
@@ -431,8 +425,26 @@ namespace ExitSurveyAdmin.Services
 
             foreach (Employee e in candidateEmployees)
             {
-                var employee = await UpdateEmployeeStatus(e);
+                try
+                {
+                    var employee = await UpdateEmployeeStatus(e);
+                    updatedEmployeeList.Add(employee);
+                }
+                catch (Exception exception)
+                {
+                    exceptionList.Add(
+                        $"Exception updating status of employee {e.FullName} "
+                            + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
+                    );
+                }
             }
+
+            return new EmployeeTaskResult(
+                TaskEnum.RefreshStatuses,
+                candidateEmployees.Count,
+                updatedEmployeeList,
+                exceptionList
+            );
         }
     }
 }

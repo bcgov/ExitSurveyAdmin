@@ -127,19 +127,9 @@ namespace ExitSurveyAdmin.Controllers
             }
         }
 
-        // POST: api/Employees
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
-        {
-            Employee newEmployee = await employeeReconciler.ReconcileEmployee(employee);
-
-            return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
-        }
-
         // EmployeesFromPsaApi: Load employees from the PSA API and immediately
-        // try to reconcile them.
+        // try to reconcile them. Does NOT refresh employee statuses or deal
+        // with any exiting employees.
         // POST: api/Employees/FromPsaApi
         [HttpPost("FromPsaApi")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromPsaApi(
@@ -187,8 +177,10 @@ namespace ExitSurveyAdmin.Controllers
             }
         }
 
-        // EmployeesFromJson: Given incomplete Employees in JSON format (as
-        // obtained, for instance, from the PSA API), reconcile those employees.
+        // EmployeesFromJson: Given (incomplete) Employees in JSON format (as
+        // obtained, for instance, from the PSA API), reconcile those employees
+        // with the "proper" ESA employees in the database. Does NOT refresh
+        // employee statuses or deal with any exiting employees.
         // POST: api/Employees/FromJson
         [HttpPost("FromJson")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromJson(List<Employee> employees)
@@ -200,6 +192,9 @@ namespace ExitSurveyAdmin.Controllers
                     TaskEnum.LoadFromJson,
                     employees
                 );
+
+                emailService.SendTaskResultEmail(taskResult);
+
                 return Ok(taskResult.GoodEmployees);
             }
             catch (Exception e)
@@ -216,7 +211,8 @@ namespace ExitSurveyAdmin.Controllers
         // EmployeesFromCsv: Given the raw text of the PSA CSV extract (as
         // obtained, for instance, from the PSA CSV file drop), transform it
         // into an array of nicely-formatted Employee JSON objects, then
-        // reconcile each of those Employees.
+        // reconcile each of those Employees. Does NOT refresh employee
+        // statuses or deal with any exiting employees.
         // POST: api/Employees/FromCsv
         [HttpPost("FromCsv")]
         public async Task<ActionResult<List<Employee>>> EmployeesFromCsv()
@@ -231,6 +227,9 @@ namespace ExitSurveyAdmin.Controllers
                     TaskEnum.LoadFromCsv,
                     readResult.GoodEmployees
                 );
+
+                emailService.SendTaskResultEmail(taskResult);
+
                 return Ok(taskResult.GoodEmployees);
             }
             catch (Exception e)
@@ -250,22 +249,21 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 // Update existing employee statuses.
-                await employeeReconciler.UpdateEmployeeStatuses();
+                var taskResult = await employeeReconciler.UpdateEmployeeStatusesAndLog();
 
-                await logger.LogSuccess(
-                    TaskEnum.RefreshStatuses,
-                    $"Manually-triggered refresh of employee statuses."
-                );
+                emailService.SendTaskResultEmail(taskResult);
+
+                return Ok();
             }
             catch (Exception e)
             {
-                await logger.LogFailure(
-                    TaskEnum.ReconcileCsv,
-                    $"Error refreshing employee statuses. Stacktrace:\r\n" + e.StackTrace
+                return await ApiResponseHelper.LogFailureAndSendStacktrace(
+                    this,
+                    TaskEnum.RefreshStatuses,
+                    e,
+                    logger
                 );
             }
-
-            return Ok();
         }
 
         [AllowAnonymous]
@@ -274,20 +272,20 @@ namespace ExitSurveyAdmin.Controllers
         {
             try
             {
-                // In all cases, update existing employee statuses.
+                // Step 1. Update existing employee statuses.
                 await RefreshEmployeeStatus();
 
-                // Obtain the employees from the PSA API.
+                // Step 2. Obtain the employees from the PSA API.
                 var result = await EmployeesFromPsaApi(startIndex, count);
 
                 var employees = (result.Result as ObjectResult).Value as List<Employee>;
 
-                // Refresh again.
+                // Step 3. Refresh again.
                 await RefreshEmployeeStatus();
 
-                // For all ACTIVE users in the DB who are NOT in the PSA API,
-                // set them to not exiting, IF they are not in a final state.
-                // Also updates CallWeb.
+                // Step 4. For all ACTIVE users in the DB who are NOT in the
+                // data set, set them to not exiting, IF they are not in a final
+                // state. Also updates CallWeb.
                 await employeeReconciler.UpdateNotExiting(employees);
 
                 await logger.LogSuccess(
