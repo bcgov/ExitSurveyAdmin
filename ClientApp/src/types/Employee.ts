@@ -53,31 +53,35 @@ export class Employee {
   public triedToUpdateInFinalState?: boolean
 
   // Dates
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   public birthDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   public originalHireDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   public lastDayWorkedDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   public effectiveDate?: Date
-  @Transform((date: string) => dateOrUndefined(date))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   public leaveDate?: Date
 
   // UTC Datetimes
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value, true))
   public createdTs?: Date
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value, true))
   public modifiedTs?: Date
 
   // Fields requiring custom transformation annotations
-  @Transform((k: ReasonEnum) => Reason.fromKey(k))
+  @Transform(({ value }: { value: ReasonEnum }) => Reason.fromKey(value))
   public reason?: Reason
 
-  @Transform((k: AppointmentStatusEnum) => AppointmentStatus.fromKey(k))
+  @Transform(({ value }: { value: AppointmentStatusEnum }) =>
+    AppointmentStatus.fromKey(value)
+  )
   public appointmentStatus?: AppointmentStatus
 
-  @Transform((k: EmployeeStatusEnum) => EmployeeStatus.fromKey(k))
+  @Transform(({ value }: { value: EmployeeStatusEnum }) =>
+    EmployeeStatus.fromKey(value)
+  )
   public currentEmployeeStatusCode?: EmployeeStatus
 
   @Type(() => EmployeeTimelineEntry)

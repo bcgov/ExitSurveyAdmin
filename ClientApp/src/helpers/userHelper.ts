@@ -12,7 +12,7 @@ export const mapUserToPropsFromState = (
 }
 
 export const userNameFromState = (): string | null => {
-  const state = store.getState()
+  const state = store.getState() as FixTypeLater
   if (state && state.oidc && state.oidc.user) {
     const user = state.oidc.user
     if (user && user.profile && user.profile.name) {
