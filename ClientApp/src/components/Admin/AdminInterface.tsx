@@ -28,8 +28,6 @@ const AdminInterface = (): JSX.Element => ***REMOVED***
     )
 ***REMOVED*** [])
 
-  console.log('adminSettings', adminSettings)
-
   return (
     <div className="Centered AdminInterface row">
       <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
