@@ -13,7 +13,6 @@ namespace ExitSurveyAdmin.Services
         private LoggingService logger;
         private CallWebService callWeb;
         private ExitSurveyAdminContext context;
-
         private EmployeeInfoLookupService infoLookupService;
 
         public EmployeeReconciliationService(
@@ -29,8 +28,8 @@ namespace ExitSurveyAdmin.Services
             this.infoLookupService = infoLookupService;
       ***REMOVED***
 
-        // NB. Existence is determined by the combination of EmployeeId,
-        // ExitCount, and record count.
+        // NB. For reconciliation purposes, existence is determined by the
+        // combination of EmployeeId, ExitCount, and record count.
         private Employee EmployeeExists(Employee candidate)
         ***REMOVED***
             var query = context.Employees
@@ -99,7 +98,7 @@ namespace ExitSurveyAdmin.Services
             var reconciledEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
 
-            // Step 1. Insert and update employees from the CSV.
+            // Insert and update employees.
             foreach (Employee e in employees)
             ***REMOVED***
                 try
@@ -122,21 +121,6 @@ namespace ExitSurveyAdmin.Services
                 reconciledEmployeeList,
                 exceptionList
             );
-      ***REMOVED***
-
-        /*** Reconcile a single employee. NB! By default, this will NOT invoke
-        other methods (such as status updating) that affect multiple other
-        employees, unlike ReconcileEmployees which does so by default.
-        */
-        public async Task<Employee> ReconcileEmployee(Employee employee)
-        ***REMOVED***
-            // Simply call the main ReconcileEmployees function, with this
-            // single employee as the sole element of a list; then get the
-            // employee from the resulting list.
-            var result = await ReconcileEmployees(new List<Employee>() ***REMOVED*** employee ***REMOVED***);
-            var reconciledEmployee = result.GoodEmployees.ElementAt(0); // TODO 2023: Check this
-
-            return reconciledEmployee;
       ***REMOVED***
 
         private async Task<Employee> ReconcileWithDatabase(Employee employee)
@@ -416,8 +400,18 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        public async Task UpdateEmployeeStatuses()
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
         ***REMOVED***
+            var taskResult = await UpdateEmployeeStatuses();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+      ***REMOVED***
+
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
+        ***REMOVED***
+            var updatedEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
+
             // For all non-final employees and expired employees, update.
             var candidateEmployees = context.Employees
                 .Include(e => e.TimelineEntries)
@@ -431,8 +425,26 @@ namespace ExitSurveyAdmin.Services
 
             foreach (Employee e in candidateEmployees)
             ***REMOVED***
-                var employee = await UpdateEmployeeStatus(e);
+                try
+                ***REMOVED***
+                    var employee = await UpdateEmployeeStatus(e);
+                    updatedEmployeeList.Add(employee);
+              ***REMOVED***
+                catch (Exception exception)
+                ***REMOVED***
+                    exceptionList.Add(
+                        $"Exception updating status of employee ***REMOVED***e.FullName***REMOVED*** "
+                            + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
+                    );
+              ***REMOVED***
           ***REMOVED***
+
+            return new EmployeeTaskResult(
+                TaskEnum.RefreshStatuses,
+                candidateEmployees.Count,
+                updatedEmployeeList,
+                exceptionList
+            );
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
