@@ -10,34 +10,34 @@ namespace ExitSurveyAdmin.Models
 ***REMOVED***
     public class Employee : BaseEntity
     ***REMOVED***
-
         public IEnumerable<PropertyVariance> PropertyCompare(Employee candidate)
         ***REMOVED***
             // Compare properties. Note the intentionally excluded properties.
             return this.DetailedCompare(candidate)
-                .Where(d =>
-                    d.PropertyInfo.Name != nameof(Id) &&
-                    d.PropertyInfo.Name != nameof(Telkey) &&
-                    d.PropertyInfo.Name != nameof(CurrentEmployeeStatusCode) &&
-                    d.PropertyInfo.Name != nameof(CurrentEmployeeStatus) &&
-                    d.PropertyInfo.Name != nameof(TimelineEntries) &&
-                    d.PropertyInfo.Name != nameof(CreatedTs) &&
-                    d.PropertyInfo.Name != nameof(ModifiedTs) &&
-                    d.PropertyInfo.Name != nameof(PreferredFirstName) &&
-                    d.PropertyInfo.Name != nameof(PreferredEmail) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress1) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress2) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode) &&
-                    d.PropertyInfo.Name != nameof(PreferredFirstNameFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredEmailFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress1Flag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress2Flag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressCityFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag) &&
-                    d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
+                .Where(
+                    d =>
+                        d.PropertyInfo.Name != nameof(Id)
+                        && d.PropertyInfo.Name != nameof(Telkey)
+                        && d.PropertyInfo.Name != nameof(CurrentEmployeeStatusCode)
+                        && d.PropertyInfo.Name != nameof(CurrentEmployeeStatus)
+                        && d.PropertyInfo.Name != nameof(TimelineEntries)
+                        && d.PropertyInfo.Name != nameof(CreatedTs)
+                        && d.PropertyInfo.Name != nameof(ModifiedTs)
+                        && d.PropertyInfo.Name != nameof(PreferredFirstName)
+                        && d.PropertyInfo.Name != nameof(PreferredEmail)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress1)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress2)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressCity)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressProvince)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressPostCode)
+                        && d.PropertyInfo.Name != nameof(PreferredFirstNameFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredEmailFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress1Flag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress2Flag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressCityFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag)
+                        && d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
                 );
       ***REMOVED***
 
@@ -237,6 +237,13 @@ namespace ExitSurveyAdmin.Models
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         ***REMOVED***
+            if (Address1 == null) ***REMOVED***
+                Address1 = "TEMPORARY"; // TODO: DEFINITELY REMOVE
+          ***REMOVED***
+            if (LocationGroup == null)
+            ***REMOVED***
+                LocationGroup = "TEMPORARY"; // TODO: Make LocationGroup nullable
+          ***REMOVED***
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;
@@ -259,13 +266,20 @@ namespace ExitSurveyAdmin.Models
         // corresponding `Flag` is false).
         public void UpdatePreferredFields()
         ***REMOVED***
-            if (!PreferredFirstNameFlag) PreferredFirstName = FirstName;
-            if (!PreferredEmailFlag) PreferredEmail = GovernmentEmail;
-            if (!PreferredAddress1Flag) PreferredAddress1 = Address1;
-            if (!PreferredAddress2Flag) PreferredAddress2 = Address2;
-            if (!PreferredAddressCityFlag) PreferredAddressCity = AddressCity;
-            if (!PreferredAddressProvinceFlag) PreferredAddressProvince = AddressProvince;
-            if (!PreferredAddressPostCodeFlag) PreferredAddressPostCode = AddressPostCode;
+            if (!PreferredFirstNameFlag)
+                PreferredFirstName = FirstName;
+            if (!PreferredEmailFlag)
+                PreferredEmail = GovernmentEmail;
+            if (!PreferredAddress1Flag)
+                PreferredAddress1 = Address1;
+            if (!PreferredAddress2Flag)
+                PreferredAddress2 = Address2;
+            if (!PreferredAddressCityFlag)
+                PreferredAddressCity = AddressCity;
+            if (!PreferredAddressProvinceFlag)
+                PreferredAddressProvince = AddressProvince;
+            if (!PreferredAddressPostCodeFlag)
+                PreferredAddressPostCode = AddressPostCode;
       ***REMOVED***
 
         public string LeaveCode

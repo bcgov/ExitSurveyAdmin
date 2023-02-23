@@ -120,7 +120,7 @@ objects:
           REACT_APP_API_DOMAIN: 'https://$***REMOVED***API_NAME***REMOVED***-$***REMOVED***DEPLOY_NAMESPACE***REMOVED***.$***REMOVED***BASE_OPENSHIFT_URL***REMOVED***',
           REACT_APP_APP_PATH: '/',
           REACT_APP_AUTH_RESPONSE_TYPE: 'code',
-          REACT_APP_AUTH_SCOPE: 'openid profile resourceApi',
+          REACT_APP_AUTH_SCOPE: 'profile',
           REACT_APP_AUTH_URL: '$***REMOVED***KEYCLOAK_URL***REMOVED***',
           REACT_APP_AUTH_AUTO_SILENT_RENEW: 'false',
           REACT_APP_AUTH_FILTER_PROTOCOL_CLAIMS: 'true',

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
-
     internal class CallWebApi
     ***REMOVED***
         private string BaseUrl;
@@ -41,11 +40,10 @@ namespace ExitSurveyAdmin.Services.CallWeb
             // If the service token is null, or if it's soon to expire, get a
             // new service token.
             if (
-                ServiceToken == null ||
-                DateTimeOffset.Now.ToUnixTimeSeconds() >= ServiceToken.expires_in
+                ServiceToken == null
+                || DateTimeOffset.Now.ToUnixTimeSeconds() >= ServiceToken.ExpiresAtUnix
             )
             ***REMOVED***
-
                 var client = GetClient();
 
                 var tokenRequestBodyDict = new Dictionary<string, string>();
@@ -53,10 +51,8 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 tokenRequestBodyDict.Add("client_id", ClientId);
                 tokenRequestBodyDict.Add("client_secret", ClientSecret);
 
-                var res = await GetClient().PostAsync(
-                    TokenRequestUrl,
-                    new FormUrlEncodedContent(tokenRequestBodyDict)
-                );
+                var res = await GetClient()
+                    .PostAsync(TokenRequestUrl, new FormUrlEncodedContent(tokenRequestBodyDict));
 
                 var responseAsString = await res.Content.ReadAsStringAsync();
 
@@ -65,8 +61,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
                 // Set the expiry time based on the current time plus the
                 // length of time the token expires in, minus 60 seconds.
                 token.ExpiresAtUnix =
-                    DateTimeOffset.Now.ToUnixTimeSeconds()
-                    + token.expires_in - 60;
+                    DateTimeOffset.Now.ToUnixTimeSeconds() + token.expires_in - 60;
                 ServiceToken = token;
           ***REMOVED***
 
@@ -90,8 +85,10 @@ namespace ExitSurveyAdmin.Services.CallWeb
 
             var client = GetClient();
 
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", accessToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Bearer",
+                accessToken
+            );
 
             return client;
       ***REMOVED***
@@ -100,33 +97,23 @@ namespace ExitSurveyAdmin.Services.CallWeb
         ***REMOVED***
             var serializedObj = JsonConvert.SerializeObject(obj);
 
-            return new StringContent(
-                serializedObj, Encoding.UTF8, "application/json"
-            );
+            return new StringContent(serializedObj, Encoding.UTF8, "application/json");
       ***REMOVED***
 
-        private async Task<CallWebRowDto> CallWebRowFromResponse(
-            HttpResponseMessage response
-        )
+        private async Task<CallWebRowDto> CallWebRowFromResponse(HttpResponseMessage response)
         ***REMOVED***
             var responseAsString = await response.Content.ReadAsStringAsync();
 
-            var callWebDto = JsonConvert.DeserializeObject<CallWebRowDto>(
-                responseAsString
-            );
+            var callWebDto = JsonConvert.DeserializeObject<CallWebRowDto>(responseAsString);
 
             return callWebDto;
       ***REMOVED***
 
-        private async Task<CallWebRowDto[]> CallWebRowsFromResponse(
-            HttpResponseMessage response
-        )
+        private async Task<CallWebRowDto[]> CallWebRowsFromResponse(HttpResponseMessage response)
         ***REMOVED***
             var responseAsString = await response.Content.ReadAsStringAsync();
 
-            var callWebDtos = JsonConvert.DeserializeObject<CallWebRowDto[]>(
-                responseAsString
-            );
+            var callWebDtos = JsonConvert.DeserializeObject<CallWebRowDto[]>(responseAsString);
 
             return callWebDtos;
       ***REMOVED***

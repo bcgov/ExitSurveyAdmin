@@ -1,5 +1,3 @@
-/* globals Map */
-
 import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
 import ***REMOVED*** AppointmentStatusEnum ***REMOVED*** from './AppointmentStatus'
 
