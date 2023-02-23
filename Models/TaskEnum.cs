@@ -18,6 +18,7 @@ namespace ExitSurveyAdmin.Models
         private static readonly string CodeRetrieveSurveyStatus = "RetrieveSurveyStatus";
         private static readonly string CodeScheduledTask = "ScheduledTask";
         private static readonly string CodeEmailAdmins = "EmailAdmins";
+        private static readonly string CodeUpdateNotExiting = "UpdateNotExiting";
 
         public static readonly TaskEnum ReconcileCsv = new TaskEnum
         ***REMOVED***
@@ -68,6 +69,13 @@ namespace ExitSurveyAdmin.Models
             Description = "A manually-triggered refresh of employee statuses.",
             Verb = "refresh",
             ObjectNoun = "employee statuses"
+      ***REMOVED***;
+        public static readonly TaskEnum UpdateNotExiting = new TaskEnum
+        ***REMOVED***
+            Code = CodeUpdateNotExiting,
+            Description = "The update of status of non-exiting employees.",
+            Verb = "update",
+            ObjectNoun = "non-exiting employees"
       ***REMOVED***;
         public static readonly TaskEnum ScheduledTask = new TaskEnum
         ***REMOVED***
