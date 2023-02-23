@@ -412,14 +412,15 @@ namespace ExitSurveyAdmin.Services
             var updatedEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
 
-            // For all non-final employees and expired employees, update.
+            // For all non-final employees employees, update.
             var candidateEmployees = context.Employees
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
                 .Where(
-                    e =>
-                        (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
-                        || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
+                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
+                // TODO: We are still investigating if this should be removed.
+                // See https://github.com/bcgov/ExitSurveyAdmin/issues/208
+                // || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
                 )
                 .ToList();
 
