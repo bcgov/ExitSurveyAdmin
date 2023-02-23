@@ -3,11 +3,13 @@ import React from 'react'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import { AdminSetting } from '../../types/AdminSetting'
-import { plainToClass } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import EditableStringField from '../Employees/EditableStringField'
 
 import RefreshStatusButton from './RefreshStatusButton'
+import ScheduledLoadAndUpdateButton from './ScheduledLoadAndUpdateButton'
+import LoadPsaApiButton from './LoadPsaApiButton'
 
 const AdminInterface = (): JSX.Element => {
   const [adminSettings, setAdminSettings] = React.useState<AdminSetting[]>([])
@@ -19,10 +21,14 @@ const AdminInterface = (): JSX.Element => {
       null,
       'ADMIN_SETTINGS_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => {
-        setAdminSettings(responseJSON.map(s => plainToClass(AdminSetting, s)))
+        setAdminSettings(
+          responseJSON.map((s) => plainToInstance(AdminSetting, s))
+        )
       }
     )
   }, [])
+
+  console.log('adminSettings', adminSettings)
 
   return (
     <div className="Centered AdminInterface row">
@@ -30,7 +36,7 @@ const AdminInterface = (): JSX.Element => {
         <h1>Admin interface</h1>
         {adminSettings.length > 0 && (
           <div className="row">
-            {adminSettings.map(as => (
+            {adminSettings.map((as) => (
               <ColumnarLabelledText
                 key={as.id}
                 label={as.displayName!}
@@ -53,7 +59,9 @@ const AdminInterface = (): JSX.Element => {
                       'ADMIN_SETTINGS_NOT_FOUND',
                       (responseJSON: FixTypeLater[]): void => {
                         setAdminSettings(
-                          responseJSON.map(s => plainToClass(AdminSetting, s))
+                          responseJSON.map((s) =>
+                            plainToInstance(AdminSetting, s)
+                          )
                         )
                       }
                     )
@@ -62,6 +70,8 @@ const AdminInterface = (): JSX.Element => {
               </ColumnarLabelledText>
             ))}
             <RefreshStatusButton />
+            <ScheduledLoadAndUpdateButton />
+            <LoadPsaApiButton />
           </div>
         )}
       </div>
