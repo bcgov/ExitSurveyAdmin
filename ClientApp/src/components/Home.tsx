@@ -93,6 +93,9 @@ const Home = (): JSX.Element => {
                 <div>
                   <TaskOutcome taskOutcomeCode={tle.taskOutcomeCode!} />
                 </div>
+                <div className="ml-3 w-25">
+                  <strong>{tle.taskCode}</strong>
+                </div>
                 <div className="ml-3">
                   <FormattedDate
                     date={tle.createdTs}
