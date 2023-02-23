@@ -254,7 +254,7 @@ namespace ExitSurveyAdmin.Services
 
                         var newValue = pv.PropertyInfo.GetValue(employee);
 
-                        // TODO: Remove this as necessary...?
+                        // TODO: Remove this as necessary...? (Related to the null Address1 issue).
                         if (newValue == null)
                             continue;
 
