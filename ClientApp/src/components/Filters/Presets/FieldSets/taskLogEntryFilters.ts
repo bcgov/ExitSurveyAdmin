@@ -4,7 +4,8 @@ import EnumFilter from '../../FilterClasses/EnumFilter'
 import TextFilter from '../../FilterClasses/TextFilter'
 
 export const taskLogEntryFilters: IFilter[] = [
-  new DateFilter('createdTs'),
+  new DateFilter('logDate'),
   new EnumFilter('taskOutcomeCode'),
+  new EnumFilter('taskCode'),
   new TextFilter('comment')
 ]

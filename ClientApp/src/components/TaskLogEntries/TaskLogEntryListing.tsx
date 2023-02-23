@@ -17,6 +17,7 @@ const TaskLogEntryListing = (): JSX.Element => (
     dataMapper=***REMOVED***(responseJSON: FixTypeLater[]): TaskLogEntry[] =>
       responseJSON.map(t => plainToInstance(TaskLogEntry, t))
   ***REMOVED***
+    sortProp=***REMOVED***`&sorts=-createdTs`***REMOVED*** // By default, sort reverse chronologically
     exportedDataMapper=***REMOVED***(responseJSON: FixTypeLater[]): FixTypeLater[] =>
       responseJSON.map(t => ***REMOVED***
         delete t.task

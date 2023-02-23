@@ -93,6 +93,9 @@ const Home = (): JSX.Element => ***REMOVED***
                 <div>
                   <TaskOutcome taskOutcomeCode=***REMOVED***tle.taskOutcomeCode!***REMOVED*** />
                 </div>
+                <div className="ml-3 w-25">
+                  <strong>***REMOVED***tle.taskCode***REMOVED***</strong>
+                </div>
                 <div className="ml-3">
                   <FormattedDate
                     date=***REMOVED***tle.createdTs***REMOVED***
