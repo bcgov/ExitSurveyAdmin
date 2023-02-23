@@ -353,8 +353,9 @@ namespace ExitSurveyAdmin.Services
 
             if (callWebStatusCode == null)
             {
-                // TODO: Fix this
-                return employee;
+                throw new NullCallWebStatusCodeException(
+                    $"Received a null CallWeb status code for employee ${employee.FullName} (${employee.GovernmentEmployeeId})"
+                );
             }
 
             // First, check if the employee has completed the survey.
