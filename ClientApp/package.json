@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": ***REMOVED***
+    "@beam-australia/react-env": "^3.1.1",
     "@types/jest": "^24.0.23",
     "@types/moment-timezone": "^0.5.13",
     "@types/node": "^12.12.16",
@@ -54,7 +55,6 @@
 ***REMOVED***
   "devDependencies": ***REMOVED***
     "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme/releases/download/v1.1.1/bcgov-bootstrap-theme-1.1.1.tgz",
-    "@beam-australia/react-env": "^2.1.2",
     "ajv": "^6.9.1",
     "cross-env": "^5.2.0",
     "eslint": "^5.12.0",
