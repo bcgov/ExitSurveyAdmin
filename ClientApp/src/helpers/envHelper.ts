@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 import env from '@beam-australia/react-env'
 import ***REMOVED*** WebStorageStateStore ***REMOVED*** from 'oidc-client'
 

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
-import ***REMOVED*** plainToClass ***REMOVED*** from 'class-transformer'
+import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
@@ -244,7 +244,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: string): void => ***REMOVED***
         console.log('responseJSON', responseJSON)
-        this.setState(***REMOVED*** employee: plainToClass(Employee, responseJSON) ***REMOVED***)
+        this.setState(***REMOVED*** employee: plainToInstance(Employee, responseJSON) ***REMOVED***)
     ***REMOVED***
     )
 ***REMOVED***

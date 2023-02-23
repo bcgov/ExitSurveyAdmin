@@ -83,7 +83,7 @@ const GenericListing = <T extends object>(***REMOVED***
 
   // Called when the table needs new data
   const fetchData = React.useCallback(
-    (***REMOVED*** pageIndex, sortBy ***REMOVED***) => ***REMOVED***
+    (***REMOVED*** pageIndex, sortBy ***REMOVED***: ***REMOVED*** pageIndex: number, sortBy: FixTypeLater ***REMOVED***) => ***REMOVED***
       // Give this fetch an ID and set the loading state
       const fetchId = ++fetchIdRef.current
       setLoading(true)
