@@ -39,6 +39,7 @@ export interface IGenericListingProps<T extends object> {
   dataMapper: (responseJSON: FixTypeLater[]) => T[]
   exportedDataMapper: (responseJSON: FixTypeLater[]) => FixTypeLater[]
   pageSize?: number
+  sortProp?: string
 }
 
 interface IProps<T extends object>
@@ -54,7 +55,8 @@ const GenericListing = <T extends object>({
   location,
   pageSize: propPageSize,
   presetComponent,
-  modelName
+  modelName,
+  sortProp
 }: IProps<T>): JSX.Element => {
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -86,7 +88,9 @@ const GenericListing = <T extends object>({
       const fetchId = ++fetchIdRef.current
       setLoading(true)
 
-      const sortByQuery = processSorts(sortBy)
+            // If there are no sorts from the table, use the passed-in sort prop, if
+      // any, and otherwise just use an empty string.
+      const sortByQuery = processSorts(sortBy) || sortProp || ''
 
       // Set page index
       let newPageIndex = pageIndex
