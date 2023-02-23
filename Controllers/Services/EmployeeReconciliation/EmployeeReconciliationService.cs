@@ -28,6 +28,20 @@ namespace ExitSurveyAdmin.Services
             this.infoLookupService = infoLookupService;
       ***REMOVED***
 
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
+        ***REMOVED***
+            var taskResult = await UpdateEmployeeStatuses();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+      ***REMOVED***
+
+        public async Task<EmployeeTaskResult> UpdateNotExitingAndLog(List<Employee> employees)
+        ***REMOVED***
+            var taskResult = await UpdateNotExiting(employees);
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+      ***REMOVED***
+
         // NB. For reconciliation purposes, existence is determined by the
         // combination of EmployeeId, ExitCount, and record count.
         private Employee EmployeeExists(Employee candidate)
@@ -93,7 +107,7 @@ namespace ExitSurveyAdmin.Services
             return taskResult;
       ***REMOVED***
 
-        public async Task<EmployeeTaskResult> ReconcileEmployees(List<Employee> employees)
+        private async Task<EmployeeTaskResult> ReconcileEmployees(List<Employee> employees)
         ***REMOVED***
             var reconciledEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
@@ -333,7 +347,7 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        public async Task<Employee> UpdateEmployeeStatus(Employee employee)
+        private async Task<Employee> UpdateEmployeeStatus(Employee employee)
         ***REMOVED***
             var callWebStatusCode = await callWeb.GetSurveyStatusCode(employee);
 
@@ -381,8 +395,13 @@ namespace ExitSurveyAdmin.Services
             return employee;
       ***REMOVED***
 
-        public async Task UpdateNotExiting(List<Employee> reconciledEmployeeList)
+        private async Task<EmployeeTaskResult> UpdateNotExiting(
+            List<Employee> reconciledEmployeeList
+        )
         ***REMOVED***
+            var updatedEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
+
             var activeDBEmployeesNotInCsv = context.Employees
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
@@ -393,21 +412,31 @@ namespace ExitSurveyAdmin.Services
 
             foreach (Employee e in activeDBEmployeesNotInCsv)
             ***REMOVED***
-                var employee = await SaveStatusAndAddTimelineEntry(
-                    e,
-                    EmployeeStatusEnum.NotExiting
-                );
+                try
+                ***REMOVED***
+                    var employee = await SaveStatusAndAddTimelineEntry(
+                        e,
+                        EmployeeStatusEnum.NotExiting
+                    );
+              ***REMOVED***
+                catch (Exception exception)
+                ***REMOVED***
+                    exceptionList.Add(
+                        $"Exception updating non-exiting employee ***REMOVED***e.FullName***REMOVED*** "
+                            + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
+                    );
+              ***REMOVED***
           ***REMOVED***
+
+            return new EmployeeTaskResult(
+                TaskEnum.UpdateNotExiting,
+                activeDBEmployeesNotInCsv.Count,
+                updatedEmployeeList,
+                exceptionList
+            );
       ***REMOVED***
 
-        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
-        ***REMOVED***
-            var taskResult = await UpdateEmployeeStatuses();
-            await logger.LogEmployeeTaskResult(taskResult);
-            return taskResult;
-      ***REMOVED***
-
-        public async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
+        private async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
         ***REMOVED***
             var updatedEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
