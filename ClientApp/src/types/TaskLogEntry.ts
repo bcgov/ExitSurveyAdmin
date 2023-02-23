@@ -7,9 +7,9 @@ export class TaskLogEntry {
   taskOutcomeCode?: string
   comment?: string
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   createdTs?: Date
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform(({ value }: { value: string }) => dateOrUndefined(value))
   modifiedTs?: Date
 }

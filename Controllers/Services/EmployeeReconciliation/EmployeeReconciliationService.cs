@@ -10,12 +10,13 @@ namespace ExitSurveyAdmin.Services
 {
     public class EmployeeReconciliationService
     {
+        private LoggingService logger;
         private CallWebService callWeb;
         private ExitSurveyAdminContext context;
-
         private EmployeeInfoLookupService infoLookupService;
 
         public EmployeeReconciliationService(
+            LoggingService logger,
             ExitSurveyAdminContext context,
             CallWebService callWeb,
             EmployeeInfoLookupService infoLookupService
@@ -23,23 +24,36 @@ namespace ExitSurveyAdmin.Services
         {
             this.context = context;
             this.callWeb = callWeb;
+            this.logger = logger;
             this.infoLookupService = infoLookupService;
         }
 
-        // NB. Existence is determined by the combination of EmployeeId,
-        // ExitCount, and record count.
-        private Employee EmployeeExists(
-            Employee candidate
-        )
+        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
+        {
+            var taskResult = await UpdateEmployeeStatuses();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        public async Task<EmployeeTaskResult> UpdateNotExitingAndLog(List<Employee> employees)
+        {
+            var taskResult = await UpdateNotExiting(employees);
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        // NB. For reconciliation purposes, existence is determined by the
+        // combination of EmployeeId, ExitCount, and record count.
+        private Employee EmployeeExists(Employee candidate)
         {
             var query = context.Employees
                 .Include(e => e.CurrentEmployeeStatus)
-                .Where(e =>
-                    e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
-                    && e.ExitCount == candidate.ExitCount
-                    && e.RecordCount == candidate.RecordCount
+                .Where(
+                    e =>
+                        e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
+                        && e.ExitCount == candidate.ExitCount
+                        && e.RecordCount == candidate.RecordCount
                 );
-
 
             if (query.Count() > 0)
             {
@@ -63,13 +77,14 @@ namespace ExitSurveyAdmin.Services
             employee.CurrentEmployeeStatusCode = newStatusCode;
 
             // Create a new timeline entry.
-            employee.TimelineEntries.Add(new EmployeeTimelineEntry
-            {
-                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                EmployeeStatusCode = newStatusCode,
-                Comment = $"Status updated by script: " +
-                    $"{oldStatusCode} → {newStatusCode}."
-            });
+            employee.TimelineEntries.Add(
+                new EmployeeTimelineEntry
+                {
+                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                    EmployeeStatusCode = newStatusCode,
+                    Comment = $"Status updated by script: " + $"{oldStatusCode} → {newStatusCode}."
+                }
+            );
             context.Entry(employee).State = EntityState.Modified;
 
             // Update in CallWeb.
@@ -81,14 +96,23 @@ namespace ExitSurveyAdmin.Services
             return employee;
         }
 
-        public async Task<Tuple<List<Employee>, List<string>>> ReconcileEmployees(
-            List<Employee> employees
+        public async Task<EmployeeTaskResult> ReconcileEmployeesAndLog(
+            TaskEnum callingTask,
+            List<Employee> candidateEmployees
         )
+        {
+            var taskResult = await ReconcileEmployees(candidateEmployees);
+            taskResult.Task = callingTask;
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        private async Task<EmployeeTaskResult> ReconcileEmployees(List<Employee> employees)
         {
             var reconciledEmployeeList = new List<Employee>();
             var exceptionList = new List<string>();
 
-            // Step 1. Insert and update employees from the CSV.
+            // Insert and update employees.
             foreach (Employee e in employees)
             {
                 try
@@ -99,30 +123,18 @@ namespace ExitSurveyAdmin.Services
                 catch (Exception exception)
                 {
                     exceptionList.Add(
-                        $"Exception with candidate employee {e.FullName} " +
-                        $"(ID: {e.GovernmentEmployeeId}): {exception} "
+                        $"Exception with candidate employee {e.FullName} "
+                            + $"(ID: {e.GovernmentEmployeeId}): {exception} "
                     );
                 }
             }
 
-            return Tuple.Create(reconciledEmployeeList, exceptionList);
-        }
-
-        /*** Reconcile a single employee. NB! By default, this will NOT invoke
-        other methods (such as status updating) that affect multiple other
-        employees, unlike ReconcileEmployees which does so by default.
-        */
-        public async Task<Employee> ReconcileEmployee(Employee employee)
-        {
-            // Simply call the main ReconcileEmployees function, with this
-            // single employee as the sole element of a list; then get the
-            // employee from the resulting list.
-            var result = await ReconcileEmployees(
-                new List<Employee>() { employee }
+            return new EmployeeTaskResult(
+                TaskEnum.ReconcileEmployees,
+                employees.Count,
+                reconciledEmployeeList,
+                exceptionList
             );
-            var reconciledEmployee = result.Item1.ElementAt(0);
-
-            return reconciledEmployee;
         }
 
         private async Task<Employee> ReconcileWithDatabase(Employee employee)
@@ -152,20 +164,20 @@ namespace ExitSurveyAdmin.Services
                 }
                 catch (Exception e)
                 {
-                    throw new InvalidOperationException(
-                        "Inserting a row into CallWeb failed.", e
-                    );
+                    throw new InvalidOperationException("Inserting a row into CallWeb failed.", e);
                 }
 
                 // Insert the employee into the database, along with an
                 // appropriate timeline entry. Note that Ids are auto-generated.
                 employee.TimelineEntries = new List<EmployeeTimelineEntry>();
-                employee.TimelineEntries.Add(new EmployeeTimelineEntry
-                {
-                    EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
-                    EmployeeStatusCode = newStatusCode,
-                    Comment = "Created automatically by script."
-                });
+                employee.TimelineEntries.Add(
+                    new EmployeeTimelineEntry
+                    {
+                        EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                        EmployeeStatusCode = newStatusCode,
+                        Comment = "Created automatically by script."
+                    }
+                );
 
                 context.Employees.Add(employee);
 
@@ -179,25 +191,31 @@ namespace ExitSurveyAdmin.Services
                 // Case B. The unique user DOES exist in the database.
 
                 // If the employee is marked as "survey complete," skip them.
-                if (existingEmployee.CurrentEmployeeStatusCode
-                    == EmployeeStatusEnum.SurveyComplete.Code)
+                if (
+                    existingEmployee.CurrentEmployeeStatusCode
+                    == EmployeeStatusEnum.SurveyComplete.Code
+                )
                 {
                     return existingEmployee;
                 }
 
                 // If the employee is marked as "not exiting," update their
                 // status back to "exiting".
-                if (existingEmployee.CurrentEmployeeStatusCode
-                    == EmployeeStatusEnum.NotExiting.Code)
+                if (
+                    existingEmployee.CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code
+                )
                 {
                     existingEmployee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
-                    context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
-                    {
-                        EmployeeId = existingEmployee.Id,
-                        EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
-                        EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
-                        Comment = "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the CSV."
-                    });
+                    context.EmployeeTimelineEntries.Add(
+                        new EmployeeTimelineEntry
+                        {
+                            EmployeeId = existingEmployee.Id,
+                            EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                            EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
+                            Comment =
+                                "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the source data."
+                        }
+                    );
                     context.Entry(existingEmployee).State = EntityState.Modified;
                     await context.SaveChangesAsync();
                     await callWeb.UpdateSurvey(existingEmployee);
@@ -226,7 +244,8 @@ namespace ExitSurveyAdmin.Services
                         // Note: we don't log if the email address was set to
                         // empty, because if it is empty, it will automatically
                         // be reset when the user is saved.
-                        if (string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
+                        if (
+                            string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
                             && string.IsNullOrWhiteSpace(pv.ValueB as string)
                         )
                         {
@@ -234,6 +253,11 @@ namespace ExitSurveyAdmin.Services
                         }
 
                         var newValue = pv.PropertyInfo.GetValue(employee);
+
+                        // TODO: Remove this as necessary...? (Related to the null Address1 issue).
+                        if (newValue == null)
+                            continue;
+
                         if (existingEmployee.IsActive())
                         {
                             // Only actually set the field if the employee is
@@ -242,8 +266,9 @@ namespace ExitSurveyAdmin.Services
                             // on it (see below).
                             pv.PropertyInfo.SetValue(existingEmployee, newValue);
                         }
-                        fieldsUpdatedList
-                            .Add($"{pv.PropertyInfo.Name}: `{pv.ValueA}` → `{pv.ValueB}`");
+                        fieldsUpdatedList.Add(
+                            $"{pv.PropertyInfo.Name}: `{pv.ValueA}` → `{pv.ValueB}`"
+                        );
                     }
 
                     // Now update the preferred fields when they've not already
@@ -261,41 +286,50 @@ namespace ExitSurveyAdmin.Services
 
                         // If the user is in a final state, log this as a
                         // mistake instead.
-                        if (!existingEmployee.IsActive() && !existingEmployee.TriedToUpdateInFinalState)
+                        if (
+                            !existingEmployee.IsActive()
+                            && !existingEmployee.TriedToUpdateInFinalState
+                        )
                         {
                             comment =
-                                $"These fields would have been updated, " +
-                                $"but they were not as this user is in a " +
-                                $"final state: {fieldsUpdated}. The " +
-                                $"TriedToUpdateInFinalState flag was set. " +
-                                "No more updates of this kind will be logged.";
+                                $"These fields would have been updated, "
+                                + $"but they were not as this user is in a "
+                                + $"final state: {fieldsUpdated}. The "
+                                + $"TriedToUpdateInFinalState flag was set. "
+                                + "No more updates of this kind will be logged.";
 
                             existingEmployee.TriedToUpdateInFinalState = true;
                             // Create a new timeline entry.
-                            context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
-                            {
-                                EmployeeId = existingEmployee.Id,
-                                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                                Comment = comment
-                            });
+                            context.EmployeeTimelineEntries.Add(
+                                new EmployeeTimelineEntry
+                                {
+                                    EmployeeId = existingEmployee.Id,
+                                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                                    EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                                    Comment = comment
+                                }
+                            );
 
                             context.Entry(existingEmployee).State = EntityState.Modified;
                             await context.SaveChangesAsync();
                         }
 
                         // Save changes to employee and the new timeline entry.
-                        if (existingEmployee.IsActive() ||
-                            !existingEmployee.TriedToUpdateInFinalState)
+                        if (
+                            existingEmployee.IsActive()
+                            || !existingEmployee.TriedToUpdateInFinalState
+                        )
                         {
                             // Create a new timeline entry.
-                            context.EmployeeTimelineEntries.Add(new EmployeeTimelineEntry
-                            {
-                                EmployeeId = existingEmployee.Id,
-                                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                                Comment = comment
-                            });
+                            context.EmployeeTimelineEntries.Add(
+                                new EmployeeTimelineEntry
+                                {
+                                    EmployeeId = existingEmployee.Id,
+                                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                                    EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                                    Comment = comment
+                                }
+                            );
 
                             context.Entry(existingEmployee).State = EntityState.Modified;
                             await context.SaveChangesAsync();
@@ -313,56 +347,62 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
-
-        public async Task<Employee> UpdateEmployeeStatus(
-            Employee employee
-        )
+        private async Task<Employee> UpdateEmployeeStatus(Employee employee)
         {
-            var callWebStatusCode = await callWeb
-                .GetSurveyStatusCode(employee);
+            var callWebStatusCode = await callWeb.GetSurveyStatusCode(employee);
+
+            if (callWebStatusCode == null)
+            {
+                throw new NullCallWebStatusCodeException(
+                    $"Received a null CallWeb status code for employee ${employee.FullName} (${employee.GovernmentEmployeeId})"
+                );
+            }
 
             // First, check if the employee has completed the survey.
             if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
             {
-                return await SaveStatusAndAddTimelineEntry(employee,
-                    EmployeeStatusEnum.SurveyComplete);
+                return await SaveStatusAndAddTimelineEntry(
+                    employee,
+                    EmployeeStatusEnum.SurveyComplete
+                );
             }
 
             // An employee only has a set amount of time to complete a survey.
             // If that time has expired, then expire the user.
-            var employeeExpirationThresholdSetting = await context
-                .AdminSettings
-                .FirstAsync(a => a.Key == AdminSetting.EmployeeExpirationThreshold);
-
-            var thresholdInDays = System.Convert.ToInt32(
-                employeeExpirationThresholdSetting.Value
+            var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
+                a => a.Key == AdminSetting.EmployeeExpirationThreshold
             );
 
+            var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
+
             if (
-                employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow &&
-                employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
+                employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
+                && employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
             )
             {
-                return await SaveStatusAndAddTimelineEntry(employee,
-                    EmployeeStatusEnum.Expired);
+                return await SaveStatusAndAddTimelineEntry(employee, EmployeeStatusEnum.Expired);
             }
 
             // Conversely, re-open expired users if they are now inside the
             // threshold, for instance if the threshold was extended.
             if (
-                employee.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code &&
-                employee.EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow
+                employee.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
+                && employee.EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow
             )
             {
-                return await SaveStatusAndAddTimelineEntry(employee,
-                    EmployeeStatusEnum.Exiting);
+                return await SaveStatusAndAddTimelineEntry(employee, EmployeeStatusEnum.Exiting);
             }
 
             return employee;
         }
 
-        public async Task UpdateNotExiting(List<Employee> reconciledEmployeeList)
+        private async Task<EmployeeTaskResult> UpdateNotExiting(
+            List<Employee> reconciledEmployeeList
+        )
         {
+            var updatedEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
+
             var activeDBEmployeesNotInCsv = context.Employees
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
@@ -373,28 +413,69 @@ namespace ExitSurveyAdmin.Services
 
             foreach (Employee e in activeDBEmployeesNotInCsv)
             {
-                var employee = await SaveStatusAndAddTimelineEntry(
-                    e, EmployeeStatusEnum.NotExiting
-                );
+                try
+                {
+                    var employee = await SaveStatusAndAddTimelineEntry(
+                        e,
+                        EmployeeStatusEnum.NotExiting
+                    );
+                }
+                catch (Exception exception)
+                {
+                    exceptionList.Add(
+                        $"Exception updating non-exiting employee {e.FullName} "
+                            + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
+                    );
+                }
             }
+
+            return new EmployeeTaskResult(
+                TaskEnum.UpdateNotExiting,
+                activeDBEmployeesNotInCsv.Count,
+                updatedEmployeeList,
+                exceptionList
+            );
         }
 
-        public async Task UpdateEmployeeStatuses()
+        private async Task<EmployeeTaskResult> UpdateEmployeeStatuses()
         {
-            // For all non-final employees and expired employees, update.
+            var updatedEmployeeList = new List<Employee>();
+            var exceptionList = new List<string>();
+
+            // For all non-final employees employees, update.
             var candidateEmployees = context.Employees
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
                 .Where(
-                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) ||
-                         (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
+                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
+                // TODO: We are still investigating if this should be removed.
+                // See https://github.com/bcgov/ExitSurveyAdmin/issues/208
+                // || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
                 )
                 .ToList();
 
             foreach (Employee e in candidateEmployees)
             {
-                var employee = await UpdateEmployeeStatus(e);
+                try
+                {
+                    var employee = await UpdateEmployeeStatus(e);
+                    updatedEmployeeList.Add(employee);
+                }
+                catch (Exception exception)
+                {
+                    exceptionList.Add(
+                        $"Exception updating status of employee {e.FullName} "
+                            + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
+                    );
+                }
             }
+
+            return new EmployeeTaskResult(
+                TaskEnum.RefreshStatuses,
+                candidateEmployees.Count,
+                updatedEmployeeList,
+                exceptionList
+            );
         }
     }
 }

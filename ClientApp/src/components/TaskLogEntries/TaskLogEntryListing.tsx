@@ -1,5 +1,5 @@
 import React from 'react'
-import { plainToClass } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
@@ -15,7 +15,7 @@ const TaskLogEntryListing = (): JSX.Element => (
     listingPath="taskLogEntries"
     pageSize={5}
     dataMapper={(responseJSON: FixTypeLater[]): TaskLogEntry[] =>
-      responseJSON.map(t => plainToClass(TaskLogEntry, t))
+      responseJSON.map(t => plainToInstance(TaskLogEntry, t))
     }
     sortProp={`&sorts=-createdTs`} // By default, sort reverse chronologically
     exportedDataMapper={(responseJSON: FixTypeLater[]): FixTypeLater[] =>
