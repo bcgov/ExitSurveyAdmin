@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { plainToClass } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
 import { Employee } from '../../types/Employee'
@@ -244,7 +244,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: string): void => {
         console.log('responseJSON', responseJSON)
-        this.setState({ employee: plainToClass(Employee, responseJSON) })
+        this.setState({ employee: plainToInstance(Employee, responseJSON) })
       }
     )
   }
