@@ -419,6 +419,7 @@ namespace ExitSurveyAdmin.Services
                         e,
                         EmployeeStatusEnum.NotExiting
                     );
+                    updatedEmployeeList.Add(employee);
               ***REMOVED***
                 catch (Exception exception)
                 ***REMOVED***

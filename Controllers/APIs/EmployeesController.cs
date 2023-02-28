@@ -284,8 +284,10 @@ namespace ExitSurveyAdmin.Controllers
                 await RefreshEmployeeStatus();
 
                 // Step 4. For all ACTIVE users in the DB who are NOT in the
-                // data set, set them to not exiting, IF they are not in a final
-                // state. Also updates CallWeb.
+                // data set, set them to Not Exiting, IF they are not in a final
+                // state. Also updates CallWeb. This applies to employees who
+                // have dropped off the data list because they're not actually
+                // leaving their employment.
                 await employeeReconciler.UpdateNotExitingAndLog(employees);
 
                 await logger.LogSuccess(
