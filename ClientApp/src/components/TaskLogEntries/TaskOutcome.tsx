@@ -1,10 +1,10 @@
 import React from 'react'
 
-interface IProps {
+interface Props {
   taskOutcomeCode: string
 }
 
-const TaskOutcome = ({ taskOutcomeCode }: IProps): JSX.Element => {
+const TaskOutcome = ({ taskOutcomeCode }: Props): JSX.Element => {
   const color =
     taskOutcomeCode === 'Success'
       ? 'success'

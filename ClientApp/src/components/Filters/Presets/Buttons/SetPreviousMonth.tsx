@@ -7,9 +7,7 @@ import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
 export const getPreviousMonthFilter = (): DateFilter => {
-  const startDate = moment()
-    .subtract(1, 'month')
-    .startOf('month')
+  const startDate = moment().subtract(1, 'month').startOf('month')
   const endDate = moment(startDate).endOf('month')
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 }
@@ -25,7 +23,7 @@ const SetPreviousMonth = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const setPreviousMonth = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getPreviousMonthFilter()
+      filter: getPreviousMonthFilter(),
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])

@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface IProps {
+interface Props {
   type?: string
   name: string
   classes?: string
@@ -19,7 +19,7 @@ interface IProps {
  * @param marginClasses The margin classes to apply to the icon. Defaults to
  *   'mr-2', for a 2-unit right margin in Bootstrap.
  */
-class FAIcon extends React.Component<IProps> {
+class FAIcon extends React.Component<Props> {
   public render(): JSX.Element {
     const type = this.props.type || 'fas'
     const name = this.props.name

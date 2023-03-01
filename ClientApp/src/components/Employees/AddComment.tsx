@@ -5,14 +5,14 @@ import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import SuccessMessage from './SuccessMessage'
 import KeycloakService from '../Login/KeycloakService'
 
-interface IProps {
-  employeeDatabaseId: string
+interface Props {
+  modelDatabaseId: string
   employeeStatusCode: string
   refreshDataCallback: () => void
 }
 
-const AddComment = (props: IProps): JSX.Element => {
-  const { employeeDatabaseId, employeeStatusCode, refreshDataCallback } = props
+const AddComment = (props: Props): JSX.Element => {
+  const { modelDatabaseId, employeeStatusCode, refreshDataCallback } = props
 
   const [comment, setComment] = React.useState('')
   const [successTime, setSuccessTime] = React.useState(0)
@@ -25,7 +25,7 @@ const AddComment = (props: IProps): JSX.Element => {
         `api/employeetimelineentries`,
         'post',
         {
-          EmployeeId: employeeDatabaseId,
+          EmployeeId: modelDatabaseId,
           EmployeeActionCode: 'UpdateByAdmin',
           EmployeeStatusCode: employeeStatusCode,
           Comment: comment,
@@ -40,7 +40,7 @@ const AddComment = (props: IProps): JSX.Element => {
         }
       )
     },
-    [comment, employeeDatabaseId, employeeStatusCode, refreshDataCallback]
+    [comment, modelDatabaseId, employeeStatusCode, refreshDataCallback]
   )
 
   return (

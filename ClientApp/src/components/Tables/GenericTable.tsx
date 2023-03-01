@@ -11,7 +11,7 @@ import ColumnSortIndicator from './ColumnSortIndicator'
 import LoadingRow from './LoadingRow'
 import Pagination from './Pagination'
 
-interface IProps<T extends object> {
+interface Props<T extends object> {
   data: T[]
   columns: () => Column<T>[]
   fetchData: (options: FixTypeLater) => FixTypeLater
@@ -22,7 +22,7 @@ interface IProps<T extends object> {
   pageSize: number
 }
 
-const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
+const GenericTable = <T extends object>(props: Props<T>): JSX.Element => {
   const {
     columns: propColumns,
     controlledPageCount,
@@ -31,7 +31,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
     fetchData,
     loading,
     pageSize: propPageSize,
-    recordCount
+    recordCount,
   } = props
 
   const columns = React.useMemo(propColumns, [propColumns])
@@ -50,7 +50,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy }
+    state: { pageIndex, pageSize, sortBy },
   }: FixTypeLater = useTable(
     {
       columns,
@@ -58,7 +58,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
       // defaultColumn,
       initialState: {
         pageIndex: 0,
-        pageSize: initialPageSize
+        pageSize: initialPageSize,
       } as FixTypeLater,
       manualPagination: true,
       pageCount: controlledPageCount,
@@ -66,7 +66,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => {
       manualFilters: true,
       defaultCanFilter: true,
       autoResetSortBy: false,
-      autoResetFilters: false
+      autoResetFilters: false,
     } as FixTypeLater,
     useSortBy,
     usePagination

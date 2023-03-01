@@ -1,10 +1,10 @@
 import { dateToString, stringToDate } from '../../../helpers/dateHelper'
-import { FilterType, IFilter } from './FilterTypes'
+import { FilterType, Filter } from './FilterTypes'
 
 const GTE_OPERATOR = '>='
 const LTE_OPERATOR = '<='
 
-export default class DateFilter implements IFilter {
+export default class DateFilter implements Filter {
   _type = FilterType.Date
   _fieldName: string
   _from?: Date
@@ -60,7 +60,7 @@ export default class DateFilter implements IFilter {
       : null
 
     const dateFilterArray = [fromDateFilter, toDateFilter]
-    return dateFilterArray.filter(s => s !== null).join(',')
+    return dateFilterArray.filter((s) => s !== null).join(',')
   }
 
   // This could take one or two strings, e.g.
@@ -70,7 +70,7 @@ export default class DateFilter implements IFilter {
     let from = undefined
     let to = undefined
 
-    input.forEach(inputString => {
+    input.forEach((inputString) => {
       if (inputString.indexOf(GTE_OPERATOR) > 0) {
         ;[fieldName, from] = inputString.split(GTE_OPERATOR)
       } else if (inputString.indexOf(LTE_OPERATOR) > 0) {
