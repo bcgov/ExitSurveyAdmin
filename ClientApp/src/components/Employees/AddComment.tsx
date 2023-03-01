@@ -2,8 +2,8 @@ import React from 'react'
 
 import { AnyJson } from '../../types/JsonType'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import { userNameFromState } from '../../helpers/userHelper'
 import SuccessMessage from './SuccessMessage'
+import KeycloakService from '../Login/KeycloakService'
 
 interface IProps {
   employeeDatabaseId: string
@@ -29,7 +29,7 @@ const AddComment = (props: IProps): JSX.Element => {
           EmployeeActionCode: 'UpdateByAdmin',
           EmployeeStatusCode: employeeStatusCode,
           Comment: comment,
-          AdminUserName: userNameFromState()
+          AdminUserName: KeycloakService.getUsername(),
         },
         'CANNOT_CREATE_EMPLOYEE_TIMELINE_ENTRY',
         (responseJSON: AnyJson): void => {

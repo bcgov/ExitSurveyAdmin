@@ -70,15 +70,10 @@ const fieldLabels: { [key: string]: string } = {
 const mapEnumToOptions = (
   enumeration: Record<string, string>
 ): (() => ISelectOption[]) => {
-  console.log('enumeration', enumeration)
-  Object.values(enumeration).map(v => {
-    console.log('v', v)
-  })
-
   return (): ISelectOption[] => {
-    return Object.keys(enumeration).map(enumKey => ({
+    return Object.keys(enumeration).map((enumKey) => ({
       name: enumeration[enumKey],
-      value: enumKey
+      value: enumKey,
     }))
   }
 }
@@ -88,7 +83,7 @@ const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
   reason: Reason.toOptions,
   taskOutcomeCode: TaskOutcome.toOptions,
   taskCode: mapEnumToOptions(TaskEnum),
-  appointmentStatus: AppointmentStatus.toOptions
+  appointmentStatus: AppointmentStatus.toOptions,
 }
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]
