@@ -2,10 +2,10 @@ import React from 'react'
 
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
+import KeycloakService from '../Login/KeycloakService'
+import SuccessMessage from './SuccessMessage'
 
 import './EditableField.scss'
-import SuccessMessage from './SuccessMessage'
 
 interface IProps ***REMOVED***
   employeeDatabaseId: string
@@ -25,7 +25,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     modelPath,
     refreshDataCallback,
     validator,
-    ignoreAdminUserName
+    ignoreAdminUserName,
 ***REMOVED*** = props
 
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -60,7 +60,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
       const patchBody = ***REMOVED*** [fieldName]: newValue ***REMOVED***
       if (!ignoreAdminUserName) ***REMOVED***
-        patchBody['AdminUserName'] = userNameFromState()!
+        patchBody['AdminUserName'] = KeycloakService.getUsername()
     ***REMOVED***
       event.preventDefault()
       requestJSONWithErrorHandler(
@@ -83,7 +83,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
       refreshDataCallback,
       toggleEditable,
       modelPath,
-      ignoreAdminUserName
+      ignoreAdminUserName,
     ]
   )
 

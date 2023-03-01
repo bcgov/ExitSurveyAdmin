@@ -70,15 +70,10 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
 const mapEnumToOptions = (
   enumeration: Record<string, string>
 ): (() => ISelectOption[]) => ***REMOVED***
-  console.log('enumeration', enumeration)
-  Object.values(enumeration).map(v => ***REMOVED***
-    console.log('v', v)
-***REMOVED***)
-
   return (): ISelectOption[] => ***REMOVED***
-    return Object.keys(enumeration).map(enumKey => (***REMOVED***
+    return Object.keys(enumeration).map((enumKey) => (***REMOVED***
       name: enumeration[enumKey],
-      value: enumKey
+      value: enumKey,
   ***REMOVED***))
 ***REMOVED***
 ***REMOVED***
@@ -88,7 +83,7 @@ const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMO
   reason: Reason.toOptions,
   taskOutcomeCode: TaskOutcome.toOptions,
   taskCode: mapEnumToOptions(TaskEnum),
-  appointmentStatus: AppointmentStatus.toOptions
+  appointmentStatus: AppointmentStatus.toOptions,
 ***REMOVED***
 
 export const labelFor = (fieldName: string): string => fieldLabels[fieldName]

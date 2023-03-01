@@ -1,6 +1,8 @@
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 import React from 'react'
 
+import LoggedInInfo from './Login/LoggedInInfo'
+
 import './NavMenu.scss'
 
 class NavMenu extends React.Component ***REMOVED***
@@ -25,11 +27,7 @@ class NavMenu extends React.Component ***REMOVED***
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              ***REMOVED***/* <small>Logged in as ***REMOVED***name***REMOVED***</small> */***REMOVED***
-            </li>
-          </ul>
+          <LoggedInInfo />
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to="/status" className="nav-link text-primary">
@@ -51,6 +49,7 @@ class NavMenu extends React.Component ***REMOVED***
                 Admin interface
               </Link>
             </li>
+            <li className="nav-item"></li>
           </ul>
         </div>
       </nav>
