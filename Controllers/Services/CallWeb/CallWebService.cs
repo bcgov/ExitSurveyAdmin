@@ -27,17 +27,17 @@ namespace ExitSurveyAdmin.Services.CallWeb
         }
 
         // Determines whether a survey is complete, given an employee.
-        public async Task<string> GetSurveyStatusCode(Employee employee)
-        {
-            var callWebDto = await CallWebApi.GetOne(employee.Telkey);
+        // public async Task<string> GetSurveyStatusCode(Employee employee)
+        // {
+        //     var callWebDto = await CallWebApi.GetOne(employee.Telkey);
 
-            if (callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1"))
-            {
-                return EmployeeStatusEnum.SurveyComplete.Code;
-            }
+        //     if (callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1"))
+        //     {
+        //         return EmployeeStatusEnum.SurveyComplete.Code;
+        //     }
 
-            return callWebDto.CurrentStatus;
-        }
+        //     return callWebDto.CurrentStatus;
+        // }
 
         // Determines whether a survey is complete, given multiple employees.
         public async Task<List<Tuple<Employee, string>>> GetSurveyStatusCodes(
@@ -45,6 +45,12 @@ namespace ExitSurveyAdmin.Services.CallWeb
         )
         {
             var telkeys = employees.Select(e => e.Telkey).ToArray();
+
+            if (telkeys.Count() != employees.Count())
+            {
+                throw new Exception("telkeys.Count != employees.Count!");
+            }
+
             var callWebDtos = (await CallWebApi.GetMultiple(telkeys)).ToList();
 
             var statusCodes = new List<Tuple<Employee, string>>();
@@ -83,25 +89,35 @@ namespace ExitSurveyAdmin.Services.CallWeb
             // return callWebDto.CurrentStatus;
         }
 
-        public async Task<string> CreateSurvey(Employee employee)
+        public async Task<CallWebRowDto[]> CreateSurveys(List<Employee> employees)
         {
-            var callWebPostDto = CallWebPostDto.FromEmployee(employee);
-            var callWebDto = await CallWebApi.Post(callWebPostDto);
+            var callWebPostDtos = employees.Select(e => CallWebPostDto.FromEmployee(e)).ToList();
+            var results = await CallWebApi.PostMultiple(callWebPostDtos);
 
-            if (string.IsNullOrEmpty(callWebDto.Telkey))
-            {
-                throw new InvalidOperationException("Telkey was not created.");
-            }
+            // TODO: move this check elsewhere
+            // if (string.IsNullOrEmpty(callWebDto.Telkey))
+            // {
 
-            return callWebDto.Telkey;
+            //     throw new InvalidOperationException("Telkey was not created.");
+            // }
+
+            return results;
         }
 
-        public async Task<CallWebRowDto> UpdateSurvey(Employee employee)
-        {
-            var callWebPatchDto = CallWebPatchDto.FromEmployee(employee);
-            var callWebDto = await CallWebApi.Patch(callWebPatchDto);
+        // public async Task<CallWebRowDto> UpdateSurvey(Employee employee)
+        // {
+        //     var callWebPatchDto = CallWebPatchDto.FromEmployee(employee);
+        //     var callWebDto = await CallWebApi.Patch(callWebPatchDto);
 
-            return callWebDto;
+        //     return callWebDto;
+        // }
+
+        public async Task<CallWebRowDto[]> UpdateSurveys(List<Employee> employees)
+        {
+            var callWebPatchDtos = employees.Select(e => CallWebPatchDto.FromEmployee(e)).ToList();
+            var callWebDtos = await CallWebApi.PatchMultiple(callWebPatchDtos);
+
+            return callWebDtos;
         }
 
         public async Task<CallWebRowDto[]> ListAll()
