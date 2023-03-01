@@ -3,11 +3,11 @@ import React from 'react'
 import { AnyJson } from '../../types/JsonType'
 import { Employee } from '../../types/Employee'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import { userNameFromState } from '../../helpers/userHelper'
 import Address from './Address'
+import KeycloakService from '../Login/KeycloakService'
+import SuccessMessage from './SuccessMessage'
 
 import './EditableField.scss'
-import SuccessMessage from './SuccessMessage'
 
 interface IProps {
   employee: Employee
@@ -24,7 +24,7 @@ const EditableAddress = (props: IProps): JSX.Element => {
     preferredAddress2,
     preferredAddressCity,
     preferredAddressProvince,
-    preferredAddressPostCode
+    preferredAddressPostCode,
   } = employee
 
   const [line1, setLine1] = React.useState(preferredAddress1 || '')
@@ -64,7 +64,7 @@ const EditableAddress = (props: IProps): JSX.Element => {
         PreferredAddressCity: city,
         PreferredAddressProvince: province,
         PreferredAddressPostCode: postCode,
-        AdminUserName: userNameFromState()
+        AdminUserName: KeycloakService.getUsername(),
       },
       'CANNOT_EDIT_EMPLOYEE',
       (responseJSON: AnyJson): void => {
