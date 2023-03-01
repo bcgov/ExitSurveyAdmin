@@ -5,11 +5,11 @@ import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
 
 const LONG_COMMENT_LENGTH = 500
 
-interface IProps {
+interface Props {
   comment: string
 }
 
-const TaskComment = ({ comment }: IProps): JSX.Element => {
+const TaskComment = ({ comment }: Props): JSX.Element => {
   const commentLength = comment.length
 
   const isLongComment = comment.length >= LONG_COMMENT_LENGTH

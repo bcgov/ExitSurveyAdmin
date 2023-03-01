@@ -2,18 +2,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import { FixTypeLater } from '../types/FixTypeLater'
 import { getActiveEmployeesFilter } from './Filters/Presets/Buttons/SetActiveEmployees'
-import { getPreviousMonthFilter } from '../components/Filters/Presets/Buttons/SetPreviousMonth'
 import { getPreviousFiscalYearFilter } from '../components/Filters/Presets/Buttons/SetPreviousFiscalYear'
-
-import './Home.scss'
+import { getPreviousMonthFilter } from '../components/Filters/Presets/Buttons/SetPreviousMonth'
+import { plainToInstance } from 'class-transformer'
 import { requestJSONWithErrorHandler } from '../helpers/requestHelpers'
 import { TaskLogEntry } from '../types/TaskLogEntry'
-import { plainToInstance } from 'class-transformer'
-import { FixTypeLater } from '../types/FixTypeLater'
-import TaskOutcome from './TaskLogEntries/TaskOutcome'
-import IconButton from './DisplayHelpers/Interface/Buttons/IconButton'
 import FormattedDate from './DisplayHelpers/FormattedDate'
+import IconButton from './DisplayHelpers/Interface/Buttons/IconButton'
+import TaskOutcome from './TaskLogEntries/TaskOutcome'
+
+import './Home.scss'
 
 const NUM_TASK_LOG_ENTRIES = 5
 
@@ -30,7 +30,7 @@ const Home = (): JSX.Element => {
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => {
         setTaskLogEntryData(
-          responseJSON.map(t => plainToInstance(TaskLogEntry, t))
+          responseJSON.map((t) => plainToInstance(TaskLogEntry, t))
         )
       }
     )
@@ -46,7 +46,7 @@ const Home = (): JSX.Element => {
         <Link
           to={{
             pathname: '/employees',
-            search: `&filters=${getActiveEmployeesFilter().encode()}`
+            search: `&filters=${getActiveEmployeesFilter().encode()}`,
           }}
         >
           <IconButton
@@ -60,7 +60,7 @@ const Home = (): JSX.Element => {
         <Link
           to={{
             pathname: '/employees',
-            search: `&filters=${getPreviousMonthFilter().encode()}`
+            search: `&filters=${getPreviousMonthFilter().encode()}`,
           }}
         >
           <IconButton
@@ -74,7 +74,7 @@ const Home = (): JSX.Element => {
         <Link
           to={{
             pathname: '/employees',
-            search: `&filters=${getPreviousFiscalYearFilter().encode()}`
+            search: `&filters=${getPreviousFiscalYearFilter().encode()}`,
           }}
         >
           <IconButton
@@ -88,7 +88,7 @@ const Home = (): JSX.Element => {
         <h2 className="mt-5">Most recent task statuses</h2>
         {taskLogEntryData.length > 0 && (
           <div>
-            {taskLogEntryData.map(tle => (
+            {taskLogEntryData.map((tle) => (
               <div key={tle.id} className="d-flex align-items-center mb-2">
                 <div>
                   <TaskOutcome taskOutcomeCode={tle.taskOutcomeCode!} />

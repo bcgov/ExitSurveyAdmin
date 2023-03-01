@@ -2,13 +2,13 @@ import React from 'react'
 
 import './LabelledText.scss'
 
-interface IProps {
+interface Props {
   children: React.ReactNode
   helperText?: string
   label: React.ReactNode
 }
 
-const LabelledText = (props: IProps): JSX.Element => {
+const LabelledText = (props: Props): JSX.Element => {
   return (
     <div className="LabelledText">
       <span className="Label">{props.label}</span>

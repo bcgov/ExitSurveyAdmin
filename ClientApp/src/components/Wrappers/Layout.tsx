@@ -2,11 +2,11 @@ import React from 'react'
 
 import NavMenu from '../NavMenu'
 
-interface IProps {
+interface Props {
   children: React.ReactNode
 }
 
-const Layout = (props: IProps): JSX.Element => {
+const Layout = (props: Props): JSX.Element => {
   return (
     <div>
       <NavMenu />

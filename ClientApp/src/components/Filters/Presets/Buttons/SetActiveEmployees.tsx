@@ -1,18 +1,18 @@
 import React, { useContext } from 'react'
 
+import {
+  EmployeeStatus,
+  EmployeeStatusStateEnum,
+} from '../../../../types/EmployeeStatus'
 import { FilterDispatch } from '../../FilterForm'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
-import {
-  EmployeeStatus,
-  EmployeeStatusStateEnum
-} from '../../../../types/EmployeeStatus'
 
 export const getActiveEmployeesFilter = (): EnumFilter => {
   const activeStatusKeys = EmployeeStatus.array()
-    .filter(status => status.state === EmployeeStatusStateEnum.Active)
-    .map(status => status.code)
+    .filter((status) => status.state === EmployeeStatusStateEnum.Active)
+    .map((status) => status.code)
   return new EnumFilter('currentEmployeeStatusCode', activeStatusKeys)
 }
 
@@ -27,7 +27,7 @@ const SetActiveEmployees = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const setActiveEmployees = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getActiveEmployeesFilter()
+      filter: getActiveEmployeesFilter(),
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])

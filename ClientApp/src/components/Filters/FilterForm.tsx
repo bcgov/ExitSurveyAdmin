@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useMemo } from 'react'
 
-import { FilterType, IFilter } from './FilterClasses/FilterTypes'
+import { FilterType, Filter } from './FilterClasses/FilterTypes'
 import { PresetProps } from './Presets/PresetProps'
 import DateFilter from './FilterClasses/DateFilter'
 import DateFilterInput from './Inputs/DateFilterInput'
@@ -11,19 +11,19 @@ import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 import TextFilter from './FilterClasses/TextFilter'
 import TextFilterInput from './Inputs/TextFilterInput'
 
-interface IProps {
-  addFilters: (filters: IFilter[]) => void
+interface Props {
+  addFilters: (filters: Filter[]) => void
   resetFilters: () => void
-  filterableFields: IFilter[]
+  filterableFields: Filter[]
   presetComponent?: React.FC<PresetProps>
 }
 
 export type FilterMapAction = {
   type: 'setFilter' | 'reset'
-  filter?: IFilter
+  filter?: Filter
 }
 
-type FilterMap = { [key: string]: IFilter }
+type FilterMap = { [key: string]: Filter }
 
 function reducer(state: FilterMap, action: FilterMapAction): FilterMap {
   const { type, filter } = action
@@ -44,8 +44,8 @@ const FilterForm = ({
   addFilters,
   resetFilters,
   filterableFields,
-  presetComponent
-}: IProps): JSX.Element => {
+  presetComponent,
+}: Props): JSX.Element => {
   const [filterMap, dispatch] = React.useReducer(reducer, {})
   const [resetTimestamp, setResetTimestamp] = React.useState<number>(0)
   const [submitId, setSubmitId] = React.useState<number>(0)
@@ -78,43 +78,38 @@ const FilterForm = ({
   const inputs = useMemo(() => {
     // Ignore Custom fields
     return filterableFields
-      .filter(f => f.type !== FilterType.Custom)
-      .map(
-        (filter): JSX.Element => {
-          let filterComponent
-          let colWidth = 2
-          switch (filter.type) {
-            case FilterType.Date:
-              filterComponent = (
-                <DateFilterInput
-                  filter={filter as DateFilter}
-                  resetTimestamp={resetTimestamp}
-                />
-              )
-              colWidth = 3
-              break
-            case FilterType.Enum:
-              filterComponent = (
-                <EnumFilterInput
-                  filter={filter as EnumFilter}
-                  resetTimestamp={resetTimestamp}
-                />
-              )
-              colWidth = 3
-              break
-            case FilterType.String:
-            default:
-              filterComponent = (
-                <TextFilterInput filter={filter as TextFilter} />
-              )
-          }
-          return (
-            <div key={filter.fieldName} className={`col-${colWidth}`}>
-              {filterComponent}
-            </div>
-          )
+      .filter((f) => f.type !== FilterType.Custom)
+      .map((filter): JSX.Element => {
+        let filterComponent
+        let colWidth = 2
+        switch (filter.type) {
+          case FilterType.Date:
+            filterComponent = (
+              <DateFilterInput
+                filter={filter as DateFilter}
+                resetTimestamp={resetTimestamp}
+              />
+            )
+            colWidth = 3
+            break
+          case FilterType.Enum:
+            filterComponent = (
+              <EnumFilterInput
+                filter={filter as EnumFilter}
+                resetTimestamp={resetTimestamp}
+              />
+            )
+            break
+          case FilterType.String:
+          default:
+            filterComponent = <TextFilterInput filter={filter as TextFilter} />
         }
-      )
+        return (
+          <div key={filter.fieldName} className={`col-${colWidth}`}>
+            {filterComponent}
+          </div>
+        )
+      })
   }, [resetTimestamp, filterableFields])
 
   const PresetComponent = presetComponent
@@ -124,8 +119,8 @@ const FilterForm = ({
       <div className="FilterForm">
         <form onSubmit={submitForm} ref={formRef}>
           <div className="row">{inputs}</div>
-          <div className="row align-items-center">
-            <div className="col-8 form-group">
+          <div className="row align-items-center mt-2">
+            <div className="col-8 form-group mb-0">
               {PresetComponent && (
                 <PresetComponent
                   submitId={submitId}
@@ -133,7 +128,7 @@ const FilterForm = ({
                 />
               )}
             </div>
-            <div className="col-4 form-group LabelledItem">
+            <div className="col-4 form-group mb-0">
               <div className="text-right">
                 <IconButton
                   label="Set filters"

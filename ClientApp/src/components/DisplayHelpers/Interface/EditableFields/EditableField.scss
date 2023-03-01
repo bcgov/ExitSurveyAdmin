@@ -9,3 +9,10 @@
     }
   }
 }
+
+.EditableNumber {
+  input[type='number'] {
+    width: 120px;
+    text-align: right;
+  }
+}

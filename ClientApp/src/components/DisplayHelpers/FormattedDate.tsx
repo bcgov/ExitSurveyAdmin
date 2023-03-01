@@ -2,10 +2,10 @@ import React from 'react'
 import moment from 'moment-timezone'
 import {
   defaultDateFormat,
-  defaultNiceDatetimeFormat
+  defaultNiceDatetimeFormat,
 } from '../../helpers/dateHelper'
 
-interface IProps {
+interface Props {
   date?: Date
   showTime?: boolean
   showLocalTimezone?: boolean
@@ -20,8 +20,8 @@ const FormattedDate = ({
   date,
   nice,
   showLocalTimezone,
-  showTime
-}: IProps): JSX.Element => {
+  showTime,
+}: Props): JSX.Element => {
   let momentDate = moment(date)
 
   if (showLocalTimezone) {

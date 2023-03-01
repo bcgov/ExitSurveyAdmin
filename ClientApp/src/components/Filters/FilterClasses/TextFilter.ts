@@ -1,8 +1,9 @@
-import { FilterType, IFilter } from './FilterTypes'
+import { FilterType, Filter } from './FilterTypes'
 
 const OR_OPERATOR = '|'
+const CONTAINS_STRING_OPERATOR = '@=*'
 
-export default class TextFilter implements IFilter {
+export default class TextFilter implements Filter {
   _type = FilterType.String
   _fieldName: string
   _values: string[]
@@ -46,14 +47,16 @@ export default class TextFilter implements IFilter {
     if (this._values.every((v: string) => v.length === 0)) {
       return `${this._fieldName}==${OR_OPERATOR}`
     }
-    return `${this._fieldName}@=${this._values.join(OR_OPERATOR)}`
+    return `${this._fieldName}${CONTAINS_STRING_OPERATOR}${this._values.join(
+      OR_OPERATOR
+    )}`
   }
 
   decode(inputs: string[]): TextFilter {
     const values: string[] = []
-    let fieldName = inputs[0].split('@=')[0]
+    let fieldName = inputs[0].split(CONTAINS_STRING_OPERATOR)[0]
     for (const input of inputs) {
-      let valueString = input.split('@=')[1]
+      let valueString = input.split(CONTAINS_STRING_OPERATOR)[1]
       if (!fieldName || !valueString) {
         // This might be the special case from above; try splitting on the ==
         ;[fieldName, valueString] = input.split('==')
@@ -64,7 +67,7 @@ export default class TextFilter implements IFilter {
           throw new Error(`TextFilter: Could not parse input '${input}'`)
         }
       }
-      valueString.split(OR_OPERATOR).forEach(v => values.push(v))
+      valueString.split(OR_OPERATOR).forEach((v) => values.push(v))
     }
     return new TextFilter(fieldName, values)
   }
@@ -76,7 +79,7 @@ export default class TextFilter implements IFilter {
 
   get displayString(): string {
     // Special case for all blanks
-    if (this._values.every(v => v.length === 0)) {
+    if (this._values.every((v) => v.length === 0)) {
       return 'is blank'
     } else {
       return this._values.join(' or ')
