@@ -1,5 +1,5 @@
 import env from '@beam-australia/react-env'
-import { WebStorageStateStore } from 'oidc-client'
+import { KeycloakInitOptions } from 'keycloak-js'
 
 export const routerBase = (): string => env('APP_PATH')
 
@@ -11,24 +11,29 @@ export const frontendUrl = (): string => {
   return `${env('APP_DOMAIN')}${env('APP_PATH')}`
 }
 
-export const signinRedirectOptions = {
-  data: {
-    href: window.location.href
-  }
-  // extraQueryParams: {
-  //   kc_idp_hint: 'idir'
-  // }
+export const LOCATION_HREF_KEY = `esa-originating-href`
+
+export const windowLocation = {
+  remove: () => localStorage.removeItem(LOCATION_HREF_KEY),
+  save: () => localStorage.setItem(LOCATION_HREF_KEY, window.location.href),
+  get: () => localStorage.getItem(LOCATION_HREF_KEY),
 }
 
-export const userManagerConfig = {
-  client_id: env('AUTH_CLIENT_ID'),
-  redirect_uri: `${frontendUrl()}/#/callback`,
-  response_type: env('AUTH_RESPONSE_TYPE'),
+export const keycloakCreationOptions = {
+  url: env('AUTH_URL'),
+  realm: env('AUTH_REALM'),
+  clientId: env('AUTH_CLIENT_ID'),
+}
+
+export const keycloakInitOptions: KeycloakInitOptions = {
+  pkceMethod: 'S256',
+  onLoad: undefined,
+}
+
+export const keycloakLoginOptions = {
+  redirectUri: `${env('AUTH_REDIRECT_URI')}${encodeURIComponent(
+    env('APP_DOMAIN')
+  )}`,
+  idpHint: 'idir',
   scope: env('AUTH_SCOPE'),
-  authority: env('AUTH_URL'),
-  // silent_redirect_uri: `${deploymentUrl()}silent_renew.html`,
-  automaticSilentRenew: env('AUTH_AUTO_SILENT_RENEW'),
-  filterProtocolClaims: env('AUTH_FILTER_PROTOCOL_CLAIMS'),
-  loadUserInfo: env('AUTH_LOAD_USER_INFO'),
-  userStore: new WebStorageStateStore({ store: window.localStorage })
 }

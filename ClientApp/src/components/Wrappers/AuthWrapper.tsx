@@ -1,26 +1,16 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import { FixTypeLater } from '../../types/FixTypeLater'
-import { mapUserToPropsFromState } from '../../helpers/userHelper'
+import KeycloakService from '../Login/KeycloakService'
 import Unauthorized from '../Login/Unauthorized'
 
-interface OwnProps {
+interface AuthWrapperProps {
   children: React.ReactNode
 }
 
-interface StateProps {
-  user: FixTypeLater
+const AuthWrapper = (props: AuthWrapperProps): JSX.Element => {
+  const isLoggedIn = KeycloakService.isLoggedIn()
+
+  return !isLoggedIn ? <Unauthorized /> : <>{props.children}</>
 }
 
-interface Props extends OwnProps, StateProps {}
-
-class AuthWrapper extends React.Component<Props> {
-  render(): React.ReactNode {
-    const { user } = this.props
-
-    return !user || user.expired ? <Unauthorized /> : this.props.children
-  }
-}
-
-export default connect(mapUserToPropsFromState)(AuthWrapper)
+export default AuthWrapper

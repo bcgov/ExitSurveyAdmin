@@ -2,10 +2,10 @@ import React from 'react'
 
 import { AnyJson } from '../../types/JsonType'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import { userNameFromState } from '../../helpers/userHelper'
+import KeycloakService from '../Login/KeycloakService'
+import SuccessMessage from './SuccessMessage'
 
 import './EditableField.scss'
-import SuccessMessage from './SuccessMessage'
 
 export interface ISelectOption {
   name: string
@@ -27,7 +27,7 @@ const EditableSelect = (props: IProps): JSX.Element => {
     fieldName,
     fieldValue,
     options,
-    valueToDisplayAccessor
+    valueToDisplayAccessor,
   } = props
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
@@ -45,7 +45,7 @@ const EditableSelect = (props: IProps): JSX.Element => {
       'patch',
       {
         [fieldName]: newValue,
-        AdminUserName: userNameFromState()
+        AdminUserName: KeycloakService.getUsername(),
       },
       'CANNOT_EDIT_EMPLOYEE',
       (responseJSON: AnyJson): void => {
@@ -66,15 +66,13 @@ const EditableSelect = (props: IProps): JSX.Element => {
             value={newValue}
             onChange={(e): void => setNewValue(e.target.value)}
           >
-            {options.map(
-              (option): JSX.Element => {
-                return (
-                  <option key={option.value} value={option.value}>
-                    {option.name}
-                  </option>
-                )
-              }
-            )}
+            {options.map((option): JSX.Element => {
+              return (
+                <option key={option.value} value={option.value}>
+                  {option.name}
+                </option>
+              )
+            })}
           </select>
           <input
             type="button"
