@@ -3,14 +3,14 @@ import slugify from 'slugify'
 
 import LabelledItem from './LabelledItem'
 
-interface IProps {
-  title: string
-  placeholder?: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+interface Props {
   name: string
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  placeholder?: string
+  title: string
 }
 
-const LabelledInput = (props: IProps): JSX.Element => {
+const LabelledInput = (props: Props): JSX.Element => {
   const { title, name, placeholder, onChange } = props
   const id = slugify(title)
   return (
@@ -22,7 +22,7 @@ const LabelledInput = (props: IProps): JSX.Element => {
         className="form-control form-control-sm"
         type="text"
         placeholder={placeholder || title}
-        onChange={onChange}
+        onInput={onChange} // onInput, unlike onChange, fires upon pasting text
       />
     </LabelledItem>
   )

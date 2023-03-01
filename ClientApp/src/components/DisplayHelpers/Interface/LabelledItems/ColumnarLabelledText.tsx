@@ -3,19 +3,23 @@ import React from 'react'
 import './LabelledText.scss'
 import LabelledText from './LabelledText'
 
-interface IProps {
-  columnClass?: string
+interface Props {
   children: React.ReactNode
+  columnClass?: string
+  extraClasses?: string
   helperText?: string
   label: React.ReactNode
 }
 
 const ColumnarLabelledText = ({
   columnClass = 'col-4',
+  extraClasses,
   ...other
-}: IProps): JSX.Element => {
+}: Props): JSX.Element => {
   return (
-    <div className={`ColumnarLabelledText ${columnClass}`}>
+    <div
+      className={`ColumnarLabelledText ${columnClass} ${extraClasses || ''}`}
+    >
       <LabelledText {...other} />
     </div>
   )

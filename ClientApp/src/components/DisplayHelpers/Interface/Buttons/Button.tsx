@@ -11,12 +11,12 @@ export interface ICommonButtonProps {
   disabled?: boolean
 }
 
-interface IProps extends ICommonButtonProps {
+interface Props extends ICommonButtonProps {
   children: React.ReactNode
   icon?: string
 }
 
-class Button extends React.Component<IProps> {
+class Button extends React.Component<Props> {
   public render(): JSX.Element {
     const { onClick, children, submit, reset } = this.props
     const className = this.props.className || ''
