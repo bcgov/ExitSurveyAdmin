@@ -65,35 +65,45 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        public async Task<Employee> SaveStatusAndAddTimelineEntry(
-            Employee employee,
-            EmployeeStatusEnum newStatus
+        private async Task<List<Employee>> SaveStatusesAndAddTimelineEntries(
+            IEnumerable<Tuple<Employee, EmployeeStatusEnum>> employeesWithStatuses
         )
         ***REMOVED***
-            var newStatusCode = newStatus.Code;
-            var oldStatusCode = employee.CurrentEmployeeStatusCode;
+            var employees = new List<Employee>();
 
-            // Update employee status.
-            employee.CurrentEmployeeStatusCode = newStatusCode;
+            foreach (var tuple in employeesWithStatuses)
+            ***REMOVED***
+                var employee = tuple.Item1;
+                var newStatus = tuple.Item2;
 
-            // Create a new timeline entry.
-            employee.TimelineEntries.Add(
-                new EmployeeTimelineEntry
-                ***REMOVED***
-                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                    EmployeeStatusCode = newStatusCode,
-                    Comment = $"Status updated by script: " + $"***REMOVED***oldStatusCode***REMOVED*** → ***REMOVED***newStatusCode***REMOVED***."
-              ***REMOVED***
-            );
-            context.Entry(employee).State = EntityState.Modified;
+                var newStatusCode = newStatus.Code;
+                var oldStatusCode = employee.CurrentEmployeeStatusCode;
+
+                // Update employee status.
+                employee.CurrentEmployeeStatusCode = newStatusCode;
+
+                // Create a new timeline entry.
+                employee.TimelineEntries.Add(
+                    new EmployeeTimelineEntry
+                    ***REMOVED***
+                        EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                        EmployeeStatusCode = newStatusCode,
+                        Comment =
+                            $"Status updated by script: " + $"***REMOVED***oldStatusCode***REMOVED*** → ***REMOVED***newStatusCode***REMOVED***."
+                  ***REMOVED***
+                );
+                context.Entry(employee).State = EntityState.Modified;
+
+                employees.Add(employee);
+          ***REMOVED***
 
             // Update in CallWeb.
-            await callWeb.UpdateSurvey(employee);
+            await callWeb.UpdateSurveys(employees);
 
             // Save.
             await context.SaveChangesAsync();
 
-            return employee;
+            return employees;
       ***REMOVED***
 
         public async Task<EmployeeTaskResult> ReconcileEmployeesAndLog(
@@ -142,6 +152,8 @@ namespace ExitSurveyAdmin.Services
             // Get the existing employee, if it exists.
             var existingEmployee = EmployeeExists(employee);
 
+            var employeesToCreate = new List<Employee>();
+
             if (existingEmployee == null)
             ***REMOVED***
                 // Case A. The employee does not exist in the database.
@@ -160,7 +172,9 @@ namespace ExitSurveyAdmin.Services
                 // Try to insert a row into CallWeb, and set the telkey.
                 try
                 ***REMOVED***
-                    employee.Telkey = await callWeb.CreateSurvey(employee);
+                    employee.Telkey = (
+                        await callWeb.CreateSurveys(new List<Employee>() ***REMOVED*** employee ***REMOVED***)
+                    )[0].Telkey;
               ***REMOVED***
                 catch (Exception e)
                 ***REMOVED***
@@ -218,7 +232,7 @@ namespace ExitSurveyAdmin.Services
                     );
                     context.Entry(existingEmployee).State = EntityState.Modified;
                     await context.SaveChangesAsync();
-                    await callWeb.UpdateSurvey(existingEmployee);
+                    await callWeb.UpdateSurveys(new List<Employee>() ***REMOVED*** existingEmployee ***REMOVED***);
               ***REMOVED***
 
                 // Now compare properties.
@@ -339,7 +353,7 @@ namespace ExitSurveyAdmin.Services
                             return existingEmployee;
                       ***REMOVED***
 
-                        await callWeb.UpdateSurvey(existingEmployee);
+                        await callWeb.UpdateSurveys(new List<Employee>() ***REMOVED*** existingEmployee ***REMOVED***);
                   ***REMOVED***
               ***REMOVED***
 
@@ -347,55 +361,119 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        private async Task<Employee> UpdateEmployeeStatus(
-            Employee employee,
-            string callWebStatusCode
+        private async Task<List<Employee>> UpdateEmployeeStatuses(
+            List<Tuple<Employee, string>> surveyStatusCodes
         )
         ***REMOVED***
-            if (callWebStatusCode == null)
+            var employeesToSave = new List<Tuple<Employee, EmployeeStatusEnum>>();
+
+            var goodEmployees = new List<Employee>();
+            var exceptions = new List<string>();
+
+            foreach (var tuple in surveyStatusCodes)
             ***REMOVED***
-                throw new NullCallWebStatusCodeException(
-                    $"Received a null CallWeb status code for employee $***REMOVED***employee.FullName***REMOVED*** ($***REMOVED***employee.GovernmentEmployeeId***REMOVED***)"
+                var employee = tuple.Item1;
+                var callWebStatusCode = tuple.Item2;
+
+                if (callWebStatusCode == null)
+                ***REMOVED***
+                    throw new NullCallWebStatusCodeException(
+                        $"Received a null CallWeb status code for employee $***REMOVED***employee.FullName***REMOVED*** ($***REMOVED***employee.GovernmentEmployeeId***REMOVED***)"
+                    );
+              ***REMOVED***
+
+                // First, check if the employee has completed the survey.
+                if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
+                ***REMOVED***
+                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.SurveyComplete));
+                    continue;
+              ***REMOVED***
+
+                // An employee only has a set amount of time to complete a survey.
+                // If that time has expired, then expire the user.
+                var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
+                    a => a.Key == AdminSetting.EmployeeExpirationThreshold
                 );
-          ***REMOVED***
 
-            // First, check if the employee has completed the survey.
-            if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
-            ***REMOVED***
-                return await SaveStatusAndAddTimelineEntry(
-                    employee,
-                    EmployeeStatusEnum.SurveyComplete
+                var thresholdInDays = System.Convert.ToInt32(
+                    employeeExpirationThresholdSetting.Value
                 );
+
+                if (
+                    employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
+                    && employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
+                )
+                ***REMOVED***
+                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Expired));
+                    continue;
+              ***REMOVED***
+
+                // Conversely, re-open expired users if they are now inside the
+                // threshold, for instance if the threshold was extended.
+                if (
+                    employee.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
+                    && employee.EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow
+                )
+                ***REMOVED***
+                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Exiting));
+                    continue;
+              ***REMOVED***
           ***REMOVED***
 
-            // An employee only has a set amount of time to complete a survey.
-            // If that time has expired, then expire the user.
-            var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
-                a => a.Key == AdminSetting.EmployeeExpirationThreshold
-            );
+            var employees = await SaveStatusesAndAddTimelineEntries(employeesToSave);
 
-            var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
-
-            if (
-                employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
-                && employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
-            )
-            ***REMOVED***
-                return await SaveStatusAndAddTimelineEntry(employee, EmployeeStatusEnum.Expired);
-          ***REMOVED***
-
-            // Conversely, re-open expired users if they are now inside the
-            // threshold, for instance if the threshold was extended.
-            if (
-                employee.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
-                && employee.EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow
-            )
-            ***REMOVED***
-                return await SaveStatusAndAddTimelineEntry(employee, EmployeeStatusEnum.Exiting);
-          ***REMOVED***
-
-            return employee;
+            return employees;
       ***REMOVED***
+
+        // private async Task<Employee> UpdateEmployeeStatus(
+        //     Employee employee,
+        //     string callWebStatusCode
+        // )
+        // ***REMOVED***
+        //     if (callWebStatusCode == null)
+        //     ***REMOVED***
+        //         throw new NullCallWebStatusCodeException(
+        //             $"Received a null CallWeb status code for employee $***REMOVED***employee.FullName***REMOVED*** ($***REMOVED***employee.GovernmentEmployeeId***REMOVED***)"
+        //         );
+        //   ***REMOVED***
+
+        //     // First, check if the employee has completed the survey.
+        //     if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
+        //     ***REMOVED***
+        //         return await SaveStatusAndAddTimelineEntry(
+        //             employee,
+        //             EmployeeStatusEnum.SurveyComplete
+        //         );
+        //   ***REMOVED***
+
+        //     // An employee only has a set amount of time to complete a survey.
+        //     // If that time has expired, then expire the user.
+        //     var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
+        //         a => a.Key == AdminSetting.EmployeeExpirationThreshold
+        //     );
+
+        //     var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
+
+        //     if (
+        //         employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
+        //         && employee.CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code
+        //     )
+        //     ***REMOVED***
+        //         return await SaveStatusAndAddTimelineEntry(employee, EmployeeStatusEnum.Expired);
+        //   ***REMOVED***
+
+        //     // Conversely, re-open expired users if they are now inside the
+        //     // threshold, for instance if the threshold was extended.
+        //     if (
+        //         employee.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
+        //         && employee.EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow
+        //     )
+        //     ***REMOVED***
+        //         return await SaveStatusAndAddTimelineEntry(employee, EmployeeStatusEnum.Exiting);
+        //   ***REMOVED***
+
+        //     return employee;
+        // ***REMOVED***
 
         private async Task<EmployeeTaskResult> UpdateNotExiting(
             List<Employee> reconciledEmployeeList
@@ -412,24 +490,30 @@ namespace ExitSurveyAdmin.Services
                 .Where(e => reconciledEmployeeList.All(e2 => e2.Id != e.Id)) // This finds all nonFinalEmployees whose Id is not in the reconciledEmployeeList
                 .ToList();
 
-            foreach (Employee e in activeDBEmployeesNotInCsv)
-            ***REMOVED***
-                try
-                ***REMOVED***
-                    var employee = await SaveStatusAndAddTimelineEntry(
-                        e,
-                        EmployeeStatusEnum.NotExiting
-                    );
-                    updatedEmployeeList.Add(employee);
-              ***REMOVED***
-                catch (Exception exception)
-                ***REMOVED***
-                    exceptionList.Add(
-                        $"Exception updating non-exiting employee ***REMOVED***e.FullName***REMOVED*** "
-                            + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
-                    );
-              ***REMOVED***
-          ***REMOVED***
+            var employeesWithStatuses = activeDBEmployeesNotInCsv.Select(
+                e => Tuple.Create(e, EmployeeStatusEnum.NotExiting)
+            );
+
+            await SaveStatusesAndAddTimelineEntries(employeesWithStatuses);
+
+            // foreach (Employee e in activeDBEmployeesNotInCsv)
+            // ***REMOVED***
+            //     try
+            //     ***REMOVED***
+            //         var employee = await SaveStatusAndAddTimelineEntry(
+            //             e,
+            //             EmployeeStatusEnum.NotExiting
+            //         );
+            //         updatedEmployeeList.Add(employee);
+            //   ***REMOVED***
+            //     catch (Exception exception)
+            //     ***REMOVED***
+            //         exceptionList.Add(
+            //             $"Exception updating non-exiting employee ***REMOVED***e.FullName***REMOVED*** "
+            //                 + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
+            //         );
+            //   ***REMOVED***
+            // ***REMOVED***
 
             return new EmployeeTaskResult(
                 TaskEnum.UpdateNotExiting,
@@ -449,10 +533,11 @@ namespace ExitSurveyAdmin.Services
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
                 .Where(
-                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
-                // TODO: We are still investigating if this should be removed.
-                // See https://github.com/bcgov/ExitSurveyAdmin/issues/208
-                // || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
+                    e =>
+                        (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
+                        // TODO: We are still investigating if this should be removed.
+                        // See https://github.com/bcgov/ExitSurveyAdmin/issues/208
+                        || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
                 )
                 .ToList();
 
@@ -462,26 +547,34 @@ namespace ExitSurveyAdmin.Services
             for (var i = 0; i < candidateEmployees.Count; i += BATCH_SIZE)
             ***REMOVED***
                 var employeesInBatch = candidateEmployees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE);
-                var surveyStatusCodes = await callWeb.GetSurveyStatusCodes(employeesInBatch);
 
-                foreach (var tuple in surveyStatusCodes)
+                if (employeesInBatch.Count() == 0)
                 ***REMOVED***
-                    var e = tuple.Item1;
-                    var status = tuple.Item2;
-
-                    try
-                    ***REMOVED***
-                        var employee = await UpdateEmployeeStatus(e, status);
-                        updatedEmployeeList.Add(employee);
-                  ***REMOVED***
-                    catch (Exception exception)
-                    ***REMOVED***
-                        exceptionList.Add(
-                            $"Exception updating status of employee ***REMOVED***e.FullName***REMOVED*** "
-                                + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
-                        );
-                  ***REMOVED***
+                    // This might happen on the last iteration of the loop...?
+                    continue;
               ***REMOVED***
+
+                var surveyStatusCodes = await callWeb.GetSurveyStatusCodes(employeesInBatch);
+                var updateResult = await UpdateEmployeeStatuses(surveyStatusCodes);
+
+                // foreach (var tuple in updateResult)
+                // ***REMOVED***
+                //     var e = tuple.Item1;
+                //     var status = tuple.Item2;
+
+                //     try
+                //     ***REMOVED***
+                //         var employee = await UpdateEmployeeStatus(e, status);
+                //         updatedEmployeeList.Add(employee);
+                //   ***REMOVED***
+                //     catch (Exception exception)
+                //     ***REMOVED***
+                //         exceptionList.Add(
+                //             $"Exception updating status of employee ***REMOVED***e.FullName***REMOVED*** "
+                //                 + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
+                //         );
+                //   ***REMOVED***
+                // ***REMOVED***
           ***REMOVED***
 
             return new EmployeeTaskResult(

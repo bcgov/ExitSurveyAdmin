@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -140,7 +141,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
         ***REMOVED***
             if (telkeys.Length == 0)
             ***REMOVED***
-                throw new Exception("telkeys.Length was 0");
+                throw new Exception("GetMultiple: telkeys.Length was 0");
           ***REMOVED***
 
             var client = await GetClientWithServiceToken();
@@ -163,6 +164,17 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
       ***REMOVED***
 
+        public async Task<CallWebRowDto[]> PostMultiple(List<CallWebPostDto> postDtos)
+        ***REMOVED***
+            var content = ToJsonContent(postDtos.ToArray());
+
+            var client = await GetClientWithServiceToken();
+            var response = await client.PostAsync($"***REMOVED***BaseUrl***REMOVED***Multi", content);
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
+      ***REMOVED***
+
         public async Task<CallWebRowDto> Patch(CallWebPatchDto patchDto)
         ***REMOVED***
             var content = ToJsonContent(patchDto);
@@ -172,6 +184,17 @@ namespace ExitSurveyAdmin.Services.CallWeb
             var callWebDto = await CallWebRowFromResponse(response);
 
             return callWebDto;
+      ***REMOVED***
+
+        public async Task<CallWebRowDto[]> PatchMultiple(List<CallWebPatchDto> patchDtos)
+        ***REMOVED***
+            var content = ToJsonContent(patchDtos.ToArray());
+
+            var client = await GetClientWithServiceToken();
+            var response = await client.PatchAsync($"***REMOVED***BaseUrl***REMOVED***Multi", content);
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
