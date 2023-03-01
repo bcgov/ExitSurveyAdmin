@@ -11,40 +11,39 @@ public class PsaApiContractResolver : DefaultContractResolver
     ***REMOVED***
         this.PropertyMappings = new Dictionary<string, string>
         ***REMOVED***
-            // Check if this maps all required fields
-            ***REMOVED*** "ServiceGroup", "Service%20Group%20BCSTATS" ***REMOVED***,
+            ***REMOVED*** "ServiceGroup", "Service_Group_BCSTATS" ***REMOVED***,
             ***REMOVED*** "Address2", "Address2" ***REMOVED***,
             ***REMOVED*** "Age", "Age" ***REMOVED***,
-            ***REMOVED*** "AgeGroup", "Age%20Group%202" ***REMOVED***,
-            ***REMOVED*** "AppointmentStatus", "Appointment%20Status" ***REMOVED***,
-            ***REMOVED*** "BackDated", "Back%20Dated" ***REMOVED***,
+            ***REMOVED*** "AgeGroup", "Age_Group_2" ***REMOVED***,
+            ***REMOVED*** "AppointmentStatus", "Appointment_Status" ***REMOVED***,
+            ***REMOVED*** "BackDated", "Back_Dated" ***REMOVED***,
             ***REMOVED*** "BirthDate", "Birthdate" ***REMOVED***,
             ***REMOVED*** "AddressCity", "City" ***REMOVED***,
             ***REMOVED*** "Classification", "Classification" ***REMOVED***,
-            ***REMOVED*** "ClassificationGroup", "Classification%20Group" ***REMOVED***,
-            ***REMOVED*** "DepartmentId", "DeptID%20Desc" ***REMOVED***, // Check this
+            ***REMOVED*** "ClassificationGroup", "Classification_Group" ***REMOVED***,
+            ***REMOVED*** "DepartmentId", "DeptID_Desc" ***REMOVED***,
             ***REMOVED*** "EffectiveDate", "Effdt" ***REMOVED***,
-            ***REMOVED*** "RecordCount", "Empl%20Rcd" ***REMOVED***, // Check this
+            ***REMOVED*** "RecordCount", "Empl_Rcd" ***REMOVED***,
             ***REMOVED*** "GovernmentEmployeeId", "EmplID" ***REMOVED***,
-            ***REMOVED*** "ExitCount", "Exit%20Count" ***REMOVED***,
-            ***REMOVED*** "FirstName", "First%20Name" ***REMOVED***,
+            ***REMOVED*** "ExitCount", "Exit_Count" ***REMOVED***,
+            ***REMOVED*** "FirstName", "First_Name" ***REMOVED***,
             ***REMOVED*** "Gender", "Gender" ***REMOVED***,
             ***REMOVED*** "JobCode", "Job_Code" ***REMOVED***,
-            ***REMOVED*** "JobFunctionCode", "Job_Function" ***REMOVED***, // Check
-            ***REMOVED*** "LastDayWorkedDate", "Last%20Day%20Worked" ***REMOVED***,
-            ***REMOVED*** "LastName", "Last%20Name" ***REMOVED***,
-            ***REMOVED*** "LeaveDate", "Leave%20Date" ***REMOVED***,
-            ***REMOVED*** "LocationCity", "Location%20City" ***REMOVED***,
-            ***REMOVED*** "LocationGroup", "Location%20Group" ***REMOVED***,
+            ***REMOVED*** "JobFunctionCode", "Job_Function" ***REMOVED***,
+            ***REMOVED*** "LastDayWorkedDate", "Last_Day_Worked" ***REMOVED***,
+            ***REMOVED*** "LastName", "Last_Name" ***REMOVED***,
+            ***REMOVED*** "LeaveDate", "Leave_Date" ***REMOVED***,
+            ***REMOVED*** "LocationCity", "Location_City" ***REMOVED***,
+            ***REMOVED*** "LocationGroup", "Location_Group" ***REMOVED***,
             ***REMOVED*** "Ministry", "Ministry" ***REMOVED***,
-            ***REMOVED*** "OriginalHireDate", "Orig%20Hire%20Date" ***REMOVED***,
+            ***REMOVED*** "OriginalHireDate", "Orig_Hire_Date" ***REMOVED***,
             ***REMOVED*** "Phone", "Phone" ***REMOVED***,
-            ***REMOVED*** "PositionCode", "Position" ***REMOVED***, // Check
-            ***REMOVED*** "PositionTitle", "Position%20Title" ***REMOVED***,
-            ***REMOVED*** "AddressPostCode", "Post%20Code" ***REMOVED***,
+            ***REMOVED*** "PositionCode", "Position" ***REMOVED***,
+            ***REMOVED*** "PositionTitle", "Position_Title" ***REMOVED***,
+            ***REMOVED*** "AddressPostCode", "Post_Code" ***REMOVED***,
             ***REMOVED*** "AddressProvince", "Prov" ***REMOVED***,
             ***REMOVED*** "Reason", "Reason" ***REMOVED***,
-            ***REMOVED*** "ServiceYears", "Service" ***REMOVED***, // Check
+            ***REMOVED*** "ServiceYears", "Service" ***REMOVED***,
             ***REMOVED*** "Address1", "Address1" ***REMOVED***,
       ***REMOVED***;
   ***REMOVED***
