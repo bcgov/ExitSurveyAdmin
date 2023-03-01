@@ -13,7 +13,7 @@ const TaskLogEntryListing = (): JSX.Element => (
     filterableFields=***REMOVED***taskLogEntryFilters***REMOVED***
     columns=***REMOVED***taskLogEntryTableColumns***REMOVED***
     listingPath="taskLogEntries"
-    pageSize=***REMOVED***5***REMOVED***
+    pageSize=***REMOVED***20***REMOVED***
     dataMapper=***REMOVED***(responseJSON: FixTypeLater[]): TaskLogEntry[] =>
       responseJSON.map((t) => plainToInstance(TaskLogEntry, t))
   ***REMOVED***
