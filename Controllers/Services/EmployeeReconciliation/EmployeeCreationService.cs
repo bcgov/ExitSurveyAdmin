@@ -1,0 +1,144 @@
+using Microsoft.EntityFrameworkCore;
+using ExitSurveyAdmin.Models;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using ExitSurveyAdmin.Services.CallWeb;
+
+namespace ExitSurveyAdmin.Services
+***REMOVED***
+    public class EmployeeCreationService
+    ***REMOVED***
+        private CallWebService callWeb;
+        private ExitSurveyAdminContext context;
+        private EmployeeInfoLookupService infoLookupService;
+        private LoggingService logger;
+
+        public EmployeeCreationService(
+            ExitSurveyAdminContext context,
+            CallWebService callWeb,
+            EmployeeInfoLookupService infoLookupService,
+            LoggingService logger
+        )
+        ***REMOVED***
+            this.context = context;
+            this.callWeb = callWeb;
+            this.infoLookupService = infoLookupService;
+            this.logger = logger;
+      ***REMOVED***
+
+        // NB. For reconciliation purposes, existence is determined by the
+        // combination of EmployeeId, ExitCount, and record count.
+        public Employee UniqueEmployeeExists(Employee candidate)
+        ***REMOVED***
+            var query = context.Employees
+                .Include(e => e.CurrentEmployeeStatus)
+                .Where(
+                    e =>
+                        e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
+                        && e.ExitCount == candidate.ExitCount
+                        && e.RecordCount == candidate.RecordCount
+                );
+
+            if (query.Count() > 0)
+            ***REMOVED***
+                return query.First();
+          ***REMOVED***
+            else
+            ***REMOVED***
+                return null;
+          ***REMOVED***
+      ***REMOVED***
+
+        public async Task<EmployeeTaskResult> InsertEmployees(List<Employee> employees)
+        ***REMOVED***
+            var insertedEmployeesList = new List<Employee>();
+            var exceptionList = new List<string>();
+
+            // Step 1. Prepare employees.
+            var preparedEmployees = new List<Employee>();
+            foreach (Employee e in employees)
+            ***REMOVED***
+                try
+                ***REMOVED***
+                    var employee = PrepareEmployee(e);
+                    preparedEmployees.Add(employee);
+              ***REMOVED***
+                catch (Exception exception)
+                ***REMOVED***
+                    exceptionList.Add(
+                        $"Exception with preparing candidate employee ***REMOVED***e.FullName***REMOVED*** "
+                            + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
+                    );
+              ***REMOVED***
+          ***REMOVED***
+
+            // Step 2. Get telkeys.
+            var createSurveyResults = await callWeb.CreateSurveys(preparedEmployees);
+
+            foreach (var callWebRowDto in createSurveyResults)
+            ***REMOVED***
+                var telkey = callWebRowDto.Telkey;
+                var employee = preparedEmployees.Find(
+                    e =>
+                        e.PreferredFirstName.Equals(callWebRowDto.PreferredFirstName)
+                        && e.LastName.Equals(callWebRowDto.LastName)
+                        && e.Ministry.Equals(callWebRowDto.Ministry)
+                );
+                if (employee == null)
+                ***REMOVED***
+                    exceptionList.Add(
+                        $"Could not find prepared employee ***REMOVED***callWebRowDto.PreferredFirstName***REMOVED*** ***REMOVED***callWebRowDto.LastName***REMOVED***"
+                    );
+              ***REMOVED***
+                else
+                ***REMOVED***
+                    employee.Telkey = telkey;
+                    context.Add(employee);
+                    insertedEmployeesList.Add(employee);
+              ***REMOVED***
+          ***REMOVED***
+
+            // Step 3. Save context.
+            await context.SaveChangesAsync();
+
+            return new EmployeeTaskResult(
+                TaskEnum.ReconcileEmployees,
+                employees.Count,
+                insertedEmployeesList,
+                exceptionList
+            );
+      ***REMOVED***
+
+        private Employee PrepareEmployee(Employee employee)
+        ***REMOVED***
+            // Case A. The employee does not exist in the database.
+
+            // Set the status code for a new employee.
+            var newStatusCode = EmployeeStatusEnum.Exiting.Code;
+            employee.CurrentEmployeeStatusCode = newStatusCode;
+
+            // Set the email.
+            employee.UpdateEmail(infoLookupService);
+
+            // Set other preferred fields. This only runs the first time
+            // the employee is created.
+            employee.InstantiateFields();
+
+            // Set timeline entries. Note that Ids are auto-generated.
+            employee.TimelineEntries = new List<EmployeeTimelineEntry>();
+            employee.TimelineEntries.Add(
+                new EmployeeTimelineEntry
+                ***REMOVED***
+                    EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                    EmployeeStatusCode = newStatusCode,
+                    Comment = "Created automatically by script."
+              ***REMOVED***
+            );
+
+            // End Case A. Return the employee.
+            return employee;
+      ***REMOVED***
+  ***REMOVED***
+***REMOVED***
