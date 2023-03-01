@@ -2,7 +2,6 @@ import React from 'react'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithoutAuth } from '../../helpers/requestHelpers'
-import ContentWrapper from '../Wrappers/ContentWrapper'
 
 type Props = {}
 
@@ -36,10 +35,10 @@ class HealthStatus extends React.Component<Props, State> {
       )
 
     return (
-      <ContentWrapper>
+      <>
         <h1>Health status</h1>
         {contents}
-      </ContentWrapper>
+      </>
     )
   }
 
