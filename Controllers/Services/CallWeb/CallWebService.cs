@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using ExitSurveyAdmin.Models;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
@@ -24,7 +26,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             );
       ***REMOVED***
 
-        // Determines whether a survey is complete, given a telkey.
+        // Determines whether a survey is complete, given an employee.
         public async Task<string> GetSurveyStatusCode(Employee employee)
         ***REMOVED***
             var callWebDto = await CallWebApi.GetOne(employee.Telkey);
@@ -35,6 +37,50 @@ namespace ExitSurveyAdmin.Services.CallWeb
           ***REMOVED***
 
             return callWebDto.CurrentStatus;
+      ***REMOVED***
+
+        // Determines whether a survey is complete, given multiple employees.
+        public async Task<List<Tuple<Employee, string>>> GetSurveyStatusCodes(
+            IEnumerable<Employee> employees
+        )
+        ***REMOVED***
+            var telkeys = employees.Select(e => e.Telkey).ToArray();
+            var callWebDtos = (await CallWebApi.GetMultiple(telkeys)).ToList();
+
+            var statusCodes = new List<Tuple<Employee, string>>();
+
+            foreach (var e in employees)
+            ***REMOVED***
+                var callWebDto = callWebDtos.Find(dto => dto.Telkey == e.Telkey);
+
+                if (callWebDto == null)
+                ***REMOVED***
+                    statusCodes.Add(Tuple.Create(e, ""));
+              ***REMOVED***
+                else
+                ***REMOVED***
+                    if (
+                        callWebDto.IsSurveyComplete != null
+                        && callWebDto.IsSurveyComplete.Equals("1")
+                    )
+                    ***REMOVED***
+                        statusCodes.Add(Tuple.Create(e, EmployeeStatusEnum.SurveyComplete.Code));
+                  ***REMOVED***
+                    else
+                    ***REMOVED***
+                        statusCodes.Add(Tuple.Create(e, callWebDto.CurrentStatus));
+                  ***REMOVED***
+              ***REMOVED***
+          ***REMOVED***
+
+            return statusCodes;
+
+            // if (callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1"))
+            // ***REMOVED***
+            //     return EmployeeStatusEnum.SurveyComplete.Code;
+            // ***REMOVED***
+
+            // return callWebDto.CurrentStatus;
       ***REMOVED***
 
         public async Task<string> CreateSurvey(Employee employee)

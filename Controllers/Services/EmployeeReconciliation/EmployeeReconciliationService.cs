@@ -347,10 +347,11 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
-        private async Task<Employee> UpdateEmployeeStatus(Employee employee)
+        private async Task<Employee> UpdateEmployeeStatus(
+            Employee employee,
+            string callWebStatusCode
+        )
         ***REMOVED***
-            var callWebStatusCode = await callWeb.GetSurveyStatusCode(employee);
-
             if (callWebStatusCode == null)
             ***REMOVED***
                 throw new NullCallWebStatusCodeException(
@@ -455,19 +456,31 @@ namespace ExitSurveyAdmin.Services
                 )
                 .ToList();
 
-            foreach (Employee e in candidateEmployees)
+            // Do this in a batch, working with 100 employees at a time.
+            var BATCH_SIZE = 100;
+
+            for (var i = 0; i < candidateEmployees.Count; i += BATCH_SIZE)
             ***REMOVED***
-                try
+                var employeesInBatch = candidateEmployees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE);
+                var surveyStatusCodes = await callWeb.GetSurveyStatusCodes(employeesInBatch);
+
+                foreach (var tuple in surveyStatusCodes)
                 ***REMOVED***
-                    var employee = await UpdateEmployeeStatus(e);
-                    updatedEmployeeList.Add(employee);
-              ***REMOVED***
-                catch (Exception exception)
-                ***REMOVED***
-                    exceptionList.Add(
-                        $"Exception updating status of employee ***REMOVED***e.FullName***REMOVED*** "
-                            + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
-                    );
+                    var e = tuple.Item1;
+                    var status = tuple.Item2;
+
+                    try
+                    ***REMOVED***
+                        var employee = await UpdateEmployeeStatus(e, status);
+                        updatedEmployeeList.Add(employee);
+                  ***REMOVED***
+                    catch (Exception exception)
+                    ***REMOVED***
+                        exceptionList.Add(
+                            $"Exception updating status of employee ***REMOVED***e.FullName***REMOVED*** "
+                                + $"(ID: ***REMOVED***e.GovernmentEmployeeId***REMOVED***): ***REMOVED***exception.GetType()***REMOVED***: ***REMOVED***exception.Message***REMOVED*** "
+                        );
+                  ***REMOVED***
               ***REMOVED***
           ***REMOVED***
 

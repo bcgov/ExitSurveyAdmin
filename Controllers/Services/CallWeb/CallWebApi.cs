@@ -136,6 +136,22 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
       ***REMOVED***
 
+        public async Task<CallWebRowDto[]> GetMultiple(string[] telkeys)
+        ***REMOVED***
+            if (telkeys.Length == 0)
+            ***REMOVED***
+                throw new Exception("telkeys.Length was 0");
+          ***REMOVED***
+
+            var client = await GetClientWithServiceToken();
+            var response = await client.GetAsync(
+                $"***REMOVED***BaseUrl***REMOVED***Multi?telkeys=***REMOVED***String.Join(',', telkeys)***REMOVED***"
+            );
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
+      ***REMOVED***
+
         public async Task<CallWebRowDto> Post(CallWebPostDto postDto)
         ***REMOVED***
             var content = ToJsonContent(postDto);
