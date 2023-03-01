@@ -233,6 +233,10 @@ namespace ExitSurveyAdmin.Models
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         {
+            if (LocationGroup == null)
+            {
+                LocationGroup = "";
+            }
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;

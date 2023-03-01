@@ -123,7 +123,7 @@ namespace ExitSurveyAdmin.Services
             var exceptionList = new List<string>();
 
             // Insert and update employees.
-            foreach (Employee e in employees)
+            foreach (Employee e in employees.Take(10))
             {
                 try
                 {
