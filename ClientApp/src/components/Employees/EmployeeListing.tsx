@@ -12,14 +12,16 @@ import { defaultDateFormat } from '../../helpers/dateHelper'
 
 const EmployeeListing = (): JSX.Element => {
   const dataMapperCallback = React.useCallback(
-    (responseJSON: FixTypeLater[]): Employee[] =>
-      responseJSON.map(e => plainToInstance(Employee, e)),
+    (responseJSON: FixTypeLater[]): Employee[] => {
+      console.log(responseJSON)
+      return responseJSON.map((e) => plainToInstance(Employee, e))
+    },
     []
   )
 
   const exportedDataMapperCallback = React.useCallback(
     (responseJSON: FixTypeLater[]): FixTypeLater[] =>
-      responseJSON.map(e => {
+      responseJSON.map((e) => {
         delete e.timelineEntries
         delete e.currentEmployeeStatus
         e.birthDate = moment(e.birthDate).format(defaultDateFormat)
