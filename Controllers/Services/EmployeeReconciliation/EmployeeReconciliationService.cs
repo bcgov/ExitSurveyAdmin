@@ -347,10 +347,11 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
-        private async Task<Employee> UpdateEmployeeStatus(Employee employee)
+        private async Task<Employee> UpdateEmployeeStatus(
+            Employee employee,
+            string callWebStatusCode
+        )
         {
-            var callWebStatusCode = await callWeb.GetSurveyStatusCode(employee);
-
             if (callWebStatusCode == null)
             {
                 throw new NullCallWebStatusCodeException(
@@ -455,19 +456,31 @@ namespace ExitSurveyAdmin.Services
                 )
                 .ToList();
 
-            foreach (Employee e in candidateEmployees)
+            // Do this in a batch, working with 100 employees at a time.
+            var BATCH_SIZE = 100;
+
+            for (var i = 0; i < candidateEmployees.Count; i += BATCH_SIZE)
             {
-                try
+                var employeesInBatch = candidateEmployees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE);
+                var surveyStatusCodes = await callWeb.GetSurveyStatusCodes(employeesInBatch);
+
+                foreach (var tuple in surveyStatusCodes)
                 {
-                    var employee = await UpdateEmployeeStatus(e);
-                    updatedEmployeeList.Add(employee);
-                }
-                catch (Exception exception)
-                {
-                    exceptionList.Add(
-                        $"Exception updating status of employee {e.FullName} "
-                            + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
-                    );
+                    var e = tuple.Item1;
+                    var status = tuple.Item2;
+
+                    try
+                    {
+                        var employee = await UpdateEmployeeStatus(e, status);
+                        updatedEmployeeList.Add(employee);
+                    }
+                    catch (Exception exception)
+                    {
+                        exceptionList.Add(
+                            $"Exception updating status of employee {e.FullName} "
+                                + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
+                        );
+                    }
                 }
             }
 
