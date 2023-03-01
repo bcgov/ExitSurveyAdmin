@@ -11,40 +11,39 @@ public class PsaApiContractResolver : DefaultContractResolver
     {
         this.PropertyMappings = new Dictionary<string, string>
         {
-            // Check if this maps all required fields
-            { "ServiceGroup", "Service%20Group%20BCSTATS" },
+            { "ServiceGroup", "Service_Group_BCSTATS" },
             { "Address2", "Address2" },
             { "Age", "Age" },
-            { "AgeGroup", "Age%20Group%202" },
-            { "AppointmentStatus", "Appointment%20Status" },
-            { "BackDated", "Back%20Dated" },
+            { "AgeGroup", "Age_Group_2" },
+            { "AppointmentStatus", "Appointment_Status" },
+            { "BackDated", "Back_Dated" },
             { "BirthDate", "Birthdate" },
             { "AddressCity", "City" },
             { "Classification", "Classification" },
-            { "ClassificationGroup", "Classification%20Group" },
-            { "DepartmentId", "DeptID%20Desc" }, // Check this
+            { "ClassificationGroup", "Classification_Group" },
+            { "DepartmentId", "DeptID_Desc" },
             { "EffectiveDate", "Effdt" },
-            { "RecordCount", "Empl%20Rcd" }, // Check this
+            { "RecordCount", "Empl_Rcd" },
             { "GovernmentEmployeeId", "EmplID" },
-            { "ExitCount", "Exit%20Count" },
-            { "FirstName", "First%20Name" },
+            { "ExitCount", "Exit_Count" },
+            { "FirstName", "First_Name" },
             { "Gender", "Gender" },
             { "JobCode", "Job_Code" },
-            { "JobFunctionCode", "Job_Function" }, // Check
-            { "LastDayWorkedDate", "Last%20Day%20Worked" },
-            { "LastName", "Last%20Name" },
-            { "LeaveDate", "Leave%20Date" },
-            { "LocationCity", "Location%20City" },
-            { "LocationGroup", "Location%20Group" },
+            { "JobFunctionCode", "Job_Function" },
+            { "LastDayWorkedDate", "Last_Day_Worked" },
+            { "LastName", "Last_Name" },
+            { "LeaveDate", "Leave_Date" },
+            { "LocationCity", "Location_City" },
+            { "LocationGroup", "Location_Group" },
             { "Ministry", "Ministry" },
-            { "OriginalHireDate", "Orig%20Hire%20Date" },
+            { "OriginalHireDate", "Orig_Hire_Date" },
             { "Phone", "Phone" },
-            { "PositionCode", "Position" }, // Check
-            { "PositionTitle", "Position%20Title" },
-            { "AddressPostCode", "Post%20Code" },
+            { "PositionCode", "Position" },
+            { "PositionTitle", "Position_Title" },
+            { "AddressPostCode", "Post_Code" },
             { "AddressProvince", "Prov" },
             { "Reason", "Reason" },
-            { "ServiceYears", "Service" }, // Check
+            { "ServiceYears", "Service" },
             { "Address1", "Address1" },
         };
     }
