@@ -212,7 +212,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string ServiceGroup ***REMOVED*** get; set; ***REMOVED***
 
-        [Required]
         public string LocationGroup ***REMOVED*** get; set; ***REMOVED***
 
         [Sieve(CanFilter = true, CanSort = true)]
@@ -225,25 +224,15 @@ namespace ExitSurveyAdmin.Models
 
         public Boolean TriedToUpdateInFinalState ***REMOVED*** get; set; ***REMOVED***
 
-        public void UpdateEmail(
-            EmployeeInfoLookupService infoLookupService
-        )
+        public void UpdateEmail(EmployeeInfoLookupService infoLookupService)
         ***REMOVED***
-            GovernmentEmail = infoLookupService
-                .EmailByEmployeeId(GovernmentEmployeeId);
+            GovernmentEmail = infoLookupService.EmailByEmployeeId(GovernmentEmployeeId);
       ***REMOVED***
 
         // Initialize all Preferred fields to be the equivalent of the base
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         ***REMOVED***
-            if (Address1 == null) ***REMOVED***
-                Address1 = "TEMPORARY"; // TODO: DEFINITELY REMOVE
-          ***REMOVED***
-            if (LocationGroup == null)
-            ***REMOVED***
-                LocationGroup = "TEMPORARY"; // TODO: Make LocationGroup nullable
-          ***REMOVED***
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;
