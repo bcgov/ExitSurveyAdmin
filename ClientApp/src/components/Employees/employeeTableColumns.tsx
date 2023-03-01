@@ -16,10 +16,9 @@ type EmployeeCellProps = React.PropsWithChildren<
 export const employeeTableColumns = (): Column<Employee>[] => [
   {
     Header: 'Telkey',
-    Cell: (props: EmployeeCellProps): JSX.Element => {
-      console.log('props.value -->', props.value)
-      return <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
-    },
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <Link to={`/employees/${props.cell.row.original.id}`}>{props.value}</Link>
+    ),
     accessor: 'telkey',
   },
   {
@@ -77,14 +76,13 @@ export const employeeTableColumns = (): Column<Employee>[] => [
   },
   {
     Header: 'Status',
-    Cell: (props: EmployeeCellProps): JSX.Element => {
-      console.log('props ####>', props.value)
-      return <>{(props.value as unknown as EmployeeStatus).displayName}</>
-    },
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <>{(props.value as unknown as EmployeeStatus).displayName}</>
+    ),
     accessor: 'currentEmployeeStatusCode',
   },
   {
-    Header: 'Last modified date',
+    Header: 'Last modified time',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate
         date={props.value as unknown as Date}
