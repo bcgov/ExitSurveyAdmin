@@ -110,7 +110,7 @@ namespace ExitSurveyAdmin.Controllers
                 await context.SaveChangesAsync();
 
                 // Patch the row in CallWeb.
-                await callWebService.UpdateSurvey(updatedEmployee);
+                await callWebService.UpdateSurveys(new List<Employee>() { updatedEmployee });
 
                 return Ok(updatedEmployee);
             }
