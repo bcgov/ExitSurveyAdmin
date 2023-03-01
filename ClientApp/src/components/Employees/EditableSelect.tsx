@@ -2,10 +2,10 @@ import React from 'react'
 
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import ***REMOVED*** userNameFromState ***REMOVED*** from '../../helpers/userHelper'
+import KeycloakService from '../Login/KeycloakService'
+import SuccessMessage from './SuccessMessage'
 
 import './EditableField.scss'
-import SuccessMessage from './SuccessMessage'
 
 export interface ISelectOption ***REMOVED***
   name: string
@@ -27,7 +27,7 @@ const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
     fieldName,
     fieldValue,
     options,
-    valueToDisplayAccessor
+    valueToDisplayAccessor,
 ***REMOVED*** = props
 
   const [newValue, setNewValue] = React.useState(fieldValue || '')
@@ -45,7 +45,7 @@ const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
       'patch',
       ***REMOVED***
         [fieldName]: newValue,
-        AdminUserName: userNameFromState()
+        AdminUserName: KeycloakService.getUsername(),
     ***REMOVED***
       'CANNOT_EDIT_EMPLOYEE',
       (responseJSON: AnyJson): void => ***REMOVED***
@@ -66,15 +66,13 @@ const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
             value=***REMOVED***newValue***REMOVED***
             onChange=***REMOVED***(e): void => setNewValue(e.target.value)***REMOVED***
           >
-            ***REMOVED***options.map(
-              (option): JSX.Element => ***REMOVED***
-                return (
-                  <option key=***REMOVED***option.value***REMOVED*** value=***REMOVED***option.value***REMOVED***>
-                    ***REMOVED***option.name***REMOVED***
-                  </option>
-                )
-            ***REMOVED***
-            )***REMOVED***
+            ***REMOVED***options.map((option): JSX.Element => ***REMOVED***
+              return (
+                <option key=***REMOVED***option.value***REMOVED*** value=***REMOVED***option.value***REMOVED***>
+                  ***REMOVED***option.name***REMOVED***
+                </option>
+              )
+          ***REMOVED***)***REMOVED***
           </select>
           <input
             type="button"

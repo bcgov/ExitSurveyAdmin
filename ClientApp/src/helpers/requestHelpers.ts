@@ -1,8 +1,8 @@
 import ***REMOVED*** setError ***REMOVED*** from './errorHandlingHelper'
-import store from '../store/store'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 import ***REMOVED*** AnyJson ***REMOVED*** from '../types/JsonType'
 import ***REMOVED*** apiUrl ***REMOVED*** from './envHelper'
+import KeycloakService from '../components/Login/KeycloakService'
 
 export const prefixAPI = (path: string): string => ***REMOVED***
   return `$***REMOVED***apiUrl()***REMOVED***$***REMOVED***path***REMOVED***`
@@ -13,15 +13,14 @@ const requestWithAuthentication = (
   method = 'get',
   body: AnyJson
 ): Promise<Response> => ***REMOVED***
-  const token = (store as FixTypeLater).getState()?.oidc?.user?.access_token
-  // console.log(token)
+  const token = KeycloakService.getToken()
   const fetchObject: RequestInit = ***REMOVED***
     method,
     headers: ***REMOVED***
       'Content-Type': 'application/json',
-      Authorization: `Bearer $***REMOVED***token***REMOVED***`
+      Authorization: `Bearer $***REMOVED***token***REMOVED***`,
   ***REMOVED***
-    credentials: 'same-origin'
+    credentials: 'same-origin',
     // mode: 'cors'
 ***REMOVED***
   if (method !== 'get' && body) ***REMOVED***
@@ -39,9 +38,9 @@ const requestWithoutAuthentication = (
   const fetchObject: RequestInit = ***REMOVED***
     method,
     headers: ***REMOVED***
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
   ***REMOVED***
-    credentials: 'same-origin'
+    credentials: 'same-origin',
 ***REMOVED***
   if (method !== 'get' && body) ***REMOVED***
     fetchObject.body = JSON.stringify(body)
@@ -70,16 +69,12 @@ export const requestJSONWithErrorHandler = async (
   const paginationHeader = response.headers.get('X-Pagination')
   const pagination = paginationHeader ? JSON.parse(paginationHeader) : ***REMOVED******REMOVED***
 
-  console.log(response, response.headers, 'paginationHeader', paginationHeader)
-  console.log(response.headers.get('X-Pagination'))
-
   if (response.ok) ***REMOVED***
     if (successCallback) ***REMOVED***
       successCallback(json, pagination)
   ***REMOVED***
     return json
 ***REMOVED*** else ***REMOVED***
-    setError(store.dispatch, errorCode)
     return null
 ***REMOVED***
 ***REMOVED***
@@ -113,7 +108,8 @@ export const requestJSONWithoutAuth = async (
   ***REMOVED***
     return json
 ***REMOVED*** else ***REMOVED***
-    setError(store.dispatch, errorCode)
+    const store = ***REMOVED******REMOVED***
+    setError((store as FixTypeLater).dispatch, errorCode)
     return null
 ***REMOVED***
 ***REMOVED***
