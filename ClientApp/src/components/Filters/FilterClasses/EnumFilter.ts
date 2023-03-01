@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
+import ***REMOVED*** FilterType, Filter ***REMOVED*** from './FilterTypes'
 import ***REMOVED*** optionsFor ***REMOVED*** from '../../../helpers/labelHelper'
 
 const OR_OPERATOR = '|'
 
-export default class EnumFilter implements IFilter ***REMOVED***
+export default class EnumFilter implements Filter ***REMOVED***
   _type = FilterType.Enum
   _fieldName: string
   _enumKeys: string[]
+  _apiUrl?: string
 
-  constructor(fieldName: string, enumKeys?: string[]) ***REMOVED***
+  constructor(fieldName: string, enumKeys?: string[], apiUrl?: string) ***REMOVED***
     this._fieldName = fieldName
     this._enumKeys = enumKeys || []
+    this._apiUrl = apiUrl
 ***REMOVED***
 
   get type(): FilterType ***REMOVED***
@@ -32,7 +34,7 @@ export default class EnumFilter implements IFilter ***REMOVED***
 ***REMOVED***
 
   removeKey(key: string): void ***REMOVED***
-    this._enumKeys = this._enumKeys.filter(e => e !== key)
+    this._enumKeys = this._enumKeys.filter((e) => e !== key)
 ***REMOVED***
 
   reset(): void ***REMOVED***
@@ -47,23 +49,35 @@ export default class EnumFilter implements IFilter ***REMOVED***
     return false
 ***REMOVED***
 
+  get apiUrl(): string | undefined ***REMOVED***
+    return this._apiUrl
+***REMOVED***
+
   encode(): string ***REMOVED***
     if (!this.isSet) ***REMOVED***
       console.warn(`EnumFilter for $***REMOVED***this._fieldName***REMOVED***: value is 0-length`)
       return ''
   ***REMOVED***
-    return `$***REMOVED***this._fieldName***REMOVED***==$***REMOVED***this._enumKeys.join(OR_OPERATOR)***REMOVED***`
+    const encodedFilter = `$***REMOVED***this._fieldName***REMOVED***==$***REMOVED***this._enumKeys
+      .join(OR_OPERATOR)
+      .replaceAll('<', ':lt:')
+      .replaceAll('>', ':gt:')***REMOVED***`
+    return encodedFilter
 ***REMOVED***
 
   decode(inputs: string[]): EnumFilter ***REMOVED***
     const values: string[] = []
     const fieldName = inputs[0].split('==')[0]
-    inputs.forEach(input => ***REMOVED***
+    inputs.forEach((input) => ***REMOVED***
       const valueString = input.split('==')[1]
       if (!fieldName || !values) ***REMOVED***
         throw new Error(`EnumFilter: Could not parse input '$***REMOVED***input***REMOVED***'`)
     ***REMOVED***
-      valueString.split(OR_OPERATOR).forEach(v => values.push(v))
+      valueString
+        .replaceAll(':lt:', '<')
+        .replaceAll(':gt:', '>')
+        .split(OR_OPERATOR)
+        .forEach((v) => values.push(v))
   ***REMOVED***)
     return new EnumFilter(fieldName, values)
 ***REMOVED***
@@ -73,10 +87,18 @@ export default class EnumFilter implements IFilter ***REMOVED***
 ***REMOVED***
 
   get displayString(): string ***REMOVED***
-    const valueString = this._enumKeys
-      .map(v => optionsFor(this._fieldName).find(opt => opt.value === v)!.name)
-      .filter(v => v && v.length > 0)
-      .join(' or ')
-    return valueString
+    let keyNames = this._enumKeys
+
+    const predefinedOptions = optionsFor(this._fieldName)
+
+    // If there are predefined options, try mapping them to their names;
+    // otherwise, we will just use the key names
+    if (predefinedOptions && predefinedOptions.length) ***REMOVED***
+      keyNames = keyNames
+        .map((v) => predefinedOptions.find((opt) => opt.value === v)!.name)
+        .filter((v) => v && v.length > 0)
+  ***REMOVED***
+
+    return keyNames.join(' or ')
 ***REMOVED***
 ***REMOVED***

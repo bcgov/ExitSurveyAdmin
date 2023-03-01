@@ -1,14 +1,14 @@
 import React from 'react'
 
-import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
-import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import KeycloakService from '../Login/KeycloakService'
-import SuccessMessage from './SuccessMessage'
+import ***REMOVED*** AnyJson ***REMOVED*** from '../../../../types/JsonType'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../../../helpers/requestHelpers'
+import KeycloakService from '../../../Login/KeycloakService'
+import SuccessMessage from '../../../Employees/SuccessMessage'
 
 import './EditableField.scss'
 
-interface IProps ***REMOVED***
-  employeeDatabaseId: string
+interface Props ***REMOVED***
+  modelDatabaseId: string
   fieldName: string
   fieldValue: string
   refreshDataCallback: () => void
@@ -17,9 +17,9 @@ interface IProps ***REMOVED***
   ignoreAdminUserName?: boolean
 ***REMOVED***
 
-const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
+const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
   const ***REMOVED***
-    employeeDatabaseId,
+    modelDatabaseId,
     fieldName,
     fieldValue: originalFieldValue,
     modelPath,
@@ -64,7 +64,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
     ***REMOVED***
       event.preventDefault()
       requestJSONWithErrorHandler(
-        `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***employeeDatabaseId***REMOVED***`,
+        `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
         'patch',
         patchBody,
         'CANNOT_EDIT_EMPLOYEE',
@@ -77,7 +77,7 @@ const EditableStringField = (props: IProps): JSX.Element => ***REMOVED***
       )
   ***REMOVED***
     [
-      employeeDatabaseId,
+      modelDatabaseId,
       fieldName,
       newValue,
       refreshDataCallback,

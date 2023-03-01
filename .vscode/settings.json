@@ -22,6 +22,9 @@
   "[typescript]": ***REMOVED***
     "editor.formatOnSave": true
 ***REMOVED***
+  "[scss]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
   "files.exclude": ***REMOVED***
     "**/*.css": true
 ***REMOVED***

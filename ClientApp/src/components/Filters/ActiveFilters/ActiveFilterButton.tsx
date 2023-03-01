@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 
-import ***REMOVED*** IFilter ***REMOVED*** from '../FilterClasses/FilterTypes'
+import ***REMOVED*** Filter ***REMOVED*** from '../FilterClasses/FilterTypes'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
 import IconButton from '../../DisplayHelpers/Interface/Buttons/IconButton'
 
-interface IProps ***REMOVED***
-  filter: IFilter
-  removeFilter: (filter: IFilter) => void
+interface Props ***REMOVED***
+  filter: Filter
+  removeFilter: (filter: Filter) => void
 ***REMOVED***
 
-const ActiveFilterButton = (***REMOVED*** filter, removeFilter ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const ActiveFilterButton = (***REMOVED*** filter, removeFilter ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const remove = (): void => ***REMOVED***
     removeFilter(filter)
 ***REMOVED***

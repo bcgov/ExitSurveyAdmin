@@ -1,9 +1,9 @@
-import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
+import ***REMOVED*** SelectOption ***REMOVED*** from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import ***REMOVED*** AppointmentStatusEnum ***REMOVED*** from './AppointmentStatus'
 
 export enum ExitTypeEnum ***REMOVED***
   Involuntary = 'Involuntary',
-  Voluntary = 'Voluntary'
+  Voluntary = 'Voluntary',
 ***REMOVED***
 
 export enum ReasonEnum ***REMOVED***
@@ -17,7 +17,7 @@ export enum ReasonEnum ***REMOVED***
   RejectionOnProbation = 'Rejection on Probation',
   Resignation = 'Resignation',
   Retired = 'Retired',
-  SpecialRetirementIncentive = 'Special Retirement Incentive'
+  SpecialRetirementIncentive = 'Special Retirement Incentive',
 ***REMOVED***
 
 export type LeaveCode = 1 | 2 | 3
@@ -153,11 +153,11 @@ export class Reason ***REMOVED***
     Reason.AUX_INV_REJECTION_ON_PROBATION,
     Reason.AUX_VOL_ABANDONMENT,
     Reason.AUX_VOL_RESIGNATION,
-    Reason.AUX_VOL_RETIRED
+    Reason.AUX_VOL_RETIRED,
   ]
 
   static map = (): Map<ReasonEnum, Reason> => ***REMOVED***
-    return new Map(Reason.array().map(r => [r.reasonCode, r]))
+    return new Map(Reason.array().map((r) => [r.reasonCode, r]))
 ***REMOVED***
 
   static fromKey = (key: ReasonEnum): Reason => ***REMOVED***
@@ -166,23 +166,23 @@ export class Reason ***REMOVED***
 ***REMOVED***
 
   static byAppointmentStatus = (code: AppointmentStatusEnum): Reason[] => ***REMOVED***
-    return Reason.array().filter(r => r.appointmentStatusCode === code)
+    return Reason.array().filter((r) => r.appointmentStatusCode === code)
 ***REMOVED***
 
-  static toOptions = (): ISelectOption[] => ***REMOVED***
-    const vals = Array.from(Reason.map().values()).map(reason => (***REMOVED***
+  static toOptions = (): SelectOption[] => ***REMOVED***
+    const vals = Array.from(Reason.map().values()).map((reason) => (***REMOVED***
       name: reason.reasonCode,
-      value: reason.reasonCode
+      value: reason.reasonCode,
   ***REMOVED***))
     return vals
 ***REMOVED***
 
   static toOptionsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
-  ): ISelectOption[] => ***REMOVED***
-    return Reason.byAppointmentStatus(appointmentStatusCode).map(status => (***REMOVED***
+  ): SelectOption[] => ***REMOVED***
+    return Reason.byAppointmentStatus(appointmentStatusCode).map((status) => (***REMOVED***
       name: `$***REMOVED***status.exitTypeCode***REMOVED***: $***REMOVED***status.reasonCode***REMOVED***`,
-      value: status.reasonCode
+      value: status.reasonCode,
   ***REMOVED***))
 ***REMOVED***
 ***REMOVED***

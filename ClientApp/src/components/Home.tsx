@@ -2,18 +2,18 @@
 import React from 'react'
 import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
 
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 import ***REMOVED*** getActiveEmployeesFilter ***REMOVED*** from './Filters/Presets/Buttons/SetActiveEmployees'
-import ***REMOVED*** getPreviousMonthFilter ***REMOVED*** from '../components/Filters/Presets/Buttons/SetPreviousMonth'
 import ***REMOVED*** getPreviousFiscalYearFilter ***REMOVED*** from '../components/Filters/Presets/Buttons/SetPreviousFiscalYear'
-
-import './Home.scss'
+import ***REMOVED*** getPreviousMonthFilter ***REMOVED*** from '../components/Filters/Presets/Buttons/SetPreviousMonth'
+import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../helpers/requestHelpers'
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../types/TaskLogEntry'
-import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
-import TaskOutcome from './TaskLogEntries/TaskOutcome'
-import IconButton from './DisplayHelpers/Interface/Buttons/IconButton'
 import FormattedDate from './DisplayHelpers/FormattedDate'
+import IconButton from './DisplayHelpers/Interface/Buttons/IconButton'
+import TaskOutcome from './TaskLogEntries/TaskOutcome'
+
+import './Home.scss'
 
 const NUM_TASK_LOG_ENTRIES = 5
 
@@ -30,7 +30,7 @@ const Home = (): JSX.Element => ***REMOVED***
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => ***REMOVED***
         setTaskLogEntryData(
-          responseJSON.map(t => plainToInstance(TaskLogEntry, t))
+          responseJSON.map((t) => plainToInstance(TaskLogEntry, t))
         )
     ***REMOVED***
     )
@@ -46,7 +46,7 @@ const Home = (): JSX.Element => ***REMOVED***
         <Link
           to=***REMOVED******REMOVED***
             pathname: '/employees',
-            search: `&filters=$***REMOVED***getActiveEmployeesFilter().encode()***REMOVED***`
+            search: `&filters=$***REMOVED***getActiveEmployeesFilter().encode()***REMOVED***`,
         ***REMOVED******REMOVED***
         >
           <IconButton
@@ -60,7 +60,7 @@ const Home = (): JSX.Element => ***REMOVED***
         <Link
           to=***REMOVED******REMOVED***
             pathname: '/employees',
-            search: `&filters=$***REMOVED***getPreviousMonthFilter().encode()***REMOVED***`
+            search: `&filters=$***REMOVED***getPreviousMonthFilter().encode()***REMOVED***`,
         ***REMOVED******REMOVED***
         >
           <IconButton
@@ -74,7 +74,7 @@ const Home = (): JSX.Element => ***REMOVED***
         <Link
           to=***REMOVED******REMOVED***
             pathname: '/employees',
-            search: `&filters=$***REMOVED***getPreviousFiscalYearFilter().encode()***REMOVED***`
+            search: `&filters=$***REMOVED***getPreviousFiscalYearFilter().encode()***REMOVED***`,
         ***REMOVED******REMOVED***
         >
           <IconButton
@@ -88,7 +88,7 @@ const Home = (): JSX.Element => ***REMOVED***
         <h2 className="mt-5">Most recent task statuses</h2>
         ***REMOVED***taskLogEntryData.length > 0 && (
           <div>
-            ***REMOVED***taskLogEntryData.map(tle => (
+            ***REMOVED***taskLogEntryData.map((tle) => (
               <div key=***REMOVED***tle.id***REMOVED*** className="d-flex align-items-center mb-2">
                 <div>
                   <TaskOutcome taskOutcomeCode=***REMOVED***tle.taskOutcomeCode!***REMOVED*** />

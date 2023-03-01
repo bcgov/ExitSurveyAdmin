@@ -5,19 +5,22 @@ import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** EmployeeStatus, EmployeeStatusEnum ***REMOVED*** from '../../types/EmployeeStatus'
-import ***REMOVED*** labelFor, labelForWithFlag ***REMOVED*** from '../../helpers/labelHelper'
-import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import AddComment from './AddComment'
-import Address from './Address'
-import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
-import Date from '../DisplayHelpers/FormattedDate'
-import EditableAddress from './EditableAddress'
-import EditableDropdown from './EditableSelect'
-import EditableStringField from './EditableStringField'
-import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
-import TimelineEntryList from './TimelineEntryList'
+import ***REMOVED*** Employee ***REMOVED*** from '../../../types/Employee'
+import ***REMOVED***
+  EmployeeStatus,
+  EmployeeStatusEnum,
+***REMOVED*** from '../../../types/EmployeeStatus'
+import ***REMOVED*** labelFor, labelForWithFlag ***REMOVED*** from '../../../helpers/labelHelper'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../../helpers/requestHelpers'
+import AddComment from '../AddComment'
+import Address from '../Address'
+import CLText from '../../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
+import Date from '../../DisplayHelpers/FormattedDate'
+import EditableAddress from '../../DisplayHelpers/Interface/EditableFields/EditableAddress'
+import EditableDropdown from '../../DisplayHelpers/Interface/EditableFields/EditableSelect'
+import EditableStringField from '../../DisplayHelpers/Interface/EditableFields/EditableStringField'
+import LabelledText from '../../DisplayHelpers/Interface/LabelledItems/LabelledText'
+import TimelineEntryList from '../TimelineEntryList'
 
 interface IParams ***REMOVED***
   employeeId: string
@@ -29,14 +32,14 @@ interface IStateProps ***REMOVED******REMOVED***
 
 interface IDispatchProps ***REMOVED******REMOVED***
 
-interface IProps extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
+interface Props extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
 
 interface IState ***REMOVED***
   employee?: Employee
 ***REMOVED***
 
-class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
-  constructor(props: IProps) ***REMOVED***
+class EmployeeDetail extends React.Component<Props, IState> ***REMOVED***
+  constructor(props: Props) ***REMOVED***
     super(props)
     this.state = ***REMOVED*** employee: undefined ***REMOVED***
 
@@ -64,7 +67,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
             <LabelledText label=***REMOVED***'Current status'***REMOVED***>
               <h3 className="mt-1">
                 <EditableDropdown
-                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  modelDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName="currentEmployeeStatusCode"
                   fieldValue=***REMOVED***e.currentEmployeeStatusCode!.code***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
@@ -93,7 +96,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
               <CLText label=***REMOVED***labelFor('firstName')***REMOVED***>***REMOVED***e.firstName***REMOVED***</CLText>
               <CLText label=***REMOVED***labelForWithFlag('preferredFirstName', e)***REMOVED***>
                 <EditableStringField
-                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  modelDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName=***REMOVED***'preferredFirstName'***REMOVED***
                   fieldValue=***REMOVED***e.preferredFirstName!***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
@@ -116,7 +119,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
                   validator=***REMOVED***(email: string): boolean =>
                     email.length === 0 || EmailValidator.validate(email)
                 ***REMOVED***
-                  employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+                  modelDatabaseId=***REMOVED***e.id!***REMOVED***
                   fieldName=***REMOVED***'preferredEmail'***REMOVED***
                   fieldValue=***REMOVED***e.preferredEmail!***REMOVED***
                   refreshDataCallback=***REMOVED***this.populateData***REMOVED***
@@ -209,7 +212,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
           <div className="col-4">
             <h3>Timeline</h3>
             <AddComment
-              employeeDatabaseId=***REMOVED***e.id!***REMOVED***
+              modelDatabaseId=***REMOVED***e.id!***REMOVED***
               employeeStatusCode=***REMOVED***e.currentEmployeeStatusCode!.code***REMOVED***
               refreshDataCallback=***REMOVED***this.populateData***REMOVED***
             />

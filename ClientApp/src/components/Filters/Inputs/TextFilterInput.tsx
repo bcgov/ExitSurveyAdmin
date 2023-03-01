@@ -6,11 +6,11 @@ import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
 import LabelledInput from '../../DisplayHelpers/Interface/LabelledItems/LabelledInput'
 import TextFilter from '../FilterClasses/TextFilter'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   filter: TextFilter
 ***REMOVED***
 
-const TextFilterInput = (***REMOVED*** filter ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const TextFilterInput = (***REMOVED*** filter ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const handleChange = React.useCallback(
