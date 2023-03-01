@@ -22,7 +22,7 @@ const LabelledInput = (props: Props): JSX.Element => {
         className="form-control form-control-sm"
         type="text"
         placeholder={placeholder || title}
-        onChange={onChange}
+        onInput={onChange} // onInput, unlike onChange, fires upon pasting text
       />
     </LabelledItem>
   )
