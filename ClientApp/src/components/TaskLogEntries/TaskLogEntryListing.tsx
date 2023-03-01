@@ -13,7 +13,7 @@ const TaskLogEntryListing = (): JSX.Element => (
     filterableFields={taskLogEntryFilters}
     columns={taskLogEntryTableColumns}
     listingPath="taskLogEntries"
-    pageSize={5}
+    pageSize={20}
     dataMapper={(responseJSON: FixTypeLater[]): TaskLogEntry[] =>
       responseJSON.map((t) => plainToInstance(TaskLogEntry, t))
     }
