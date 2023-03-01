@@ -12,14 +12,16 @@ import ***REMOVED*** defaultDateFormat ***REMOVED*** from '../../helpers/dateHel
 
 const EmployeeListing = (): JSX.Element => ***REMOVED***
   const dataMapperCallback = React.useCallback(
-    (responseJSON: FixTypeLater[]): Employee[] =>
-      responseJSON.map(e => plainToInstance(Employee, e)),
+    (responseJSON: FixTypeLater[]): Employee[] => ***REMOVED***
+      console.log(responseJSON)
+      return responseJSON.map((e) => plainToInstance(Employee, e))
+  ***REMOVED***
     []
   )
 
   const exportedDataMapperCallback = React.useCallback(
     (responseJSON: FixTypeLater[]): FixTypeLater[] =>
-      responseJSON.map(e => ***REMOVED***
+      responseJSON.map((e) => ***REMOVED***
         delete e.timelineEntries
         delete e.currentEmployeeStatus
         e.birthDate = moment(e.birthDate).format(defaultDateFormat)
