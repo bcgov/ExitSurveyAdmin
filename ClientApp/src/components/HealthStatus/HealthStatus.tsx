@@ -2,7 +2,6 @@ import React from 'react'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithoutAuth ***REMOVED*** from '../../helpers/requestHelpers'
-import ContentWrapper from '../Wrappers/ContentWrapper'
 
 type Props = ***REMOVED******REMOVED***
 
@@ -36,10 +35,10 @@ class HealthStatus extends React.Component<Props, State> ***REMOVED***
       )
 
     return (
-      <ContentWrapper>
+      <>
         <h1>Health status</h1>
         ***REMOVED***contents***REMOVED***
-      </ContentWrapper>
+      </>
     )
 ***REMOVED***
 

@@ -12,7 +12,6 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import AddComment from './AddComment'
 import Address from './Address'
 import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
-import ContentWrapper from '../Wrappers/ContentWrapper'
 import Date from '../DisplayHelpers/FormattedDate'
 import EditableAddress from './EditableAddress'
 import EditableDropdown from './EditableSelect'
@@ -233,7 +232,7 @@ class EmployeeDetail extends React.Component<IProps, IState> ***REMOVED***
         this.renderEmployee(this.state.employee)
       )
 
-    return <ContentWrapper>***REMOVED***contents***REMOVED***</ContentWrapper>
+    return <>***REMOVED***contents***REMOVED***</>
 ***REMOVED***
 
   async populateData(): Promise<void> ***REMOVED***
