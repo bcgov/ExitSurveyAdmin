@@ -3,11 +3,11 @@ import React from 'react'
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from '../../types/EmployeeTimelineEntry'
 import TimelineEntry from './TimelineEntry'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   timelineEntries: EmployeeTimelineEntry[]
 ***REMOVED***
 
-class TimelineEntryList extends React.Component<IProps> ***REMOVED***
+class TimelineEntryList extends React.Component<Props> ***REMOVED***
   render(): JSX.Element ***REMOVED***
     const sortedEntries = this.props.timelineEntries.sort((a, b) => ***REMOVED***
       if (
@@ -26,7 +26,7 @@ class TimelineEntryList extends React.Component<IProps> ***REMOVED***
   ***REMOVED***)
     return (
       <div className="TimelineEntryList">
-        ***REMOVED***sortedEntries.map(tl => (
+        ***REMOVED***sortedEntries.map((tl) => (
           <TimelineEntry key=***REMOVED***tl.id***REMOVED*** timelineEntry=***REMOVED***tl***REMOVED*** />
         ))***REMOVED***
       </div>

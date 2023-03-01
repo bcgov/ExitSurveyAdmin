@@ -2,7 +2,7 @@ import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
 import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
-import ***REMOVED*** IFilter ***REMOVED*** from '../Filters/FilterClasses/FilterTypes'
+import ***REMOVED*** Filter ***REMOVED*** from '../Filters/FilterClasses/FilterTypes'
 import ***REMOVED*** PresetProps ***REMOVED*** from '../Filters/Presets/PresetProps'
 import ***REMOVED*** ITableSort ***REMOVED*** from '../../types/ITableSort'
 import ***REMOVED*** MasterFilterHandler ***REMOVED*** from '../Filters/MasterFilterHandler'
@@ -25,13 +25,13 @@ const processSorts = (sortBy: ITableSort[]): string => ***REMOVED***
 ***REMOVED***
 
 const extractFilters = (
-  filters: IFilter[],
+  filters: Filter[],
   propLocationSearch: string
 ): string =>
   MasterFilterHandler.extractFromRawQueryString(filters, propLocationSearch)
 
 export interface IGenericListingProps<T extends object> ***REMOVED***
-  filterableFields: IFilter[]
+  filterableFields: Filter[]
   listingPath: string
   modelName: string
   presetComponent?: React.FC<PresetProps>
@@ -42,7 +42,7 @@ export interface IGenericListingProps<T extends object> ***REMOVED***
   sortProp?: string
 ***REMOVED***
 
-interface IProps<T extends object>
+interface Props<T extends object>
   extends RouteComponentProps,
     IGenericListingProps<T> ***REMOVED******REMOVED***
 
@@ -56,8 +56,8 @@ const GenericListing = <T extends object>(***REMOVED***
   pageSize: propPageSize,
   presetComponent,
   modelName,
-  sortProp
-***REMOVED***: IProps<T>): JSX.Element => ***REMOVED***
+  sortProp,
+***REMOVED***: Props<T>): JSX.Element => ***REMOVED***
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
@@ -83,12 +83,12 @@ const GenericListing = <T extends object>(***REMOVED***
 
   // Called when the table needs new data
   const fetchData = React.useCallback(
-    (***REMOVED*** pageIndex, sortBy ***REMOVED***: ***REMOVED*** pageIndex: number, sortBy: FixTypeLater ***REMOVED***) => ***REMOVED***
+    (***REMOVED*** pageIndex, sortBy ***REMOVED***: ***REMOVED*** pageIndex: number; sortBy: FixTypeLater ***REMOVED***) => ***REMOVED***
       // Give this fetch an ID and set the loading state
       const fetchId = ++fetchIdRef.current
       setLoading(true)
 
-            // If there are no sorts from the table, use the passed-in sort prop, if
+      // If there are no sorts from the table, use the passed-in sort prop, if
       // any, and otherwise just use an empty string.
       const sortByQuery = processSorts(sortBy) || sortProp || ''
 
@@ -98,8 +98,9 @@ const GenericListing = <T extends object>(***REMOVED***
         newPageIndex = 0
     ***REMOVED***
 
-      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***newPageIndex +
-        1***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
+      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***
+        newPageIndex + 1
+    ***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
 
       requestJSONWithErrorHandler(
         `api/$***REMOVED***path***REMOVED***`,

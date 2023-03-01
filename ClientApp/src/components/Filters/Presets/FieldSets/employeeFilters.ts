@@ -1,10 +1,10 @@
-import ***REMOVED*** IFilter ***REMOVED*** from '../../FilterClasses/FilterTypes'
+import ***REMOVED*** Filter ***REMOVED*** from '../../FilterClasses/FilterTypes'
 import DateFilter from '../../FilterClasses/DateFilter'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import TextFilter from '../../FilterClasses/TextFilter'
 import CustomFilter from '../../FilterClasses/CustomFilter'
 
-export const employeeFilters: IFilter[] = [
+export const employeeFilters: Filter[] = [
   new TextFilter('telkey'),
   new TextFilter('governmentEmployeeId'),
   new TextFilter('preferredFirstName'),
@@ -14,5 +14,5 @@ export const employeeFilters: IFilter[] = [
   new DateFilter('effectiveDate'),
   new EnumFilter('currentEmployeeStatusCode'),
   new EnumFilter('reason'),
-  new CustomFilter('blankEmail')
+  new CustomFilter('blankEmail'),
 ]

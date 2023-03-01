@@ -5,14 +5,14 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import SuccessMessage from './SuccessMessage'
 import KeycloakService from '../Login/KeycloakService'
 
-interface IProps ***REMOVED***
-  employeeDatabaseId: string
+interface Props ***REMOVED***
+  modelDatabaseId: string
   employeeStatusCode: string
   refreshDataCallback: () => void
 ***REMOVED***
 
-const AddComment = (props: IProps): JSX.Element => ***REMOVED***
-  const ***REMOVED*** employeeDatabaseId, employeeStatusCode, refreshDataCallback ***REMOVED*** = props
+const AddComment = (props: Props): JSX.Element => ***REMOVED***
+  const ***REMOVED*** modelDatabaseId, employeeStatusCode, refreshDataCallback ***REMOVED*** = props
 
   const [comment, setComment] = React.useState('')
   const [successTime, setSuccessTime] = React.useState(0)
@@ -25,7 +25,7 @@ const AddComment = (props: IProps): JSX.Element => ***REMOVED***
         `api/employeetimelineentries`,
         'post',
         ***REMOVED***
-          EmployeeId: employeeDatabaseId,
+          EmployeeId: modelDatabaseId,
           EmployeeActionCode: 'UpdateByAdmin',
           EmployeeStatusCode: employeeStatusCode,
           Comment: comment,
@@ -40,7 +40,7 @@ const AddComment = (props: IProps): JSX.Element => ***REMOVED***
       ***REMOVED***
       )
   ***REMOVED***
-    [comment, employeeDatabaseId, employeeStatusCode, refreshDataCallback]
+    [comment, modelDatabaseId, employeeStatusCode, refreshDataCallback]
   )
 
   return (

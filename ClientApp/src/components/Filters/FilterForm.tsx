@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, ***REMOVED*** useMemo ***REMOVED*** from 'react'
 
-import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterClasses/FilterTypes'
+import ***REMOVED*** FilterType, Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
 import DateFilter from './FilterClasses/DateFilter'
 import DateFilterInput from './Inputs/DateFilterInput'
@@ -11,19 +11,19 @@ import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 import TextFilter from './FilterClasses/TextFilter'
 import TextFilterInput from './Inputs/TextFilterInput'
 
-interface IProps ***REMOVED***
-  addFilters: (filters: IFilter[]) => void
+interface Props ***REMOVED***
+  addFilters: (filters: Filter[]) => void
   resetFilters: () => void
-  filterableFields: IFilter[]
+  filterableFields: Filter[]
   presetComponent?: React.FC<PresetProps>
 ***REMOVED***
 
 export type FilterMapAction = ***REMOVED***
   type: 'setFilter' | 'reset'
-  filter?: IFilter
+  filter?: Filter
 ***REMOVED***
 
-type FilterMap = ***REMOVED*** [key: string]: IFilter ***REMOVED***
+type FilterMap = ***REMOVED*** [key: string]: Filter ***REMOVED***
 
 function reducer(state: FilterMap, action: FilterMapAction): FilterMap ***REMOVED***
   const ***REMOVED*** type, filter ***REMOVED*** = action
@@ -44,8 +44,8 @@ const FilterForm = (***REMOVED***
   addFilters,
   resetFilters,
   filterableFields,
-  presetComponent
-***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  presetComponent,
+***REMOVED***: Props): JSX.Element => ***REMOVED***
   const [filterMap, dispatch] = React.useReducer(reducer, ***REMOVED******REMOVED***)
   const [resetTimestamp, setResetTimestamp] = React.useState<number>(0)
   const [submitId, setSubmitId] = React.useState<number>(0)
@@ -78,43 +78,38 @@ const FilterForm = (***REMOVED***
   const inputs = useMemo(() => ***REMOVED***
     // Ignore Custom fields
     return filterableFields
-      .filter(f => f.type !== FilterType.Custom)
-      .map(
-        (filter): JSX.Element => ***REMOVED***
-          let filterComponent
-          let colWidth = 2
-          switch (filter.type) ***REMOVED***
-            case FilterType.Date:
-              filterComponent = (
-                <DateFilterInput
-                  filter=***REMOVED***filter as DateFilter***REMOVED***
-                  resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
-                />
-              )
-              colWidth = 3
-              break
-            case FilterType.Enum:
-              filterComponent = (
-                <EnumFilterInput
-                  filter=***REMOVED***filter as EnumFilter***REMOVED***
-                  resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
-                />
-              )
-              colWidth = 3
-              break
-            case FilterType.String:
-            default:
-              filterComponent = (
-                <TextFilterInput filter=***REMOVED***filter as TextFilter***REMOVED*** />
-              )
-        ***REMOVED***
-          return (
-            <div key=***REMOVED***filter.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
-              ***REMOVED***filterComponent***REMOVED***
-            </div>
-          )
+      .filter((f) => f.type !== FilterType.Custom)
+      .map((filter): JSX.Element => ***REMOVED***
+        let filterComponent
+        let colWidth = 2
+        switch (filter.type) ***REMOVED***
+          case FilterType.Date:
+            filterComponent = (
+              <DateFilterInput
+                filter=***REMOVED***filter as DateFilter***REMOVED***
+                resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
+              />
+            )
+            colWidth = 3
+            break
+          case FilterType.Enum:
+            filterComponent = (
+              <EnumFilterInput
+                filter=***REMOVED***filter as EnumFilter***REMOVED***
+                resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
+              />
+            )
+            break
+          case FilterType.String:
+          default:
+            filterComponent = <TextFilterInput filter=***REMOVED***filter as TextFilter***REMOVED*** />
       ***REMOVED***
-      )
+        return (
+          <div key=***REMOVED***filter.fieldName***REMOVED*** className=***REMOVED***`col-$***REMOVED***colWidth***REMOVED***`***REMOVED***>
+            ***REMOVED***filterComponent***REMOVED***
+          </div>
+        )
+    ***REMOVED***)
 ***REMOVED*** [resetTimestamp, filterableFields])
 
   const PresetComponent = presetComponent
@@ -124,8 +119,8 @@ const FilterForm = (***REMOVED***
       <div className="FilterForm">
         <form onSubmit=***REMOVED***submitForm***REMOVED*** ref=***REMOVED***formRef***REMOVED***>
           <div className="row">***REMOVED***inputs***REMOVED***</div>
-          <div className="row align-items-center">
-            <div className="col-8 form-group">
+          <div className="row align-items-center mt-2">
+            <div className="col-8 form-group mb-0">
               ***REMOVED***PresetComponent && (
                 <PresetComponent
                   submitId=***REMOVED***submitId***REMOVED***
@@ -133,7 +128,7 @@ const FilterForm = (***REMOVED***
                 />
               )***REMOVED***
             </div>
-            <div className="col-4 form-group LabelledItem">
+            <div className="col-4 form-group mb-0">
               <div className="text-right">
                 <IconButton
                   label="Set filters"

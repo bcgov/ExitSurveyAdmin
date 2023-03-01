@@ -1,20 +1,20 @@
 import React from 'react'
 
-import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
-import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
-import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import Address from './Address'
-import KeycloakService from '../Login/KeycloakService'
-import SuccessMessage from './SuccessMessage'
+import ***REMOVED*** AnyJson ***REMOVED*** from '../../../../types/JsonType'
+import ***REMOVED*** Employee ***REMOVED*** from '../../../../types/Employee'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../../../helpers/requestHelpers'
+import Address from '../../../Employees/Address'
+import KeycloakService from '../../../Login/KeycloakService'
+import SuccessMessage from '../../../Employees/SuccessMessage'
 
 import './EditableField.scss'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   employee: Employee
   refreshDataCallback: () => void
 ***REMOVED***
 
-const EditableAddress = (props: IProps): JSX.Element => ***REMOVED***
+const EditableAddress = (props: Props): JSX.Element => ***REMOVED***
   const ***REMOVED*** employee ***REMOVED*** = props
 
   const line1Ref = React.useRef<HTMLInputElement>(null)

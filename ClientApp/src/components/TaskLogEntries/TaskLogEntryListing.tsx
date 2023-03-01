@@ -1,7 +1,7 @@
 import React from 'react'
-import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
 import ***REMOVED*** taskLogEntryFilters ***REMOVED*** from '../Filters/Presets/FieldSets/taskLogEntryFilters'
 import ***REMOVED*** taskLogEntryTableColumns ***REMOVED*** from './taskLogEntryTableColumns'
@@ -15,11 +15,11 @@ const TaskLogEntryListing = (): JSX.Element => (
     listingPath="taskLogEntries"
     pageSize=***REMOVED***5***REMOVED***
     dataMapper=***REMOVED***(responseJSON: FixTypeLater[]): TaskLogEntry[] =>
-      responseJSON.map(t => plainToInstance(TaskLogEntry, t))
+      responseJSON.map((t) => plainToInstance(TaskLogEntry, t))
   ***REMOVED***
     sortProp=***REMOVED***`&sorts=-createdTs`***REMOVED*** // By default, sort reverse chronologically
     exportedDataMapper=***REMOVED***(responseJSON: FixTypeLater[]): FixTypeLater[] =>
-      responseJSON.map(t => ***REMOVED***
+      responseJSON.map((t) => ***REMOVED***
         delete t.task
         delete t.taskOutcome
         return t

@@ -4,9 +4,9 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
-interface IProps ***REMOVED******REMOVED***
+interface Props ***REMOVED******REMOVED***
 
-const LoadPsaApiButton = (props: IProps): JSX.Element => ***REMOVED***
+const LoadPsaApiButton = (props: Props): JSX.Element => ***REMOVED***
   const [successTime, setSuccessTime] = React.useState(0)
   const [successMessage, setSuccessMessage] = React.useState<
     string | undefined

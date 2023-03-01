@@ -5,7 +5,7 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ***REMOVED*** AdminSetting ***REMOVED*** from '../../types/AdminSetting'
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
-import EditableStringField from '../Employees/EditableStringField'
+import EditableStringField from '../DisplayHelpers/Interface/EditableFields/EditableStringField'
 
 import RefreshStatusButton from './RefreshStatusButton'
 import ScheduledLoadAndUpdateButton from './ScheduledLoadAndUpdateButton'
@@ -45,7 +45,7 @@ const AdminInterface = (): JSX.Element => ***REMOVED***
                   validator=***REMOVED***(value: string): boolean => ***REMOVED***
                     return !isNaN(+value) && +value > 0
                 ***REMOVED******REMOVED***
-                  employeeDatabaseId=***REMOVED***as.id!***REMOVED***
+                  modelDatabaseId=***REMOVED***as.id!***REMOVED***
                   fieldName=***REMOVED***'Value'***REMOVED***
                   fieldValue=***REMOVED***as.value!***REMOVED***
                   ignoreAdminUserName

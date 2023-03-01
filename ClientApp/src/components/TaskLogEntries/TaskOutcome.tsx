@@ -1,10 +1,10 @@
 import React from 'react'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   taskOutcomeCode: string
 ***REMOVED***
 
-const TaskOutcome = (***REMOVED*** taskOutcomeCode ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const TaskOutcome = (***REMOVED*** taskOutcomeCode ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const color =
     taskOutcomeCode === 'Success'
       ? 'success'
