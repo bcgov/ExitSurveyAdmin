@@ -65,33 +65,41 @@ namespace ExitSurveyAdmin.Services
 
                 // Step 1. Prepare employees.
                 var preparedEmployees = new List<Employee>();
-                var tasks = employeesInBatch.Select(e => Task.Run(() => PrepareEmployee(e)));
 
-                try
-                {
-                    var results = await Task.WhenAll(tasks);
-                    preparedEmployees.AddRange(results);
-                }
-                catch (Exception)
-                {
-                    var exceptions = tasks.Where(t => t.Exception != null).Select(t => t.Exception);
-                }
+                // Use Task.Run to run this asynchronously; this speeds it up somewhat.
+                // var tasks = employeesInBatch.Select(e => Task.Run(() => PrepareEmployee(e)));
 
-                // foreach (Employee e in employeesInBatch)
+                // try
                 // {
-                //     try
-                //     {
-                //         var employee = PrepareEmployee(e);
-                //         preparedEmployees.Add(employee);
-                //     }
-                //     catch (Exception exception)
-                //     {
-                //         exceptionList.Add(
-                //             $"Exception with preparing candidate employee {e.FullName} "
-                //                 + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
-                //         );
-                //     }
+                //     var results = await Task.WhenAll(tasks);
+                //     preparedEmployees.AddRange(results);
                 // }
+                // catch (Exception)
+                // {
+                //     // Exceptions will be saved to the task objects; select them
+                //     // and then add the whole range to the exceptionList.
+                //     var exceptions = tasks
+                //         .Where(t => t.Exception != null)
+                //         .Select(t => $"{t.Exception.Message}")
+                //         .ToList();
+                //     exceptionList.AddRange(exceptions);
+                // }
+
+                foreach (Employee e in employeesInBatch)
+                {
+                    try
+                    {
+                        var employee = PrepareEmployee(e);
+                        preparedEmployees.Add(employee);
+                    }
+                    catch (Exception exception)
+                    {
+                        exceptionList.Add(
+                            $"Exception with preparing candidate employee {e.FullName} "
+                                + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
+                        );
+                    }
+                }
 
                 // Step 2. Get telkeys.
 
@@ -100,9 +108,9 @@ namespace ExitSurveyAdmin.Services
                 {
                     createSurveyResults = await callWeb.CreateSurveys(preparedEmployees);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    exceptionList.Add($"GIANT EXCEPTION! DEAL WITH ME LATER!");
+                    exceptionList.Add($"Could not create survey results. {e.Message}");
                     continue;
                 }
 
@@ -118,7 +126,7 @@ namespace ExitSurveyAdmin.Services
                     if (employee == null)
                     {
                         exceptionList.Add(
-                            $"Could not find prepared employee {callWebRowDto.PreferredFirstName} {callWebRowDto.LastName}"
+                            $"Could not find prepared employee {callWebRowDto.PreferredFirstName} {callWebRowDto.LastName} in created survey results list."
                         );
                     }
                     else
@@ -143,8 +151,6 @@ namespace ExitSurveyAdmin.Services
 
         private Employee PrepareEmployee(Employee employee)
         {
-            // Case A. The employee does not exist in the database.
-
             // Set the status code for a new employee.
             var newStatusCode = EmployeeStatusEnum.Exiting.Code;
             employee.CurrentEmployeeStatusCode = newStatusCode;
@@ -167,7 +173,6 @@ namespace ExitSurveyAdmin.Services
                 }
             );
 
-            // End Case A. Return the employee.
             return employee;
         }
     }
