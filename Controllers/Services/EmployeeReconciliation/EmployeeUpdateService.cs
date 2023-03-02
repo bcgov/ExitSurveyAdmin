@@ -28,156 +28,184 @@ namespace ExitSurveyAdmin.Services
             this.logger = logger;
         }
 
-        public async Task<Employee> UpdateExistingEmployee(
-            Employee existingEmployee,
-            Employee newEmployee
+        public async Task<EmployeeTaskResult> UpdateExistingEmployees(
+            IEnumerable<Tuple<Employee, Employee>> candidateEmployees
         )
         {
-            // Case B. The unique user DOES exist in the database.
+            var updatedEmployeesList = new List<Employee>();
+            var exceptionList = new List<string>();
 
-            // If the employee is marked as "survey complete," skip them.
-            if (
-                existingEmployee.CurrentEmployeeStatusCode == EmployeeStatusEnum.SurveyComplete.Code
-            )
+            foreach (var tuple in candidateEmployees)
             {
-                return existingEmployee;
-            }
+                var existingEmployee = tuple.Item1;
+                var newEmployee = tuple.Item2;
 
-            // If the employee is marked as "not exiting," update their
-            // status back to "exiting".
-            if (existingEmployee.CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code)
-            {
-                existingEmployee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
-                context.EmployeeTimelineEntries.Add(
-                    new EmployeeTimelineEntry
-                    {
-                        EmployeeId = existingEmployee.Id,
-                        EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
-                        EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
-                        Comment =
-                            "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the source data."
-                    }
-                );
-                context.Entry(existingEmployee).State = EntityState.Modified;
-                await context.SaveChangesAsync();
-                await callWeb.UpdateSurveys(new List<Employee>() { existingEmployee });
-            }
+                // Case B. The unique user DOES exist in the database.
 
-            // Now compare properties.
-            var differentProperties = existingEmployee.PropertyCompare(newEmployee);
-
-            if (differentProperties.Count() == 0)
-            {
-                // Case B1. No changes on any fields. Don't do anything.
-            }
-            else
-            {
-                // Case B2. Changes on some fields. Update the user.
-                // TODO: This lets us have very discrete control over exactly
-                // which property values get copied in. However, it is a bit
-                // complicated. We could also explore using something like
-                // entry.SetValues().
-
-                // While updating fields, also keep track of which fields
-                // were updated from old to new values.
-                List<string> fieldsUpdatedList = new List<string>();
-                foreach (PropertyVariance pv in differentProperties)
+                // If the employee is marked as "survey complete," skip them.
+                if (
+                    existingEmployee.CurrentEmployeeStatusCode
+                    == EmployeeStatusEnum.SurveyComplete.Code
+                )
                 {
-                    // Note: we don't log if the email address was set to
-                    // empty, because if it is empty, it will automatically
-                    // be reset when the user is saved.
-                    if (
-                        string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
-                        && string.IsNullOrWhiteSpace(pv.ValueB as string)
-                    )
-                    {
-                        continue;
-                    }
-
-                    var newValue = pv.PropertyInfo.GetValue(newEmployee);
-
-                    // TODO: Remove this as necessary...? (Related to the null Address1 issue).
-                    if (newValue == null)
-                        continue;
-
-                    if (existingEmployee.IsActive())
-                    {
-                        // Only actually set the field if the employee is
-                        // active. Otherwise, we still want to log that the
-                        // field would have been updated, so we can report
-                        // on it (see below).
-                        pv.PropertyInfo.SetValue(existingEmployee, newValue);
-                    }
-                    fieldsUpdatedList.Add($"{pv.PropertyInfo.Name}: `{pv.ValueA}` → `{pv.ValueB}`");
+                    updatedEmployeesList.Add(existingEmployee);
+                    continue;
                 }
 
-                // Now update the preferred fields when they've not already
-                // been overwritten by the admin. See the definition of
-                // the UpdatePreferredFields method for logic.
-                existingEmployee.UpdatePreferredFields();
-
-                // If there is > 1 field updated, update the object (note
-                // that if just email was set to ``, we might have no
-                // updated fields).
-                if (fieldsUpdatedList.Count > 0)
+                // If the employee is marked as "not exiting," update their
+                // status back to "exiting".
+                if (
+                    existingEmployee.CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code
+                )
                 {
-                    var fieldsUpdated = String.Join(", ", fieldsUpdatedList);
-                    var comment = $"Fields updated by script: {fieldsUpdated}.";
-
-                    // If the user is in a final state, log this as a
-                    // mistake instead.
-                    if (!existingEmployee.IsActive() && !existingEmployee.TriedToUpdateInFinalState)
-                    {
-                        comment =
-                            $"These fields would have been updated, "
-                            + $"but they were not as this user is in a "
-                            + $"final state: {fieldsUpdated}. The "
-                            + $"TriedToUpdateInFinalState flag was set. "
-                            + "No more updates of this kind will be logged.";
-
-                        existingEmployee.TriedToUpdateInFinalState = true;
-                        // Create a new timeline entry.
-                        context.EmployeeTimelineEntries.Add(
-                            new EmployeeTimelineEntry
-                            {
-                                EmployeeId = existingEmployee.Id,
-                                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                                Comment = comment
-                            }
-                        );
-
-                        context.Entry(existingEmployee).State = EntityState.Modified;
-                        await context.SaveChangesAsync();
-                    }
-
-                    // Save changes to employee and the new timeline entry.
-                    if (existingEmployee.IsActive() || !existingEmployee.TriedToUpdateInFinalState)
-                    {
-                        // Create a new timeline entry.
-                        context.EmployeeTimelineEntries.Add(
-                            new EmployeeTimelineEntry
-                            {
-                                EmployeeId = existingEmployee.Id,
-                                EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
-                                EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
-                                Comment = comment
-                            }
-                        );
-
-                        context.Entry(existingEmployee).State = EntityState.Modified;
-                        await context.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        return existingEmployee;
-                    }
-
-                    await callWeb.UpdateSurveys(new List<Employee>() { existingEmployee });
+                    existingEmployee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
+                    context.EmployeeTimelineEntries.Add(
+                        new EmployeeTimelineEntry
+                        {
+                            EmployeeId = existingEmployee.Id,
+                            EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                            EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
+                            Comment =
+                                "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the source data."
+                        }
+                    );
+                    context.Entry(existingEmployee).State = EntityState.Modified;
                 }
+
+                // Now compare properties.
+                var differentProperties = existingEmployee.PropertyCompare(newEmployee);
+
+                if (differentProperties.Count() == 0)
+                {
+                    // Case B1. No changes on any fields. Don't do anything.
+                }
+                else
+                {
+                    // Case B2. Changes on some fields. Update the user.
+                    // TODO: This lets us have very discrete control over exactly
+                    // which property values get copied in. However, it is a bit
+                    // complicated. We could also explore using something like
+                    // entry.SetValues().
+
+                    // While updating fields, also keep track of which fields
+                    // were updated from old to new values.
+                    List<string> fieldsUpdatedList = new List<string>();
+                    foreach (PropertyVariance pv in differentProperties)
+                    {
+                        // Note: we don't log if the email address was set to
+                        // empty, because if it is empty, it will automatically
+                        // be reset when the user is saved.
+                        if (
+                            string.Equals(pv.PropertyInfo.Name, nameof(Employee.GovernmentEmail))
+                            && string.IsNullOrWhiteSpace(pv.ValueB as string)
+                        )
+                        {
+                            continue;
+                        }
+
+                        var newValue = pv.PropertyInfo.GetValue(newEmployee);
+
+                        if (newValue == null)
+                            continue;
+
+                        if (existingEmployee.IsActive())
+                        {
+                            // Only actually set the field if the employee is
+                            // active. Otherwise, we still want to log that the
+                            // field would have been updated, so we can report
+                            // on it (see below).
+                            pv.PropertyInfo.SetValue(existingEmployee, newValue);
+                        }
+                        fieldsUpdatedList.Add(
+                            $"{pv.PropertyInfo.Name}: `{pv.ValueA}` → `{pv.ValueB}`"
+                        );
+                    }
+
+                    // Now update the preferred fields when they've not already
+                    // been overwritten by the admin. See the definition of
+                    // the UpdatePreferredFields method for logic.
+                    existingEmployee.UpdatePreferredFields();
+
+                    // If there is > 1 field updated, update the object (note
+                    // that if just email was set to ``, we might have no
+                    // updated fields).
+                    if (fieldsUpdatedList.Count > 0)
+                    {
+                        var fieldsUpdated = String.Join(", ", fieldsUpdatedList);
+                        var comment = $"Fields updated by script: {fieldsUpdated}.";
+
+                        // If the user is in a final state, log this as a
+                        // mistake instead.
+                        if (
+                            !existingEmployee.IsActive()
+                            && !existingEmployee.TriedToUpdateInFinalState
+                        )
+                        {
+                            comment =
+                                $"These fields would have been updated, "
+                                + $"but they were not as this user is in a "
+                                + $"final state: {fieldsUpdated}. The "
+                                + $"TriedToUpdateInFinalState flag was set. "
+                                + "No more updates of this kind will be logged.";
+
+                            existingEmployee.TriedToUpdateInFinalState = true;
+                            // Create a new timeline entry.
+                            context.EmployeeTimelineEntries.Add(
+                                new EmployeeTimelineEntry
+                                {
+                                    EmployeeId = existingEmployee.Id,
+                                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                                    EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                                    Comment = comment
+                                }
+                            );
+
+                            context.Entry(existingEmployee).State = EntityState.Modified;
+                        }
+
+                        // Save changes to employee and the new timeline entry.
+                        if (
+                            existingEmployee.IsActive()
+                            || !existingEmployee.TriedToUpdateInFinalState
+                        )
+                        {
+                            // Create a new timeline entry.
+                            context.EmployeeTimelineEntries.Add(
+                                new EmployeeTimelineEntry
+                                {
+                                    EmployeeId = existingEmployee.Id,
+                                    EmployeeActionCode = EmployeeActionEnum.UpdateByTask.Code,
+                                    EmployeeStatusCode = existingEmployee.CurrentEmployeeStatusCode,
+                                    Comment = comment
+                                }
+                            );
+
+                            context.Entry(existingEmployee).State = EntityState.Modified;
+                            await context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                // Regardless, update the survey.
+                updatedEmployeesList.Add(existingEmployee);
             }
 
-            return existingEmployee;
+            // Update surveys.
+            var result = await callWeb.UpdateSurveys(updatedEmployeesList);
+
+            // Save context.
+            await context.SaveChangesAsync();
+
+            return new EmployeeTaskResult(
+                TaskEnum.ReconcileEmployees,
+                candidateEmployees.Count(),
+                updatedEmployeesList,
+                exceptionList
+            );
         }
 
         private async Task<List<Employee>> SaveStatusesAndAddTimelineEntries(
