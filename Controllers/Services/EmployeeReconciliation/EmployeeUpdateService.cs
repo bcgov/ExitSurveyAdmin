@@ -261,6 +261,13 @@ namespace ExitSurveyAdmin.Services
         {
             var employeesToSave = new List<Tuple<Employee, EmployeeStatusEnum>>();
 
+            // An employee only has a set amount of time to complete a survey.
+            // If that time has expired, then expire the user.
+            var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
+                a => a.Key == AdminSetting.EmployeeExpirationThreshold
+            );
+            var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
+
             foreach (var tuple in surveyStatusCodes)
             {
                 var employee = tuple.Item1;
@@ -279,16 +286,6 @@ namespace ExitSurveyAdmin.Services
                     employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.SurveyComplete));
                     continue;
                 }
-
-                // An employee only has a set amount of time to complete a survey.
-                // If that time has expired, then expire the user.
-                var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
-                    a => a.Key == AdminSetting.EmployeeExpirationThreshold
-                );
-
-                var thresholdInDays = System.Convert.ToInt32(
-                    employeeExpirationThresholdSetting.Value
-                );
 
                 if (
                     employee.EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
