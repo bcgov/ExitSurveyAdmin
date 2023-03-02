@@ -7,11 +7,7 @@ import LoginButton from './LoginButton'
 const Unauthorized = (): JSX.Element => ***REMOVED***
   useEffect(() => ***REMOVED***
     windowLocation.save()
-
-    const timer = setTimeout(() => ***REMOVED***
-      KeycloakService.doLogin()
-  ***REMOVED*** 100)
-    return (): void => clearTimeout(timer)
+    KeycloakService.doLogin()
 ***REMOVED*** [])
 
   return (
