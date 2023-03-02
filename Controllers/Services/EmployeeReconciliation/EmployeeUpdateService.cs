@@ -331,18 +331,14 @@ namespace ExitSurveyAdmin.Services
                 )
                 .ToList();
 
-            // Do this in a batch, working with 100 employees at a time.
             var BATCH_SIZE = 100;
-
-            for (var i = 0; i < candidateEmployees.Count; i += BATCH_SIZE)
+            var NUM_BATCHES = (int)Math.Ceiling((double)candidateEmployees.Count() / BATCH_SIZE);
+            for (var i = 0; i < NUM_BATCHES; i++)
             ***REMOVED***
-                var employeesInBatch = candidateEmployees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE);
-
-                if (employeesInBatch.Count() == 0)
-                ***REMOVED***
-                    // This might happen on the last iteration of the loop...?
-                    continue;
-              ***REMOVED***
+                var employeesInBatch = candidateEmployees
+                    .Skip(i * BATCH_SIZE)
+                    .Take(BATCH_SIZE)
+                    .ToList();
 
                 var surveyStatusCodes = await callWeb.GetSurveyStatusCodes(employeesInBatch);
                 var updateResult = await UpdateEmployeeStatuses(surveyStatusCodes);
