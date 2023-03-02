@@ -53,22 +53,10 @@ namespace ExitSurveyAdmin.Services
             List<Employee> candidateEmployees
         )
         ***REMOVED***
-            var taskResult = await ReconcileEmployees(candidateEmployees);
+            var taskResult = await ReconcileWithDatabase(candidateEmployees);
             taskResult.Task = callingTask;
             await logger.LogEmployeeTaskResult(taskResult);
             return taskResult;
-      ***REMOVED***
-
-        private async Task<EmployeeTaskResult> ReconcileEmployees(List<Employee> employees)
-        ***REMOVED***
-            var result = await ReconcileWithDatabase(employees.Take(20));
-
-            return new EmployeeTaskResult(
-                TaskEnum.ReconcileEmployees,
-                employees.Count,
-                result.GoodEmployees,
-                result.Exceptions
-            );
       ***REMOVED***
 
         private async Task<EmployeeTaskResult> ReconcileWithDatabase(
@@ -78,6 +66,7 @@ namespace ExitSurveyAdmin.Services
             var employeesToCreate = new List<Employee>();
             var employeesToUpdate = new List<Tuple<Employee, Employee>>();
 
+            // Filter out employees who need creating from those who need updating.
             foreach (var candidateEmployee in employees)
             ***REMOVED***
                 // Get the existing employee, if it exists.
@@ -92,18 +81,17 @@ namespace ExitSurveyAdmin.Services
               ***REMOVED***
           ***REMOVED***
 
+            // Create employees.
             var creationResult = await creationService.InsertEmployees(employeesToCreate);
 
-            foreach (var tuple in employeesToUpdate)
-            ***REMOVED***
-                await updateService.UpdateExistingEmployee(tuple.Item1, tuple.Item2);
-          ***REMOVED***
+            // Update employees.
+            var updateResult = await updateService.UpdateExistingEmployees(employeesToUpdate);
 
             return new EmployeeTaskResult(
                 TaskEnum.ReconcileEmployees,
                 employees.Count(),
-                creationResult.GoodEmployees,
-                creationResult.Exceptions
+                creationResult.GoodEmployees.Concat(updateResult.GoodEmployees).ToList(),
+                creationResult.Exceptions.Concat(updateResult.Exceptions).ToList()
             );
       ***REMOVED***
   ***REMOVED***
