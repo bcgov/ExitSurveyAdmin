@@ -66,11 +66,19 @@ namespace ExitSurveyAdmin.Services
             var employeesToCreate = new List<Employee>();
             var employeesToUpdate = new List<Tuple<Employee, Employee>>();
 
+            var employeeIds = employees.Select(e => e.GovernmentEmployeeId).ToArray();
+
+            var relevantEmployees = creationService.RelevantEmployees(employeeIds);
+
             // Filter out employees who need creating from those who need updating.
             foreach (var candidateEmployee in employees)
             {
                 // Get the existing employee, if it exists.
-                var existingEmployee = creationService.UniqueEmployeeExists(candidateEmployee);
+                // var existingEmployee = creationService.UniqueEmployeeExists(candidateEmployee);
+                var existingEmployee = creationService.FindExisting(
+                    candidateEmployee,
+                    relevantEmployees
+                );
                 if (existingEmployee == null)
                 {
                     employeesToCreate.Add(candidateEmployee);

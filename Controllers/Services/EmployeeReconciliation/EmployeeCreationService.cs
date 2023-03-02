@@ -51,6 +51,26 @@ namespace ExitSurveyAdmin.Services
             }
         }
 
+        public Employee FindExisting(Employee candidate, List<Employee> employees)
+        {
+            var employee = employees.Find(
+                e =>
+                    e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
+                    && e.ExitCount == candidate.ExitCount
+                    && e.RecordCount == candidate.RecordCount
+            );
+
+            return employee;
+        }
+
+        public List<Employee> RelevantEmployees(string[] candidateGovernmentEmployeeIds)
+        {
+            return context.Employees
+                .Where(e => candidateGovernmentEmployeeIds.Contains(e.GovernmentEmployeeId))
+                .Include(e => e.CurrentEmployeeStatus)
+                .ToList();
+        }
+
         public async Task<EmployeeTaskResult> InsertEmployees(List<Employee> employees)
         {
             var insertedEmployeesList = new List<Employee>();
