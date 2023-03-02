@@ -4,7 +4,7 @@ import Button, { ICommonButtonProps } from './Button'
 
 import './IconButton.scss'
 
-interface IProps extends ICommonButtonProps {
+interface Props extends ICommonButtonProps {
   buttonClasses?: string
   iconClasses?: string
   iconMarginClasses?: string
@@ -18,7 +18,7 @@ interface IProps extends ICommonButtonProps {
   disabled?: boolean
 }
 
-class IconButton extends React.Component<IProps> {
+class IconButton extends React.Component<Props> {
   public render(): JSX.Element {
     const {
       buttonClasses,
@@ -27,7 +27,7 @@ class IconButton extends React.Component<IProps> {
       iconName,
       iconRight,
       iconType,
-      label
+      label,
     } = this.props
 
     const icon = (

@@ -1,9 +1,9 @@
-import { ISelectOption } from '../components/Employees/EditableSelect'
+import { SelectOption } from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 
 export enum TaskOutcomeEnum {
   Success = 'Success',
   Warn = 'Warn',
-  Fail = 'Fail'
+  Fail = 'Fail',
 }
 
 export class TaskOutcome {
@@ -20,11 +20,11 @@ export class TaskOutcome {
   static array = (): TaskOutcome[] => [
     TaskOutcome.SUCCESS,
     TaskOutcome.WARN,
-    TaskOutcome.FAIL
+    TaskOutcome.FAIL,
   ]
 
   static map = (): Map<TaskOutcomeEnum, TaskOutcome> => {
-    return new Map(TaskOutcome.array().map(s => [s.code, s]))
+    return new Map(TaskOutcome.array().map((s) => [s.code, s]))
   }
 
   static fromKey = (key: TaskOutcomeEnum): TaskOutcome => {
@@ -32,10 +32,10 @@ export class TaskOutcome {
     return TaskOutcome.map().get(key)!
   }
 
-  static toOptions = (): ISelectOption[] => {
-    return TaskOutcome.array().map(status => ({
+  static toOptions = (): SelectOption[] => {
+    return TaskOutcome.array().map((status) => ({
       name: status.code,
-      value: status.code
+      value: status.code,
     }))
   }
 }

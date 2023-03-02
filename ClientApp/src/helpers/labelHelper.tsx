@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ISelectOption } from '../components/Employees/EditableSelect'
+import { SelectOption } from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import { EmployeeStatus } from '../types/EmployeeStatus'
 import { Reason } from '../types/Reason'
 import { TaskOutcome } from '../types/TaskOutcome'
@@ -69,8 +69,8 @@ const fieldLabels: { [key: string]: string } = {
 
 const mapEnumToOptions = (
   enumeration: Record<string, string>
-): (() => ISelectOption[]) => {
-  return (): ISelectOption[] => {
+): (() => SelectOption[]) => {
+  return (): SelectOption[] => {
     return Object.keys(enumeration).map((enumKey) => ({
       name: enumeration[enumKey],
       value: enumKey,
@@ -78,7 +78,7 @@ const mapEnumToOptions = (
   }
 }
 
-const optionsForEnum: { [key: string]: () => ISelectOption[] } = {
+const optionsForEnum: { [key: string]: () => SelectOption[] } = {
   currentEmployeeStatusCode: EmployeeStatus.toOptions,
   reason: Reason.toOptions,
   taskOutcomeCode: TaskOutcome.toOptions,
@@ -106,7 +106,7 @@ export const labelForWithFlag = (
   )
 }
 
-export const optionsFor = (fieldName: string): ISelectOption[] => {
+export const optionsFor = (fieldName: string): SelectOption[] => {
   const options = optionsForEnum[fieldName]().sort((a, b) =>
     a.name.localeCompare(b.name)
   )

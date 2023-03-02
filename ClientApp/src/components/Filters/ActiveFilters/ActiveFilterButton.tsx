@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 
-import { IFilter } from '../FilterClasses/FilterTypes'
+import { Filter } from '../FilterClasses/FilterTypes'
 import { labelFor } from '../../../helpers/labelHelper'
 import IconButton from '../../DisplayHelpers/Interface/Buttons/IconButton'
 
-interface IProps {
-  filter: IFilter
-  removeFilter: (filter: IFilter) => void
+interface Props {
+  filter: Filter
+  removeFilter: (filter: Filter) => void
 }
 
-const ActiveFilterButton = ({ filter, removeFilter }: IProps): JSX.Element => {
+const ActiveFilterButton = ({ filter, removeFilter }: Props): JSX.Element => {
   const remove = (): void => {
     removeFilter(filter)
   }

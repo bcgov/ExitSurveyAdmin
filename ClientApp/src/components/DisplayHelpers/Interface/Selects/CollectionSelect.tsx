@@ -61,18 +61,18 @@ const customReactSelectStyles = {
       ? baseColor
       : state.isFocused
       ? focusShadowColor
-      : 'white'
+      : 'white',
   }),
   menu: (provided: FixTypeLater): FixTypeLater => ({
     ...provided,
-    borderRadius: '0px'
+    borderRadius: '0px',
   }),
   control: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => {
     const styles = {
       ...provided,
       boxShadow: 'none',
       borderRadius: '0px',
-      '&:focus': { borderRadius: '0px' }
+      '&:focus': { borderRadius: '0px' },
     }
     if (state.menuIsOpen || state.isFocused) {
       styles['borderColor'] = focusBorderColor
@@ -80,13 +80,13 @@ const customReactSelectStyles = {
       styles['boxShadow'] = `0 0 0 0.2rem ${focusShadowColor}`
     }
     return styles
-  }
+  },
 }
 
-interface IProps<T> extends ICollectionSelect<T> {}
+interface Props<T> extends ICollectionSelect<T> {}
 
-class CollectionSelect<T> extends React.Component<IProps<T>> {
-  public constructor(props: IProps<T>) {
+class CollectionSelect<T> extends React.Component<Props<T>> {
+  public constructor(props: Props<T>) {
     super(props)
     this.onChange = this.onChange.bind(this)
   }
@@ -106,7 +106,7 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
       }
     } else if (Array.isArray(selectedItems)) {
       // It's an array; just map and return
-      const values = selectedItems.map(item => item.value)
+      const values = selectedItems.map((item) => item.value)
       this.props.onChangeCallback(values)
     } else {
       // It's probably null.
@@ -115,7 +115,7 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
   }
 
   protected mapItems(items: T[]): ICollectionSelectValue[] {
-    return items.map(variable => {
+    return items.map((variable) => {
       const value = this.props.valueAccessor
         ? this.props.valueAccessor(variable)
         : ''
@@ -134,7 +134,7 @@ class CollectionSelect<T> extends React.Component<IProps<T>> {
     const items = this.props.items
     const options = items && items.length ? this.mapItems(items) : []
     const defaultOptions = this.props.defaultValueKeys
-      ? options.filter(option => option.isDefault)
+      ? options.filter((option) => option.isDefault)
       : undefined
 
     const placeholder = this.props.placeholder

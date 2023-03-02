@@ -5,19 +5,22 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { plainToInstance } from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
-import { Employee } from '../../types/Employee'
-import { EmployeeStatus, EmployeeStatusEnum } from '../../types/EmployeeStatus'
-import { labelFor, labelForWithFlag } from '../../helpers/labelHelper'
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import AddComment from './AddComment'
-import Address from './Address'
-import CLText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
-import Date from '../DisplayHelpers/FormattedDate'
-import EditableAddress from './EditableAddress'
-import EditableDropdown from './EditableSelect'
-import EditableStringField from './EditableStringField'
-import LabelledText from '../DisplayHelpers/Interface/LabelledItems/LabelledText'
-import TimelineEntryList from './TimelineEntryList'
+import { Employee } from '../../../types/Employee'
+import {
+  EmployeeStatus,
+  EmployeeStatusEnum,
+} from '../../../types/EmployeeStatus'
+import { labelFor, labelForWithFlag } from '../../../helpers/labelHelper'
+import { requestJSONWithErrorHandler } from '../../../helpers/requestHelpers'
+import AddComment from '../AddComment'
+import Address from '../Address'
+import CLText from '../../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
+import Date from '../../DisplayHelpers/FormattedDate'
+import EditableAddress from '../../DisplayHelpers/Interface/EditableFields/EditableAddress'
+import EditableDropdown from '../../DisplayHelpers/Interface/EditableFields/EditableSelect'
+import EditableStringField from '../../DisplayHelpers/Interface/EditableFields/EditableStringField'
+import LabelledText from '../../DisplayHelpers/Interface/LabelledItems/LabelledText'
+import TimelineEntryList from '../TimelineEntryList'
 
 interface IParams {
   employeeId: string
@@ -29,14 +32,14 @@ interface IStateProps {}
 
 interface IDispatchProps {}
 
-interface IProps extends IOwnProps, IStateProps, IDispatchProps {}
+interface Props extends IOwnProps, IStateProps, IDispatchProps {}
 
 interface IState {
   employee?: Employee
 }
 
-class EmployeeDetail extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class EmployeeDetail extends React.Component<Props, IState> {
+  constructor(props: Props) {
     super(props)
     this.state = { employee: undefined }
 
@@ -64,7 +67,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
             <LabelledText label={'Current status'}>
               <h3 className="mt-1">
                 <EditableDropdown
-                  employeeDatabaseId={e.id!}
+                  modelDatabaseId={e.id!}
                   fieldName="currentEmployeeStatusCode"
                   fieldValue={e.currentEmployeeStatusCode!.code}
                   refreshDataCallback={this.populateData}
@@ -93,7 +96,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
               <CLText label={labelFor('firstName')}>{e.firstName}</CLText>
               <CLText label={labelForWithFlag('preferredFirstName', e)}>
                 <EditableStringField
-                  employeeDatabaseId={e.id!}
+                  modelDatabaseId={e.id!}
                   fieldName={'preferredFirstName'}
                   fieldValue={e.preferredFirstName!}
                   refreshDataCallback={this.populateData}
@@ -116,7 +119,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
                   validator={(email: string): boolean =>
                     email.length === 0 || EmailValidator.validate(email)
                   }
-                  employeeDatabaseId={e.id!}
+                  modelDatabaseId={e.id!}
                   fieldName={'preferredEmail'}
                   fieldValue={e.preferredEmail!}
                   refreshDataCallback={this.populateData}
@@ -209,7 +212,7 @@ class EmployeeDetail extends React.Component<IProps, IState> {
           <div className="col-4">
             <h3>Timeline</h3>
             <AddComment
-              employeeDatabaseId={e.id!}
+              modelDatabaseId={e.id!}
               employeeStatusCode={e.currentEmployeeStatusCode!.code}
               refreshDataCallback={this.populateData}
             />
