@@ -16,10 +16,9 @@ type EmployeeCellProps = React.PropsWithChildren<
 export const employeeTableColumns = (): Column<Employee>[] => [
   ***REMOVED***
     Header: 'Telkey',
-    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      console.log('props.value -->', props.value)
-      return <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
-  ***REMOVED***
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
+    ),
     accessor: 'telkey',
 ***REMOVED***
   ***REMOVED***
@@ -77,14 +76,13 @@ export const employeeTableColumns = (): Column<Employee>[] => [
 ***REMOVED***
   ***REMOVED***
     Header: 'Status',
-    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      console.log('props ####>', props.value)
-      return <>***REMOVED***(props.value as unknown as EmployeeStatus).displayName***REMOVED***</>
-  ***REMOVED***
+    Cell: (props: EmployeeCellProps): JSX.Element => (
+      <>***REMOVED***(props.value as unknown as EmployeeStatus).displayName***REMOVED***</>
+    ),
     accessor: 'currentEmployeeStatusCode',
 ***REMOVED***
   ***REMOVED***
-    Header: 'Last modified date',
+    Header: 'Last modified time',
     Cell: (props: EmployeeCellProps): JSX.Element => (
       <FormattedDate
         date=***REMOVED***props.value as unknown as Date***REMOVED***

@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   loading: boolean
   pageIndex: number
   pageSize: number
@@ -11,8 +11,8 @@ const LoadingRow = (***REMOVED***
   loading,
   pageSize,
   pageIndex,
-  recordCount
-***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  recordCount,
+***REMOVED***: Props): JSX.Element => ***REMOVED***
   const rangeMin = recordCount === 0 ? 0 : pageIndex * pageSize + 1
   const rangeMax = Math.min((pageIndex + 1) * pageSize, recordCount)
   return (

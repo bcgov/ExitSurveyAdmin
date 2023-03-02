@@ -6,11 +6,11 @@ export interface IColumn ***REMOVED***
   isSortedDesc?: boolean
 ***REMOVED***
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   column: IColumn
 ***REMOVED***
 
-const ColumnSortIndicator = (props: IProps): JSX.Element => ***REMOVED***
+const ColumnSortIndicator = (props: Props): JSX.Element => ***REMOVED***
   const ***REMOVED*** column ***REMOVED*** = props
   return (
     <span>

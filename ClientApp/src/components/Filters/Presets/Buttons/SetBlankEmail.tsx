@@ -20,7 +20,7 @@ const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: P
   const setActiveEmployees = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: getBlankEmailFilter()
+      filter: getBlankEmailFilter(),
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])

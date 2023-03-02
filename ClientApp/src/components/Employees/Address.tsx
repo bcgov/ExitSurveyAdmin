@@ -2,12 +2,12 @@ import React from 'react'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   employee: Employee
   showPreferred?: boolean
 ***REMOVED***
 
-const Address = (***REMOVED*** employee: e, showPreferred ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const Address = (***REMOVED*** employee: e, showPreferred ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const address1 = showPreferred ? e.preferredAddress1 : e.address1
   const address2 = showPreferred ? e.preferredAddress2 : e.address2
   const addressCity = showPreferred ? e.preferredAddressCity : e.addressCity

@@ -8,12 +8,12 @@ import DateFilter from '../FilterClasses/DateFilter'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   filter: DateFilter
   resetTimestamp: number
 ***REMOVED***
 
-const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const [fromDate, setFromDate] = React.useState(filter.from)
@@ -41,8 +41,8 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IPr
   return (
     <div className="LabelledItem">
       <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***labelFor(name)***REMOVED***</label>
-      <div key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** className="d-flex w-100">
-        <div className="w-50 mr-2">
+      <div key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** className="d-flex">
+        <div className="w-50 mr-1">
           <DatePicker
             selected=***REMOVED***fromDate***REMOVED***
             onChange=***REMOVED***fromChange***REMOVED***
@@ -50,7 +50,7 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: IPr
             placeholderText=***REMOVED***'From'***REMOVED***
           />
         </div>
-        <div className="w-50 ml-2">
+        <div className="w-50 ml-1">
           <DatePicker
             selected=***REMOVED***toDate***REMOVED***
             onChange=***REMOVED***toChange***REMOVED***

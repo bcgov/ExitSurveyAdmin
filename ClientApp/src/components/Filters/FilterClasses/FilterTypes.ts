@@ -2,22 +2,22 @@ export enum FilterType ***REMOVED***
   String = 'string',
   Date = 'date',
   Enum = 'enum',
-  Custom = 'custom'
+  Custom = 'custom',
 ***REMOVED***
 
-export interface IFilter ***REMOVED***
+export interface Filter ***REMOVED***
   fieldName: string
   type: FilterType
   reset: () => void
   encode: () => string
-  decode: (input: string[]) => IFilter
-  clone: () => IFilter
+  decode: (input: string[]) => Filter
+  clone: () => Filter
   displayString: string
   isSet: boolean
   mustReplace: boolean
 ***REMOVED***
 
-export interface ISort ***REMOVED***
+export interface Sort ***REMOVED***
   id: string
   desc: boolean
 ***REMOVED***

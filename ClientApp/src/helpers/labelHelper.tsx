@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
+import ***REMOVED*** SelectOption ***REMOVED*** from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../types/EmployeeStatus'
 import ***REMOVED*** Reason ***REMOVED*** from '../types/Reason'
 import ***REMOVED*** TaskOutcome ***REMOVED*** from '../types/TaskOutcome'
@@ -69,8 +69,8 @@ const fieldLabels: ***REMOVED*** [key: string]: string ***REMOVED*** = ***REMOVE
 
 const mapEnumToOptions = (
   enumeration: Record<string, string>
-): (() => ISelectOption[]) => ***REMOVED***
-  return (): ISelectOption[] => ***REMOVED***
+): (() => SelectOption[]) => ***REMOVED***
+  return (): SelectOption[] => ***REMOVED***
     return Object.keys(enumeration).map((enumKey) => (***REMOVED***
       name: enumeration[enumKey],
       value: enumKey,
@@ -78,7 +78,7 @@ const mapEnumToOptions = (
 ***REMOVED***
 ***REMOVED***
 
-const optionsForEnum: ***REMOVED*** [key: string]: () => ISelectOption[] ***REMOVED*** = ***REMOVED***
+const optionsForEnum: ***REMOVED*** [key: string]: () => SelectOption[] ***REMOVED*** = ***REMOVED***
   currentEmployeeStatusCode: EmployeeStatus.toOptions,
   reason: Reason.toOptions,
   taskOutcomeCode: TaskOutcome.toOptions,
@@ -106,7 +106,7 @@ export const labelForWithFlag = (
   )
 ***REMOVED***
 
-export const optionsFor = (fieldName: string): ISelectOption[] => ***REMOVED***
+export const optionsFor = (fieldName: string): SelectOption[] => ***REMOVED***
   const options = optionsForEnum[fieldName]().sort((a, b) =>
     a.name.localeCompare(b.name)
   )

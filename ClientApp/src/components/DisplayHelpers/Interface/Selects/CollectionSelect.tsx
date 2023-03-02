@@ -61,18 +61,18 @@ const customReactSelectStyles = ***REMOVED***
       ? baseColor
       : state.isFocused
       ? focusShadowColor
-      : 'white'
+      : 'white',
 ***REMOVED***),
   menu: (provided: FixTypeLater): FixTypeLater => (***REMOVED***
     ...provided,
-    borderRadius: '0px'
+    borderRadius: '0px',
 ***REMOVED***),
   control: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => ***REMOVED***
     const styles = ***REMOVED***
       ...provided,
       boxShadow: 'none',
       borderRadius: '0px',
-      '&:focus': ***REMOVED*** borderRadius: '0px' ***REMOVED***
+      '&:focus': ***REMOVED*** borderRadius: '0px' ***REMOVED***,
   ***REMOVED***
     if (state.menuIsOpen || state.isFocused) ***REMOVED***
       styles['borderColor'] = focusBorderColor
@@ -83,10 +83,10 @@ const customReactSelectStyles = ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-interface IProps<T> extends ICollectionSelect<T> ***REMOVED******REMOVED***
+interface Props<T> extends ICollectionSelect<T> ***REMOVED******REMOVED***
 
-class CollectionSelect<T> extends React.Component<IProps<T>> ***REMOVED***
-  public constructor(props: IProps<T>) ***REMOVED***
+class CollectionSelect<T> extends React.Component<Props<T>> ***REMOVED***
+  public constructor(props: Props<T>) ***REMOVED***
     super(props)
     this.onChange = this.onChange.bind(this)
 ***REMOVED***
@@ -106,7 +106,7 @@ class CollectionSelect<T> extends React.Component<IProps<T>> ***REMOVED***
     ***REMOVED***
   ***REMOVED*** else if (Array.isArray(selectedItems)) ***REMOVED***
       // It's an array; just map and return
-      const values = selectedItems.map(item => item.value)
+      const values = selectedItems.map((item) => item.value)
       this.props.onChangeCallback(values)
   ***REMOVED*** else ***REMOVED***
       // It's probably null.
@@ -115,7 +115,7 @@ class CollectionSelect<T> extends React.Component<IProps<T>> ***REMOVED***
 ***REMOVED***
 
   protected mapItems(items: T[]): ICollectionSelectValue[] ***REMOVED***
-    return items.map(variable => ***REMOVED***
+    return items.map((variable) => ***REMOVED***
       const value = this.props.valueAccessor
         ? this.props.valueAccessor(variable)
         : ''
@@ -134,7 +134,7 @@ class CollectionSelect<T> extends React.Component<IProps<T>> ***REMOVED***
     const items = this.props.items
     const options = items && items.length ? this.mapItems(items) : []
     const defaultOptions = this.props.defaultValueKeys
-      ? options.filter(option => option.isDefault)
+      ? options.filter((option) => option.isDefault)
       : undefined
 
     const placeholder = this.props.placeholder

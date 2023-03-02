@@ -2,11 +2,11 @@ import React from 'react'
 
 import NavMenu from '../NavMenu'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   children: React.ReactNode
 ***REMOVED***
 
-const Layout = (props: IProps): JSX.Element => ***REMOVED***
+const Layout = (props: Props): JSX.Element => ***REMOVED***
   return (
     <div>
       <NavMenu />

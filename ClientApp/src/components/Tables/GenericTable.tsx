@@ -11,7 +11,7 @@ import ColumnSortIndicator from './ColumnSortIndicator'
 import LoadingRow from './LoadingRow'
 import Pagination from './Pagination'
 
-interface IProps<T extends object> ***REMOVED***
+interface Props<T extends object> ***REMOVED***
   data: T[]
   columns: () => Column<T>[]
   fetchData: (options: FixTypeLater) => FixTypeLater
@@ -22,7 +22,7 @@ interface IProps<T extends object> ***REMOVED***
   pageSize: number
 ***REMOVED***
 
-const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REMOVED***
+const GenericTable = <T extends object>(props: Props<T>): JSX.Element => ***REMOVED***
   const ***REMOVED***
     columns: propColumns,
     controlledPageCount,
@@ -31,7 +31,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REM
     fetchData,
     loading,
     pageSize: propPageSize,
-    recordCount
+    recordCount,
 ***REMOVED*** = props
 
   const columns = React.useMemo(propColumns, [propColumns])
@@ -50,7 +50,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REM
     nextPage,
     previousPage,
     // Get the state from the instance
-    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***
+    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***,
 ***REMOVED***: FixTypeLater = useTable(
     ***REMOVED***
       columns,
@@ -58,7 +58,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REM
       // defaultColumn,
       initialState: ***REMOVED***
         pageIndex: 0,
-        pageSize: initialPageSize
+        pageSize: initialPageSize,
     ***REMOVED*** as FixTypeLater,
       manualPagination: true,
       pageCount: controlledPageCount,
@@ -66,7 +66,7 @@ const GenericTable = <T extends object>(props: IProps<T>): JSX.Element => ***REM
       manualFilters: true,
       defaultCanFilter: true,
       autoResetSortBy: false,
-      autoResetFilters: false
+      autoResetFilters: false,
   ***REMOVED*** as FixTypeLater,
     useSortBy,
     usePagination

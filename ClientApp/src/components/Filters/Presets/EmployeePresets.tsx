@@ -9,7 +9,7 @@ import Set2MonthsAgo from './Buttons/Set2MonthsAgo'
 
 const EmployeePresets = (***REMOVED***
   submitId,
-  setSubmitId
+  setSubmitId,
 ***REMOVED***: PresetProps): JSX.Element => ***REMOVED***
   return (
     <div className="EmployeePresets">

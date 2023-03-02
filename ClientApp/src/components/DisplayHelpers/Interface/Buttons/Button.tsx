@@ -11,12 +11,12 @@ export interface ICommonButtonProps ***REMOVED***
   disabled?: boolean
 ***REMOVED***
 
-interface IProps extends ICommonButtonProps ***REMOVED***
+interface Props extends ICommonButtonProps ***REMOVED***
   children: React.ReactNode
   icon?: string
 ***REMOVED***
 
-class Button extends React.Component<IProps> ***REMOVED***
+class Button extends React.Component<Props> ***REMOVED***
   public render(): JSX.Element ***REMOVED***
     const ***REMOVED*** onClick, children, submit, reset ***REMOVED*** = this.props
     const className = this.props.className || ''

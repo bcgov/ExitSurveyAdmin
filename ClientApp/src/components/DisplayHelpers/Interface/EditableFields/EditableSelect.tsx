@@ -1,31 +1,34 @@
 import React from 'react'
 
-import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
-import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
-import KeycloakService from '../Login/KeycloakService'
-import SuccessMessage from './SuccessMessage'
+import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
+import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../../../helpers/requestHelpers'
+import KeycloakService from '../../../Login/KeycloakService'
+import SuccessMessage from '../../../Employees/SuccessMessage'
 
 import './EditableField.scss'
 
-export interface ISelectOption ***REMOVED***
+export interface SelectOption ***REMOVED***
   name: string
   value: string
 ***REMOVED***
 
-interface IProps ***REMOVED***
-  employeeDatabaseId: string
+interface Props ***REMOVED***
+  modelDatabaseId: string
   fieldName: string
   fieldValue: string
+  modelPath?: string
+  options: SelectOption[]
+  refreshDataCallback?: (response: FixTypeLater) => void
   valueToDisplayAccessor?: (value: string) => string
-  options: ISelectOption[]
-  refreshDataCallback: () => void
 ***REMOVED***
 
-const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
+const EditableSelect = (props: Props): JSX.Element => ***REMOVED***
   const ***REMOVED***
-    employeeDatabaseId,
     fieldName,
     fieldValue,
+    modelDatabaseId,
+    modelPath,
+    refreshDataCallback,
     options,
     valueToDisplayAccessor,
 ***REMOVED*** = props
@@ -41,17 +44,18 @@ const EditableSelect = (props: IProps): JSX.Element => ***REMOVED***
   const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
     event.preventDefault()
     requestJSONWithErrorHandler(
-      `api/employees/$***REMOVED***employeeDatabaseId***REMOVED***`,
+      `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
       'patch',
       ***REMOVED***
         [fieldName]: newValue,
         AdminUserName: KeycloakService.getUsername(),
     ***REMOVED***
       'CANNOT_EDIT_EMPLOYEE',
-      (responseJSON: AnyJson): void => ***REMOVED***
+      (response): void => ***REMOVED***
         toggleEditable()
-        console.log(responseJSON)
-        props.refreshDataCallback()
+        if (refreshDataCallback) ***REMOVED***
+          refreshDataCallback(response)
+      ***REMOVED***
         setSuccessTime(Date.now())
     ***REMOVED***
     )

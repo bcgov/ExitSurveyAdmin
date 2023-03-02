@@ -1,9 +1,9 @@
-import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
+import ***REMOVED*** SelectOption ***REMOVED*** from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 
 export enum TaskOutcomeEnum ***REMOVED***
   Success = 'Success',
   Warn = 'Warn',
-  Fail = 'Fail'
+  Fail = 'Fail',
 ***REMOVED***
 
 export class TaskOutcome ***REMOVED***
@@ -20,11 +20,11 @@ export class TaskOutcome ***REMOVED***
   static array = (): TaskOutcome[] => [
     TaskOutcome.SUCCESS,
     TaskOutcome.WARN,
-    TaskOutcome.FAIL
+    TaskOutcome.FAIL,
   ]
 
   static map = (): Map<TaskOutcomeEnum, TaskOutcome> => ***REMOVED***
-    return new Map(TaskOutcome.array().map(s => [s.code, s]))
+    return new Map(TaskOutcome.array().map((s) => [s.code, s]))
 ***REMOVED***
 
   static fromKey = (key: TaskOutcomeEnum): TaskOutcome => ***REMOVED***
@@ -32,10 +32,10 @@ export class TaskOutcome ***REMOVED***
     return TaskOutcome.map().get(key)!
 ***REMOVED***
 
-  static toOptions = (): ISelectOption[] => ***REMOVED***
-    return TaskOutcome.array().map(status => (***REMOVED***
+  static toOptions = (): SelectOption[] => ***REMOVED***
+    return TaskOutcome.array().map((status) => (***REMOVED***
       name: status.code,
-      value: status.code
+      value: status.code,
   ***REMOVED***))
 ***REMOVED***
 ***REMOVED***
