@@ -66,25 +66,6 @@ namespace ExitSurveyAdmin.Services
                 // Step 1. Prepare employees.
                 var preparedEmployees = new List<Employee>();
 
-                // Use Task.Run to run this asynchronously; this speeds it up somewhat.
-                // var tasks = employeesInBatch.Select(e => Task.Run(() => PrepareEmployee(e)));
-
-                // try
-                // ***REMOVED***
-                //     var results = await Task.WhenAll(tasks);
-                //     preparedEmployees.AddRange(results);
-                // ***REMOVED***
-                // catch (Exception)
-                // ***REMOVED***
-                //     // Exceptions will be saved to the task objects; select them
-                //     // and then add the whole range to the exceptionList.
-                //     var exceptions = tasks
-                //         .Where(t => t.Exception != null)
-                //         .Select(t => $"***REMOVED***t.Exception.Message***REMOVED***")
-                //         .ToList();
-                //     exceptionList.AddRange(exceptions);
-                // ***REMOVED***
-
                 foreach (Employee e in employeesInBatch)
                 ***REMOVED***
                     try

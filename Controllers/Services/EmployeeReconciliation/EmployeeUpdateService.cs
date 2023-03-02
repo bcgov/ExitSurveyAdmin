@@ -194,11 +194,14 @@ namespace ExitSurveyAdmin.Services
                 updatedEmployeesList.Add(existingEmployee);
           ***REMOVED***
 
-            // Update surveys.
-            var result = await callWeb.UpdateSurveys(updatedEmployeesList);
+            if (updatedEmployeesList.Count() > 0)
+            ***REMOVED***
+                // Update surveys.
+                var result = await callWeb.UpdateSurveys(updatedEmployeesList);
 
-            // Save context.
-            await context.SaveChangesAsync();
+                // Save context.
+                await context.SaveChangesAsync();
+          ***REMOVED***
 
             return new EmployeeTaskResult(
                 TaskEnum.ReconcileEmployees,
@@ -240,11 +243,14 @@ namespace ExitSurveyAdmin.Services
                 employees.Add(employee);
           ***REMOVED***
 
-            // Update in CallWeb.
-            await callWeb.UpdateSurveys(employees);
+            if (employees.Count() > 0)
+            ***REMOVED***
+                // Update in CallWeb.
+                await callWeb.UpdateSurveys(employees);
 
-            // Save.
-            await context.SaveChangesAsync();
+                // Save.
+                await context.SaveChangesAsync();
+          ***REMOVED***
 
             return employees;
       ***REMOVED***
@@ -254,9 +260,6 @@ namespace ExitSurveyAdmin.Services
         )
         ***REMOVED***
             var employeesToSave = new List<Tuple<Employee, EmployeeStatusEnum>>();
-
-            var goodEmployees = new List<Employee>();
-            var exceptions = new List<string>();
 
             foreach (var tuple in surveyStatusCodes)
             ***REMOVED***
@@ -343,6 +346,8 @@ namespace ExitSurveyAdmin.Services
                 var surveyStatusCodes = await callWeb.GetSurveyStatusCodes(employeesInBatch);
                 var updateResult = await UpdateEmployeeStatuses(surveyStatusCodes);
 
+                updatedEmployeeList.AddRange(updateResult);
+
                 // foreach (var tuple in updateResult)
                 // ***REMOVED***
                 //     var e = tuple.Item1;
@@ -366,7 +371,7 @@ namespace ExitSurveyAdmin.Services
             return new EmployeeTaskResult(
                 TaskEnum.RefreshStatuses,
                 candidateEmployees.Count,
-                updatedEmployeeList,
+                candidateEmployees,
                 exceptionList
             );
       ***REMOVED***
