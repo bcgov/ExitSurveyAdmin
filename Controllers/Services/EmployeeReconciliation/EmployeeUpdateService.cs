@@ -32,7 +32,7 @@ namespace ExitSurveyAdmin.Services
             IEnumerable<Tuple<Employee, Employee>> candidateEmployees
         )
         ***REMOVED***
-            var updatedEmployeesList = new List<Employee>();
+            var surveyUpdateEmployeesList = new List<Employee>();
             var exceptionList = new List<string>();
 
             foreach (var tuple in candidateEmployees)
@@ -40,15 +40,12 @@ namespace ExitSurveyAdmin.Services
                 var existingEmployee = tuple.Item1;
                 var newEmployee = tuple.Item2;
 
-                // Case B. The unique user DOES exist in the database.
-
                 // If the employee is marked as "survey complete," skip them.
                 if (
                     existingEmployee.CurrentEmployeeStatusCode
                     == EmployeeStatusEnum.SurveyComplete.Code
                 )
                 ***REMOVED***
-                    updatedEmployeesList.Add(existingEmployee);
                     continue;
               ***REMOVED***
 
@@ -70,6 +67,9 @@ namespace ExitSurveyAdmin.Services
                       ***REMOVED***
                     );
                     context.Entry(existingEmployee).State = EntityState.Modified;
+
+                    // They also need their survey updated.
+                    surveyUpdateEmployeesList.Add(existingEmployee);
               ***REMOVED***
 
                 // Now compare properties.
@@ -188,25 +188,25 @@ namespace ExitSurveyAdmin.Services
                             continue;
                       ***REMOVED***
                   ***REMOVED***
+
+                    // We'll need to update the survey, too.
+                    surveyUpdateEmployeesList.Add(existingEmployee);
               ***REMOVED***
-
-                // Regardless, update the survey.
-                updatedEmployeesList.Add(existingEmployee);
           ***REMOVED***
 
-            if (updatedEmployeesList.Count() > 0)
+            // Update surveys.
+            if (surveyUpdateEmployeesList.Count() > 0)
             ***REMOVED***
-                // Update surveys.
-                var result = await callWeb.UpdateSurveys(updatedEmployeesList);
-
-                // Save context.
-                await context.SaveChangesAsync();
+                var result = await callWeb.UpdateSurveys(surveyUpdateEmployeesList);
           ***REMOVED***
+
+            // Save the context.
+            await context.SaveChangesAsync();
 
             return new EmployeeTaskResult(
                 TaskEnum.ReconcileEmployees,
                 candidateEmployees.Count(),
-                updatedEmployeesList,
+                surveyUpdateEmployeesList,
                 exceptionList
             );
       ***REMOVED***

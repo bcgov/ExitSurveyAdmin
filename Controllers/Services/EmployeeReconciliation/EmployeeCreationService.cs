@@ -51,6 +51,26 @@ namespace ExitSurveyAdmin.Services
           ***REMOVED***
       ***REMOVED***
 
+        public Employee FindExisting(Employee candidate, List<Employee> employees)
+        ***REMOVED***
+            var employee = employees.Find(
+                e =>
+                    e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
+                    && e.ExitCount == candidate.ExitCount
+                    && e.RecordCount == candidate.RecordCount
+            );
+
+            return employee;
+      ***REMOVED***
+
+        public List<Employee> RelevantEmployees(string[] candidateGovernmentEmployeeIds)
+        ***REMOVED***
+            return context.Employees
+                .Where(e => candidateGovernmentEmployeeIds.Contains(e.GovernmentEmployeeId))
+                .Include(e => e.CurrentEmployeeStatus)
+                .ToList();
+      ***REMOVED***
+
         public async Task<EmployeeTaskResult> InsertEmployees(List<Employee> employees)
         ***REMOVED***
             var insertedEmployeesList = new List<Employee>();
