@@ -1,31 +1,34 @@
 import React from 'react'
 
-import { AnyJson } from '../../types/JsonType'
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
-import KeycloakService from '../Login/KeycloakService'
-import SuccessMessage from './SuccessMessage'
+import { FixTypeLater } from '../../../../types/FixTypeLater'
+import { requestJSONWithErrorHandler } from '../../../../helpers/requestHelpers'
+import KeycloakService from '../../../Login/KeycloakService'
+import SuccessMessage from '../../../Employees/SuccessMessage'
 
 import './EditableField.scss'
 
-export interface ISelectOption {
+export interface SelectOption {
   name: string
   value: string
 }
 
-interface IProps {
-  employeeDatabaseId: string
+interface Props {
+  modelDatabaseId: string
   fieldName: string
   fieldValue: string
+  modelPath?: string
+  options: SelectOption[]
+  refreshDataCallback?: (response: FixTypeLater) => void
   valueToDisplayAccessor?: (value: string) => string
-  options: ISelectOption[]
-  refreshDataCallback: () => void
 }
 
-const EditableSelect = (props: IProps): JSX.Element => {
+const EditableSelect = (props: Props): JSX.Element => {
   const {
-    employeeDatabaseId,
     fieldName,
     fieldValue,
+    modelDatabaseId,
+    modelPath,
+    refreshDataCallback,
     options,
     valueToDisplayAccessor,
   } = props
@@ -41,17 +44,18 @@ const EditableSelect = (props: IProps): JSX.Element => {
   const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     requestJSONWithErrorHandler(
-      `api/employees/${employeeDatabaseId}`,
+      `api/${modelPath || 'employees'}/${modelDatabaseId}`,
       'patch',
       {
         [fieldName]: newValue,
         AdminUserName: KeycloakService.getUsername(),
       },
       'CANNOT_EDIT_EMPLOYEE',
-      (responseJSON: AnyJson): void => {
+      (response): void => {
         toggleEditable()
-        console.log(responseJSON)
-        props.refreshDataCallback()
+        if (refreshDataCallback) {
+          refreshDataCallback(response)
+        }
         setSuccessTime(Date.now())
       }
     )

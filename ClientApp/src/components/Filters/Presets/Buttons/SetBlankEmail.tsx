@@ -20,7 +20,7 @@ const SetActiveEmployees = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const setActiveEmployees = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getBlankEmailFilter()
+      filter: getBlankEmailFilter(),
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])

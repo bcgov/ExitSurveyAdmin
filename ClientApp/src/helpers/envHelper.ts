@@ -31,9 +31,7 @@ export const keycloakInitOptions: KeycloakInitOptions = {
 }
 
 export const keycloakLoginOptions = {
-  redirectUri: `${env('AUTH_REDIRECT_URI')}${encodeURIComponent(
-    env('APP_DOMAIN')
-  )}`,
+  redirectUri: env('APP_DOMAIN'),
   idpHint: 'idir',
   scope: env('AUTH_SCOPE'),
 }

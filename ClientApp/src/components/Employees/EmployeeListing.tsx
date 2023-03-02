@@ -1,21 +1,19 @@
-import React from 'react'
 import { plainToInstance } from 'class-transformer'
 import moment from 'moment'
+import React from 'react'
 
+import { defaultDateFormat } from '../../helpers/dateHelper'
 import { Employee } from '../../types/Employee'
 import { employeeFilters } from '../Filters/Presets/FieldSets/employeeFilters'
 import { employeeTableColumns } from './employeeTableColumns'
 import { FixTypeLater } from '../../types/FixTypeLater'
 import EmployeePresets from '../Filters/Presets/EmployeePresets'
 import GenericListing from '../Listings/GenericListing'
-import { defaultDateFormat } from '../../helpers/dateHelper'
 
 const EmployeeListing = (): JSX.Element => {
   const dataMapperCallback = React.useCallback(
-    (responseJSON: FixTypeLater[]): Employee[] => {
-      console.log(responseJSON)
-      return responseJSON.map((e) => plainToInstance(Employee, e))
-    },
+    (responseJSON: FixTypeLater[]): Employee[] =>
+      responseJSON.map((e) => plainToInstance(Employee, e)),
     []
   )
 

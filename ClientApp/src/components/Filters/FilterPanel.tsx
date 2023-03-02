@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
-import { IFilter } from './FilterClasses/FilterTypes'
+import { Filter } from './FilterClasses/FilterTypes'
 import { PresetProps } from './Presets/PresetProps'
 import { MasterFilterHandler } from './MasterFilterHandler'
 import ActiveFilters from './ActiveFilters/ActiveFilters'
@@ -11,23 +11,23 @@ import HidePanel from './FilterPanelHideButton'
 
 import './FilterPanel.scss'
 
-interface IProps extends RouteComponentProps {
+interface Props extends RouteComponentProps {
   modelName: string
-  filterableFields: IFilter[]
+  filterableFields: Filter[]
   presetComponent?: React.FC<PresetProps>
 }
 
-const removeExactMatch = (arr: IFilter[], candidate: IFilter): void => {
-  const index = arr.findIndex(f => f.encode() === candidate.encode())
+const removeExactMatch = (arr: Filter[], candidate: Filter): void => {
+  const index = arr.findIndex((f) => f.encode() === candidate.encode())
   if (index > -1) arr.splice(index, 1)
 }
 
-const removeIfExists = (arr: IFilter[], candidate: IFilter): void => {
-  const index = arr.findIndex(f => f.fieldName === candidate.fieldName)
+const removeIfExists = (arr: Filter[], candidate: Filter): void => {
+  const index = arr.findIndex((f) => f.fieldName === candidate.fieldName)
   if (index > -1) arr.splice(index, 1)
 }
 
-const removeIfRequired = (arr: IFilter[], candidate: IFilter): void => {
+const removeIfRequired = (arr: Filter[], candidate: Filter): void => {
   // Remove exact matches
   removeExactMatch(arr, candidate)
   if (candidate.mustReplace) {
@@ -35,9 +35,9 @@ const removeIfRequired = (arr: IFilter[], candidate: IFilter): void => {
   }
 }
 
-const FilterPanel = (props: IProps): JSX.Element => {
+const FilterPanel = (props: Props): JSX.Element => {
   const [expanded, setExpanded] = React.useState(true)
-  const [filters, setFilters] = React.useState<IFilter[]>(() =>
+  const [filters, setFilters] = React.useState<Filter[]>(() =>
     MasterFilterHandler.decodeFromQueryString(
       props.filterableFields,
       props.location.search
@@ -45,10 +45,10 @@ const FilterPanel = (props: IProps): JSX.Element => {
   )
 
   const addFilters = React.useCallback(
-    (filtersToAdd: IFilter[]): void => {
+    (filtersToAdd: Filter[]): void => {
       const filtersClone = [...filters]
 
-      filtersToAdd.forEach(newFilter => {
+      filtersToAdd.forEach((newFilter) => {
         // If a new filter exists in the existing array, and this is a replace
         // filter, remove it
         removeIfRequired(filtersClone, newFilter)
@@ -60,7 +60,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
   )
 
   const removeFilter = React.useCallback(
-    (filter: IFilter): void => {
+    (filter: Filter): void => {
       const filtersClone = [...filters]
       removeIfExists(filtersClone, filter)
       setFilters(filtersClone)
@@ -113,7 +113,7 @@ const FilterPanel = (props: IProps): JSX.Element => {
         className={`FilterPanelBody row ${expandedClass}`}
         style={{
           maxHeight: expandedHeight,
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
         }}
       >
         <div className="col py-3">
