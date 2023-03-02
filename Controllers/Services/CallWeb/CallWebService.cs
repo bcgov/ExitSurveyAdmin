@@ -89,7 +89,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             // return callWebDto.CurrentStatus;
         }
 
-        public async Task<CallWebRowDto[]> CreateSurveys(List<Employee> employees)
+        public async Task<CallWebRowDto[]> CreateSurveys(IEnumerable<Employee> employees)
         {
             var callWebPostDtos = employees.Select(e => CallWebPostDto.FromEmployee(e)).ToList();
             var results = await CallWebApi.PostMultiple(callWebPostDtos);
