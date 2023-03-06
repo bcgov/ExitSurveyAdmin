@@ -122,7 +122,6 @@ objects:
           REACT_APP_AUTH_URL: '${KEYCLOAK_URL}',
           REACT_APP_AUTH_REALM: 'standard',
           REACT_APP_AUTH_CLIENT_ID: '${KEYCLOAK_CLIENT_ID}',
-          REACT_APP_AUTH_REDIRECT_URI: '${KEYCLOAK_REDIRECT_URI}'
         }
     kind: ConfigMap
     metadata:
@@ -155,9 +154,6 @@ parameters:
 - name: KEYCLOAK_CLIENT_ID
   required: true
   description: The client ID on Keycloak
-- name: KEYCLOAK_REDIRECT_URI
-  required: true
-  description: The redirect URI for Keycloak
 - name: BASE_OPENSHIFT_URL
   required: true
   description: The base URL for Openshift
