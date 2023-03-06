@@ -9,5 +9,4 @@ DEPLOY_NAMESPACE="abc123-tools"
 BASE_OPENSHIFT_URL="some.openshift.deployment.url"
 KEYCLOAK_URL="Keycloak URL to authenticate against"
 KEYCLOAK_CLIENT_ID="The client ID on Keycloak"
-KEYCLOAK_REDIRECT_URI="The redirect URI for Keycloak; see ClientApp/.env.example for notes"
 DO_BUILD=true
