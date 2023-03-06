@@ -1,5 +1,4 @@
 using ExitSurveyAdmin.Models;
-using ExitSurveyAdmin.Services.CallWeb;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,32 +10,23 @@ namespace ExitSurveyAdmin.Services
     public class EmployeeReconciliationService
     {
         private LoggingService logger;
-        private CallWebService callWeb;
-        private ExitSurveyAdminContext context;
-        private EmployeeInfoLookupService infoLookupService;
         private EmployeeCreationService creationService;
         private EmployeeUpdateService updateService;
 
         public EmployeeReconciliationService(
             LoggingService logger,
-            ExitSurveyAdminContext context,
-            CallWebService callWeb,
-            EmployeeInfoLookupService infoLookupService,
             EmployeeCreationService creationService,
             EmployeeUpdateService updateService
         )
         {
-            this.context = context;
-            this.callWeb = callWeb;
             this.logger = logger;
-            this.infoLookupService = infoLookupService;
             this.creationService = creationService;
             this.updateService = updateService;
         }
 
-        public async Task<EmployeeTaskResult> UpdateEmployeeStatusesAndLog()
+        public async Task<EmployeeTaskResult> RefreshCallWebStatusAndLog()
         {
-            var taskResult = await updateService.UpdateEmployeeStatuses();
+            var taskResult = await updateService.RefreshCallWebStatus();
             await logger.LogEmployeeTaskResult(taskResult);
             return taskResult;
         }
@@ -60,24 +50,25 @@ namespace ExitSurveyAdmin.Services
         }
 
         private async Task<EmployeeTaskResult> ReconcileWithDatabase(
-            IEnumerable<Employee> employees
+            List<Employee> candidateEmployees
         )
         {
             var employeesToCreate = new List<Employee>();
             var employeesToUpdate = new List<Tuple<Employee, Employee>>();
 
-            var employeeIds = employees.Select(e => e.GovernmentEmployeeId).ToArray();
+            // Get all the employees from the database who might be relevant to
+            // this reconciliation attempt, i.e. where an employee with their
+            // ID already exists in the database.
+            var employeeIds = candidateEmployees.Select(e => e.GovernmentEmployeeId).ToArray();
+            var existingEmployees = creationService.ExistingEmployees(employeeIds);
 
-            var relevantEmployees = creationService.RelevantEmployees(employeeIds);
-
-            // Filter out employees who need creating from those who need updating.
-            foreach (var candidateEmployee in employees)
+            // Separate out employees who need creating vs. those who need updating.
+            foreach (var candidateEmployee in candidateEmployees)
             {
                 // Get the existing employee, if it exists.
-                // var existingEmployee = creationService.UniqueEmployeeExists(candidateEmployee);
                 var existingEmployee = creationService.FindExisting(
                     candidateEmployee,
-                    relevantEmployees
+                    existingEmployees
                 );
                 if (existingEmployee == null)
                 {
@@ -97,7 +88,7 @@ namespace ExitSurveyAdmin.Services
 
             return new EmployeeTaskResult(
                 TaskEnum.ReconcileEmployees,
-                employees.Count(),
+                candidateEmployees.Count(),
                 creationResult.GoodEmployees.Concat(updateResult.GoodEmployees).ToList(),
                 creationResult.Exceptions.Concat(updateResult.Exceptions).ToList()
             );

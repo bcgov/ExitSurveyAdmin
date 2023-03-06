@@ -13,47 +13,31 @@ namespace ExitSurveyAdmin.Services
         private CallWebService callWeb;
         private ExitSurveyAdminContext context;
         private EmployeeInfoLookupService infoLookupService;
-        private LoggingService logger;
 
         public EmployeeCreationService(
             ExitSurveyAdminContext context,
             CallWebService callWeb,
-            EmployeeInfoLookupService infoLookupService,
-            LoggingService logger
+            EmployeeInfoLookupService infoLookupService
         )
         {
             this.context = context;
             this.callWeb = callWeb;
             this.infoLookupService = infoLookupService;
-            this.logger = logger;
+        }
+
+        public List<Employee> ExistingEmployees(string[] candidateGovernmentEmployeeIds)
+        {
+            return context.Employees
+                .Where(e => candidateGovernmentEmployeeIds.Contains(e.GovernmentEmployeeId))
+                .Include(e => e.CurrentEmployeeStatus)
+                .ToList();
         }
 
         // NB. For reconciliation purposes, existence is determined by the
         // combination of EmployeeId, ExitCount, and record count.
-        public Employee UniqueEmployeeExists(Employee candidate)
+        public Employee FindExisting(Employee candidate, List<Employee> employeesToSearch)
         {
-            var query = context.Employees
-                .Include(e => e.CurrentEmployeeStatus)
-                .Where(
-                    e =>
-                        e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
-                        && e.ExitCount == candidate.ExitCount
-                        && e.RecordCount == candidate.RecordCount
-                );
-
-            if (query.Count() > 0)
-            {
-                return query.First();
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public Employee FindExisting(Employee candidate, List<Employee> employees)
-        {
-            var employee = employees.Find(
+            var employee = employeesToSearch.Find(
                 e =>
                     e.GovernmentEmployeeId == candidate.GovernmentEmployeeId
                     && e.ExitCount == candidate.ExitCount
@@ -63,17 +47,9 @@ namespace ExitSurveyAdmin.Services
             return employee;
         }
 
-        public List<Employee> RelevantEmployees(string[] candidateGovernmentEmployeeIds)
-        {
-            return context.Employees
-                .Where(e => candidateGovernmentEmployeeIds.Contains(e.GovernmentEmployeeId))
-                .Include(e => e.CurrentEmployeeStatus)
-                .ToList();
-        }
-
         public async Task<EmployeeTaskResult> InsertEmployees(List<Employee> employees)
         {
-            var insertedEmployeesList = new List<Employee>();
+            var processedEmployeesList = new List<EmployeeResult>();
             var exceptionList = new List<string>();
 
             // Do this in a batch, working with 50 employees at a time.
@@ -84,62 +60,73 @@ namespace ExitSurveyAdmin.Services
                 var employeesInBatch = employees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE).ToList();
 
                 // Step 1. Prepare employees.
-                var preparedEmployees = new List<Employee>();
-
-                foreach (Employee e in employeesInBatch)
-                {
-                    try
+                var preparedEmployees = employeesInBatch
+                    .Select(e =>
                     {
-                        var employee = PrepareEmployee(e);
-                        preparedEmployees.Add(employee);
-                    }
-                    catch (Exception exception)
-                    {
-                        exceptionList.Add(
-                            $"Exception with preparing candidate employee {e.FullName} "
-                                + $"(ID: {e.GovernmentEmployeeId}): {exception.GetType()}: {exception.Message} "
-                        );
-                    }
-                }
+                        try
+                        {
+                            return PrepareEmployee(e);
+                        }
+                        catch (Exception exception)
+                        {
+                            processedEmployeesList.Add(new EmployeeResult(e, exception));
+                            return null;
+                        }
+                    })
+                    .Where(e => e != null) // Filter out errored employees.
+                    .ToList();
 
                 // Step 2. Get telkeys.
-
-                var createSurveyResults = new CallWebRowDto[0];
+                var createSurveyResults = new List<EmployeeResult>();
                 try
                 {
                     createSurveyResults = await callWeb.CreateSurveys(preparedEmployees);
                 }
-                catch (Exception e)
+                catch (Exception exception)
                 {
-                    exceptionList.Add($"Could not create survey results. {e.Message}");
-                    continue;
+                    exceptionList.Add(
+                        $"Could not create surveys in CallWeb for the following employees. Error: {exception.Message}"
+                    );
+                    processedEmployeesList.AddRange(
+                        preparedEmployees.Select(
+                            e =>
+                                new EmployeeResult(
+                                    e,
+                                    new CallWebCreateFailedException(
+                                        "Telkey not created because CreateSurveys failed."
+                                    )
+                                )
+                        )
+                    );
+                    continue; // Nothing more to do.
                 }
 
-                foreach (var callWebRowDto in createSurveyResults)
+                foreach (var employeeResult in createSurveyResults)
                 {
-                    var telkey = callWebRowDto.Telkey;
-                    var employee = preparedEmployees.Find(
-                        e =>
-                            e.PreferredFirstName.Equals(callWebRowDto.PreferredFirstName)
-                            && e.LastName.Equals(callWebRowDto.LastName)
-                            && e.Ministry.Equals(callWebRowDto.Ministry)
-                    );
-                    if (employee == null)
+                    processedEmployeesList.Add(employeeResult);
+
+                    // If no exceptions, save the employee.
+                    if (!employeeResult.HasExceptions)
                     {
-                        exceptionList.Add(
-                            $"Could not find prepared employee {callWebRowDto.PreferredFirstName} {callWebRowDto.LastName} in created survey results list."
-                        );
-                    }
-                    else
-                    {
-                        employee.Telkey = telkey;
-                        context.Add(employee);
-                        insertedEmployeesList.Add(employee);
+                        context.Add(employeeResult.Employee);
                     }
                 }
 
                 // Step 3. Save context.
                 await context.SaveChangesAsync();
+            }
+
+            var insertedEmployeesList = new List<Employee>();
+            foreach (var employeeResult in processedEmployeesList)
+            {
+                if (employeeResult.HasExceptions)
+                {
+                    exceptionList.Add(employeeResult.Message);
+                }
+                else
+                {
+                    insertedEmployeesList.Add(employeeResult.Employee);
+                }
             }
 
             return new EmployeeTaskResult(
