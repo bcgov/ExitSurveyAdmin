@@ -1,10 +1,10 @@
-using System;
-using System.Linq;
 using ExitSurveyAdmin.Models;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
@@ -26,22 +26,9 @@ namespace ExitSurveyAdmin.Services.CallWeb
             );
       ***REMOVED***
 
-        // Determines whether a survey is complete, given an employee.
-        // public async Task<string> GetSurveyStatusCode(Employee employee)
-        // ***REMOVED***
-        //     var callWebDto = await CallWebApi.GetOne(employee.Telkey);
-
-        //     if (callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1"))
-        //     ***REMOVED***
-        //         return EmployeeStatusEnum.SurveyComplete.Code;
-        //   ***REMOVED***
-
-        //     return callWebDto.CurrentStatus;
-        // ***REMOVED***
-
         // Determines whether a survey is complete, given multiple employees.
-        public async Task<List<Tuple<Employee, string>>> GetSurveyStatusCodes(
-            IEnumerable<Employee> employees
+        public async Task<List<Tuple<EmployeeResult, string>>> GetSurveyStatusCodes(
+            List<Employee> employees
         )
         ***REMOVED***
             var telkeys = employees.Select(e => e.Telkey).ToArray();
@@ -53,71 +40,101 @@ namespace ExitSurveyAdmin.Services.CallWeb
 
             var callWebDtos = (await CallWebApi.GetMultiple(telkeys)).ToList();
 
-            var statusCodes = new List<Tuple<Employee, string>>();
+            var results = new List<Tuple<EmployeeResult, string>>();
 
             foreach (var e in employees)
             ***REMOVED***
                 var callWebDto = callWebDtos.Find(dto => dto.Telkey == e.Telkey);
+                var employeeResult = new EmployeeResult(e);
+                string statusCode = null;
 
                 if (callWebDto == null)
                 ***REMOVED***
-                    statusCodes.Add(Tuple.Create(e, ""));
+                    employeeResult.AddException(new CallWebRetrieveFailedException());
               ***REMOVED***
                 else
                 ***REMOVED***
-                    if (
-                        callWebDto.IsSurveyComplete != null
-                        && callWebDto.IsSurveyComplete.Equals("1")
-                    )
-                    ***REMOVED***
-                        statusCodes.Add(Tuple.Create(e, EmployeeStatusEnum.SurveyComplete.Code));
-                  ***REMOVED***
-                    else
-                    ***REMOVED***
-                        statusCodes.Add(Tuple.Create(e, callWebDto.CurrentStatus));
-                  ***REMOVED***
+                    statusCode =
+                        (IsSurveyComplete(callWebDto))
+                            ? EmployeeStatusEnum.SurveyComplete.Code
+                            : callWebDto.CurrentStatus;
               ***REMOVED***
+                results.Add(Tuple.Create(employeeResult, statusCode));
           ***REMOVED***
-
-            return statusCodes;
-
-            // if (callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1"))
-            // ***REMOVED***
-            //     return EmployeeStatusEnum.SurveyComplete.Code;
-            // ***REMOVED***
-
-            // return callWebDto.CurrentStatus;
-      ***REMOVED***
-
-        public async Task<CallWebRowDto[]> CreateSurveys(IEnumerable<Employee> employees)
-        ***REMOVED***
-            var callWebPostDtos = employees.Select(e => CallWebPostDto.FromEmployee(e)).ToList();
-            var results = await CallWebApi.PostMultiple(callWebPostDtos);
-
-            // TODO: move this check elsewhere
-            // if (string.IsNullOrEmpty(callWebDto.Telkey))
-            // ***REMOVED***
-
-            //     throw new InvalidOperationException("Telkey was not created.");
-            // ***REMOVED***
 
             return results;
       ***REMOVED***
 
-        // public async Task<CallWebRowDto> UpdateSurvey(Employee employee)
-        // ***REMOVED***
-        //     var callWebPatchDto = CallWebPatchDto.FromEmployee(employee);
-        //     var callWebDto = await CallWebApi.Patch(callWebPatchDto);
+        private bool IsSurveyComplete(CallWebRowDto callWebDto)
+        ***REMOVED***
+            return callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1");
+      ***REMOVED***
 
-        //     return callWebDto;
-        // ***REMOVED***
+        public async Task<List<EmployeeResult>> CreateSurveys(List<Employee> employees)
+        ***REMOVED***
+            var callWebPostDtos = employees.Select(e => CallWebPostDto.FromEmployee(e)).ToList();
+            var results = (await CallWebApi.PostMultiple(callWebPostDtos)).ToList();
 
-        public async Task<CallWebRowDto[]> UpdateSurveys(List<Employee> employees)
+            var employeeResults = employees
+                .Select(employee =>
+                ***REMOVED***
+                    // We can't compare telkeys because the employes we're
+                    // trying to create don't have them yet. Instead, compare on
+                    // first name, last name, and ministry.
+                    var result = results.Find(
+                        result =>
+                            employee.PreferredFirstName.Equals(result.PreferredFirstName)
+                            && employee.LastName.Equals(result.LastName)
+                            && employee.Ministry.Equals(result.Ministry)
+                    );
+
+                    if (result == null)
+                    ***REMOVED***
+                        return new EmployeeResult(
+                            employee,
+                            new CallWebCreateFailedException(
+                                "Employee not present in CreateSurveys result."
+                            )
+                        );
+                  ***REMOVED***
+                    else
+                    ***REMOVED***
+                        employee.Telkey = result.Telkey;
+                        return new EmployeeResult(employee);
+                  ***REMOVED***
+              ***REMOVED***)
+                .ToList();
+
+            return employeeResults;
+      ***REMOVED***
+
+        public async Task<List<EmployeeResult>> UpdateSurveys(List<Employee> employees)
         ***REMOVED***
             var callWebPatchDtos = employees.Select(e => CallWebPatchDto.FromEmployee(e)).ToList();
-            var callWebDtos = await CallWebApi.PatchMultiple(callWebPatchDtos);
+            var results = (await CallWebApi.PatchMultiple(callWebPatchDtos)).ToList();
 
-            return callWebDtos;
+            var employeeResults = employees
+                .Select(employee =>
+                ***REMOVED***
+                    var result = results.Find(result => employee.Telkey.Equals(result.Telkey));
+
+                    if (result == null)
+                    ***REMOVED***
+                        return new EmployeeResult(
+                            employee,
+                            new CallWebUpdateFailedException(
+                                "Employee not present in UpdateSurveys result."
+                            )
+                        );
+                  ***REMOVED***
+                    else
+                    ***REMOVED***
+                        return new EmployeeResult(employee);
+                  ***REMOVED***
+              ***REMOVED***)
+                .ToList();
+
+            return employeeResults;
       ***REMOVED***
 
         public async Task<CallWebRowDto[]> ListAll()

@@ -303,5 +303,17 @@ namespace ExitSurveyAdmin.Models
         ***REMOVED***
             return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
       ***REMOVED***
+
+        public Boolean IsPastExpiryThreshold(int thresholdInDays)
+        ***REMOVED***
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
+                && CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code;
+      ***REMOVED***
+
+        public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
+        ***REMOVED***
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
+                && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+      ***REMOVED***
   ***REMOVED***
 ***REMOVED***
