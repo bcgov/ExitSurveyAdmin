@@ -303,5 +303,17 @@ namespace ExitSurveyAdmin.Models
         {
             return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
         }
+
+        public Boolean IsPastExpiryThreshold(int thresholdInDays)
+        {
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
+                && CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code;
+        }
+
+        public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
+                && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+        }
     }
 }

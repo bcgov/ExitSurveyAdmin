@@ -249,7 +249,7 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 // Update existing employee statuses.
-                var taskResult = await employeeReconciler.UpdateEmployeeStatusesAndLog();
+                var taskResult = await employeeReconciler.RefreshCallWebStatusAndLog();
 
                 emailService.SendTaskResultEmail(taskResult);
 
