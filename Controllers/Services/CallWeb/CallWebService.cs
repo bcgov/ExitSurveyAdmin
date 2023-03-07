@@ -84,11 +84,6 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return taskResult;
       ***REMOVED***
 
-        private bool IsSurveyComplete(CallWebRowDto callWebDto)
-        ***REMOVED***
-            return callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1");
-      ***REMOVED***
-
         public async Task<TaskResult<Employee>> CreateSurveys(List<Employee> employees)
         ***REMOVED***
             var taskResult = new TaskResult<Employee>();
@@ -192,6 +187,11 @@ namespace ExitSurveyAdmin.Services.CallWeb
             var response = await CallWebApi.GetAll();
 
             return response;
+      ***REMOVED***
+
+        private bool IsSurveyComplete(CallWebRowDto callWebDto)
+        ***REMOVED***
+            return callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1");
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
