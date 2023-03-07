@@ -12,16 +12,19 @@ namespace ExitSurveyAdmin.Services
         private LoggingService logger;
         private EmployeeCreationService creationService;
         private EmployeeUpdateService updateService;
+        private EmployeeNotExitingService notExitingService;
 
         public EmployeeReconciliationService(
             LoggingService logger,
             EmployeeCreationService creationService,
-            EmployeeUpdateService updateService
+            EmployeeUpdateService updateService,
+            EmployeeNotExitingService notExitingService
         )
         {
             this.logger = logger;
             this.creationService = creationService;
             this.updateService = updateService;
+            this.notExitingService = notExitingService;
         }
 
         public async Task<EmployeeTaskResult> RefreshCallWebStatusAndLog()
@@ -33,7 +36,7 @@ namespace ExitSurveyAdmin.Services
 
         public async Task<EmployeeTaskResult> UpdateNotExitingAndLog(List<Employee> employees)
         {
-            var taskResult = await updateService.UpdateNotExiting(employees);
+            var taskResult = await notExitingService.UpdateNotExiting(employees);
             await logger.LogEmployeeTaskResult(taskResult);
             return taskResult;
         }

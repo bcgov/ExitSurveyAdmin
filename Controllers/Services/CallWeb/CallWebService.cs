@@ -27,42 +27,61 @@ namespace ExitSurveyAdmin.Services.CallWeb
         }
 
         // Determines whether a survey is complete, given multiple employees.
-        public async Task<List<Tuple<EmployeeResult, string>>> GetSurveyStatusCodes(
+        public async Task<TaskResult<Tuple<Employee, string>>> GetSurveyStatusCodes(
             List<Employee> employees
         )
         {
-            var telkeys = employees.Select(e => e.Telkey).ToArray();
+            var taskResult = new TaskResult<Tuple<Employee, string>>();
 
-            if (telkeys.Count() != employees.Count())
+            try
             {
-                throw new Exception("telkeys.Count != employees.Count!");
+                var telkeys = employees.Select(e => e.Telkey).ToArray();
+
+                if (telkeys.Count() != employees.Count())
+                {
+                    throw new Exception("telkeys.Count != employees.Count!");
+                }
+
+                var results = (await CallWebApi.GetMultiple(telkeys)).ToList();
+
+                foreach (var employee in employees)
+                {
+                    var result = results.Find(dto => dto.Telkey == employee.Telkey);
+
+                    if (result == null)
+                    {
+                        taskResult.AddFailedWithException(
+                            new Tuple<Employee, string>(employee, null),
+                            new CallWebRetrieveFailedException(
+                                $"No GetSurveyStatusCodes result for {employee}"
+                            )
+                        );
+                    }
+                    else
+                    {
+                        var statusCode =
+                            (IsSurveyComplete(result))
+                                ? EmployeeStatusEnum.SurveyComplete.Code
+                                : result.CurrentStatus;
+                        taskResult.AddSucceeded(new Tuple<Employee, string>(employee, statusCode));
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                // Assume the entire operation failed.
+                foreach (var employee in employees)
+                {
+                    taskResult.AddFailed(new Tuple<Employee, string>(employee, null));
+                }
+                taskResult.AddException(
+                    new CallWebRetrieveFailedException(
+                        $"GetSurveyStatusCodes failed for a range of employees: {String.Join(", ", employees)}. Error: {exception.Message}"
+                    )
+                );
             }
 
-            var callWebDtos = (await CallWebApi.GetMultiple(telkeys)).ToList();
-
-            var results = new List<Tuple<EmployeeResult, string>>();
-
-            foreach (var e in employees)
-            {
-                var callWebDto = callWebDtos.Find(dto => dto.Telkey == e.Telkey);
-                var employeeResult = new EmployeeResult(e);
-                string statusCode = null;
-
-                if (callWebDto == null)
-                {
-                    employeeResult.AddException(new CallWebRetrieveFailedException());
-                }
-                else
-                {
-                    statusCode =
-                        (IsSurveyComplete(callWebDto))
-                            ? EmployeeStatusEnum.SurveyComplete.Code
-                            : callWebDto.CurrentStatus;
-                }
-                results.Add(Tuple.Create(employeeResult, statusCode));
-            }
-
-            return results;
+            return taskResult;
         }
 
         private bool IsSurveyComplete(CallWebRowDto callWebDto)
@@ -124,33 +143,48 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return taskResult;
         }
 
-        public async Task<List<EmployeeResult>> UpdateSurveys(List<Employee> employees)
+        public async Task<TaskResult<Employee>> UpdateSurveys(List<Employee> employees)
         {
-            var callWebPatchDtos = employees.Select(e => CallWebPatchDto.FromEmployee(e)).ToList();
-            var results = (await CallWebApi.PatchMultiple(callWebPatchDtos)).ToList();
+            var taskResult = new TaskResult<Employee>();
 
-            var employeeResults = employees
-                .Select(employee =>
+            try
+            {
+                var callWebPatchDtos = employees
+                    .Select(e => CallWebPatchDto.FromEmployee(e))
+                    .ToList();
+                var results = (await CallWebApi.PatchMultiple(callWebPatchDtos)).ToList();
+
+                foreach (var employee in employees)
                 {
                     var result = results.Find(result => employee.Telkey.Equals(result.Telkey));
 
                     if (result == null)
                     {
-                        return new EmployeeResult(
+                        taskResult.AddFailedWithException(
                             employee,
                             new CallWebUpdateFailedException(
-                                "Employee not present in UpdateSurveys result."
+                                $"No UpdateSurveys result for {employee}"
                             )
                         );
                     }
                     else
                     {
-                        return new EmployeeResult(employee);
+                        taskResult.AddSucceeded(employee);
                     }
-                })
-                .ToList();
+                }
+            }
+            catch (Exception exception)
+            {
+                // Assume the entire operation failed.
+                taskResult.AddFailed(employees);
+                taskResult.AddException(
+                    new CallWebUpdateFailedException(
+                        $"UpdateSurveys failed for a range of employees: {String.Join(", ", employees)}. Error: {exception.Message}"
+                    )
+                );
+            }
 
-            return employeeResults;
+            return taskResult;
         }
 
         public async Task<CallWebRowDto[]> ListAll()

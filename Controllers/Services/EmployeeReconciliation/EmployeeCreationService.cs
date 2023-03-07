@@ -127,7 +127,10 @@ namespace ExitSurveyAdmin.Services
 
             try
             {
-                employees.Select(e => context.Add(e));
+                foreach (var e in employees)
+                {
+                    context.Employees.Add(e);
+                }
                 await context.SaveChangesAsync();
                 taskResult.AddSucceeded(employees);
             }

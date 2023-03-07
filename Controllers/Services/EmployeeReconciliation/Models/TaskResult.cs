@@ -1,12 +1,14 @@
 using System;
-using ExitSurveyAdmin.Models;
 using System.Linq;
 using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
 {
+
+
     public class TaskResult<T>
     {
+
         private static string NEW_LINE = System.Environment.NewLine;
 
         public TaskResult()
@@ -42,9 +44,9 @@ namespace ExitSurveyAdmin.Services
             get { return Exceptions.Count; }
         }
 
-        public IEnumerable<string> ExceptionMessages
+        public List<string> ExceptionMessages
         {
-            get { return Exceptions.Select(ex => ex.Message); }
+            get { return Exceptions.Select(ex => ex.Message).ToList(); }
         }
 
         public int TotalRecordCount
@@ -82,10 +84,39 @@ namespace ExitSurveyAdmin.Services
             this.Exceptions.Add(exception);
         }
 
+        public void AddExceptions(IEnumerable<Exception> exceptions)
+        {
+            this.Exceptions.AddRange(exceptions);
+        }
+
         public void AddFailedWithException(T failed, Exception exception)
         {
             this.Failed.Add(failed);
             this.Exceptions.Add(exception);
+        }
+
+        public List<T> AddIncremental(TaskResult<T> otherTaskResult)
+        {
+            this.CopyFailedAndExceptionsFrom(otherTaskResult);
+            return otherTaskResult.Succeeded;
+        }
+
+        public void AddFinal(TaskResult<T> otherTaskResult)
+        {
+            this.CopyFrom(otherTaskResult);
+        }
+
+        public void CopyFailedAndExceptionsFrom(TaskResult<T> otherTaskResult)
+        {
+            this.AddFailed(otherTaskResult.Failed);
+            this.AddExceptions(otherTaskResult.Exceptions);
+        }
+
+        public void CopyFrom(TaskResult<T> otherTaskResult)
+        {
+            this.AddSucceeded(otherTaskResult.Succeeded);
+            this.AddFailed(otherTaskResult.Failed);
+            this.AddExceptions(otherTaskResult.Exceptions);
         }
 
         // public string Message
