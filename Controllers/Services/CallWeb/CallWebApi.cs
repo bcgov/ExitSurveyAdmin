@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -136,6 +137,22 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
+        public async Task<CallWebRowDto[]> GetMultiple(string[] telkeys)
+        {
+            if (telkeys.Length == 0)
+            {
+                throw new Exception("GetMultiple: telkeys.Length was 0");
+            }
+
+            var client = await GetClientWithServiceToken();
+            var response = await client.GetAsync(
+                $"{BaseUrl}Multi?telkeys={String.Join(',', telkeys)}"
+            );
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
+        }
+
         public async Task<CallWebRowDto> Post(CallWebPostDto postDto)
         {
             var content = ToJsonContent(postDto);
@@ -147,6 +164,17 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
+        public async Task<CallWebRowDto[]> PostMultiple(List<CallWebPostDto> postDtos)
+        {
+            var content = ToJsonContent(postDtos.ToArray());
+
+            var client = await GetClientWithServiceToken();
+            var response = await client.PostAsync($"{BaseUrl}Multi", content);
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
+        }
+
         public async Task<CallWebRowDto> Patch(CallWebPatchDto patchDto)
         {
             var content = ToJsonContent(patchDto);
@@ -156,6 +184,17 @@ namespace ExitSurveyAdmin.Services.CallWeb
             var callWebDto = await CallWebRowFromResponse(response);
 
             return callWebDto;
+        }
+
+        public async Task<CallWebRowDto[]> PatchMultiple(List<CallWebPatchDto> patchDtos)
+        {
+            var content = ToJsonContent(patchDtos.ToArray());
+
+            var client = await GetClientWithServiceToken();
+            var response = await client.PatchAsync($"{BaseUrl}Multi", content);
+            var callWebDtos = await CallWebRowsFromResponse(response);
+
+            return callWebDtos;
         }
     }
 }

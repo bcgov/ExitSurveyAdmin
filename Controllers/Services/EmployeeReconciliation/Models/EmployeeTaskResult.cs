@@ -1,4 +1,5 @@
 using ExitSurveyAdmin.Models;
+
 using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
@@ -6,6 +7,14 @@ namespace ExitSurveyAdmin.Services
     public class EmployeeTaskResult
     {
         private static string NEW_LINE = System.Environment.NewLine;
+
+        public EmployeeTaskResult(TaskEnum task)
+        {
+            this.Task = task;
+            this.CandidateEmployeesCount = 0;
+            this.GoodEmployees = new List<Employee>();
+            this.Exceptions = new List<string>();
+        }
 
         public EmployeeTaskResult(
             TaskEnum task,
@@ -18,6 +27,32 @@ namespace ExitSurveyAdmin.Services
             this.CandidateEmployeesCount = candidateEmployeesCount;
             this.GoodEmployees = goodEmployees;
             this.Exceptions = exceptions;
+        }
+
+        public void AddTaskResult(TaskResult<Employee> taskResult)
+        {
+            this.CandidateEmployeesCount += taskResult.TotalRecordCount;
+            this.GoodEmployees.AddRange(taskResult.Succeeded);
+            this.Exceptions.AddRange(taskResult.ExceptionMessages);
+        }
+
+        // The same idea as the similarly-named method on TaskResult: copy
+        // any failures from the TaskResult, while returning a list of
+        // successes to perform additional steps on.
+        public List<T> AddIncrementalStep<T>(TaskResult<T> taskResult)
+        {
+            this.CandidateEmployeesCount += taskResult.FailedCount;
+            this.Exceptions.AddRange(taskResult.ExceptionMessages);
+            return taskResult.Succeeded;
+        }
+
+        // The same idea as the similarly-named method on TaskResult: copy
+        // all successes and failures from the TaskResult.
+        public void AddFinalStep(TaskResult<Employee> taskResult)
+        {
+            this.CandidateEmployeesCount += taskResult.TotalRecordCount;
+            this.GoodEmployees.AddRange(taskResult.Succeeded);
+            this.Exceptions.AddRange(taskResult.ExceptionMessages);
         }
 
         public string TaskVerb
