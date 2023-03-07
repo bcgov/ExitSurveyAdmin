@@ -1,4 +1,5 @@
 using ExitSurveyAdmin.Models;
+
 using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
@@ -6,6 +7,14 @@ namespace ExitSurveyAdmin.Services
     public class EmployeeTaskResult
     {
         private static string NEW_LINE = System.Environment.NewLine;
+
+        public EmployeeTaskResult(TaskEnum task)
+        {
+            this.Task = task;
+            this.CandidateEmployeesCount = 0;
+            this.GoodEmployees = new List<Employee>();
+            this.Exceptions = Exceptions;
+        }
 
         public EmployeeTaskResult(
             TaskEnum task,
@@ -18,6 +27,27 @@ namespace ExitSurveyAdmin.Services
             this.CandidateEmployeesCount = candidateEmployeesCount;
             this.GoodEmployees = goodEmployees;
             this.Exceptions = exceptions;
+        }
+
+        public void AddTaskResult(TaskResult<Employee> taskResult)
+        {
+            this.CandidateEmployeesCount += taskResult.TotalRecordCount;
+            this.GoodEmployees.AddRange(taskResult.Succeeded);
+            this.Exceptions.AddRange(taskResult.ExceptionMessages);
+        }
+
+        public List<Employee> AddIncrementalStep(TaskResult<Employee> taskResult)
+        {
+            this.CandidateEmployeesCount += taskResult.FailedCount;
+            this.Exceptions.AddRange(taskResult.ExceptionMessages);
+            return taskResult.Succeeded;
+        }
+
+        public void AddFinalStep(TaskResult<Employee> taskResult)
+        {
+            this.CandidateEmployeesCount += taskResult.TotalRecordCount;
+            this.GoodEmployees.AddRange(taskResult.Succeeded);
+            this.Exceptions.AddRange(taskResult.ExceptionMessages);
         }
 
         public string TaskVerb
