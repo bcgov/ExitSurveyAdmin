@@ -25,9 +25,7 @@ namespace ExitSurveyAdmin.Services
             this.updateService = updateService;
         }
 
-        public async Task<EmployeeTaskResult> UpdateNotExiting(
-            List<Employee> reconciledEmployees
-        )
+        public async Task<EmployeeTaskResult> UpdateNotExiting(List<Employee> reconciledEmployees)
         {
             var employeeTaskResult = new EmployeeTaskResult(TaskEnum.UpdateNotExiting);
 
@@ -35,9 +33,9 @@ namespace ExitSurveyAdmin.Services
                 .Select(e => Tuple.Create(e, EmployeeStatusEnum.NotExiting))
                 .ToList();
 
-            employeeTaskResult.AddFinalStep(await updateService.SaveStatusesAndAddTimelineEntries(
-                employeesWithStatuses
-            ));
+            employeeTaskResult.AddFinalStep(
+                await updateService.SaveStatusesAndAddTimelineEntries(employeesWithStatuses)
+            );
 
             return employeeTaskResult;
         }
