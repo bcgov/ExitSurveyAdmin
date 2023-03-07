@@ -81,9 +81,11 @@ namespace ExitSurveyAdmin
             services.AddScoped<EmployeeInfoLookupService>();
 
             // Employee reconciler: update Employee statuses with CallWeb.
-            // services.AddScoped<EmployeeCreationService>();
-            // services.AddScoped<EmployeeUpdateService>();
+            services.AddScoped<EmployeeCreationService>();
+            services.AddScoped<EmployeeUpdateService>();
             services.AddScoped<EmployeeReconciliationService>();
+            services.AddScoped<EmployeeRefreshService>();
+            services.AddScoped<EmployeeNotExitingService>();
 
             // Email service.
             services.Configure<EmailServiceOptions>(Configuration.GetSection("Email"));

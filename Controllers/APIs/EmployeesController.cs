@@ -110,7 +110,7 @@ namespace ExitSurveyAdmin.Controllers
                 await context.SaveChangesAsync();
 
                 // Patch the row in CallWeb.
-                await callWebService.UpdateSurvey(updatedEmployee);
+                await callWebService.UpdateSurveys(new List<Employee>() ***REMOVED*** updatedEmployee ***REMOVED***);
 
                 return Ok(updatedEmployee);
           ***REMOVED***
@@ -249,7 +249,7 @@ namespace ExitSurveyAdmin.Controllers
             try
             ***REMOVED***
                 // Update existing employee statuses.
-                var taskResult = await employeeReconciler.UpdateEmployeeStatusesAndLog();
+                var taskResult = await employeeReconciler.RefreshCallWebStatusAndLog();
 
                 emailService.SendTaskResultEmail(taskResult);
 
