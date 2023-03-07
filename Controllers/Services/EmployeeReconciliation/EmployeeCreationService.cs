@@ -136,7 +136,16 @@ namespace ExitSurveyAdmin.Services
             }
             catch (Exception exception)
             {
-                // Assume saving all employees failed.
+                // Remove the employee and the timeline entry from the
+                // context, or else we will also get errors next time we
+                // next try to save changes to the context.
+                foreach (var employee in employees)
+                {
+                    context.RemoveRange(employee.TimelineEntries);
+                    context.Remove(employee);
+                }
+
+                // Assume that saving all employees failed.
                 taskResult.AddFailed(employees);
                 taskResult.AddException(
                     new FailedToSaveContextException(

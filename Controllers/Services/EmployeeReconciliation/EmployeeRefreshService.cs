@@ -14,7 +14,11 @@ namespace ExitSurveyAdmin.Services
         private ExitSurveyAdminContext context;
         private EmployeeUpdateService updateService;
 
-        public EmployeeRefreshService(ExitSurveyAdminContext context, CallWebService callWeb, EmployeeUpdateService updateService)
+        public EmployeeRefreshService(
+            ExitSurveyAdminContext context,
+            CallWebService callWeb,
+            EmployeeUpdateService updateService
+        )
         {
             this.context = context;
             this.callWeb = callWeb;
@@ -36,14 +40,14 @@ namespace ExitSurveyAdmin.Services
                 var employeesInBatch = employees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE).ToList();
 
                 // Step 1. Get the status codes for the employees.
-                var employeesWithSurveyStatusCodes = employeeTaskResult.AddIncrementalStep(await callWeb.GetSurveyStatusCodes(
-                        employeesInBatch
-                    ));
+                var employeesWithSurveyStatusCodes = employeeTaskResult.AddIncrementalStep(
+                    await callWeb.GetSurveyStatusCodes(employeesInBatch)
+                );
 
                 // Step 2. Update the statuses.
-                employeeTaskResult.AddFinalStep(await updateService.UpdateEmployeeSurveyStatuses(
-                    employeesWithSurveyStatusCodes
-                ));
+                employeeTaskResult.AddFinalStep(
+                    await updateService.UpdateEmployeeSurveyStatuses(employeesWithSurveyStatusCodes)
+                );
             }
 
             return employeeTaskResult;

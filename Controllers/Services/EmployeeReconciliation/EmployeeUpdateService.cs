@@ -223,41 +223,15 @@ namespace ExitSurveyAdmin.Services
             // Update surveys.
             if (employeesNeedingSurveyUpdate.Count() > 0)
             {
-                var results = await callWeb.UpdateSurveys(employeesNeedingSurveyUpdate.ToList());
-                taskResult.AddFinal(results);
+                taskResult.AddFinal(
+                    await callWeb.UpdateSurveys(employeesNeedingSurveyUpdate.ToList())
+                );
                 // TODO: Can we just add incremental step here...? Do we need
                 // to worry about other employees...?
             }
 
             var employeeTaskResult = new EmployeeTaskResult(TaskEnum.ReconcileEmployees);
             employeeTaskResult.AddTaskResult(taskResult);
-            return employeeTaskResult;
-        }
-
-        public async Task<EmployeeTaskResult> RefreshCallWebStatus()
-        {
-            var employeeTaskResult = new EmployeeTaskResult(TaskEnum.RefreshStatuses);
-
-            // For all non-final employees, update.
-            var employees = EmployeesNeedingCallWebRefresh();
-
-            // Do this in a batch, working with 100 employees at a time.
-            var BATCH_SIZE = 100;
-            var NUM_BATCHES = (int)Math.Ceiling((double)employees.Count() / BATCH_SIZE);
-            for (var i = 0; i < NUM_BATCHES; i++)
-            {
-                var employeesInBatch = employees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE).ToList();
-
-                // Step 1. Get the status codes for the employees.
-                var employeesWithSurveyStatusCodes = employeeTaskResult.AddIncrementalStep(
-                    await callWeb.GetSurveyStatusCodes(employeesInBatch)
-                );
-
-                // Step 2. Update the statuses.
-                var result = await UpdateEmployeeSurveyStatuses(employeesWithSurveyStatusCodes);
-                employeeTaskResult.AddFinalStep(result);
-            }
-
             return employeeTaskResult;
         }
 
@@ -285,23 +259,26 @@ namespace ExitSurveyAdmin.Services
                         employee,
                         new NullCallWebStatusCodeException($"No status code for ${employee}")
                     );
+                    continue;
                 }
-                else if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
+                if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
                 {
                     // First, check if the employee has completed the survey.
-                    // TODO: Are these really "else ifs"?
                     employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.SurveyComplete));
+                    continue;
                 }
-                else if (employee.IsPastExpiryThreshold(thresholdInDays))
+                if (employee.IsPastExpiryThreshold(thresholdInDays))
                 {
                     // If their effective date is past the expiry threshold, expire.
                     employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Expired));
+                    continue;
                 }
-                else if (employee.IsNowInsideExpiryThreshold(thresholdInDays))
+                if (employee.IsNowInsideExpiryThreshold(thresholdInDays))
                 {
                     // Conversely, re-open expired users if they are now inside the
                     // threshold, for instance if the threshold was extended.
                     employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Exiting));
+                    continue;
                 }
             }
 
@@ -362,20 +339,6 @@ namespace ExitSurveyAdmin.Services
             var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
 
             return thresholdInDays;
-        }
-
-        private List<Employee> EmployeesNeedingCallWebRefresh()
-        {
-            return context.Employees
-                .Include(e => e.TimelineEntries)
-                .Include(e => e.CurrentEmployeeStatus)
-                .Where(
-                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
-                // TODO: We are still investigating if this should be removed.
-                // See https://github.com/bcgov/ExitSurveyAdmin/issues/208
-                // || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
-                )
-                .ToList();
         }
 
         public async Task<TaskResult<Employee>> SaveExistingEmployees(List<Employee> employees)

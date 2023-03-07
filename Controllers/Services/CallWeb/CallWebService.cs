@@ -84,11 +84,6 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return taskResult;
         }
 
-        private bool IsSurveyComplete(CallWebRowDto callWebDto)
-        {
-            return callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1");
-        }
-
         public async Task<TaskResult<Employee>> CreateSurveys(List<Employee> employees)
         {
             var taskResult = new TaskResult<Employee>();
@@ -192,6 +187,11 @@ namespace ExitSurveyAdmin.Services.CallWeb
             var response = await CallWebApi.GetAll();
 
             return response;
+        }
+
+        private bool IsSurveyComplete(CallWebRowDto callWebDto)
+        {
+            return callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1");
         }
     }
 }
