@@ -1,10 +1,10 @@
-using Microsoft.EntityFrameworkCore;
 using ExitSurveyAdmin.Models;
+using ExitSurveyAdmin.Services.CallWeb;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using ExitSurveyAdmin.Services.CallWeb;
+using System.Threading.Tasks;
 
 namespace ExitSurveyAdmin.Services
 {
@@ -49,8 +49,7 @@ namespace ExitSurveyAdmin.Services
 
         public async Task<EmployeeTaskResult> InsertEmployees(List<Employee> employees)
         {
-            var processedEmployeesList = new List<EmployeeResult>();
-            var exceptionList = new List<string>();
+            var employeeTaskResult = new EmployeeTaskResult(TaskEnum.ReconcileEmployees);
 
             // Do this in a batch, working with 50 employees at a time.
             var BATCH_SIZE = 50;
@@ -60,108 +59,90 @@ namespace ExitSurveyAdmin.Services
                 var employeesInBatch = employees.Skip(i * BATCH_SIZE).Take(BATCH_SIZE).ToList();
 
                 // Step 1. Prepare employees.
-                var preparedEmployees = employeesInBatch
-                    .Select(e =>
-                    {
-                        try
-                        {
-                            return PrepareEmployee(e);
-                        }
-                        catch (Exception exception)
-                        {
-                            processedEmployeesList.Add(new EmployeeResult(e, exception));
-                            return null;
-                        }
-                    })
-                    .Where(e => e != null) // Filter out errored employees.
-                    .ToList();
+                var employeesToCreate = employeeTaskResult.AddIncrementalStep(
+                    PrepareEmployees(employeesInBatch)
+                );
 
                 // Step 2. Get telkeys.
-                var createSurveyResults = new List<EmployeeResult>();
+                var employeesToSave = employeeTaskResult.AddIncrementalStep(
+                    await callWeb.CreateSurveys(employeesToCreate)
+                );
+
+                // Step 3. Save context.
+                var result = await SaveNewEmployees(employeesToSave);
+                employeeTaskResult.AddFinalStep(result);
+            }
+
+            return employeeTaskResult;
+        }
+
+        private TaskResult<Employee> PrepareEmployees(List<Employee> employees)
+        {
+            var taskResult = new TaskResult<Employee>();
+
+            foreach (var employee in employees)
+            {
                 try
                 {
-                    createSurveyResults = await callWeb.CreateSurveys(preparedEmployees);
+                    // Set the status code for a new employee.
+                    var newStatusCode = EmployeeStatusEnum.Exiting.Code;
+                    employee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
+
+                    // Set the email.
+                    employee.UpdateEmail(infoLookupService);
+
+                    // Set other preferred fields; runs on creation only.
+                    employee.InstantiateFields();
+
+                    // Set timeline entries.
+                    employee.TimelineEntries = new List<EmployeeTimelineEntry>();
+                    employee.TimelineEntries.Add(
+                        new EmployeeTimelineEntry
+                        {
+                            EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                            EmployeeStatusCode = newStatusCode,
+                            Comment = "Created automatically by script."
+                        }
+                    );
+
+                    taskResult.AddSucceeded(employee);
                 }
                 catch (Exception exception)
                 {
-                    exceptionList.Add(
-                        $"Could not create surveys in CallWeb for the following employees. Error: {exception.Message}"
-                    );
-                    processedEmployeesList.AddRange(
-                        preparedEmployees.Select(
-                            e =>
-                                new EmployeeResult(
-                                    e,
-                                    new CallWebCreateFailedException(
-                                        "Telkey not created because CreateSurveys failed."
-                                    )
-                                )
+                    taskResult.AddFailedWithException(
+                        employee,
+                        new FailedToPrepareEmployeeException(
+                            $"Could not prepare employee {employee}: {exception.Message}"
                         )
                     );
-                    continue; // Nothing more to do.
-                }
-
-                foreach (var employeeResult in createSurveyResults)
-                {
-                    processedEmployeesList.Add(employeeResult);
-
-                    // If no exceptions, save the employee.
-                    if (!employeeResult.HasExceptions)
-                    {
-                        context.Add(employeeResult.Employee);
-                    }
-                }
-
-                // Step 3. Save context.
-                await context.SaveChangesAsync();
-            }
-
-            var insertedEmployeesList = new List<Employee>();
-            foreach (var employeeResult in processedEmployeesList)
-            {
-                if (employeeResult.HasExceptions)
-                {
-                    exceptionList.Add(employeeResult.Message);
-                }
-                else
-                {
-                    insertedEmployeesList.Add(employeeResult.Employee);
                 }
             }
 
-            return new EmployeeTaskResult(
-                TaskEnum.ReconcileEmployees,
-                employees.Count,
-                insertedEmployeesList,
-                exceptionList
-            );
+            return taskResult;
         }
 
-        private Employee PrepareEmployee(Employee employee)
+        private async Task<TaskResult<Employee>> SaveNewEmployees(List<Employee> employees)
         {
-            // Set the status code for a new employee.
-            var newStatusCode = EmployeeStatusEnum.Exiting.Code;
-            employee.CurrentEmployeeStatusCode = newStatusCode;
+            var taskResult = new TaskResult<Employee>();
 
-            // Set the email.
-            employee.UpdateEmail(infoLookupService);
+            try
+            {
+                employees.Select(e => context.Add(e));
+                await context.SaveChangesAsync();
+                taskResult.AddSucceeded(employees);
+            }
+            catch (Exception exception)
+            {
+                // Assume saving all employees failed.
+                taskResult.AddFailed(employees);
+                taskResult.AddException(
+                    new FailedToSaveContextException(
+                        $"Saving employees failed for a range of employees: {String.Join(", ", employees)}. Error: {exception.Message}"
+                    )
+                );
+            }
 
-            // Set other preferred fields. This only runs the first time
-            // the employee is created.
-            employee.InstantiateFields();
-
-            // Set timeline entries. Note that Ids are auto-generated.
-            employee.TimelineEntries = new List<EmployeeTimelineEntry>();
-            employee.TimelineEntries.Add(
-                new EmployeeTimelineEntry
-                {
-                    EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
-                    EmployeeStatusCode = newStatusCode,
-                    Comment = "Created automatically by script."
-                }
-            );
-
-            return employee;
+            return taskResult;
         }
     }
 }
