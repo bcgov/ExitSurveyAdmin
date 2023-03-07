@@ -315,5 +315,10 @@ namespace ExitSurveyAdmin.Models
             return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
                 && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
       ***REMOVED***
+
+        public override string ToString()
+        ***REMOVED***
+            return $"***REMOVED***FullName***REMOVED*** ($***REMOVED***GovernmentEmployeeId***REMOVED***)";
+      ***REMOVED***
   ***REMOVED***
 ***REMOVED***

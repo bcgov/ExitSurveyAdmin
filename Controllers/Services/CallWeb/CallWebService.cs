@@ -70,13 +70,19 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto.IsSurveyComplete != null && callWebDto.IsSurveyComplete.Equals("1");
       ***REMOVED***
 
-        public async Task<List<EmployeeResult>> CreateSurveys(List<Employee> employees)
+        public async Task<TaskResult<Employee>> CreateSurveys(List<Employee> employees)
         ***REMOVED***
-            var callWebPostDtos = employees.Select(e => CallWebPostDto.FromEmployee(e)).ToList();
-            var results = (await CallWebApi.PostMultiple(callWebPostDtos)).ToList();
+            var taskResult = new TaskResult<Employee>();
 
-            var employeeResults = employees
-                .Select(employee =>
+            try
+            ***REMOVED***
+                var callWebPostDtos = employees
+                    .Select(e => CallWebPostDto.FromEmployee(e))
+                    .ToList();
+
+                var results = (await CallWebApi.PostMultiple(callWebPostDtos)).ToList();
+
+                foreach (var employee in employees)
                 ***REMOVED***
                     // We can't compare telkeys because the employes we're
                     // trying to create don't have them yet. Instead, compare on
@@ -90,22 +96,32 @@ namespace ExitSurveyAdmin.Services.CallWeb
 
                     if (result == null)
                     ***REMOVED***
-                        return new EmployeeResult(
+                        taskResult.AddFailedWithException(
                             employee,
-                            new CallWebCreateFailedException(
-                                "Employee not present in CreateSurveys result."
+                            new CallWebNoTelkeyException(
+                                $"No telkey in CreateSurveys result for ***REMOVED***employee***REMOVED***"
                             )
                         );
                   ***REMOVED***
                     else
                     ***REMOVED***
                         employee.Telkey = result.Telkey;
-                        return new EmployeeResult(employee);
+                        taskResult.AddSucceeded(employee);
                   ***REMOVED***
-              ***REMOVED***)
-                .ToList();
+              ***REMOVED***
+          ***REMOVED***
+            catch (Exception exception)
+            ***REMOVED***
+                // Assume the entire operation failed.
+                taskResult.AddFailed(employees);
+                taskResult.AddException(
+                    new CallWebCreateFailedException(
+                        $"CreateSurveys failed for a range of employees: ***REMOVED***String.Join(", ", employees)***REMOVED***. Error: ***REMOVED***exception.Message***REMOVED***"
+                    )
+                );
+          ***REMOVED***
 
-            return employeeResults;
+            return taskResult;
       ***REMOVED***
 
         public async Task<List<EmployeeResult>> UpdateSurveys(List<Employee> employees)
