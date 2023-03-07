@@ -196,7 +196,6 @@ namespace ExitSurveyAdmin.Services
                       ***REMOVED***
 
                         // We'll need to update the survey, too.
-                        // TODO: Does this need to be done for *everyone*?
                         needsSurveyUpdate = true;
                   ***REMOVED***
               ***REMOVED***
@@ -226,8 +225,6 @@ namespace ExitSurveyAdmin.Services
                 taskResult.AddFinal(
                     await callWeb.UpdateSurveys(employeesNeedingSurveyUpdate.ToList())
                 );
-                // TODO: Can we just add incremental step here...? Do we need
-                // to worry about other employees...?
           ***REMOVED***
 
             var employeeTaskResult = new EmployeeTaskResult(TaskEnum.ReconcileEmployees);
