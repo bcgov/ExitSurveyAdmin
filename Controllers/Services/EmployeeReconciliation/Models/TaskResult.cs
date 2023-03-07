@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
-
-
+    // Tracks successes and failures of operations on a generic T (in typical
+    // use, this will be an Employee). The consumer is responsible for adding
+    // ranges of successes / failures and their associated Exceptions.
     public class TaskResult<T>
     ***REMOVED***
-
         private static string NEW_LINE = System.Environment.NewLine;
 
         public TaskResult()
@@ -95,12 +95,21 @@ namespace ExitSurveyAdmin.Services
             this.Exceptions.Add(exception);
       ***REMOVED***
 
+        // Adds the failures and exceptions from another TaskResult, while
+        // returning the successes. In practical use, this makes it possible
+        // to perform a process returning a TaskResult on a list of (e.g.)
+        // Employees, store the failures + exceptions, and then have a list of
+        // Employees for whom the operation was successful to work with in the
+        // next step of the operation.
         public List<T> AddIncremental(TaskResult<T> otherTaskResult)
         ***REMOVED***
             this.CopyFailedAndExceptionsFrom(otherTaskResult);
             return otherTaskResult.Succeeded;
       ***REMOVED***
 
+        // Adds all successes, failures and exceptions from another TaskResult.
+        // Ideally, called with the results of a final step in a process,
+        // before "this" TaskResult is returned.
         public void AddFinal(TaskResult<T> otherTaskResult)
         ***REMOVED***
             this.CopyFrom(otherTaskResult);
@@ -118,27 +127,5 @@ namespace ExitSurveyAdmin.Services
             this.AddFailed(otherTaskResult.Failed);
             this.AddExceptions(otherTaskResult.Exceptions);
       ***REMOVED***
-
-        // public string Message
-        // ***REMOVED***
-        //     get
-        //     ***REMOVED***
-        //         var message =
-        //             $"Tried to ***REMOVED***this.TaskVerb***REMOVED*** "
-        //             + $"***REMOVED***this.CandidateEmployeesCount***REMOVED*** "
-        //             + $"***REMOVED***this.TaskObjectNoun***REMOVED***. "
-        //             + $"***REMOVED***this.GoodRecordCount***REMOVED*** were successful. ";
-
-        //         if (this.HasExceptions)
-        //         ***REMOVED***
-        //             // There were exceptions. Add to the text.
-        //             message +=
-        //                 $"There were ***REMOVED***this.ExceptionCount***REMOVED*** errors: "
-        //                 + $"***REMOVED***string.Join(NEW_LINE, this.Exceptions)***REMOVED*** ";
-        //       ***REMOVED***
-
-        //         return message;
-        //   ***REMOVED***
-        // ***REMOVED***
   ***REMOVED***
 ***REMOVED***

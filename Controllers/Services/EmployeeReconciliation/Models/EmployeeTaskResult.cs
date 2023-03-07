@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
-
     public class EmployeeTaskResult
     ***REMOVED***
         private static string NEW_LINE = System.Environment.NewLine;
@@ -37,13 +36,9 @@ namespace ExitSurveyAdmin.Services
             this.Exceptions.AddRange(taskResult.ExceptionMessages);
       ***REMOVED***
 
-        // public List<Employee> AddIncrementalStep(TaskResult<Employee> taskResult)
-        // ***REMOVED***
-        //     this.CandidateEmployeesCount += taskResult.FailedCount;
-        //     this.Exceptions.AddRange(taskResult.ExceptionMessages);
-        //     return taskResult.Succeeded;
-        // ***REMOVED***
-
+        // The same idea as the similarly-named method on TaskResult: copy
+        // any failures from the TaskResult, while returning a list of
+        // successes to perform additional steps on.
         public List<T> AddIncrementalStep<T>(TaskResult<T> taskResult)
         ***REMOVED***
             this.CandidateEmployeesCount += taskResult.FailedCount;
@@ -51,6 +46,8 @@ namespace ExitSurveyAdmin.Services
             return taskResult.Succeeded;
       ***REMOVED***
 
+        // The same idea as the similarly-named method on TaskResult: copy
+        // all successes and failures from the TaskResult.
         public void AddFinalStep(TaskResult<Employee> taskResult)
         ***REMOVED***
             this.CandidateEmployeesCount += taskResult.TotalRecordCount;
