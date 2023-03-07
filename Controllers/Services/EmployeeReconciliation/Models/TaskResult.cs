@@ -1,12 +1,14 @@
 using System;
-using ExitSurveyAdmin.Models;
 using System.Linq;
 using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
+
+
     public class TaskResult<T>
     ***REMOVED***
+
         private static string NEW_LINE = System.Environment.NewLine;
 
         public TaskResult()
@@ -42,9 +44,9 @@ namespace ExitSurveyAdmin.Services
             get ***REMOVED*** return Exceptions.Count; ***REMOVED***
       ***REMOVED***
 
-        public IEnumerable<string> ExceptionMessages
+        public List<string> ExceptionMessages
         ***REMOVED***
-            get ***REMOVED*** return Exceptions.Select(ex => ex.Message); ***REMOVED***
+            get ***REMOVED*** return Exceptions.Select(ex => ex.Message).ToList(); ***REMOVED***
       ***REMOVED***
 
         public int TotalRecordCount
@@ -82,10 +84,39 @@ namespace ExitSurveyAdmin.Services
             this.Exceptions.Add(exception);
       ***REMOVED***
 
+        public void AddExceptions(IEnumerable<Exception> exceptions)
+        ***REMOVED***
+            this.Exceptions.AddRange(exceptions);
+      ***REMOVED***
+
         public void AddFailedWithException(T failed, Exception exception)
         ***REMOVED***
             this.Failed.Add(failed);
             this.Exceptions.Add(exception);
+      ***REMOVED***
+
+        public List<T> AddIncremental(TaskResult<T> otherTaskResult)
+        ***REMOVED***
+            this.CopyFailedAndExceptionsFrom(otherTaskResult);
+            return otherTaskResult.Succeeded;
+      ***REMOVED***
+
+        public void AddFinal(TaskResult<T> otherTaskResult)
+        ***REMOVED***
+            this.CopyFrom(otherTaskResult);
+      ***REMOVED***
+
+        public void CopyFailedAndExceptionsFrom(TaskResult<T> otherTaskResult)
+        ***REMOVED***
+            this.AddFailed(otherTaskResult.Failed);
+            this.AddExceptions(otherTaskResult.Exceptions);
+      ***REMOVED***
+
+        public void CopyFrom(TaskResult<T> otherTaskResult)
+        ***REMOVED***
+            this.AddSucceeded(otherTaskResult.Succeeded);
+            this.AddFailed(otherTaskResult.Failed);
+            this.AddExceptions(otherTaskResult.Exceptions);
       ***REMOVED***
 
         // public string Message

@@ -127,7 +127,10 @@ namespace ExitSurveyAdmin.Services
 
             try
             ***REMOVED***
-                employees.Select(e => context.Add(e));
+                foreach (var e in employees)
+                ***REMOVED***
+                    context.Employees.Add(e);
+              ***REMOVED***
                 await context.SaveChangesAsync();
                 taskResult.AddSucceeded(employees);
           ***REMOVED***

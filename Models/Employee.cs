@@ -318,7 +318,7 @@ namespace ExitSurveyAdmin.Models
 
         public override string ToString()
         ***REMOVED***
-            return $"***REMOVED***FullName***REMOVED*** ($***REMOVED***GovernmentEmployeeId***REMOVED***)";
+            return $"***REMOVED***FullName***REMOVED*** (***REMOVED***GovernmentEmployeeId***REMOVED***)";
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
