@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace ExitSurveyAdmin.Services
 {
+
     public class EmployeeTaskResult
     {
         private static string NEW_LINE = System.Environment.NewLine;
@@ -13,7 +14,7 @@ namespace ExitSurveyAdmin.Services
             this.Task = task;
             this.CandidateEmployeesCount = 0;
             this.GoodEmployees = new List<Employee>();
-            this.Exceptions = Exceptions;
+            this.Exceptions = new List<string>();
         }
 
         public EmployeeTaskResult(
@@ -36,7 +37,14 @@ namespace ExitSurveyAdmin.Services
             this.Exceptions.AddRange(taskResult.ExceptionMessages);
         }
 
-        public List<Employee> AddIncrementalStep(TaskResult<Employee> taskResult)
+        // public List<Employee> AddIncrementalStep(TaskResult<Employee> taskResult)
+        // {
+        //     this.CandidateEmployeesCount += taskResult.FailedCount;
+        //     this.Exceptions.AddRange(taskResult.ExceptionMessages);
+        //     return taskResult.Succeeded;
+        // }
+
+        public List<T> AddIncrementalStep<T>(TaskResult<T> taskResult)
         {
             this.CandidateEmployeesCount += taskResult.FailedCount;
             this.Exceptions.AddRange(taskResult.ExceptionMessages);

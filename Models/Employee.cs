@@ -318,7 +318,7 @@ namespace ExitSurveyAdmin.Models
 
         public override string ToString()
         {
-            return $"{FullName} (${GovernmentEmployeeId})";
+            return $"{FullName} ({GovernmentEmployeeId})";
         }
     }
 }
