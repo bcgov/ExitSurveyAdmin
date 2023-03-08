@@ -10,7 +10,7 @@ class NavMenu extends React.Component ***REMOVED***
 
   render(): JSX.Element ***REMOVED***
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
+      <nav className="navbar navbar-expand-xl navbar-light bg-light border-bottom mb-4">
         <Link to="/" className="navbar-brand text-primary">
           <i className="fas fa-envelope-open-text mr-3"></i>
           Exit Survey Admin
@@ -26,7 +26,10 @@ class NavMenu extends React.Component ***REMOVED***
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          className="collapse navbar-collapse bg-light"
+          id="navbarSupportedContent"
+        >
           <LoggedInInfo />
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
