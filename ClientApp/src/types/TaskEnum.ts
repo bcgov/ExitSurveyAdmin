@@ -10,4 +10,5 @@ export enum TaskEnum {
   RefreshStatuses = 'RefreshStatuses',
   RetrieveSurveyStatus = 'RetrieveSurveyStatus',
   ScheduledTask = 'ScheduledTask',
+  UpdateNotExiting = 'UpdateNotExiting',
 }
