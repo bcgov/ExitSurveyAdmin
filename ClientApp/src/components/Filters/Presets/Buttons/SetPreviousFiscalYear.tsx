@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import { FilterDispatch } from '../../FilterForm'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
