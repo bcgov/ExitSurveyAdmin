@@ -27,7 +27,7 @@ class NavMenu extends React.Component ***REMOVED***
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
-          className="collapse navbar-collapse bg-light border-bottom border-dark"
+          className="collapse navbar-collapse bg-light"
           id="navbarSupportedContent"
         >
           <LoggedInInfo />
