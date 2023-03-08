@@ -38,6 +38,7 @@ const EmployeeListing = (): JSX.Element => {
 
   return (
     <GenericListing
+      sortProp={`&sorts=-modifiedTs`} // By default, sort by last modified
       modelName="employees"
       filterableFields={employeeFilters}
       columns={employeeTableColumns}
