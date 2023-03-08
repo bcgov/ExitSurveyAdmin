@@ -1,5 +1,5 @@
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import React from 'react'
 
 import ***REMOVED*** defaultDateFormat ***REMOVED*** from '../../helpers/dateHelper'
