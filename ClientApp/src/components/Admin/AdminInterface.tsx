@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
-import { FixTypeLater } from '../../types/FixTypeLater'
-import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
+
 import { AdminSetting } from '../../types/AdminSetting'
+import { FixTypeLater } from '../../types/FixTypeLater'
 import { plainToInstance } from 'class-transformer'
+import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
+import AdminInterfaceHelp from './AdminInterfaceHelp'
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import EditableStringField from '../DisplayHelpers/Interface/EditableFields/EditableStringField'
-
 import RefreshStatusButton from './RefreshStatusButton'
 import ScheduledLoadAndUpdateButton from './ScheduledLoadAndUpdateButton'
-import LoadPsaApiButton from './LoadPsaApiButton'
-import AdminInterfaceHelp from './AdminInterfaceHelp'
 
 const AdminInterface = (): JSX.Element => {
   const [adminSettings, setAdminSettings] = React.useState<AdminSetting[]>([])
@@ -31,7 +30,7 @@ const AdminInterface = (): JSX.Element => {
 
   return (
     <div className="Centered AdminInterface row">
-      <div className="col-md-12 col-lg-10 offset-lg-1">
+      <div className="ol-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <h1>Admin interface</h1>
         {adminSettings.length > 0 && (
           <div className="row">
@@ -70,10 +69,9 @@ const AdminInterface = (): JSX.Element => {
                     />
                   </ColumnarLabelledText>
                 ))}
+                <RefreshStatusButton />
+                <ScheduledLoadAndUpdateButton />
               </div>
-              <RefreshStatusButton />
-              <ScheduledLoadAndUpdateButton />
-              <LoadPsaApiButton />
             </div>
             <div className="col-6">
               <AdminInterfaceHelp />
