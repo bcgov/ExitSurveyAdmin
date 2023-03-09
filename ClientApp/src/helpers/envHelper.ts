@@ -11,6 +11,10 @@ export const frontendUrl = (): string => ***REMOVED***
   return `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
 ***REMOVED***
 
+export const authRole = (): string => ***REMOVED***
+  return env('AUTH_ROLE')
+***REMOVED***
+
 export const LOCATION_HREF_KEY = `esa-originating-href`
 
 export const windowLocation = ***REMOVED***
