@@ -90,7 +90,7 @@ const FilterForm = (***REMOVED***
                 resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
               />
             )
-            colWidth = 3
+            colWidth = 2
             break
           case FilterType.Enum:
             filterComponent = (
