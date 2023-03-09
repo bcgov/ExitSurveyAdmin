@@ -88,8 +88,8 @@ namespace ExitSurveyAdmin.Services
                     var newStatusCode = EmployeeStatusEnum.Exiting.Code;
                     employee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
 
-                    // Set the email.
-                    employee.UpdateEmail(infoLookupService);
+                    // Set the email. TODO: And other LDAP fields?
+                    employee.UpdateInfoFromLdap(infoLookupService);
 
                     // Set other preferred fields; runs on creation only.
                     employee.InstantiateFields();
