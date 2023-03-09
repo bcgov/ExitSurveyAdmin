@@ -171,6 +171,19 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public Boolean PreferredAddressPostCodeFlag { get; set; }
 
+        // Ldap information (from the LDAP lookup)
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapEmail { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapFirstName { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapLastName { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapCity { get; set; }
+
         [Required]
         public string Phone { get; set; }
 
@@ -228,10 +241,6 @@ namespace ExitSurveyAdmin.Models
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         {
-            if (LocationGroup == null)
-            {
-                LocationGroup = "";
-            }
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
             PreferredEmail = GovernmentEmail;
@@ -329,6 +338,11 @@ namespace ExitSurveyAdmin.Models
         {
             var ldapInfo = infoLookupService.GetEmployeeInfoFromLdap(GovernmentEmployeeId);
 
+            LdapFirstName = ldapInfo.FirstName;
+            LdapLastName = ldapInfo.LastName;
+            LdapEmail = ldapInfo.Email;
+            LdapCity = ldapInfo.City;
+
             if (ldapInfo.Organization != null && ldapInfo.Organization.Equals("BC Assessment"))
             {
                 // If the organization is "BC Assessment", we need to use the
@@ -339,11 +353,10 @@ namespace ExitSurveyAdmin.Models
             {
                 // Otherwise we can use the LDAP info, defaulting back to what
                 // was set in the PSA extract if anything is null.
-                // FirstName = ldapInfo.FirstName ?? FirstName;
-                // LastName = ldapInfo.LastName ?? LastName;
+                FirstName = ldapInfo.FirstName ?? FirstName;
+                LastName = ldapInfo.LastName ?? LastName;
                 GovernmentEmail = ldapInfo.EmailOverride ?? ldapInfo.Email ?? null;
-                // LocationCity = ldapInfo.City ?? LocationCity;
-                // TODO: do we want to overwrite these other values...?
+                LocationCity = ldapInfo.City ?? LocationCity;
             }
         }
     }
