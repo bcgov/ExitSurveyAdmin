@@ -48,8 +48,14 @@ const getUsername = () => ***REMOVED***
   return `Name unavailable`
 ***REMOVED***
 
-const hasRole = (roles: string[]) =>
-  roles.some((role) => _kc.hasRealmRole(role))
+const hasRole = (permittedRoles: string[]) => ***REMOVED***
+  // Get the role manually.
+  if (_kc.tokenParsed) ***REMOVED***
+    const userRolesInToken: string[] = _kc.tokenParsed.user_roles || []
+    return permittedRoles.some((role) => userRolesInToken.includes(role))
+***REMOVED***
+  return false
+***REMOVED***
 
 const KeycloakService = ***REMOVED***
   initKeycloak,
