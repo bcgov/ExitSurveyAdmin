@@ -224,11 +224,6 @@ namespace ExitSurveyAdmin.Models
 
         public Boolean TriedToUpdateInFinalState ***REMOVED*** get; set; ***REMOVED***
 
-        public void UpdateEmail(EmployeeInfoLookupService infoLookupService)
-        ***REMOVED***
-            GovernmentEmail = infoLookupService.EmailByEmployeeId(GovernmentEmployeeId);
-      ***REMOVED***
-
         // Initialize all Preferred fields to be the equivalent of the base
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
@@ -319,6 +314,37 @@ namespace ExitSurveyAdmin.Models
         public override string ToString()
         ***REMOVED***
             return $"***REMOVED***FullName***REMOVED*** (***REMOVED***GovernmentEmployeeId***REMOVED***)";
+      ***REMOVED***
+
+        /// <summary>
+        /// Retrieve an employee's first name, last name, and email from LDAP,
+        /// as they may have been updated since the PSA data extract.
+        ///
+        /// If the LDAP lookup finds a person with the employee's employee ID
+        /// who works at BC Assessment, we must ignore the LDAP values. This is
+        /// because there is a clash between employee IDs — they are not unique.
+        /// </summary>
+        /// <param name="infoLookupService">The <see cref="NewJobSurveyAdmin.Services.EmployeeInfoLookupService" /> to be used to look up the info.</param>
+        public void UpdateInfoFromLdap(EmployeeInfoLookupService infoLookupService)
+        ***REMOVED***
+            var ldapInfo = infoLookupService.GetEmployeeInfoFromLdap(GovernmentEmployeeId);
+
+            if (ldapInfo.Organization != null && ldapInfo.Organization.Equals("BC Assessment"))
+            ***REMOVED***
+                // If the organization is "BC Assessment", we need to use the
+                // already-set values regardless. This is due to an ID clash.
+                GovernmentEmail = ldapInfo.EmailOverride ?? null;
+          ***REMOVED***
+            else
+            ***REMOVED***
+                // Otherwise we can use the LDAP info, defaulting back to what
+                // was set in the PSA extract if anything is null.
+                // FirstName = ldapInfo.FirstName ?? FirstName;
+                // LastName = ldapInfo.LastName ?? LastName;
+                GovernmentEmail = ldapInfo.EmailOverride ?? ldapInfo.Email ?? null;
+                // LocationCity = ldapInfo.City ?? LocationCity;
+                // TODO: do we want to overwrite these other values...?
+          ***REMOVED***
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
