@@ -13,7 +13,7 @@ const Unauthenticated = (): JSX.Element => {
   return (
     <div className="Centered row">
       <div className="col-6 offset-3">
-        <h1 className="text-primary display-4 my-5">New Job Survey Admin</h1>
+        <h1 className="text-primary display-4 my-5">Exit Survey Admin</h1>
         <p className="lead">You must log in to view this page.</p>
         <p>You will be redirected shortly. If not, click the button below.</p>
         <LoginButton />
