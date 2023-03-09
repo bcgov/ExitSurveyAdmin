@@ -48,6 +48,8 @@ if [ "$DO_BUILD" = true ] ; then
 
   # 4a. Do a local build
   info "Performing local yarn build..."
+  # If included in the build, __ENV.js will mess up the env loading
+  rm -f ../../ClientApp/public/config/__ENV.js
   try yarn --cwd ../../ClientApp/ install
   try yarn --cwd ../../ClientApp/ build
   echo ""
@@ -75,6 +77,7 @@ try oc process -f ./dc-frontend.yaml -p NAME=$NAME API_NAME=$API_NAME \
   IMAGE_NAME=$NAME IMAGE_TAG=$IMAGE_TAG IMAGE_NAMESPACE=$IMAGE_NAMESPACE \
   DEPLOY_NAMESPACE=$DEPLOY_NAMESPACE BASE_OPENSHIFT_URL=$BASE_OPENSHIFT_URL \
   KEYCLOAK_URL=$KEYCLOAK_URL KEYCLOAK_CLIENT_ID=$KEYCLOAK_CLIENT_ID \
+  KEYCLOAK_ROLE=$KEYCLOAK_ROLE \
   | try oc apply -f -
 echo ""
 
