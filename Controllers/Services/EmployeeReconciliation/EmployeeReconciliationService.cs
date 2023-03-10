@@ -95,7 +95,8 @@ namespace ExitSurveyAdmin.Services
             return new EmployeeTaskResult(
                 TaskEnum.ReconcileEmployees,
                 candidateEmployees.Count(),
-                creationResult.GoodEmployees.Concat(updateResult.GoodEmployees).ToList(),
+                creationResult.IgnoredCount + updateResult.IgnoredCount,
+                creationResult.Succeeded.Concat(updateResult.Succeeded).ToList(),
                 creationResult.Exceptions.Concat(updateResult.Exceptions).ToList()
             );
         }

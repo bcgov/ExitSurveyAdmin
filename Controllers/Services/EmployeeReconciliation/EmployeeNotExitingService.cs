@@ -33,6 +33,10 @@ namespace ExitSurveyAdmin.Services
                 .Select(e => Tuple.Create(e, EmployeeStatusEnum.NotExiting))
                 .ToList();
 
+            var ignoredEmployeeCount = reconciledEmployees.Count - employeesWithStatuses.Count;
+            employeeTaskResult.IgnoredCount += ignoredEmployeeCount;
+            employeeTaskResult.CandidateCount += ignoredEmployeeCount;
+
             employeeTaskResult.AddFinalStep(
                 await updateService.SaveStatusesAndAddTimelineEntries(employeesWithStatuses)
             );

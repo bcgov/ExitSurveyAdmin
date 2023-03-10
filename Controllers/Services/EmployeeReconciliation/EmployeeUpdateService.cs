@@ -45,8 +45,8 @@ namespace ExitSurveyAdmin.Services
                         == EmployeeStatusEnum.SurveyComplete.Code
                     )
                     {
-                        // However, they are still successful.
-                        taskResult.Succeeded.Add(existingEmployee);
+                        // Add them to the ignored list
+                        taskResult.AddIgnored(existingEmployee);
                         continue;
                     }
 
@@ -189,14 +189,18 @@ namespace ExitSurveyAdmin.Services
                                 );
                                 await context.SaveChangesAsync();
                             }
-                            else
+
+                            // We'll need to update the survey, too.
+                            needsSurveyUpdate = true;
+                        }
+                        else
+                        {
+                            if (!needsSurveyUpdate)
                             {
+                                taskResult.Ignored.Add(existingEmployee);
                                 continue;
                             }
                         }
-
-                        // We'll need to update the survey, too.
-                        needsSurveyUpdate = true;
                     }
                 }
                 catch (Exception exception)
@@ -215,7 +219,8 @@ namespace ExitSurveyAdmin.Services
                 }
                 else
                 {
-                    taskResult.Succeeded.Add(existingEmployee);
+                    // Add to ignored list.
+                    taskResult.Ignored.Add(existingEmployee);
                 }
             }
 
@@ -277,6 +282,9 @@ namespace ExitSurveyAdmin.Services
                     employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Exiting));
                     continue;
                 }
+
+                // If we get down here, we can add this employee as "ignored".
+                taskResult.AddIgnored(employee);
             }
 
             taskResult.AddFinal(await SaveStatusesAndAddTimelineEntries(employeesToSave));
