@@ -121,6 +121,7 @@ objects:
           REACT_APP_AUTH_SCOPE: 'profile',
           REACT_APP_AUTH_URL: '${KEYCLOAK_URL}',
           REACT_APP_AUTH_REALM: 'standard',
+          REACT_APP_AUTH_ROLE: '${KEYCLOAK_ROLE}',
           REACT_APP_AUTH_CLIENT_ID: '${KEYCLOAK_CLIENT_ID}',
         }
     kind: ConfigMap
@@ -154,6 +155,9 @@ parameters:
 - name: KEYCLOAK_CLIENT_ID
   required: true
   description: The client ID on Keycloak
+- name: KEYCLOAK_ROLE
+  required: true
+  description: The Keycloak role required
 - name: BASE_OPENSHIFT_URL
   required: true
   description: The base URL for Openshift

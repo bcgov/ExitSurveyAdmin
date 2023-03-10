@@ -54,11 +54,11 @@ namespace ExitSurveyAdmin.Models
 
             if (op.Equals(">="))
             {
-                return source.Where(item => item.CreatedTs >= dayStartPacific);
+                return source.Where(item => item.ModifiedTs >= dayStartPacific);
             }
             else // i.e. <=
             {
-                return source.Where(item => item.CreatedTs <= dayEndPacific);
+                return source.Where(item => item.ModifiedTs <= dayEndPacific);
             }
         }
 
@@ -72,6 +72,15 @@ namespace ExitSurveyAdmin.Models
             var result = source.Where(e => e.PreferredEmail.Length == 0);
 
             return result; // Must return modified IQueryable<TEntity>
+        }
+
+        public IQueryable<Employee> ImportDate(
+            IQueryable<Employee> source,
+            string op,
+            string[] values
+        )
+        {
+            return FilterByCreateDate(source, op, values);
         }
 
         public IQueryable<TaskLogEntry> LogDate(
