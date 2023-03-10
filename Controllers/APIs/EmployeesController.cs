@@ -147,11 +147,11 @@ namespace ExitSurveyAdmin.Controllers
 
                 if (startIndex > -1 && count > 0)
                 {
-                    employeesToLoad = currentEmployees.GoodEmployees.GetRange(startIndex, count);
+                    employeesToLoad = currentEmployees.Succeeded.GetRange(startIndex, count);
                 }
                 else
                 {
-                    employeesToLoad = currentEmployees.GoodEmployees;
+                    employeesToLoad = currentEmployees.Succeeded;
                 }
 
                 // Reconcile the employees with the database.
@@ -162,7 +162,7 @@ namespace ExitSurveyAdmin.Controllers
 
                 emailService.SendTaskResultEmail(taskResult);
 
-                return Ok(taskResult.GoodEmployees);
+                return Ok(taskResult.Succeeded);
             }
             catch (Exception exception)
             {
@@ -195,7 +195,7 @@ namespace ExitSurveyAdmin.Controllers
 
                 emailService.SendTaskResultEmail(taskResult);
 
-                return Ok(taskResult.GoodEmployees);
+                return Ok(taskResult.Succeeded);
             }
             catch (Exception e)
             {
@@ -225,12 +225,12 @@ namespace ExitSurveyAdmin.Controllers
                 // Reconcile the employees with the database.
                 var taskResult = await employeeReconciler.ReconcileEmployeesAndLog(
                     TaskEnum.LoadFromCsv,
-                    readResult.GoodEmployees
+                    readResult.Succeeded
                 );
 
                 emailService.SendTaskResultEmail(taskResult);
 
-                return Ok(taskResult.GoodEmployees);
+                return Ok(taskResult.Succeeded);
             }
             catch (Exception e)
             {
