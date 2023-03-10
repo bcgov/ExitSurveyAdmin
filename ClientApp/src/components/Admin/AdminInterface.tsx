@@ -10,6 +10,7 @@ import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/Colu
 import EditableStringField from '../DisplayHelpers/Interface/EditableFields/EditableStringField'
 import RefreshStatusButton from './RefreshStatusButton'
 import ScheduledLoadAndUpdateButton from './ScheduledLoadAndUpdateButton'
+import LoadPsaApiButton from './LoadPsaApiButton'
 
 const AdminInterface = (): JSX.Element => {
   const [adminSettings, setAdminSettings] = React.useState<AdminSetting[]>([])
@@ -71,6 +72,7 @@ const AdminInterface = (): JSX.Element => {
                 ))}
                 <RefreshStatusButton />
                 <ScheduledLoadAndUpdateButton />
+                <LoadPsaApiButton />
               </div>
             </div>
             <div className="col-6">
