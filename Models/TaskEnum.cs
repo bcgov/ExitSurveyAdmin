@@ -53,7 +53,7 @@ namespace ExitSurveyAdmin.Models
         ***REMOVED***
             Code = CodeLoadFromJson,
             Description = "The task to insert POSTed employee JSON data into the database.",
-            Verb = "insert",
+            Verb = "insert and update",
             ObjectNoun = "employees from JSON",
       ***REMOVED***;
         public static readonly TaskEnum LoadFromCsv = new TaskEnum
