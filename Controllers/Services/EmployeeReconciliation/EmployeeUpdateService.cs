@@ -45,8 +45,8 @@ namespace ExitSurveyAdmin.Services
                         == EmployeeStatusEnum.SurveyComplete.Code
                     )
                     ***REMOVED***
-                        // However, they are still successful.
-                        taskResult.Succeeded.Add(existingEmployee);
+                        // Add them to the ignored list
+                        taskResult.AddIgnored(existingEmployee);
                         continue;
                   ***REMOVED***
 
@@ -189,14 +189,18 @@ namespace ExitSurveyAdmin.Services
                                 );
                                 await context.SaveChangesAsync();
                           ***REMOVED***
-                            else
+
+                            // We'll need to update the survey, too.
+                            needsSurveyUpdate = true;
+                      ***REMOVED***
+                        else
+                        ***REMOVED***
+                            if (!needsSurveyUpdate)
                             ***REMOVED***
+                                taskResult.Ignored.Add(existingEmployee);
                                 continue;
                           ***REMOVED***
                       ***REMOVED***
-
-                        // We'll need to update the survey, too.
-                        needsSurveyUpdate = true;
                   ***REMOVED***
               ***REMOVED***
                 catch (Exception exception)
@@ -215,7 +219,8 @@ namespace ExitSurveyAdmin.Services
               ***REMOVED***
                 else
                 ***REMOVED***
-                    taskResult.Succeeded.Add(existingEmployee);
+                    // Add to ignored list.
+                    taskResult.Ignored.Add(existingEmployee);
               ***REMOVED***
           ***REMOVED***
 
@@ -277,6 +282,9 @@ namespace ExitSurveyAdmin.Services
                     employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Exiting));
                     continue;
               ***REMOVED***
+
+                // If we get down here, we can add this employee as "ignored".
+                taskResult.AddIgnored(employee);
           ***REMOVED***
 
             taskResult.AddFinal(await SaveStatusesAndAddTimelineEntries(employeesToSave));

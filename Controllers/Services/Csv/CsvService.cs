@@ -82,6 +82,7 @@ namespace ExitSurveyAdmin.Services.CsvService
                 return new EmployeeTaskResult(
                     TaskEnum.ReadCsv,
                     goodRecords.Count + badRecords.Count,
+                    0,
                     goodRecords,
                     badRecords
                 );
@@ -97,8 +98,8 @@ namespace ExitSurveyAdmin.Services.CsvService
             var newLine = System.Environment.NewLine;
 
             var message =
-                $"From a CSV with ***REMOVED***readResult.TotalRecordCount***REMOVED*** rows, "
-                + $"successfully read ***REMOVED***readResult.GoodRecordCount***REMOVED*** rows. ";
+                $"From a CSV with ***REMOVED***readResult.CandidateCount***REMOVED*** rows, "
+                + $"successfully read ***REMOVED***readResult.SucceededCount***REMOVED*** rows. ";
 
             if (!readResult.HasExceptions)
             ***REMOVED***
