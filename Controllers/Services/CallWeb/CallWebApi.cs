@@ -110,16 +110,18 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
-        private async Task<CallWebRowDto[]> CallWebRowsFromResponse(HttpResponseMessage response)
+        private async Task<List<CallWebRowDto>> CallWebRowsFromResponse(
+            HttpResponseMessage response
+        )
         {
             var responseAsString = await response.Content.ReadAsStringAsync();
 
-            var callWebDtos = JsonConvert.DeserializeObject<CallWebRowDto[]>(responseAsString);
+            var callWebDtos = JsonConvert.DeserializeObject<List<CallWebRowDto>>(responseAsString);
 
             return callWebDtos;
         }
 
-        public async Task<CallWebRowDto[]> GetAll()
+        public async Task<List<CallWebRowDto>> GetAll()
         {
             var client = await GetClientWithServiceToken();
             var response = await client.GetAsync($"{BaseUrl}");
@@ -137,7 +139,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
-        public async Task<CallWebRowDto[]> GetMultiple(string[] telkeys)
+        public async Task<List<CallWebRowDto>> GetMultiple(string[] telkeys)
         {
             if (telkeys.Length == 0)
             {
@@ -164,7 +166,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
-        public async Task<CallWebRowDto[]> PostMultiple(List<CallWebPostDto> postDtos)
+        public async Task<List<CallWebRowDto>> PostMultiple(List<CallWebPostDto> postDtos)
         {
             var content = ToJsonContent(postDtos.ToArray());
 
@@ -186,7 +188,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
         }
 
-        public async Task<CallWebRowDto[]> PatchMultiple(List<CallWebPatchDto> patchDtos)
+        public async Task<List<CallWebRowDto>> PatchMultiple(List<CallWebPatchDto> patchDtos)
         {
             var content = ToJsonContent(patchDtos.ToArray());
 

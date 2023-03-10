@@ -243,7 +243,7 @@ namespace ExitSurveyAdmin.Models
         {
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
-            PreferredEmail = GovernmentEmail;
+            PreferredEmail = GovernmentEmail ??= "";
             PreferredEmailFlag = false;
             PreferredAddress1 = Address1;
             PreferredAddress1Flag = false;

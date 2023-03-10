@@ -60,7 +60,7 @@ namespace ExitSurveyAdmin.Models
         {
             Code = CodeLoadFromCsv,
             Description = "The task to insert POSTed employee CSV data into the database.",
-            Verb = "insert",
+            Verb = "insert and update",
             ObjectNoun = "employees from CSV",
         };
         public static readonly TaskEnum RefreshStatuses = new TaskEnum
