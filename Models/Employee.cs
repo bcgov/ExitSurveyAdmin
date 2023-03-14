@@ -38,6 +38,11 @@ namespace ExitSurveyAdmin.Models
                         && d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag)
                         && d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag)
                         && d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
+                        && d.PropertyInfo.Name != nameof(LdapFirstName)
+                        && d.PropertyInfo.Name != nameof(LdapLastName)
+                        && d.PropertyInfo.Name != nameof(LdapCity)
+                        && d.PropertyInfo.Name != nameof(LdapEmail)
+                        && d.PropertyInfo.Name != nameof(GovernmentEmail)
                 );
         }
 
@@ -308,16 +313,34 @@ namespace ExitSurveyAdmin.Models
             return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
         }
 
+        public Boolean IsFinal()
+        {
+            return !IsActive();
+        }
+
         public Boolean IsPastExpiryThreshold(int thresholdInDays)
         {
-            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
-                && CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code;
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow && IsStatusExpired();
         }
 
         public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
         {
-            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
-                && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+            return IsStatusExpired() && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+        }
+
+        public Boolean IsStatusExpired()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code;
+        }
+
+        public Boolean IsStatusSurveyComplete()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.SurveyComplete.Code;
+        }
+
+        public Boolean IsStatusNotExiting()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code;
         }
 
         public override string ToString()
