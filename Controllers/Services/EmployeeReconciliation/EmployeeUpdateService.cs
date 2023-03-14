@@ -47,6 +47,33 @@ namespace ExitSurveyAdmin.Services
                         continue;
                     }
 
+                    // If the employee is marked as "not exiting," update their
+                    // status back to "exiting".
+                    if (
+                        existingEmployee.CurrentEmployeeStatusCode
+                        == EmployeeStatusEnum.NotExiting.Code
+                    )
+                    {
+                        existingEmployee.CurrentEmployeeStatusCode = EmployeeStatusEnum
+                            .Exiting
+                            .Code;
+                        context.EmployeeTimelineEntries.Add(
+                            new EmployeeTimelineEntry
+                            {
+                                EmployeeId = existingEmployee.Id,
+                                EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
+                                EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
+                                Comment =
+                                    "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the source data."
+                            }
+                        );
+                        context.Entry(existingEmployee).State = EntityState.Modified;
+                        await context.SaveChangesAsync();
+
+                        // They also need their survey updated.
+                        needsSurveyUpdate = true;
+                    }
+
                     // Now compare properties.
                     var differentProperties = existingEmployee.PropertyCompare(newEmployee);
 
