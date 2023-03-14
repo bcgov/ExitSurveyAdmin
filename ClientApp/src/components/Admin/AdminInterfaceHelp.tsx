@@ -28,25 +28,25 @@ const AdminInterfaceHelp = (): JSX.Element => {
               <li>
                 <strong>Update employee statuses from CallWeb</strong>, checking
                 to see whether any employees in a non-final state have completed
-                their surveys. Users will not have their Expired state updated
-                at this time.
+                their surveys. Users now within the expiry window will have
+                their status set back to Exiting. However, users will not be
+                shifted <em>into</em> to an Expired state at this time.
               </li>
               <li>
                 <strong>Retrieve employee information from the PSA API</strong>,
                 inserting new users and updating existing ones as appropriate.
               </li>
               <li>
-                <strong>Update employee statuses from CallWeb again</strong>,
-                this time updating the <strong>Expired</strong> status if
-                necessary.
-              </li>
-              <li>
                 <strong>
-                  Set any employees who have dropped off the PSA API to
-                  not-exiting
+                  Set any employees who have dropped off the PSA API to Not
+                  Exiting
                 </strong>
                 . In this case, they most likely are not actually exiting
                 employment.
+              </li>
+              <li>
+                <strong>Set Expired users to Exiting</strong>, if they are now
+                within the expiry threshold.
               </li>
             </ol>
           </AdminInterfaceHelpTopic>

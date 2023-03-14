@@ -14,13 +14,15 @@ namespace ExitSurveyAdmin.Services
         private EmployeeUpdateService updateService;
         private EmployeeNotExitingService notExitingService;
         private EmployeeRefreshService refreshService;
+        private EmployeeExpirationService expirationService;
 
         public EmployeeReconciliationService(
             LoggingService logger,
             EmployeeCreationService creationService,
             EmployeeUpdateService updateService,
             EmployeeRefreshService refreshService,
-            EmployeeNotExitingService notExitingService
+            EmployeeNotExitingService notExitingService,
+            EmployeeExpirationService expirationService
         )
         {
             this.logger = logger;
@@ -28,11 +30,26 @@ namespace ExitSurveyAdmin.Services
             this.updateService = updateService;
             this.refreshService = refreshService;
             this.notExitingService = notExitingService;
+            this.expirationService = expirationService;
         }
 
-        public async Task<EmployeeTaskResult> RefreshCallWebStatusAndLog()
+        public async Task<EmployeeTaskResult> CheckSurveyCompleteAndLog()
         {
-            var taskResult = await refreshService.RefreshCallWebStatus();
+            var taskResult = await refreshService.CheckSurveyComplete();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        public async Task<EmployeeTaskResult> UnexpireAndLog()
+        {
+            var taskResult = await expirationService.UnexpireEmployees();
+            await logger.LogEmployeeTaskResult(taskResult);
+            return taskResult;
+        }
+
+        public async Task<EmployeeTaskResult> ExpireAndLog()
+        {
+            var taskResult = await expirationService.ExpireEmployees();
             await logger.LogEmployeeTaskResult(taskResult);
             return taskResult;
         }
@@ -44,18 +61,19 @@ namespace ExitSurveyAdmin.Services
             return taskResult;
         }
 
-        public async Task<EmployeeTaskResult> ReconcileEmployeesAndLog(
+        public async Task<Tuple<List<Employee>, EmployeeTaskResult>> ReconcileEmployeesAndLog(
             TaskEnum callingTask,
             List<Employee> candidateEmployees
         )
         {
-            var taskResult = await ReconcileWithDatabase(candidateEmployees);
+            var reconciliationTuple = await ReconcileWithDatabase(candidateEmployees);
+            var taskResult = reconciliationTuple.Item2;
             taskResult.Task = callingTask;
             await logger.LogEmployeeTaskResult(taskResult);
-            return taskResult;
+            return reconciliationTuple;
         }
 
-        private async Task<EmployeeTaskResult> ReconcileWithDatabase(
+        private async Task<Tuple<List<Employee>, EmployeeTaskResult>> ReconcileWithDatabase(
             List<Employee> candidateEmployees
         )
         {
@@ -65,8 +83,9 @@ namespace ExitSurveyAdmin.Services
             // Get all the employees from the database who might be relevant to
             // this reconciliation attempt, i.e. where an employee with their
             // ID already exists in the database.
-            var employeeIds = candidateEmployees.Select(e => e.GovernmentEmployeeId).ToArray();
-            var existingEmployees = creationService.ExistingEmployees(employeeIds);
+            var existingEmployees = creationService.ExistingEmployeesFromCandidates(
+                candidateEmployees
+            );
 
             // Separate out employees who need creating vs. those who need updating.
             foreach (var candidateEmployee in candidateEmployees)
@@ -88,16 +107,28 @@ namespace ExitSurveyAdmin.Services
 
             // Create employees.
             var creationResult = await creationService.InsertEmployees(employeesToCreate);
+            await logger.LogEmployeeTaskResult(creationResult);
 
             // Update employees.
             var updateResult = await updateService.UpdateExistingEmployees(employeesToUpdate);
+            await logger.LogEmployeeTaskResult(updateResult);
 
-            return new EmployeeTaskResult(
-                TaskEnum.ReconcileEmployees,
-                candidateEmployees.Count(),
-                creationResult.IgnoredCount + updateResult.IgnoredCount,
-                creationResult.Succeeded.Concat(updateResult.Succeeded).ToList(),
-                creationResult.Exceptions.Concat(updateResult.Exceptions).ToList()
+            // Get the existing employees again. We're doing this once more
+            // because we don't want to assume anything about which employees
+            // might have failed to create, update,  etc.
+            var createdAndUpdatedEmployees = creationService.ExistingEmployeesFromCandidates(
+                candidateEmployees
+            );
+
+            return new Tuple<List<Employee>, EmployeeTaskResult>(
+                createdAndUpdatedEmployees,
+                new EmployeeTaskResult(
+                    TaskEnum.ReconcileEmployees,
+                    candidateEmployees.Count(),
+                    creationResult.IgnoredCount + updateResult.IgnoredCount,
+                    creationResult.Succeeded.Concat(updateResult.Succeeded).ToList(),
+                    creationResult.Exceptions.Concat(updateResult.Exceptions).ToList()
+                )
             );
         }
     }

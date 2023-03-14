@@ -72,7 +72,7 @@ const AdminInterface = (): JSX.Element => {
                 ))}
                 <RefreshStatusButton />
                 <ScheduledLoadAndUpdateButton />
-                <LoadPsaApiButton />
+                {/* <LoadPsaApiButton /> */}
               </div>
             </div>
             <div className="col-6">
