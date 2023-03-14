@@ -40,41 +40,11 @@ namespace ExitSurveyAdmin.Services
                 try
                 ***REMOVED***
                     // If the employee is marked as "survey complete," skip them.
-                    if (
-                        existingEmployee.CurrentEmployeeStatusCode
-                        == EmployeeStatusEnum.SurveyComplete.Code
-                    )
+                    if (existingEmployee.IsStatusSurveyComplete())
                     ***REMOVED***
                         // Add them to the ignored list
                         taskResult.AddIgnored(existingEmployee);
                         continue;
-                  ***REMOVED***
-
-                    // If the employee is marked as "not exiting," update their
-                    // status back to "exiting".
-                    if (
-                        existingEmployee.CurrentEmployeeStatusCode
-                        == EmployeeStatusEnum.NotExiting.Code
-                    )
-                    ***REMOVED***
-                        existingEmployee.CurrentEmployeeStatusCode = EmployeeStatusEnum
-                            .Exiting
-                            .Code;
-                        context.EmployeeTimelineEntries.Add(
-                            new EmployeeTimelineEntry
-                            ***REMOVED***
-                                EmployeeId = existingEmployee.Id,
-                                EmployeeActionCode = EmployeeActionEnum.CreateFromCSV.Code,
-                                EmployeeStatusCode = EmployeeStatusEnum.Exiting.Code,
-                                Comment =
-                                    "Re-opening `Not Exiting` employee and setting to `Exiting`, as they re-appeared in the source data."
-                          ***REMOVED***
-                        );
-                        context.Entry(existingEmployee).State = EntityState.Modified;
-                        await context.SaveChangesAsync();
-
-                        // They also need their survey updated.
-                        needsSurveyUpdate = true;
                   ***REMOVED***
 
                     // Now compare properties.
@@ -97,19 +67,6 @@ namespace ExitSurveyAdmin.Services
                         List<string> fieldsUpdatedList = new List<string>();
                         foreach (PropertyVariance pv in differentProperties)
                         ***REMOVED***
-                            // Note: we don't log if the email address was set to
-                            // empty, because if it is empty, it will automatically
-                            // be reset when the user is saved.
-                            if (
-                                string.Equals(
-                                    pv.PropertyInfo.Name,
-                                    nameof(Employee.GovernmentEmail)
-                                ) && string.IsNullOrWhiteSpace(pv.ValueB as string)
-                            )
-                            ***REMOVED***
-                                continue;
-                          ***REMOVED***
-
                             var newValue = pv.PropertyInfo.GetValue(newEmployee);
 
                             if (newValue == null)
@@ -188,10 +145,9 @@ namespace ExitSurveyAdmin.Services
                                   ***REMOVED***
                                 );
                                 await context.SaveChangesAsync();
+                                // We'll need to update the survey, too.
+                                needsSurveyUpdate = true;
                           ***REMOVED***
-
-                            // We'll need to update the survey, too.
-                            needsSurveyUpdate = true;
                       ***REMOVED***
                         else
                         ***REMOVED***
@@ -237,62 +193,31 @@ namespace ExitSurveyAdmin.Services
             return employeeTaskResult;
       ***REMOVED***
 
-        public async Task<TaskResult<Employee>> UpdateEmployeeSurveyStatuses(
-            List<Tuple<Employee, string>> employeeResultsWithSurveyStatusCodes
-        )
+        public async Task<TaskResult<Employee>> SaveExistingEmployees(List<Employee> employees)
         ***REMOVED***
             var taskResult = new TaskResult<Employee>();
 
-            // An employee only has a set amount of time to complete a survey.
-            // If that time has expired, then expire the user.
-            var thresholdInDays = await ExpiryThresholdInDays();
-
-            var employeesToSave = new List<Tuple<Employee, EmployeeStatusEnum>>();
-
-            foreach (var tuple in employeeResultsWithSurveyStatusCodes)
+            try
             ***REMOVED***
-                var employee = tuple.Item1;
-                var callWebStatusCode = tuple.Item2;
-
-                if (callWebStatusCode == null)
-                ***REMOVED***
-                    // The employee does not have a valid status code.
-                    taskResult.AddFailedWithException(
-                        employee,
-                        new NullCallWebStatusCodeException($"No status code for $***REMOVED***employee***REMOVED***")
-                    );
-                    continue;
-              ***REMOVED***
-                if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
-                ***REMOVED***
-                    // First, check if the employee has completed the survey.
-                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.SurveyComplete));
-                    continue;
-              ***REMOVED***
-                if (employee.IsPastExpiryThreshold(thresholdInDays))
-                ***REMOVED***
-                    // If their effective date is past the expiry threshold, expire.
-                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Expired));
-                    continue;
-              ***REMOVED***
-                if (employee.IsNowInsideExpiryThreshold(thresholdInDays))
-                ***REMOVED***
-                    // Conversely, re-open expired users if they are now inside the
-                    // threshold, for instance if the threshold was extended.
-                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Exiting));
-                    continue;
-              ***REMOVED***
-
-                // If we get down here, we can add this employee as "ignored".
-                taskResult.AddIgnored(employee);
+                employees.Select(e => context.Entry(e).State = EntityState.Modified);
+                await context.SaveChangesAsync();
+                taskResult.AddSucceeded(employees);
           ***REMOVED***
-
-            taskResult.AddFinal(await SaveStatusesAndAddTimelineEntries(employeesToSave));
+            catch (Exception exception)
+            ***REMOVED***
+                // Assume saving all employees failed.
+                taskResult.AddFailed(employees);
+                taskResult.AddException(
+                    new FailedToSaveContextException(
+                        $"Saving employees failed for a range of employees: ***REMOVED***String.Join(", ", employees)***REMOVED***. Error: ***REMOVED***exception.Message***REMOVED***"
+                    )
+                );
+          ***REMOVED***
 
             return taskResult;
       ***REMOVED***
 
-        public async Task<TaskResult<Employee>> SaveStatusesAndAddTimelineEntries(
+        public async Task<TaskResult<Employee>> SaveEmployeeStatusesAndUpdateCallWeb(
             List<Tuple<Employee, EmployeeStatusEnum>> employeesWithStatuses
         )
         ***REMOVED***
@@ -336,38 +261,13 @@ namespace ExitSurveyAdmin.Services
             return taskResult;
       ***REMOVED***
 
-        private async Task<int> ExpiryThresholdInDays()
+        public List<Employee> ActiveEmployees()
         ***REMOVED***
-            var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
-                a => a.Key == AdminSetting.EmployeeExpirationThreshold
-            );
-            var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
-
-            return thresholdInDays;
-      ***REMOVED***
-
-        public async Task<TaskResult<Employee>> SaveExistingEmployees(List<Employee> employees)
-        ***REMOVED***
-            var taskResult = new TaskResult<Employee>();
-
-            try
-            ***REMOVED***
-                employees.Select(e => context.Entry(e).State = EntityState.Modified);
-                await context.SaveChangesAsync();
-                taskResult.AddSucceeded(employees);
-          ***REMOVED***
-            catch (Exception exception)
-            ***REMOVED***
-                // Assume saving all employees failed.
-                taskResult.AddFailed(employees);
-                taskResult.AddException(
-                    new FailedToSaveContextException(
-                        $"Saving employees failed for a range of employees: ***REMOVED***String.Join(", ", employees)***REMOVED***. Error: ***REMOVED***exception.Message***REMOVED***"
-                    )
-                );
-          ***REMOVED***
-
-            return taskResult;
+            return context.Employees
+                .Include(e => e.TimelineEntries)
+                .Include(e => e.CurrentEmployeeStatus)
+                .Where(e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal))
+                .ToList();
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

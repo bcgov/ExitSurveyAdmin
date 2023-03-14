@@ -25,10 +25,13 @@ namespace ExitSurveyAdmin.Services
             this.infoLookupService = infoLookupService;
       ***REMOVED***
 
-        public List<Employee> ExistingEmployees(string[] candidateGovernmentEmployeeIds)
+        public List<Employee> ExistingEmployeesFromCandidates(List<Employee> candidateEmployees)
         ***REMOVED***
+            var employeeGovernmentIds = candidateEmployees
+                .Select(e => e.GovernmentEmployeeId)
+                .ToArray();
             return context.Employees
-                .Where(e => candidateGovernmentEmployeeIds.Contains(e.GovernmentEmployeeId))
+                .Where(e => employeeGovernmentIds.Contains(e.GovernmentEmployeeId))
                 .Include(e => e.CurrentEmployeeStatus)
                 .ToList();
       ***REMOVED***
@@ -49,7 +52,7 @@ namespace ExitSurveyAdmin.Services
 
         public async Task<EmployeeTaskResult> InsertEmployees(List<Employee> employees)
         ***REMOVED***
-            var employeeTaskResult = new EmployeeTaskResult(TaskEnum.ReconcileEmployees);
+            var employeeTaskResult = new EmployeeTaskResult(TaskEnum.CreateEmployees);
 
             // Do this in a batch, working with 50 employees at a time.
             var BATCH_SIZE = 50;
@@ -88,7 +91,7 @@ namespace ExitSurveyAdmin.Services
                     var newStatusCode = EmployeeStatusEnum.Exiting.Code;
                     employee.CurrentEmployeeStatusCode = EmployeeStatusEnum.Exiting.Code;
 
-                    // Set the email. TODO: And other LDAP fields?
+                    // Set the email and other LDAP fields.
                     employee.UpdateInfoFromLdap(infoLookupService);
 
                     // Set other preferred fields; runs on creation only.

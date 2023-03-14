@@ -38,6 +38,11 @@ namespace ExitSurveyAdmin.Models
                         && d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag)
                         && d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag)
                         && d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
+                        && d.PropertyInfo.Name != nameof(LdapFirstName)
+                        && d.PropertyInfo.Name != nameof(LdapLastName)
+                        && d.PropertyInfo.Name != nameof(LdapCity)
+                        && d.PropertyInfo.Name != nameof(LdapEmail)
+                        && d.PropertyInfo.Name != nameof(GovernmentEmail)
                 );
       ***REMOVED***
 
@@ -308,16 +313,34 @@ namespace ExitSurveyAdmin.Models
             return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
       ***REMOVED***
 
+        public Boolean IsFinal()
+        ***REMOVED***
+            return !IsActive();
+      ***REMOVED***
+
         public Boolean IsPastExpiryThreshold(int thresholdInDays)
         ***REMOVED***
-            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
-                && CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code;
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow && IsStatusExpired();
       ***REMOVED***
 
         public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
         ***REMOVED***
-            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
-                && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+            return IsStatusExpired() && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+      ***REMOVED***
+
+        public Boolean IsStatusExpired()
+        ***REMOVED***
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code;
+      ***REMOVED***
+
+        public Boolean IsStatusSurveyComplete()
+        ***REMOVED***
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.SurveyComplete.Code;
+      ***REMOVED***
+
+        public Boolean IsStatusNotExiting()
+        ***REMOVED***
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code;
       ***REMOVED***
 
         public override string ToString()

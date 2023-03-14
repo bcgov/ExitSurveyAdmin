@@ -72,7 +72,7 @@ const AdminInterface = (): JSX.Element => ***REMOVED***
                 ))***REMOVED***
                 <RefreshStatusButton />
                 <ScheduledLoadAndUpdateButton />
-                <LoadPsaApiButton />
+                ***REMOVED***/* <LoadPsaApiButton /> */***REMOVED***
               </div>
             </div>
             <div className="col-6">

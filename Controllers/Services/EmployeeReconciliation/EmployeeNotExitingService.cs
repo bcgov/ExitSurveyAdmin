@@ -25,20 +25,25 @@ namespace ExitSurveyAdmin.Services
             this.updateService = updateService;
       ***REMOVED***
 
+        // Given a list of employees we have obtained from a JSON / CSV and have
+        // reconciled with the database, set everyone NOT in that list, who is
+        // in a non-final state in our database, to "NotExiting", i.e. they are
+        // quite possibly not actually leaving employment.
         public async Task<EmployeeTaskResult> UpdateNotExiting(List<Employee> reconciledEmployees)
         ***REMOVED***
             var employeeTaskResult = new EmployeeTaskResult(TaskEnum.UpdateNotExiting);
 
-            var employeesWithStatuses = NotExitingEmployees(reconciledEmployees)
+            // Select reconciled employees who are NOT in a final state.
+            var notExitingEmployees = NotExitingEmployees(reconciledEmployees)
                 .Select(e => Tuple.Create(e, EmployeeStatusEnum.NotExiting))
                 .ToList();
 
-            var ignoredEmployeeCount = reconciledEmployees.Count - employeesWithStatuses.Count;
+            var ignoredEmployeeCount = reconciledEmployees.Count - notExitingEmployees.Count;
             employeeTaskResult.IgnoredCount += ignoredEmployeeCount;
             employeeTaskResult.CandidateCount += ignoredEmployeeCount;
 
             employeeTaskResult.AddFinalStep(
-                await updateService.SaveStatusesAndAddTimelineEntries(employeesWithStatuses)
+                await updateService.SaveEmployeeStatusesAndUpdateCallWeb(notExitingEmployees)
             );
 
             return employeeTaskResult;
@@ -46,13 +51,17 @@ namespace ExitSurveyAdmin.Services
 
         private List<Employee> NotExitingEmployees(List<Employee> reconciledEmployeeList)
         ***REMOVED***
-            return context.Employees
+            var activeEmployees = context.Employees
                 .Include(e => e.TimelineEntries)
                 .Include(e => e.CurrentEmployeeStatus)
                 .Where(e => e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal) // Reproject this as the status might have changed
-                .ToList()
+                .ToList();
+
+            var activeDBEmployeesNotInCsv = activeEmployees
                 .Where(e => reconciledEmployeeList.All(e2 => e2.Id != e.Id)) // This finds all nonFinalEmployees whose Id is not in the reconciledEmployeeList
                 .ToList();
+
+            return activeDBEmployeesNotInCsv;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***
