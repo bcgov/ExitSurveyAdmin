@@ -320,7 +320,7 @@ namespace ExitSurveyAdmin.Models
 
         public Boolean IsPastExpiryThreshold(int thresholdInDays)
         ***REMOVED***
-            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow && IsStatusExpired();
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow && !IsStatusExpired();
       ***REMOVED***
 
         public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
