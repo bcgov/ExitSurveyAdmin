@@ -30,7 +30,7 @@ const RefreshStatusButton = (props: Props): JSX.Element => ***REMOVED***
 
   return (
     <ColumnarLabelledText
-      helperText="This will update employee statuses from CallWeb, as outlined in step 3 in the information box (employees will be expired)."
+      helperText="This will update employee statuses from CallWeb, as outlined in step 1 in the information box (employees will not be expired)."
       label="Refresh from CallWeb"
       columnClass="col-12 mt-3"
     >
