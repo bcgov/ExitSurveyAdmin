@@ -38,6 +38,11 @@ namespace ExitSurveyAdmin.Models
                         && d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag)
                         && d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag)
                         && d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
+                        && d.PropertyInfo.Name != nameof(LdapFirstName)
+                        && d.PropertyInfo.Name != nameof(LdapLastName)
+                        && d.PropertyInfo.Name != nameof(LdapCity)
+                        && d.PropertyInfo.Name != nameof(LdapEmail)
+                        && d.PropertyInfo.Name != nameof(GovernmentEmail)
                 );
         }
 
@@ -171,6 +176,19 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public Boolean PreferredAddressPostCodeFlag { get; set; }
 
+        // Ldap information (from the LDAP lookup)
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapEmail { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapFirstName { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapLastName { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapCity { get; set; }
+
         [Required]
         public string Phone { get; set; }
 
@@ -224,22 +242,13 @@ namespace ExitSurveyAdmin.Models
 
         public Boolean TriedToUpdateInFinalState { get; set; }
 
-        public void UpdateEmail(EmployeeInfoLookupService infoLookupService)
-        {
-            GovernmentEmail = infoLookupService.EmailByEmployeeId(GovernmentEmployeeId);
-        }
-
         // Initialize all Preferred fields to be the equivalent of the base
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         {
-            if (LocationGroup == null)
-            {
-                LocationGroup = "";
-            }
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
-            PreferredEmail = GovernmentEmail;
+            PreferredEmail = GovernmentEmail ??= "";
             PreferredEmailFlag = false;
             PreferredAddress1 = Address1;
             PreferredAddress1Flag = false;
@@ -304,21 +313,74 @@ namespace ExitSurveyAdmin.Models
             return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
         }
 
+        public Boolean IsFinal()
+        {
+            return !IsActive();
+        }
+
         public Boolean IsPastExpiryThreshold(int thresholdInDays)
         {
-            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow
-                && CurrentEmployeeStatusCode != EmployeeStatusEnum.Expired.Code;
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow && !IsStatusExpired();
         }
 
         public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
         {
-            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code
-                && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+            return IsStatusExpired() && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+        }
+
+        public Boolean IsStatusExpired()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code;
+        }
+
+        public Boolean IsStatusSurveyComplete()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.SurveyComplete.Code;
+        }
+
+        public Boolean IsStatusNotExiting()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code;
         }
 
         public override string ToString()
         {
             return $"{FullName} ({GovernmentEmployeeId})";
+        }
+
+        /// <summary>
+        /// Retrieve an employee's first name, last name, and email from LDAP,
+        /// as they may have been updated since the PSA data extract.
+        ///
+        /// If the LDAP lookup finds a person with the employee's employee ID
+        /// who works at BC Assessment, we must ignore the LDAP values. This is
+        /// because there is a clash between employee IDs — they are not unique.
+        /// </summary>
+        /// <param name="infoLookupService">The <see cref="NewJobSurveyAdmin.Services.EmployeeInfoLookupService" /> to be used to look up the info.</param>
+        public void UpdateInfoFromLdap(EmployeeInfoLookupService infoLookupService)
+        {
+            var ldapInfo = infoLookupService.GetEmployeeInfoFromLdap(GovernmentEmployeeId);
+
+            LdapFirstName = ldapInfo.FirstName;
+            LdapLastName = ldapInfo.LastName;
+            LdapEmail = ldapInfo.Email;
+            LdapCity = ldapInfo.City;
+
+            if (ldapInfo.Organization != null && ldapInfo.Organization.Equals("BC Assessment"))
+            {
+                // If the organization is "BC Assessment", we need to use the
+                // already-set values regardless. This is due to an ID clash.
+                GovernmentEmail = ldapInfo.EmailOverride ?? null;
+            }
+            else
+            {
+                // Otherwise we can use the LDAP info, defaulting back to what
+                // was set in the PSA extract if anything is null.
+                FirstName = ldapInfo.FirstName ?? FirstName;
+                LastName = ldapInfo.LastName ?? LastName;
+                GovernmentEmail = ldapInfo.EmailOverride ?? ldapInfo.Email ?? null;
+                LocationCity = ldapInfo.City ?? LocationCity;
+            }
         }
     }
 }

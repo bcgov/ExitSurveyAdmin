@@ -36,7 +36,7 @@ namespace ExitSurveyAdmin.Controllers
         {
             var apiServiceCallResult = await this.callWebService.ListAll();
 
-            int length = apiServiceCallResult == null ? -1 : apiServiceCallResult.Length;
+            int length = apiServiceCallResult == null ? -1 : apiServiceCallResult.Count;
 
             string text = "{ \"callWebRecordCount\": \"" + length + "\" }";
 
