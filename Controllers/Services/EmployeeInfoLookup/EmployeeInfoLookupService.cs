@@ -23,31 +23,31 @@ namespace ExitSurveyAdmin.Services
             OverrideEmail = options.Value.OverrideEmail;
         }
 
-        // Obtains an email address, given an employee ID.
-        public string EmailByEmployeeId(string employeeId)
+        // Obtains employee info from the LDAP system, given an employee ID.
+        public EmployeeInfo GetEmployeeInfoFromLdap(string employeeId)
         {
-            // If the OverrideEmail config setting is set to a string, then
-            // we just return it. It will be the user email instead of looking
-            // up their email.
-            if (!string.IsNullOrWhiteSpace(OverrideEmail))
-            {
-                return OverrideEmail;
-            }
+            EmployeeInfo infoModel = new EmployeeInfo();
 
             try
             {
-                // Otherwise, continue on, using the LDAP connection to filter by
-                // the employee ID and find the user's mail (email) attribute.
+                // Use the LDAP connection to filter by the employee ID and find the
+                // user's attributes, setting as necessary.
                 using (var ldapConnection = new LdapConnection())
                 {
                     ldapConnection.Connect(Host, Port);
                     ldapConnection.Bind(Username, Password);
 
+                    // In LDAP:
+                    //   `mail`      is the email
+                    //   `company`   is the organization
+                    //   `sn`        is the surname / last name
+                    //   `givenName` is the given name / first name
+                    //   `l`         is the location / city
                     ILdapSearchResults results = ldapConnection.Search(
                         Base,
                         LdapConnection.ScopeSub,
                         $"(employeeID={employeeId})",
-                        new string[] { "mail" },
+                        new string[] { "mail", "company", "sn", "givenName", "l" },
                         false
                     );
 
@@ -65,18 +65,28 @@ namespace ExitSurveyAdmin.Services
                             string attributeName = attribute.Name;
                             string attributeVal = attribute.StringValue;
 
-                            if (attributeName == "mail")
-                            {
-                                // Success. Return the mail attribute value, which
-                                // is the user's email address.
-                                return attributeVal;
-                            }
+                            if (attributeName.Equals("mail"))
+                                infoModel.Email = attributeVal;
+                            if (attributeName.Equals("company"))
+                                infoModel.Organization = attributeVal;
+                            if (attributeName.Equals("sn"))
+                                infoModel.LastName = attributeVal;
+                            if (attributeName.Equals("givenName"))
+                                infoModel.FirstName = attributeVal;
+                            if (attributeName.Equals("l"))
+                                infoModel.City = attributeVal;
                         }
                     }
-
-                    // Return blank if we don't find an email for that employee.
-                    return "";
                 }
+
+                // If the OverrideEmail config setting is set to a string, then
+                // we set it.
+                if (!string.IsNullOrWhiteSpace(OverrideEmail))
+                {
+                    infoModel.EmailOverride = OverrideEmail;
+                }
+
+                return infoModel;
             }
             catch (Exception exception)
             {
