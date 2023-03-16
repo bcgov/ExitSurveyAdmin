@@ -45,8 +45,8 @@ const AdminInterfaceHelp = (): JSX.Element => ***REMOVED***
                 employment.
               </li>
               <li>
-                <strong>Set Expired users to Exiting</strong>, if they are now
-                within the expiry threshold.
+                <strong>Set Exiting users to Expiring</strong>, if they are now
+                outside the expiry threshold.
               </li>
             </ol>
           </AdminInterfaceHelpTopic>
