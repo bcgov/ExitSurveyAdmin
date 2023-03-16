@@ -115,10 +115,15 @@ namespace ExitSurveyAdmin.Services
 
             // Get the existing employees again. We're doing this once more
             // because we don't want to assume anything about which employees
-            // might have failed to create, update,  etc.
-            var createdAndUpdatedEmployees = creationService.ExistingEmployeesFromCandidates(
+            // might have failed to create, update, etc. This works only by
+            // employee ID; we need to refine in the next step.
+            var reprojectedExistingEmployees = creationService.ExistingEmployeesFromCandidates(
                 candidateEmployees
             );
+            // Filter down to only employees in the original CSV.
+            var createdAndUpdatedEmployees = reprojectedExistingEmployees
+                .Where(e => creationService.FindExisting(e, candidateEmployees) != null)
+                .ToList();
 
             return new Tuple<List<Employee>, EmployeeTaskResult>(
                 createdAndUpdatedEmployees,
