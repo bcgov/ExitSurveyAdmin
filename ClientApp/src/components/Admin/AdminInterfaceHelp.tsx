@@ -22,8 +22,8 @@ const AdminInterfaceHelp = (): JSX.Element => ***REMOVED***
       <div className="row">
         <div className="col">
           <AdminInterfaceHelpTopic title="Scheduled task">
-            The scheduled task runs every day at ***REMOVED***TASK_TIME***REMOVED*** Pacific time. In
-            order, the task will:
+            The scheduled task runs Monday through Friday at ***REMOVED***TASK_TIME***REMOVED*** Pacific
+            time. In order, the task will:
             <ol className="my-2 pl-3">
               <li>
                 <strong>Update employee statuses from CallWeb</strong>, checking
