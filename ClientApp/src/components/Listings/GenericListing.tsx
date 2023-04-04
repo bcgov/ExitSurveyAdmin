@@ -121,7 +121,9 @@ const GenericListing = <T extends object>(***REMOVED***
       ***REMOVED***
       )
   ***REMOVED***
-    [filterQuery, listingPath, pageSize, dataMapper]
+    // Intentionally only look at filterQuery
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filterQuery]
   )
 
   return (
