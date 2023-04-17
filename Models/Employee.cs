@@ -374,12 +374,9 @@ namespace ExitSurveyAdmin.Models
           ***REMOVED***
             else
             ***REMOVED***
-                // Otherwise we can use the LDAP info, defaulting back to what
-                // was set in the PSA extract if anything is null.
-                FirstName = ldapInfo.FirstName ?? FirstName;
-                LastName = ldapInfo.LastName ?? LastName;
+                // We will only use the GovernmentEmail value. For all others,
+                // just use the existing CSV info.
                 GovernmentEmail = ldapInfo.EmailOverride ?? ldapInfo.Email ?? null;
-                LocationCity = ldapInfo.City ?? LocationCity;
           ***REMOVED***
       ***REMOVED***
   ***REMOVED***
