@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 import React from 'react'
 
 import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
@@ -22,47 +22,33 @@ const AdminInterfaceHelp = (): JSX.Element => {
       <div className="row">
         <div className="col">
           <AdminInterfaceHelpTopic title="Scheduled task">
-            The scheduled task runs every day at {TASK_TIME} Pacific time. In
-            order, the task will:
+            The scheduled task runs Monday through Friday at {TASK_TIME} Pacific
+            time. In order, the task will:
             <ol className="my-2 pl-3">
               <li>
                 <strong>Update employee statuses from CallWeb</strong>, checking
                 to see whether any employees in a non-final state have completed
-                their surveys.
-              </li>
-              <li>
-                <strong>Update blackout status</strong>, if applicable. If the
-                blackout period is not set, any employees which have their
-                invitation dates set to January 1, 2099 will have their dates
-                reset to the dates indicated on this interface. In other words,
-                their dates will be set as if they had been pulled in the next
-                scheduled data pull. If the blackout period is set, nothing
-                happens.
+                their surveys. Users now within the expiry window will have
+                their status set back to Exiting. However, users will not be
+                shifted <em>into</em> to an Expired state at this time.
               </li>
               <li>
                 <strong>Retrieve employee information from the PSA API</strong>,
-                if today is the data pull day of week. If today is not the data
-                pull day of the week, nothing happens.
+                inserting new users and updating existing ones as appropriate.
+              </li>
+              <li>
+                <strong>
+                  Set any employees who have dropped off the PSA API to Not
+                  Exiting
+                </strong>
+                . In this case, they most likely are not actually exiting
+                employment.
+              </li>
+              <li>
+                <strong>Set Exiting users to Expired</strong>, if they are now
+                outside the expiry threshold.
               </li>
             </ol>
-          </AdminInterfaceHelpTopic>
-        </div>
-        <div className="col">
-          <AdminInterfaceHelpTopic title="Days between invites">
-            You can set the days between invitations. Remember to adjust the
-            email template in CallWeb to reflect any changes made to the closing
-            date.
-          </AdminInterfaceHelpTopic>
-          <AdminInterfaceHelpTopic title="Blackout period">
-            <p>
-              The blackout period setting allows an admin to pause the pushing
-              of survey invitation dates into CallWeb. When set to
-              &ldquo;Yes,&rdquo; all invitation-related dates on imported
-              employees will be set to January 1, 2099. Otherwise, employees
-              will be imported as normal. When the blackout period is turned
-              off, employees will have their invite dates reset as if they had
-              been added to the system on the currently-set data pull day.
-            </p>
           </AdminInterfaceHelpTopic>
         </div>
       </div>

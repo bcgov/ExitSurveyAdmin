@@ -182,7 +182,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return taskResult;
         }
 
-        public async Task<CallWebRowDto[]> ListAll()
+        public async Task<List<CallWebRowDto>> ListAll()
         {
             var response = await CallWebApi.GetAll();
 
