@@ -25,12 +25,12 @@ namespace ExitSurveyAdmin.Services
             this.updateService = updateService;
       ***REMOVED***
 
-        public async Task<EmployeeTaskResult> RefreshCallWebStatus()
+        public async Task<EmployeeTaskResult> CheckSurveyComplete()
         ***REMOVED***
             var employeeTaskResult = new EmployeeTaskResult(TaskEnum.RefreshStatuses);
 
             // For all non-final employees, update.
-            var employees = EmployeesNeedingCallWebRefresh();
+            var employees = updateService.ActiveEmployees();
 
             // Do this in a batch, working with 100 employees at a time.
             var BATCH_SIZE = 100;
@@ -46,35 +46,52 @@ namespace ExitSurveyAdmin.Services
 
                 // Step 2. Update the statuses.
                 employeeTaskResult.AddFinalStep(
-                    await updateService.UpdateEmployeeSurveyStatuses(employeesWithSurveyStatusCodes)
+                    await UpdateSurveyCompleteStatus(employeesWithSurveyStatusCodes)
                 );
           ***REMOVED***
 
             return employeeTaskResult;
       ***REMOVED***
 
-        private async Task<int> ExpiryThresholdInDays()
+        private async Task<TaskResult<Employee>> UpdateSurveyCompleteStatus(
+            List<Tuple<Employee, string>> employeeResultsWithSurveyStatusCodes
+        )
         ***REMOVED***
-            var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
-                a => a.Key == AdminSetting.EmployeeExpirationThreshold
+            var taskResult = new TaskResult<Employee>();
+
+            var employeesToSave = new List<Tuple<Employee, EmployeeStatusEnum>>();
+
+            foreach (var tuple in employeeResultsWithSurveyStatusCodes)
+            ***REMOVED***
+                var employee = tuple.Item1;
+                var callWebStatusCode = tuple.Item2;
+
+                if (callWebStatusCode == null)
+                ***REMOVED***
+                    // The employee does not have a valid status code.
+                    taskResult.AddFailedWithException(
+                        employee,
+                        new NullCallWebStatusCodeException($"No status code for $***REMOVED***employee***REMOVED***")
+                    );
+                    continue;
+              ***REMOVED***
+                if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
+                ***REMOVED***
+                    // The employee has completed the survey.
+                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.SurveyComplete));
+                    continue;
+              ***REMOVED***
+                else
+                ***REMOVED***
+                    taskResult.AddIgnored(employee);
+              ***REMOVED***
+          ***REMOVED***
+
+            taskResult.AddFinal(
+                await updateService.SaveEmployeeStatusesAndUpdateCallWeb(employeesToSave)
             );
-            var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
 
-            return thresholdInDays;
-      ***REMOVED***
-
-        private List<Employee> EmployeesNeedingCallWebRefresh()
-        ***REMOVED***
-            return context.Employees
-                .Include(e => e.TimelineEntries)
-                .Include(e => e.CurrentEmployeeStatus)
-                .Where(
-                    e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal)
-                // TODO: We are still investigating if this should be removed.
-                // See https://github.com/bcgov/ExitSurveyAdmin/issues/208
-                // || (e.CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code)
-                )
-                .ToList();
+            return taskResult;
       ***REMOVED***
   ***REMOVED***
 ***REMOVED***

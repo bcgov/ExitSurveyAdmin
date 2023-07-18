@@ -100,7 +100,7 @@ const Home = (): JSX.Element => ***REMOVED***
                   <FormattedDate
                     date=***REMOVED***tle.createdTs***REMOVED***
                     showLocalTimezone
-                    customFormat=***REMOVED***'ddd, MMMM D, YYYY • hh:mm:ss z'***REMOVED***
+                    customFormat=***REMOVED***'ddd, MMMM D, YYYY • HH:mm:ss z'***REMOVED***
                   />
                 </div>
               </div>

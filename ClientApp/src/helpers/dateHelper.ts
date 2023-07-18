@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import ***REMOVED*** NullableString ***REMOVED*** from '../types/NullableString'
 export type NullableDate = Date | null

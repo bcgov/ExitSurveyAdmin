@@ -1,5 +1,5 @@
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import React from 'react'
 
 import ***REMOVED*** defaultDateFormat ***REMOVED*** from '../../helpers/dateHelper'
@@ -38,6 +38,7 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
 
   return (
     <GenericListing
+      sortProp=***REMOVED***`&sorts=-modifiedTs`***REMOVED*** // By default, sort by last modified
       modelName="employees"
       filterableFields=***REMOVED***employeeFilters***REMOVED***
       columns=***REMOVED***employeeTableColumns***REMOVED***

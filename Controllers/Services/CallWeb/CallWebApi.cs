@@ -110,16 +110,18 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
       ***REMOVED***
 
-        private async Task<CallWebRowDto[]> CallWebRowsFromResponse(HttpResponseMessage response)
+        private async Task<List<CallWebRowDto>> CallWebRowsFromResponse(
+            HttpResponseMessage response
+        )
         ***REMOVED***
             var responseAsString = await response.Content.ReadAsStringAsync();
 
-            var callWebDtos = JsonConvert.DeserializeObject<CallWebRowDto[]>(responseAsString);
+            var callWebDtos = JsonConvert.DeserializeObject<List<CallWebRowDto>>(responseAsString);
 
             return callWebDtos;
       ***REMOVED***
 
-        public async Task<CallWebRowDto[]> GetAll()
+        public async Task<List<CallWebRowDto>> GetAll()
         ***REMOVED***
             var client = await GetClientWithServiceToken();
             var response = await client.GetAsync($"***REMOVED***BaseUrl***REMOVED***");
@@ -137,7 +139,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
       ***REMOVED***
 
-        public async Task<CallWebRowDto[]> GetMultiple(string[] telkeys)
+        public async Task<List<CallWebRowDto>> GetMultiple(string[] telkeys)
         ***REMOVED***
             if (telkeys.Length == 0)
             ***REMOVED***
@@ -164,7 +166,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
       ***REMOVED***
 
-        public async Task<CallWebRowDto[]> PostMultiple(List<CallWebPostDto> postDtos)
+        public async Task<List<CallWebRowDto>> PostMultiple(List<CallWebPostDto> postDtos)
         ***REMOVED***
             var content = ToJsonContent(postDtos.ToArray());
 
@@ -186,7 +188,7 @@ namespace ExitSurveyAdmin.Services.CallWeb
             return callWebDto;
       ***REMOVED***
 
-        public async Task<CallWebRowDto[]> PatchMultiple(List<CallWebPatchDto> patchDtos)
+        public async Task<List<CallWebRowDto>> PatchMultiple(List<CallWebPatchDto> patchDtos)
         ***REMOVED***
             var content = ToJsonContent(patchDtos.ToArray());
 
