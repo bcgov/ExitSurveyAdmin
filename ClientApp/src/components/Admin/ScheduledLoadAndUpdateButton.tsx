@@ -23,15 +23,15 @@ const ScheduledLoadAndUpdateButton = (props: Props): JSX.Element => {
       (response: FixTypeLater): void => {
         setRefreshButtonActive(false)
         setSuccessTime(Date.now())
-        setSuccessMessage('The scheduled load process finished.')
+        setSuccessMessage('The scheduled task finished.')
       }
     )
   }, [])
 
   return (
     <ColumnarLabelledText
-      helperText="This will run a scheduled load and upate."
-      label="Run scheduled load and update"
+      helperText="This will trigger an execution of the daily scheduled task, as outlined in steps 1-4 in the information box."
+      label="Run scheduled task"
       columnClass="col-12 mt-3"
     >
       <button
@@ -39,7 +39,7 @@ const ScheduledLoadAndUpdateButton = (props: Props): JSX.Element => {
         onClick={reconcileEmployees}
         disabled={refreshButtonActive}
       >
-        {refreshButtonActive ? 'Running...' : 'Run scheduled load and update '}
+        {refreshButtonActive ? 'Running...' : 'Run scheduled task'}
       </button>
       <SuccessMessage
         className="mt-2"
