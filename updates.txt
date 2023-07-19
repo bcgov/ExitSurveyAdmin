@@ -1,0 +1,15 @@
+ExitSurveyAdmin.csproj:
+
+Microsoft.AspNetCore packages => v 6.0 or later
+Microsoft.EntityFrameworkCore packages => v 6.0 or later
+csvhelper => version 30.0.1
+mailkit => version 4.1.0
+Newtonsoft.Json => version 13.0.3 
+Novell.Directory.Ldap.NETStandard => version 4.0.0-beta4 (check if beta is ok)
+sieve => version 3.0.0-beta0015
+
+migrate to the new minimal hosting model?
+
+update razor class libraries? 
+
+new blazor features?
