@@ -28,5 +28,5 @@
   "files.exclude": {
     "**/*.css": true
   },
-  "csharp.referencesCodeLens.enabled": false
+  "dotnet.codeLens.enableReferencesCodeLens": false
 }
