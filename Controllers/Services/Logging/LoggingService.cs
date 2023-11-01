@@ -13,7 +13,9 @@ namespace ExitSurveyAdmin.Services
         }
 
         public async Task<TaskLogEntry> Log(
-            TaskEnum task, TaskOutcomeEnum taskOutcome, string comment
+            TaskEnum task,
+            TaskOutcomeEnum taskOutcome,
+            string comment
         )
         {
             var entry = new TaskLogEntry()
@@ -42,6 +44,17 @@ namespace ExitSurveyAdmin.Services
         public Task<TaskLogEntry> LogFailure(TaskEnum task, string comment)
         {
             return Log(task, TaskOutcomeEnum.Fail, comment);
+        }
+
+        public Task<TaskLogEntry> LogEmployeeTaskResult(EmployeeTaskResult taskResult)
+        {
+            // If the task result is null,  this is a no-op.
+            if (taskResult == null)
+            {
+                return Task.FromResult<TaskLogEntry>(null);
+            }
+
+            return Log(taskResult.Task, taskResult.TaskOutcome, taskResult.Message);
         }
     }
 }

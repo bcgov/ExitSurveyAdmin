@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
-import { IFilter } from '../Filters/FilterClasses/FilterTypes'
-import { IPresetProps } from '../Filters/Presets/IPresetProps'
+import { Filter } from '../Filters/FilterClasses/FilterTypes'
+import { PresetProps } from '../Filters/Presets/PresetProps'
 import { ITableSort } from '../../types/ITableSort'
 import { MasterFilterHandler } from '../Filters/MasterFilterHandler'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
@@ -25,23 +25,24 @@ const processSorts = (sortBy: ITableSort[]): string => {
 }
 
 const extractFilters = (
-  filters: IFilter[],
+  filters: Filter[],
   propLocationSearch: string
 ): string =>
   MasterFilterHandler.extractFromRawQueryString(filters, propLocationSearch)
 
 export interface IGenericListingProps<T extends object> {
-  filterableFields: IFilter[]
+  filterableFields: Filter[]
   listingPath: string
   modelName: string
-  presetComponent?: React.FC<IPresetProps>
+  presetComponent?: React.FC<PresetProps>
   columns: () => FixTypeLater[]
   dataMapper: (responseJSON: FixTypeLater[]) => T[]
   exportedDataMapper: (responseJSON: FixTypeLater[]) => FixTypeLater[]
   pageSize?: number
+  sortProp?: string
 }
 
-interface IProps<T extends object>
+interface Props<T extends object>
   extends RouteComponentProps,
     IGenericListingProps<T> {}
 
@@ -54,8 +55,9 @@ const GenericListing = <T extends object>({
   location,
   pageSize: propPageSize,
   presetComponent,
-  modelName
-}: IProps<T>): JSX.Element => {
+  modelName,
+  sortProp,
+}: Props<T>): JSX.Element => {
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
@@ -81,12 +83,14 @@ const GenericListing = <T extends object>({
 
   // Called when the table needs new data
   const fetchData = React.useCallback(
-    ({ pageIndex, sortBy }) => {
+    ({ pageIndex, sortBy }: { pageIndex: number; sortBy: FixTypeLater }) => {
       // Give this fetch an ID and set the loading state
       const fetchId = ++fetchIdRef.current
       setLoading(true)
 
-      const sortByQuery = processSorts(sortBy)
+      // If there are no sorts from the table, use the passed-in sort prop, if
+      // any, and otherwise just use an empty string.
+      const sortByQuery = processSorts(sortBy) || sortProp || ''
 
       // Set page index
       let newPageIndex = pageIndex
@@ -94,8 +98,9 @@ const GenericListing = <T extends object>({
         newPageIndex = 0
       }
 
-      const path = `${listingPath}?pageSize=${pageSize}&page=${newPageIndex +
-        1}${sortByQuery}${filterQuery}`
+      const path = `${listingPath}?pageSize=${pageSize}&page=${
+        newPageIndex + 1
+      }${sortByQuery}${filterQuery}`
 
       requestJSONWithErrorHandler(
         `api/${path}`,
@@ -116,7 +121,9 @@ const GenericListing = <T extends object>({
         }
       )
     },
-    [filterQuery, listingPath, pageSize, dataMapper]
+    // Intentionally only look at filterQuery
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filterQuery]
   )
 
   return (

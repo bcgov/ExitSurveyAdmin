@@ -3,23 +3,25 @@ import React, { useEffect } from 'react'
 import './SuccessMessage.scss'
 import { timeout } from '../../helpers/objectHelper'
 
-interface IProps {
+interface Props {
   successTime: number
   className?: string
+  inline?: boolean
   successMessage?: string
 }
 
 const SuccessMessage = ({
   successTime,
   className,
-  successMessage
-}: IProps): JSX.Element => {
+  inline,
+  successMessage,
+}: Props): JSX.Element => {
   const [opacity, setOpacity] = React.useState('0')
   const [display, setDisplay] = React.useState('none')
 
   useEffect(() => {
     async function showSuccessMessage(): Promise<void> {
-      setDisplay('block')
+      setDisplay(inline ? 'inline' : 'block')
       await timeout(10)
       setOpacity('1')
       await timeout(2000)
@@ -31,7 +33,7 @@ const SuccessMessage = ({
     if (successTime !== 0) {
       showSuccessMessage()
     }
-  }, [successTime])
+  }, [successTime, inline])
 
   return (
     <div

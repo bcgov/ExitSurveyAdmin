@@ -9,18 +9,18 @@ export const getBlankEmailFilter = (): CustomFilter => {
   return new CustomFilter('blankEmail')
 }
 
-interface IProps {
+interface Props {
   submitId: number
   setSubmitId: (submitId: number) => void
 }
 
-const SetActiveEmployees = ({ submitId, setSubmitId }: IProps): JSX.Element => {
+const SetActiveEmployees = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setActiveEmployees = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getBlankEmailFilter()
+      filter: getBlankEmailFilter(),
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])

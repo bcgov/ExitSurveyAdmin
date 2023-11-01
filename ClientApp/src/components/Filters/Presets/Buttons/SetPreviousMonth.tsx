@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import { FilterDispatch } from '../../FilterForm'
 import { FixTypeLater } from '../../../../types/FixTypeLater'
@@ -7,25 +7,23 @@ import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
 export const getPreviousMonthFilter = (): DateFilter => {
-  const startDate = moment()
-    .subtract(1, 'month')
-    .startOf('month')
+  const startDate = moment().subtract(1, 'month').startOf('month')
   const endDate = moment(startDate).endOf('month')
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 }
 
-interface IProps {
+interface Props {
   submitId: number
   setSubmitId: (submitId: number) => void
 }
 
-const SetPreviousMonth = ({ submitId, setSubmitId }: IProps): JSX.Element => {
+const SetPreviousMonth = ({ submitId, setSubmitId }: Props): JSX.Element => {
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setPreviousMonth = React.useCallback((): void => {
     dispatch({
       type: 'setFilter',
-      filter: getPreviousMonthFilter()
+      filter: getPreviousMonthFilter(),
     })
     setSubmitId(submitId + 1)
   }, [dispatch, submitId, setSubmitId])

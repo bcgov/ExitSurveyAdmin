@@ -2,11 +2,11 @@ import React from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
-interface IProps {
+interface Props {
   toggleExpanded: () => void
 }
 
-const FilterPanelExpandButton = ({ toggleExpanded }: IProps): JSX.Element => {
+const FilterPanelExpandButton = ({ toggleExpanded }: Props): JSX.Element => {
   return (
     <div className="FilterPanelExpandButton">
       <IconButton

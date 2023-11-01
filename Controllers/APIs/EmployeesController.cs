@@ -1,6 +1,9 @@
 using ExitSurveyAdmin.Models;
 using ExitSurveyAdmin.Services;
 using ExitSurveyAdmin.Services.CallWeb;
+using ExitSurveyAdmin.Services.CsvService;
+using ExitSurveyAdmin.Services.PsaApi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
@@ -9,37 +12,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ExitSurveyAdmin.Controllers
 {
-    [Authorize(Roles = "exitsurveyadmin")]
+    [Authorize(Policy = "UserRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
         private readonly ExitSurveyAdminContext context;
-        private readonly SieveProcessor SieveProcessor;
-        private readonly EmployeeInfoLookupService EmployeeInfoLookup;
-        private readonly EmployeeReconciliationService EmployeeReconciler;
+        private readonly SieveProcessor sieveProcessor;
+        private readonly EmployeeReconciliationService employeeReconciler;
+        private readonly EmployeeInfoLookupService employeeInfoLookup;
         private readonly CallWebService callWebService;
         private readonly LoggingService logger;
+        private readonly CsvService csvService;
+        private readonly PsaApiService psaApiService;
+        private readonly EmailService emailService;
 
         public EmployeesController(
             ExitSurveyAdminContext context,
             SieveProcessor sieveProcessor,
-            EmployeeInfoLookupService employeeInfoLookup,
             EmployeeReconciliationService employeeReconciler,
+            EmployeeInfoLookupService employeeInfoLookup,
             CallWebService callWebService,
-            LoggingService loggingService
+            LoggingService loggingService,
+            CsvService csvService,
+            PsaApiService psaApiService,
+            EmailService emailService
         )
         {
             this.context = context;
-            SieveProcessor = sieveProcessor;
-            EmployeeInfoLookup = employeeInfoLookup;
-            EmployeeReconciler = employeeReconciler;
+            this.sieveProcessor = sieveProcessor;
+            this.employeeInfoLookup = employeeInfoLookup;
+            this.employeeReconciler = employeeReconciler;
             this.callWebService = callWebService;
-            logger = loggingService;
+            this.logger = loggingService;
+            this.emailService = emailService;
+            this.csvService = csvService;
+            this.psaApiService = psaApiService;
         }
 
         // GET: api/Employees
@@ -48,7 +59,6 @@ namespace ExitSurveyAdmin.Controllers
             [FromQuery] SieveModel sieveModel
         )
         {
-
             // Validate the page size and page.
             if (sieveModel.PageSize < 1)
             {
@@ -60,14 +70,11 @@ namespace ExitSurveyAdmin.Controllers
             }
 
             // Employee query.
-            var employees = context.Employees
-                .AsNoTracking()
-                .Include(e => e.TimelineEntries);
+            var employees = context.Employees.AsNoTracking().Include(e => e.TimelineEntries);
 
-            var sievedEmployees = await SieveProcessor
-                .GetPagedAsync(employees, sieveModel);
-            Response.Headers.Add("X-Pagination", sievedEmployees
-                .SerializeMetadataToJson());
+            var sievedEmployees = await sieveProcessor.GetPagedAsync(employees, sieveModel);
+
+            Response.Headers.Add("X-Pagination", sievedEmployees.SerializeMetadataToJson());
 
             return Ok(sievedEmployees.Results);
         }
@@ -94,8 +101,7 @@ namespace ExitSurveyAdmin.Controllers
         {
             var existingEmployee = await FindById(id);
 
-            var updatedEmployee = employeePatchDto
-                .ApplyPatch(existingEmployee);
+            var updatedEmployee = employeePatchDto.ApplyPatch(existingEmployee);
 
             context.Entry(updatedEmployee).State = EntityState.Modified;
 
@@ -104,7 +110,7 @@ namespace ExitSurveyAdmin.Controllers
                 await context.SaveChangesAsync();
 
                 // Patch the row in CallWeb.
-                await callWebService.UpdateSurvey(updatedEmployee);
+                await callWebService.UpdateSurveys(new List<Employee>() { updatedEmployee });
 
                 return Ok(updatedEmployee);
             }
@@ -121,16 +127,127 @@ namespace ExitSurveyAdmin.Controllers
             }
         }
 
-        // POST: api/Employees
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        // EmployeesFromPsaApi: Load employees from the PSA API and immediately
+        // try to reconcile them. Does NOT refresh employee statuses or deal
+        // with any exiting employees.
+        // POST: api/Employees/FromPsaApi
+        [HttpPost("FromPsaApi")]
+        public async Task<ActionResult<List<Employee>>> EmployeesFromPsaApi(
+            int startIndex,
+            int count
+        )
         {
-            Employee newEmployee = await EmployeeReconciler
-                .ReconcileEmployee(employee);
+            try
+            {
+                // Get a list of candidate Employee objects based on the PSA
+                // API. They will be in JSON format.
+                var currentEmployees = await psaApiService.GetCurrent();
 
-            return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
+                List<Employee> employeesToLoad;
+
+                if (startIndex > -1 && count > 0)
+                {
+                    employeesToLoad = currentEmployees.Succeeded.GetRange(startIndex, count);
+                }
+                else
+                {
+                    employeesToLoad = currentEmployees.Succeeded;
+                }
+
+                // Reconcile the employees with the database.
+                var reconciliationTuple = await employeeReconciler.ReconcileEmployeesAndLog(
+                    TaskEnum.LoadFromJson,
+                    employeesToLoad
+                );
+
+                var createdAndUpdatedEmployees = reconciliationTuple.Item1;
+                var taskResult = reconciliationTuple.Item2;
+
+                emailService.SendTaskResultEmail(taskResult);
+
+                return Ok(createdAndUpdatedEmployees);
+            }
+            catch (Exception exception)
+            {
+                emailService.SendFailureEmail(TaskEnum.ParsePsa, exception);
+
+                return await ApiResponseHelper.LogFailureAndSendStacktrace(
+                    this,
+                    TaskEnum.ParsePsa,
+                    exception,
+                    logger
+                );
+            }
+        }
+
+        // EmployeesFromJson: Given (incomplete) Employees in JSON format (as
+        // obtained, for instance, from the PSA API), reconcile those employees
+        // with the "proper" ESA employees in the database. Does NOT refresh
+        // employee statuses or deal with any exiting employees.
+        // POST: api/Employees/FromJson
+        [HttpPost("FromJson")]
+        public async Task<ActionResult<List<Employee>>> EmployeesFromJson(List<Employee> employees)
+        {
+            try
+            {
+                // Reconcile the employees with the database.
+                var reconciliationTuple = await employeeReconciler.ReconcileEmployeesAndLog(
+                    TaskEnum.LoadFromJson,
+                    employees
+                );
+
+                var taskResult = reconciliationTuple.Item2;
+
+                emailService.SendTaskResultEmail(taskResult);
+
+                return Ok(taskResult.Succeeded);
+            }
+            catch (Exception e)
+            {
+                return await ApiResponseHelper.LogFailureAndSendStacktrace(
+                    this,
+                    TaskEnum.LoadFromJson,
+                    e,
+                    logger
+                );
+            }
+        }
+
+        // EmployeesFromCsv: Given the raw text of the PSA CSV extract (as
+        // obtained, for instance, from the PSA CSV file drop), transform it
+        // into an array of nicely-formatted Employee JSON objects, then
+        // reconcile each of those Employees. Does NOT refresh employee
+        // statuses or deal with any exiting employees.
+        // POST: api/Employees/FromCsv
+        [HttpPost("FromCsv")]
+        public async Task<ActionResult<List<Employee>>> EmployeesFromCsv()
+        {
+            try
+            {
+                // Get a list of candidate Employee objects based on the CSV.
+                var readResult = await csvService.ProcessCsvAndLog(Request);
+
+                // Reconcile the employees with the database.
+                var reconciliationTuple = await employeeReconciler.ReconcileEmployeesAndLog(
+                    TaskEnum.LoadFromCsv,
+                    readResult.Succeeded
+                );
+
+                var taskResult = reconciliationTuple.Item2;
+
+                emailService.SendTaskResultEmail(taskResult);
+
+                return Ok(taskResult.Succeeded);
+            }
+            catch (Exception e)
+            {
+                return await ApiResponseHelper.LogFailureAndSendStacktrace(
+                    this,
+                    TaskEnum.LoadFromCsv,
+                    e,
+                    logger
+                );
+            }
         }
 
         [HttpPost("RefreshEmployeeStatus")]
@@ -139,21 +256,66 @@ namespace ExitSurveyAdmin.Controllers
             try
             {
                 // Update existing employee statuses.
-                await EmployeeReconciler.UpdateEmployeeStatuses();
+                var surveyCompleteTaskResult = await employeeReconciler.CheckSurveyCompleteAndLog();
 
-                await logger.LogSuccess(TaskEnum.RefreshStatuses,
-                    $"Manually-triggered refresh of employee statuses."
-                );
+                emailService.SendTaskResultEmail(surveyCompleteTaskResult);
+
+                var unexpireTaskResult = await employeeReconciler.UnexpireAndLog();
+
+                return Ok();
             }
             catch (Exception e)
             {
-                await logger.LogFailure(TaskEnum.ReconcileCsv,
-                    $"Error refreshing employee statuses. Stacktrace:\r\n" +
-                    e.StackTrace
+                return await ApiResponseHelper.LogFailureAndSendStacktrace(
+                    this,
+                    TaskEnum.RefreshStatuses,
+                    e,
+                    logger
                 );
             }
+        }
 
-            return Ok();
+        [AllowAnonymous]
+        [HttpPost("ScheduledLoadAndUpdate")]
+        public async Task<ActionResult> ScheduledLoadAndUpdate(int startIndex, int count)
+        {
+            try
+            {
+                // Steps 1 + 2. Update existing employee statuses. Also Change
+                // Expired to Exiting, if now within the window
+                await RefreshEmployeeStatus();
+
+                // Step 3. Obtain the employees from the PSA API.
+                var result = await EmployeesFromPsaApi(startIndex, count);
+
+                var employees = (result.Result as ObjectResult).Value as List<Employee>;
+
+                // Step 4. For all ACTIVE users in the DB who are NOT in the
+                // data set, set them to Not Exiting, IF they are not in a final
+                // state. Also updates CallWeb. This applies to employees who
+                // have dropped off the data list because they're not actually
+                // leaving their employment.
+                await employeeReconciler.UpdateNotExitingAndLog(employees);
+
+                // Step 5. Expire employees.
+                await employeeReconciler.ExpireAndLog();
+
+                await logger.LogSuccess(
+                    TaskEnum.ScheduledTask,
+                    "Scheduled load and update ran successfully."
+                );
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return await ApiResponseHelper.LogFailureAndSendStacktrace(
+                    this,
+                    TaskEnum.ScheduledTask,
+                    e,
+                    logger
+                );
+            }
         }
 
         private bool EmployeeExists(int id)
