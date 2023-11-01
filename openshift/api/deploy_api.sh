@@ -54,7 +54,7 @@ if [ "$DO_BUILD" = true ] ; then
 
   # 4b. Load artifact
   info "Starting OpenShift build from local artifact. This may take a while..."
-  try oc start-build $NAME --from-dir=../../bin/Debug/netcoreapp3.1 --wait --follow
+  try oc start-build $NAME --from-dir=../../bin/Debug/net7.0 --wait --follow
   echo ""
 
 else
