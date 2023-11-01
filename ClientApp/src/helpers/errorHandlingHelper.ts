@@ -2,7 +2,7 @@ import ***REMOVED*** FixTypeLater ***REMOVED*** from '../types/FixTypeLater'
 
 const ERRORS: ***REMOVED*** [key: string]: ***REMOVED*** title: string ***REMOVED*** ***REMOVED*** = ***REMOVED***
   EMPLOYEE_NOT_FOUND: ***REMOVED***
-    title: 'Employee with this ID not found'
+    title: 'Employee with this ID not found',
 ***REMOVED***
 ***REMOVED***
 

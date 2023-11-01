@@ -9,9 +9,9 @@ export class EmployeeTimelineEntry ***REMOVED***
   comment?: string
   adminUserName?: string
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value, true))
   createdTs?: Date
 
-  @Transform((date: string) => dateOrUndefined(date, true))
+  @Transform((***REMOVED*** value ***REMOVED***: ***REMOVED*** value: string ***REMOVED***) => dateOrUndefined(value, true))
   modifiedTs?: Date
 ***REMOVED***

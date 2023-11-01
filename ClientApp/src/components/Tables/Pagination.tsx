@@ -2,7 +2,7 @@ import React from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   gotoPage: (page: number) => void
   previousPage: () => void
   nextPage: () => void
@@ -13,7 +13,7 @@ interface IProps ***REMOVED***
   className?: string
 ***REMOVED***
 
-const Pagination = (props: IProps): JSX.Element => ***REMOVED***
+const Pagination = (props: Props): JSX.Element => ***REMOVED***
   const ***REMOVED***
     canNextPage,
     canPreviousPage,
@@ -21,7 +21,7 @@ const Pagination = (props: IProps): JSX.Element => ***REMOVED***
     nextPage,
     pageCount,
     pageIndex,
-    previousPage
+    previousPage,
 ***REMOVED*** = props
   return (
     <div className=***REMOVED***`row align-items-center pagination my-3`***REMOVED***>

@@ -1,5 +1,5 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
@@ -8,40 +8,32 @@ import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
 export const getPreviousFiscalYearFilter = (): DateFilter => ***REMOVED***
   let startDate = moment()
-  const currentYearApril = moment()
-    .month('April')
-    .startOf('month')
+  const currentYearApril = moment().month('April').startOf('month')
 
   if (startDate.isBefore(currentYearApril)) ***REMOVED***
     startDate = startDate.subtract(1, 'year')
 ***REMOVED***
-  startDate = startDate
-    .subtract(1, 'year')
-    .month('April')
-    .startOf('month')
-  const endDate = moment(startDate)
-    .add(1, 'year')
-    .month('March')
-    .endOf('month')
+  startDate = startDate.subtract(1, 'year').month('April').startOf('month')
+  const endDate = moment(startDate).add(1, 'year').month('March').endOf('month')
 
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 ***REMOVED***
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   submitId: number
   setSubmitId: (submitId: number) => void
 ***REMOVED***
 
 const SetPreviousFiscalYear = (***REMOVED***
   submitId,
-  setSubmitId
-***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  setSubmitId,
+***REMOVED***: Props): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setPreviousFiscalYear = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: getPreviousFiscalYearFilter()
+      filter: getPreviousFiscalYearFilter(),
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])

@@ -1,5 +1,3 @@
-/* globals Promise */
-
 export function undefinedIfNull<T>(obj: T | null): T | undefined ***REMOVED***
   return obj === null ? undefined : obj
 ***REMOVED***
@@ -13,5 +11,5 @@ export function emptyStringIfNull<T>(obj: T | null): T | string ***REMOVED***
 ***REMOVED***
 
 export const timeout = (ms: number): Promise<void> => ***REMOVED***
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 ***REMOVED***

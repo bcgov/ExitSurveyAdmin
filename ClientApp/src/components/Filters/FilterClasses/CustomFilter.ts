@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
+import ***REMOVED*** FilterType, Filter ***REMOVED*** from './FilterTypes'
 
-export default class CustomFilter implements IFilter ***REMOVED***
+export default class CustomFilter implements Filter ***REMOVED***
   _type = FilterType.Custom
   _fieldName: string
 

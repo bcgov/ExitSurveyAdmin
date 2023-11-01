@@ -1,33 +1,33 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
 
+import ***REMOVED***
+  EmployeeStatus,
+  EmployeeStatusStateEnum,
+***REMOVED*** from '../../../../types/EmployeeStatus'
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
-import ***REMOVED***
-  EmployeeStatus,
-  EmployeeStatusStateEnum
-***REMOVED*** from '../../../../types/EmployeeStatus'
 
 export const getActiveEmployeesFilter = (): EnumFilter => ***REMOVED***
   const activeStatusKeys = EmployeeStatus.array()
-    .filter(status => status.state === EmployeeStatusStateEnum.Active)
-    .map(status => status.code)
+    .filter((status) => status.state === EmployeeStatusStateEnum.Active)
+    .map((status) => status.code)
   return new EnumFilter('currentEmployeeStatusCode', activeStatusKeys)
 ***REMOVED***
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   submitId: number
   setSubmitId: (submitId: number) => void
 ***REMOVED***
 
-const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const SetActiveEmployees = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setActiveEmployees = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: getActiveEmployeesFilter()
+      filter: getActiveEmployeesFilter(),
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])

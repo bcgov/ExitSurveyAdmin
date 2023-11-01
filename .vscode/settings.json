@@ -13,6 +13,18 @@
   "[json]": ***REMOVED***
     "editor.formatOnSave": true
 ***REMOVED***
+  "[javascriptreact]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
+  "[typescriptreact]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
+  "[typescript]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
+  "[scss]": ***REMOVED***
+    "editor.formatOnSave": true
+***REMOVED***
   "files.exclude": ***REMOVED***
     "**/*.css": true
 ***REMOVED***

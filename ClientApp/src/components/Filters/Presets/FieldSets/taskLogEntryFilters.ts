@@ -1,10 +1,11 @@
-import ***REMOVED*** IFilter ***REMOVED*** from '../../FilterClasses/FilterTypes'
+import ***REMOVED*** Filter ***REMOVED*** from '../../FilterClasses/FilterTypes'
 import DateFilter from '../../FilterClasses/DateFilter'
 import EnumFilter from '../../FilterClasses/EnumFilter'
 import TextFilter from '../../FilterClasses/TextFilter'
 
-export const taskLogEntryFilters: IFilter[] = [
-  new DateFilter('createdTs'),
+export const taskLogEntryFilters: Filter[] = [
+  new DateFilter('logDate'),
   new EnumFilter('taskOutcomeCode'),
-  new TextFilter('comment')
+  new EnumFilter('taskCode'),
+  new TextFilter('comment'),
 ]

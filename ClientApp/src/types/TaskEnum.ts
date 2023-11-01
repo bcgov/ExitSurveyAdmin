@@ -1,0 +1,17 @@
+export enum TaskEnum ***REMOVED***
+  CreateEmployees = 'CreateEmployees',
+  EmailAdmins = 'EmailAdmins',
+  ExpireEmployees = 'ExpireEmployees',
+  LoadFromCSV = 'LoadFromCSV',
+  LoadFromJson = 'LoadFromJson',
+  LoadPsa = 'LoadPsa',
+  ParsePsa = 'ParsePsa',
+  ReadCSV = 'ReadCSV',
+  ReconcileCSV = 'ReconcileCSV',
+  ReconcileEmployees = 'ReconcileEmployees',
+  RefreshStatuses = 'RefreshStatuses',
+  RetrieveSurveyStatus = 'RetrieveSurveyStatus',
+  ScheduledTask = 'ScheduledTask',
+  UnexpireEmployees = 'UnexpireEmployees',
+  UpdateNotExiting = 'UpdateNotExiting',
+***REMOVED***

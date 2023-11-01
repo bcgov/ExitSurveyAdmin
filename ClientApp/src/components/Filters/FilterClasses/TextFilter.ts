@@ -1,8 +1,9 @@
-import ***REMOVED*** FilterType, IFilter ***REMOVED*** from './FilterTypes'
+import ***REMOVED*** FilterType, Filter ***REMOVED*** from './FilterTypes'
 
 const OR_OPERATOR = '|'
+const CONTAINS_STRING_OPERATOR = '@=*'
 
-export default class TextFilter implements IFilter ***REMOVED***
+export default class TextFilter implements Filter ***REMOVED***
   _type = FilterType.String
   _fieldName: string
   _values: string[]
@@ -46,14 +47,16 @@ export default class TextFilter implements IFilter ***REMOVED***
     if (this._values.every((v: string) => v.length === 0)) ***REMOVED***
       return `$***REMOVED***this._fieldName***REMOVED***==$***REMOVED***OR_OPERATOR***REMOVED***`
   ***REMOVED***
-    return `$***REMOVED***this._fieldName***REMOVED***@=$***REMOVED***this._values.join(OR_OPERATOR)***REMOVED***`
+    return `$***REMOVED***this._fieldName***REMOVED***$***REMOVED***CONTAINS_STRING_OPERATOR***REMOVED***$***REMOVED***this._values.join(
+      OR_OPERATOR
+    )***REMOVED***`
 ***REMOVED***
 
   decode(inputs: string[]): TextFilter ***REMOVED***
     const values: string[] = []
-    let fieldName = inputs[0].split('@=')[0]
+    let fieldName = inputs[0].split(CONTAINS_STRING_OPERATOR)[0]
     for (const input of inputs) ***REMOVED***
-      let valueString = input.split('@=')[1]
+      let valueString = input.split(CONTAINS_STRING_OPERATOR)[1]
       if (!fieldName || !valueString) ***REMOVED***
         // This might be the special case from above; try splitting on the ==
         ;[fieldName, valueString] = input.split('==')
@@ -64,7 +67,7 @@ export default class TextFilter implements IFilter ***REMOVED***
           throw new Error(`TextFilter: Could not parse input '$***REMOVED***input***REMOVED***'`)
       ***REMOVED***
     ***REMOVED***
-      valueString.split(OR_OPERATOR).forEach(v => values.push(v))
+      valueString.split(OR_OPERATOR).forEach((v) => values.push(v))
   ***REMOVED***
     return new TextFilter(fieldName, values)
 ***REMOVED***
@@ -76,7 +79,7 @@ export default class TextFilter implements IFilter ***REMOVED***
 
   get displayString(): string ***REMOVED***
     // Special case for all blanks
-    if (this._values.every(v => v.length === 0)) ***REMOVED***
+    if (this._values.every((v) => v.length === 0)) ***REMOVED***
       return 'is blank'
   ***REMOVED*** else ***REMOVED***
       return this._values.join(' or ')

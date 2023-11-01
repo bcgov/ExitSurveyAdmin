@@ -1,6 +1,4 @@
-/* globals Map */
-
-import ***REMOVED*** ISelectOption ***REMOVED*** from '../components/Employees/EditableSelect'
+import ***REMOVED*** SelectOption ***REMOVED*** from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 
 export enum EmployeeStatusEnum ***REMOVED***
   Exiting = 'Exiting',
@@ -9,12 +7,12 @@ export enum EmployeeStatusEnum ***REMOVED***
   NotExiting = 'NotExiting',
   OutOfScope = 'OutOfScope',
   Declined = 'Declined',
-  Expired = 'Expired'
+  Expired = 'Expired',
 ***REMOVED***
 
 export enum EmployeeStatusStateEnum ***REMOVED***
   Active = 'Active',
-  Final = 'Final'
+  Final = 'Final',
 ***REMOVED***
 
 export class EmployeeStatus ***REMOVED***
@@ -85,11 +83,11 @@ export class EmployeeStatus ***REMOVED***
     EmployeeStatus.NOT_EXITING,
     EmployeeStatus.INELIGIBLE_OTHER,
     EmployeeStatus.DECLINED,
-    EmployeeStatus.EXPIRED
+    EmployeeStatus.EXPIRED,
   ]
 
   static map = (): Map<EmployeeStatusEnum, EmployeeStatus> => ***REMOVED***
-    return new Map(EmployeeStatus.array().map(s => [s.code, s]))
+    return new Map(EmployeeStatus.array().map((s) => [s.code, s]))
 ***REMOVED***
 
   static fromKey = (key: EmployeeStatusEnum): EmployeeStatus => ***REMOVED***
@@ -97,11 +95,11 @@ export class EmployeeStatus ***REMOVED***
     return EmployeeStatus.map().get(key)!
 ***REMOVED***
 
-  static toOptions = (): ISelectOption[] => ***REMOVED***
+  static toOptions = (): SelectOption[] => ***REMOVED***
     return EmployeeStatus.array()
-      .map(status => (***REMOVED***
+      .map((status) => (***REMOVED***
         name: status.displayName,
-        value: status.code
+        value: status.code,
     ***REMOVED***))
       .sort((a, b) => a.name.localeCompare(b.name))
 ***REMOVED***

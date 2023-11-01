@@ -2,6 +2,7 @@ using ExitSurveyAdmin.Models;
 
 namespace ExitSurveyAdmin.Services.CallWeb
 ***REMOVED***
+    // The data transfer object to use when sending a POST request.
     public class CallWebPostDto
     ***REMOVED***
         public string EmployeeId ***REMOVED*** get; set; ***REMOVED***

@@ -4,9 +4,9 @@ import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpe
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
-interface IProps ***REMOVED******REMOVED***
+interface Props ***REMOVED******REMOVED***
 
-const RefreshStatusButton = (props: IProps): JSX.Element => ***REMOVED***
+const RefreshStatusButton = (props: Props): JSX.Element => ***REMOVED***
   const [successTime, setSuccessTime] = React.useState(0)
   const [successMessage, setSuccessMessage] = React.useState<
     string | undefined
@@ -23,15 +23,15 @@ const RefreshStatusButton = (props: IProps): JSX.Element => ***REMOVED***
       (response: FixTypeLater): void => ***REMOVED***
         setRefreshButtonActive(false)
         setSuccessTime(Date.now())
-        setSuccessMessage('The reconciliation process finished.')
+        setSuccessMessage('The refresh finished.')
     ***REMOVED***
     )
 ***REMOVED*** [])
 
   return (
     <ColumnarLabelledText
-      helperText="This will immediately refresh all employee statuses and reconcile employees with CallWeb."
-      label="Run reconciliation process"
+      helperText="This will update employee statuses from CallWeb, as outlined in step 1 in the information box (employees will not be expired)."
+      label="Refresh from CallWeb"
       columnClass="col-12 mt-3"
     >
       <button
@@ -39,7 +39,7 @@ const RefreshStatusButton = (props: IProps): JSX.Element => ***REMOVED***
         onClick=***REMOVED***reconcileEmployees***REMOVED***
         disabled=***REMOVED***refreshButtonActive***REMOVED***
       >
-        ***REMOVED***refreshButtonActive ? 'Reconciling...' : 'Run reconciliation process'***REMOVED***
+        ***REMOVED***refreshButtonActive ? 'Refreshing...' : 'Refresh from CallWeb'***REMOVED***
       </button>
       <SuccessMessage
         className="mt-2"

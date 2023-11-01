@@ -1,5 +1,5 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
@@ -7,25 +7,23 @@ import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
 export const getPreviousMonthFilter = (): DateFilter => ***REMOVED***
-  const startDate = moment()
-    .subtract(1, 'month')
-    .startOf('month')
+  const startDate = moment().subtract(1, 'month').startOf('month')
   const endDate = moment(startDate).endOf('month')
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 ***REMOVED***
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   submitId: number
   setSubmitId: (submitId: number) => void
 ***REMOVED***
 
-const SetPreviousMonth = (***REMOVED*** submitId, setSubmitId ***REMOVED***: IProps): JSX.Element => ***REMOVED***
+const SetPreviousMonth = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const dispatch = useContext(FilterDispatch) as FixTypeLater
 
   const setPreviousMonth = React.useCallback((): void => ***REMOVED***
     dispatch(***REMOVED***
       type: 'setFilter',
-      filter: getPreviousMonthFilter()
+      filter: getPreviousMonthFilter(),
   ***REMOVED***)
     setSubmitId(submitId + 1)
 ***REMOVED*** [dispatch, submitId, setSubmitId])

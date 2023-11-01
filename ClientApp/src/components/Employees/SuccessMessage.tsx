@@ -3,23 +3,25 @@ import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
 import './SuccessMessage.scss'
 import ***REMOVED*** timeout ***REMOVED*** from '../../helpers/objectHelper'
 
-interface IProps ***REMOVED***
+interface Props ***REMOVED***
   successTime: number
   className?: string
+  inline?: boolean
   successMessage?: string
 ***REMOVED***
 
 const SuccessMessage = (***REMOVED***
   successTime,
   className,
-  successMessage
-***REMOVED***: IProps): JSX.Element => ***REMOVED***
+  inline,
+  successMessage,
+***REMOVED***: Props): JSX.Element => ***REMOVED***
   const [opacity, setOpacity] = React.useState('0')
   const [display, setDisplay] = React.useState('none')
 
   useEffect(() => ***REMOVED***
     async function showSuccessMessage(): Promise<void> ***REMOVED***
-      setDisplay('block')
+      setDisplay(inline ? 'inline' : 'block')
       await timeout(10)
       setOpacity('1')
       await timeout(2000)
@@ -31,7 +33,7 @@ const SuccessMessage = (***REMOVED***
     if (successTime !== 0) ***REMOVED***
       showSuccessMessage()
   ***REMOVED***
-***REMOVED*** [successTime])
+***REMOVED*** [successTime, inline])
 
   return (
     <div
