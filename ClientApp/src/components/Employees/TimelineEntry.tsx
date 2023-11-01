@@ -3,11 +3,11 @@ import React from 'react'
 import { EmployeeTimelineEntry } from '../../types/EmployeeTimelineEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 
-interface IProps {
+interface Props {
   timelineEntry: EmployeeTimelineEntry
 }
 
-class TimelineEntry extends React.Component<IProps> {
+class TimelineEntry extends React.Component<Props> {
   render(): JSX.Element {
     const { timelineEntry: tl } = this.props
     return (

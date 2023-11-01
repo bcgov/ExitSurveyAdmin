@@ -2,8 +2,10 @@
 
 // Adapted from
 // https://github.com/microsoft/TypeScript/issues/1897#issuecomment-338650717
-export type AnyJson = boolean | number | string | null | IJsonArray | IJsonMap
-interface IJsonMap {
+export type AnyJson = boolean | number | string | null | JsonArray | JsonMap
+
+interface JsonMap {
   [key: string]: AnyJson
 }
-interface IJsonArray extends Array<AnyJson> {}
+
+interface JsonArray extends Array<AnyJson> {}

@@ -1,0 +1,18 @@
+.EditableField {
+  .Editable {
+    border-bottom: solid #333 1px;
+    background-color: #f3f3f3;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    &:hover {
+      background-color: #eee;
+    }
+  }
+}
+
+.EditableNumber {
+  input[type='number'] {
+    width: 120px;
+    text-align: right;
+  }
+}

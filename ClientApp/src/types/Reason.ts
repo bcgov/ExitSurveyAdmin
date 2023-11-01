@@ -1,11 +1,9 @@
-/* globals Map */
-
-import { ISelectOption } from '../components/Employees/EditableSelect'
+import { SelectOption } from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import { AppointmentStatusEnum } from './AppointmentStatus'
 
 export enum ExitTypeEnum {
   Involuntary = 'Involuntary',
-  Voluntary = 'Voluntary'
+  Voluntary = 'Voluntary',
 }
 
 export enum ReasonEnum {
@@ -19,7 +17,7 @@ export enum ReasonEnum {
   RejectionOnProbation = 'Rejection on Probation',
   Resignation = 'Resignation',
   Retired = 'Retired',
-  SpecialRetirementIncentive = 'Special Retirement Incentive'
+  SpecialRetirementIncentive = 'Special Retirement Incentive',
 }
 
 export type LeaveCode = 1 | 2 | 3
@@ -155,11 +153,11 @@ export class Reason {
     Reason.AUX_INV_REJECTION_ON_PROBATION,
     Reason.AUX_VOL_ABANDONMENT,
     Reason.AUX_VOL_RESIGNATION,
-    Reason.AUX_VOL_RETIRED
+    Reason.AUX_VOL_RETIRED,
   ]
 
   static map = (): Map<ReasonEnum, Reason> => {
-    return new Map(Reason.array().map(r => [r.reasonCode, r]))
+    return new Map(Reason.array().map((r) => [r.reasonCode, r]))
   }
 
   static fromKey = (key: ReasonEnum): Reason => {
@@ -168,23 +166,23 @@ export class Reason {
   }
 
   static byAppointmentStatus = (code: AppointmentStatusEnum): Reason[] => {
-    return Reason.array().filter(r => r.appointmentStatusCode === code)
+    return Reason.array().filter((r) => r.appointmentStatusCode === code)
   }
 
-  static toOptions = (): ISelectOption[] => {
-    const vals = Array.from(Reason.map().values()).map(reason => ({
+  static toOptions = (): SelectOption[] => {
+    const vals = Array.from(Reason.map().values()).map((reason) => ({
       name: reason.reasonCode,
-      value: reason.reasonCode
+      value: reason.reasonCode,
     }))
     return vals
   }
 
   static toOptionsByAppointmentStatus = (
     appointmentStatusCode: AppointmentStatusEnum
-  ): ISelectOption[] => {
-    return Reason.byAppointmentStatus(appointmentStatusCode).map(status => ({
+  ): SelectOption[] => {
+    return Reason.byAppointmentStatus(appointmentStatusCode).map((status) => ({
       name: `${status.exitTypeCode}: ${status.reasonCode}`,
-      value: status.reasonCode
+      value: status.reasonCode,
     }))
   }
 }

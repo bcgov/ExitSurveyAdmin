@@ -7,7 +7,7 @@ import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
 const MAX_PAGE_SIZE = 1000000
 
-interface IProps {
+interface Props {
   sortQuery: string
   filterQuery: string
   listingPath: string
@@ -18,8 +18,8 @@ const ExportData = ({
   filterQuery,
   listingPath,
   setDownloadedDataCallback,
-  sortQuery
-}: IProps): JSX.Element => {
+  sortQuery,
+}: Props): JSX.Element => {
   const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
   const csvLinkRef = React.useRef(null)
 

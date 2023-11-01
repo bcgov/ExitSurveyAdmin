@@ -1,19 +1,16 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import React from 'react'
+
+import LoggedInInfo from './Login/LoggedInInfo'
+
 import './NavMenu.scss'
 
-interface IProps {}
-
-interface IState {
-  name?: string
-}
-
-class NavMenu extends React.Component<IProps, IState> {
+class NavMenu extends React.Component {
   static displayName = NavMenu.name
 
   render(): JSX.Element {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
+      <nav className="navbar navbar-expand-xl navbar-light bg-light border-bottom mb-4">
         <Link to="/" className="navbar-brand text-primary">
           <i className="fas fa-envelope-open-text mr-3"></i>
           Exit Survey Admin
@@ -29,13 +26,17 @@ class NavMenu extends React.Component<IProps, IState> {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              {/* <small>Logged in as {name}</small> */}
-            </li>
-          </ul>
+        <div
+          className="collapse navbar-collapse bg-light"
+          id="navbarSupportedContent"
+        >
+          <LoggedInInfo />
           <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/status" className="nav-link text-primary">
+                Health status
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/task-log-entries" className="nav-link text-primary">
                 Task log
@@ -51,6 +52,7 @@ class NavMenu extends React.Component<IProps, IState> {
                 Admin interface
               </Link>
             </li>
+            <li className="nav-item"></li>
           </ul>
         </div>
       </nav>

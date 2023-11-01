@@ -13,6 +13,18 @@
   "[json]": {
     "editor.formatOnSave": true
   },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.formatOnSave": true
+  },
   "files.exclude": {
     "**/*.css": true
   },

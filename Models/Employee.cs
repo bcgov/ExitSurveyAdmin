@@ -10,34 +10,39 @@ namespace ExitSurveyAdmin.Models
 {
     public class Employee : BaseEntity
     {
-
         public IEnumerable<PropertyVariance> PropertyCompare(Employee candidate)
         {
             // Compare properties. Note the intentionally excluded properties.
             return this.DetailedCompare(candidate)
-                .Where(d =>
-                    d.PropertyInfo.Name != nameof(Id) &&
-                    d.PropertyInfo.Name != nameof(Telkey) &&
-                    d.PropertyInfo.Name != nameof(CurrentEmployeeStatusCode) &&
-                    d.PropertyInfo.Name != nameof(CurrentEmployeeStatus) &&
-                    d.PropertyInfo.Name != nameof(TimelineEntries) &&
-                    d.PropertyInfo.Name != nameof(CreatedTs) &&
-                    d.PropertyInfo.Name != nameof(ModifiedTs) &&
-                    d.PropertyInfo.Name != nameof(PreferredFirstName) &&
-                    d.PropertyInfo.Name != nameof(PreferredEmail) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress1) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress2) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressCity) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressProvince) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressPostCode) &&
-                    d.PropertyInfo.Name != nameof(PreferredFirstNameFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredEmailFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress1Flag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddress2Flag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressCityFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag) &&
-                    d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag) &&
-                    d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
+                .Where(
+                    d =>
+                        d.PropertyInfo.Name != nameof(Id)
+                        && d.PropertyInfo.Name != nameof(Telkey)
+                        && d.PropertyInfo.Name != nameof(CurrentEmployeeStatusCode)
+                        && d.PropertyInfo.Name != nameof(CurrentEmployeeStatus)
+                        && d.PropertyInfo.Name != nameof(TimelineEntries)
+                        && d.PropertyInfo.Name != nameof(CreatedTs)
+                        && d.PropertyInfo.Name != nameof(ModifiedTs)
+                        && d.PropertyInfo.Name != nameof(PreferredFirstName)
+                        && d.PropertyInfo.Name != nameof(PreferredEmail)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress1)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress2)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressCity)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressProvince)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressPostCode)
+                        && d.PropertyInfo.Name != nameof(PreferredFirstNameFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredEmailFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress1Flag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddress2Flag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressCityFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressProvinceFlag)
+                        && d.PropertyInfo.Name != nameof(PreferredAddressPostCodeFlag)
+                        && d.PropertyInfo.Name != nameof(TriedToUpdateInFinalState)
+                        && d.PropertyInfo.Name != nameof(LdapFirstName)
+                        && d.PropertyInfo.Name != nameof(LdapLastName)
+                        && d.PropertyInfo.Name != nameof(LdapCity)
+                        && d.PropertyInfo.Name != nameof(LdapEmail)
+                        && d.PropertyInfo.Name != nameof(GovernmentEmail)
                 );
         }
 
@@ -171,6 +176,19 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public Boolean PreferredAddressPostCodeFlag { get; set; }
 
+        // Ldap information (from the LDAP lookup)
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapEmail { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapFirstName { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapLastName { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string LdapCity { get; set; }
+
         [Required]
         public string Phone { get; set; }
 
@@ -212,7 +230,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public string ServiceGroup { get; set; }
 
-        [Required]
         public string LocationGroup { get; set; }
 
         [Sieve(CanFilter = true, CanSort = true)]
@@ -225,21 +242,13 @@ namespace ExitSurveyAdmin.Models
 
         public Boolean TriedToUpdateInFinalState { get; set; }
 
-        public void UpdateEmail(
-            EmployeeInfoLookupService infoLookupService
-        )
-        {
-            GovernmentEmail = infoLookupService
-                .EmailByEmployeeId(GovernmentEmployeeId);
-        }
-
         // Initialize all Preferred fields to be the equivalent of the base
         // field. This should only be run when the Employee is created.
         public void InstantiateFields()
         {
             PreferredFirstName = FirstName;
             PreferredFirstNameFlag = false;
-            PreferredEmail = GovernmentEmail;
+            PreferredEmail = GovernmentEmail ??= "";
             PreferredEmailFlag = false;
             PreferredAddress1 = Address1;
             PreferredAddress1Flag = false;
@@ -259,13 +268,20 @@ namespace ExitSurveyAdmin.Models
         // corresponding `Flag` is false).
         public void UpdatePreferredFields()
         {
-            if (!PreferredFirstNameFlag) PreferredFirstName = FirstName;
-            if (!PreferredEmailFlag) PreferredEmail = GovernmentEmail;
-            if (!PreferredAddress1Flag) PreferredAddress1 = Address1;
-            if (!PreferredAddress2Flag) PreferredAddress2 = Address2;
-            if (!PreferredAddressCityFlag) PreferredAddressCity = AddressCity;
-            if (!PreferredAddressProvinceFlag) PreferredAddressProvince = AddressProvince;
-            if (!PreferredAddressPostCodeFlag) PreferredAddressPostCode = AddressPostCode;
+            if (!PreferredFirstNameFlag)
+                PreferredFirstName = FirstName;
+            if (!PreferredEmailFlag)
+                PreferredEmail = GovernmentEmail;
+            if (!PreferredAddress1Flag)
+                PreferredAddress1 = Address1;
+            if (!PreferredAddress2Flag)
+                PreferredAddress2 = Address2;
+            if (!PreferredAddressCityFlag)
+                PreferredAddressCity = AddressCity;
+            if (!PreferredAddressProvinceFlag)
+                PreferredAddressProvince = AddressProvince;
+            if (!PreferredAddressPostCodeFlag)
+                PreferredAddressPostCode = AddressPostCode;
         }
 
         public string LeaveCode
@@ -295,6 +311,73 @@ namespace ExitSurveyAdmin.Models
         public Boolean IsActive()
         {
             return EmployeeStatusEnum.IsActiveStatus(CurrentEmployeeStatusCode);
+        }
+
+        public Boolean IsFinal()
+        {
+            return !IsActive();
+        }
+
+        public Boolean IsPastExpiryThreshold(int thresholdInDays)
+        {
+            return EffectiveDate.AddDays(thresholdInDays) < DateTime.UtcNow && !IsStatusExpired();
+        }
+
+        public Boolean IsNowInsideExpiryThreshold(int thresholdInDays)
+        {
+            return IsStatusExpired() && EffectiveDate.AddDays(thresholdInDays) > DateTime.UtcNow;
+        }
+
+        public Boolean IsStatusExpired()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.Expired.Code;
+        }
+
+        public Boolean IsStatusSurveyComplete()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.SurveyComplete.Code;
+        }
+
+        public Boolean IsStatusNotExiting()
+        {
+            return CurrentEmployeeStatusCode == EmployeeStatusEnum.NotExiting.Code;
+        }
+
+        public override string ToString()
+        {
+            return $"{FullName} ({GovernmentEmployeeId})";
+        }
+
+        /// <summary>
+        /// Retrieve an employee's first name, last name, and email from LDAP,
+        /// as they may have been updated since the PSA data extract.
+        ///
+        /// If the LDAP lookup finds a person with the employee's employee ID
+        /// who works at BC Assessment, we must ignore the LDAP values. This is
+        /// because there is a clash between employee IDs — they are not unique.
+        /// </summary>
+        /// <param name="infoLookupService">The <see cref="NewJobSurveyAdmin.Services.EmployeeInfoLookupService" /> to be used to look up the info.</param>
+        public void UpdateInfoFromLdap(EmployeeInfoLookupService infoLookupService)
+        {
+            var ldapInfo = infoLookupService.GetEmployeeInfoFromLdap(GovernmentEmployeeId);
+
+            LdapFirstName = ldapInfo.FirstName;
+            LdapLastName = ldapInfo.LastName;
+            LdapEmail = ldapInfo.Email;
+            LdapCity = ldapInfo.City;
+
+            if (ldapInfo.Organization != null && ldapInfo.Organization.Equals("BC Assessment"))
+            {
+                // If the organization is "BC Assessment", we need to use the
+                // already-set values regardless. This is due to an ID clash.
+                GovernmentEmail = ldapInfo.EmailOverride ?? null;
+            }
+            else
+            {
+                // We will only use the GovernmentEmail value. For all others,
+                // just use the existing CSV info.
+                GovernmentEmail = ldapInfo.EmailOverride ?? ldapInfo.Email ?? null;
+            }
         }
     }
 }

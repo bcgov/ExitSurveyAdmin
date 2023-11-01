@@ -1,13 +1,14 @@
 import React from 'react'
 import { CellProps, Column } from 'react-table'
 
+import { FixTypeLater } from '../../types/FixTypeLater'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import TaskComment from './TaskComment'
 import TaskOutcome from './TaskOutcome'
 
 type TaskLogEntryCellProps = React.PropsWithChildren<
-  CellProps<TaskLogEntry, string | undefined>
+  CellProps<TaskLogEntry, FixTypeLater>
 >
 
 export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
@@ -15,29 +16,29 @@ export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
     Header: 'Date',
     Cell: (props: TaskLogEntryCellProps): JSX.Element => (
       <FormattedDate
-        date={(props.value as unknown) as Date}
+        date={props.value as unknown as Date}
         showTime
         showLocalTimezone
       />
     ),
-    accessor: 'createdTs'
+    accessor: 'createdTs',
   },
   {
     Header: 'Task',
-    accessor: 'taskCode'
+    accessor: 'taskCode',
   },
   {
     Header: 'Status',
     Cell: (props: TaskLogEntryCellProps): JSX.Element => (
       <TaskOutcome taskOutcomeCode={props.value as string} />
     ),
-    accessor: 'taskOutcomeCode'
+    accessor: 'taskOutcomeCode',
   },
   {
     Header: 'Comment',
     Cell: (props: TaskLogEntryCellProps): JSX.Element => (
       <TaskComment comment={props.value as string} />
     ),
-    accessor: 'comment'
-  }
+    accessor: 'comment',
+  },
 ]
