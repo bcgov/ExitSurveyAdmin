@@ -10,7 +10,7 @@ The Exit Survey Administration Tool will assist BC Stats in administering the BC
 
 ### Prerequisites
 
-1. Ensure the [.NET Core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1) is installed.
+1. Ensure the [.NET Core SDK 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) is installed.
 2. Ensure you have the .NET EF Core CLI installed: `dotnet tool install dotnet-ef --version 6.0.0`
 3. Ensure the [.NET Core HTTPS development certificate is trusted](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio#trust-the-aspnet-core-https-development-certificate-on-windows-and-macos).
 4. Install [Postgres](https://www.postgresql.org/download/) and create a
