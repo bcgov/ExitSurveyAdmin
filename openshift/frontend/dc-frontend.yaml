@@ -61,7 +61,13 @@ objects:
               volumeMounts:
               - name: config-volume
                 mountPath: /opt/app-root/src/config
-              resources: {}
+              resources:
+                limits:
+                  cpu: 150m
+                  memory: 128Mi
+                requests:
+                  cpu: 10m
+                  memory: 64Mi
               terminationMessagePath: /dev/termination-log
               terminationMessagePolicy: File
           volumes:
