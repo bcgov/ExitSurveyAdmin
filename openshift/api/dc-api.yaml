@@ -85,29 +85,6 @@ objects:
         app.kubernetes.io/instance: $***REMOVED***NAME***REMOVED***
       name: $***REMOVED***NAME***REMOVED***
       namespace: $***REMOVED***DEPLOY_NAMESPACE***REMOVED***
-  - apiVersion: route.openshift.io/v1
-    kind: Route
-    spec:
-      host: $***REMOVED***NAME***REMOVED***-$***REMOVED***DEPLOY_NAMESPACE***REMOVED***.$***REMOVED***BASE_OPENSHIFT_URL***REMOVED***
-      tls:
-        termination: edge
-        insecureEdgeTerminationPolicy: Redirect
-      port:
-        targetPort: 8080-tcp
-      to:
-        kind: Service
-        name: $***REMOVED***NAME***REMOVED***
-        weight: 100
-      wildcardPolicy: None
-    metadata:
-      annotations:
-        openshift.io/host.generated: 'true'
-      labels:
-        app: $***REMOVED***NAME***REMOVED***
-        app.kubernetes.io/component: $***REMOVED***NAME***REMOVED***
-        app.kubernetes.io/instance: $***REMOVED***NAME***REMOVED***
-      name: $***REMOVED***NAME***REMOVED***
-      namespace: $***REMOVED***DEPLOY_NAMESPACE***REMOVED***
   - apiVersion: v1
     data:
       appsettings.json: |-
@@ -120,7 +97,7 @@ objects:
           ***REMOVED***
         ***REMOVED***
           "CallWebApi": ***REMOVED***
-            "BaseUrl": "https://$***REMOVED***CALLWEBAPI_NAME***REMOVED***-$***REMOVED***DEPLOY_NAMESPACE***REMOVED***.$***REMOVED***BASE_OPENSHIFT_URL***REMOVED***/api/EsaCallWeb/"
+            "BaseUrl": "https://$***REMOVED***BASE_GATEWAY_URL***REMOVED***/exitsurveyadmin-callwebapi$***REMOVED***DEPLOY_ENV***REMOVED***/api/EsaCallWeb/"
         ***REMOVED***
           "Sieve": ***REMOVED***
             "ThrowExceptions": true
@@ -154,3 +131,9 @@ parameters:
 - name: BASE_OPENSHIFT_URL
   required: true
   description: The base URL for Openshift
+- name: BASE_GATEWAY_URL
+  required: true
+  description: The base Gateway URL
+- name: DEPLOY_ENV
+  required: true
+  description: The lifecycle environment

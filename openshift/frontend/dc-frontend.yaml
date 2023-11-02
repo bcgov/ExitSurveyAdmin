@@ -87,36 +87,13 @@ objects:
         app.kubernetes.io/instance: $***REMOVED***NAME***REMOVED***
       name: $***REMOVED***NAME***REMOVED***
       namespace: $***REMOVED***DEPLOY_NAMESPACE***REMOVED***
-  - apiVersion: route.openshift.io/v1
-    kind: Route
-    spec:
-      host: $***REMOVED***NAME***REMOVED***-$***REMOVED***DEPLOY_NAMESPACE***REMOVED***.$***REMOVED***BASE_OPENSHIFT_URL***REMOVED***
-      tls:
-        termination: edge
-        insecureEdgeTerminationPolicy: Redirect
-      port:
-        targetPort: 8080-tcp
-      to:
-        kind: Service
-        name: $***REMOVED***NAME***REMOVED***
-        weight: 100
-      wildcardPolicy: None
-    metadata:
-      annotations:
-        openshift.io/host.generated: 'true'
-      labels:
-        app: $***REMOVED***NAME***REMOVED***
-        app.kubernetes.io/component: $***REMOVED***NAME***REMOVED***
-        app.kubernetes.io/instance: $***REMOVED***NAME***REMOVED***
-      name: $***REMOVED***NAME***REMOVED***
-      namespace: $***REMOVED***DEPLOY_NAMESPACE***REMOVED***
   - apiVersion: v1
     data:
       __ENV.js: >-
         window.__ENV = ***REMOVED***
           NODE_ENV: 'production',
-          REACT_APP_APP_DOMAIN: 'https://$***REMOVED***NAME***REMOVED***-$***REMOVED***DEPLOY_NAMESPACE***REMOVED***.$***REMOVED***BASE_OPENSHIFT_URL***REMOVED***',
-          REACT_APP_API_DOMAIN: 'https://$***REMOVED***API_NAME***REMOVED***-$***REMOVED***DEPLOY_NAMESPACE***REMOVED***.$***REMOVED***BASE_OPENSHIFT_URL***REMOVED***',
+          REACT_APP_APP_DOMAIN: '$***REMOVED***BASE_GATEWAY_URL***REMOVED***/exitsurveyadmin$***REMOVED***DEPLOY_ENV***REMOVED***/',
+          REACT_APP_API_DOMAIN: '$***REMOVED***BASE_GATEWAY_URL***REMOVED***/exitsurveyadmin-api$***REMOVED***DEPLOY_ENV***REMOVED***',
           REACT_APP_APP_PATH: '/',
           REACT_APP_AUTH_SCOPE: 'profile',
           REACT_APP_AUTH_URL: '$***REMOVED***KEYCLOAK_URL***REMOVED***',
@@ -157,3 +134,9 @@ parameters:
 - name: BASE_OPENSHIFT_URL
   required: true
   description: The base URL for Openshift
+- name: BASE_GATEWAY_URL
+  required: true
+  description: The base Gateway URL
+- name: DEPLOY_ENV
+  required: true
+  description: The lifecycle environment
