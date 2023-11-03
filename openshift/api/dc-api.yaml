@@ -103,7 +103,7 @@ objects:
             }
           },
           "CallWebApi": {
-            "BaseUrl": "https://${BASE_GATEWAY_URL}/exitsurveyadmin-callwebapi${DEPLOY_ENV}/api/EsaCallWeb/"
+            "BaseUrl": "${BASE_GATEWAY_URL}/exitsurveyadmin-callwebapi${DEPLOY_ENV}/api/EsaCallWeb/"
           },
           "Sieve": {
             "ThrowExceptions": true
