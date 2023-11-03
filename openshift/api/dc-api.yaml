@@ -103,7 +103,7 @@ objects:
           ***REMOVED***
         ***REMOVED***
           "CallWebApi": ***REMOVED***
-            "BaseUrl": "https://$***REMOVED***BASE_GATEWAY_URL***REMOVED***/exitsurveyadmin-callwebapi$***REMOVED***DEPLOY_ENV***REMOVED***/api/EsaCallWeb/"
+            "BaseUrl": "$***REMOVED***BASE_GATEWAY_URL***REMOVED***/exitsurveyadmin-callwebapi$***REMOVED***DEPLOY_ENV***REMOVED***/api/EsaCallWeb/"
         ***REMOVED***
           "Sieve": ***REMOVED***
             "ThrowExceptions": true
