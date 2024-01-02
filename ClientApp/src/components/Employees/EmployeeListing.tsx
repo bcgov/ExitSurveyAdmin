@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import React from 'react'
 
 import { defaultDateFormat } from '../../helpers/dateHelper'
@@ -38,6 +38,7 @@ const EmployeeListing = (): JSX.Element => {
 
   return (
     <GenericListing
+      sortProp={`&sorts=-modifiedTs`} // By default, sort by last modified
       modelName="employees"
       filterableFields={employeeFilters}
       columns={employeeTableColumns}

@@ -40,13 +40,10 @@ namespace ExitSurveyAdmin.Services
                 try
                 {
                     // If the employee is marked as "survey complete," skip them.
-                    if (
-                        existingEmployee.CurrentEmployeeStatusCode
-                        == EmployeeStatusEnum.SurveyComplete.Code
-                    )
+                    if (existingEmployee.IsStatusSurveyComplete())
                     {
-                        // However, they are still successful.
-                        taskResult.Succeeded.Add(existingEmployee);
+                        // Add them to the ignored list
+                        taskResult.AddIgnored(existingEmployee);
                         continue;
                     }
 
@@ -97,19 +94,6 @@ namespace ExitSurveyAdmin.Services
                         List<string> fieldsUpdatedList = new List<string>();
                         foreach (PropertyVariance pv in differentProperties)
                         {
-                            // Note: we don't log if the email address was set to
-                            // empty, because if it is empty, it will automatically
-                            // be reset when the user is saved.
-                            if (
-                                string.Equals(
-                                    pv.PropertyInfo.Name,
-                                    nameof(Employee.GovernmentEmail)
-                                ) && string.IsNullOrWhiteSpace(pv.ValueB as string)
-                            )
-                            {
-                                continue;
-                            }
-
                             var newValue = pv.PropertyInfo.GetValue(newEmployee);
 
                             if (newValue == null)
@@ -188,15 +172,18 @@ namespace ExitSurveyAdmin.Services
                                     }
                                 );
                                 await context.SaveChangesAsync();
+                                // We'll need to update the survey, too.
+                                needsSurveyUpdate = true;
                             }
-                            else
+                        }
+                        else
+                        {
+                            if (!needsSurveyUpdate)
                             {
+                                taskResult.Ignored.Add(existingEmployee);
                                 continue;
                             }
                         }
-
-                        // We'll need to update the survey, too.
-                        needsSurveyUpdate = true;
                     }
                 }
                 catch (Exception exception)
@@ -215,7 +202,8 @@ namespace ExitSurveyAdmin.Services
                 }
                 else
                 {
-                    taskResult.Succeeded.Add(existingEmployee);
+                    // Add to ignored list.
+                    taskResult.Ignored.Add(existingEmployee);
                 }
             }
 
@@ -232,59 +220,31 @@ namespace ExitSurveyAdmin.Services
             return employeeTaskResult;
         }
 
-        public async Task<TaskResult<Employee>> UpdateEmployeeSurveyStatuses(
-            List<Tuple<Employee, string>> employeeResultsWithSurveyStatusCodes
-        )
+        public async Task<TaskResult<Employee>> SaveExistingEmployees(List<Employee> employees)
         {
             var taskResult = new TaskResult<Employee>();
 
-            // An employee only has a set amount of time to complete a survey.
-            // If that time has expired, then expire the user.
-            var thresholdInDays = await ExpiryThresholdInDays();
-
-            var employeesToSave = new List<Tuple<Employee, EmployeeStatusEnum>>();
-
-            foreach (var tuple in employeeResultsWithSurveyStatusCodes)
+            try
             {
-                var employee = tuple.Item1;
-                var callWebStatusCode = tuple.Item2;
-
-                if (callWebStatusCode == null)
-                {
-                    // The employee does not have a valid status code.
-                    taskResult.AddFailedWithException(
-                        employee,
-                        new NullCallWebStatusCodeException($"No status code for ${employee}")
-                    );
-                    continue;
-                }
-                if (callWebStatusCode.Equals(EmployeeStatusEnum.SurveyComplete.Code))
-                {
-                    // First, check if the employee has completed the survey.
-                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.SurveyComplete));
-                    continue;
-                }
-                if (employee.IsPastExpiryThreshold(thresholdInDays))
-                {
-                    // If their effective date is past the expiry threshold, expire.
-                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Expired));
-                    continue;
-                }
-                if (employee.IsNowInsideExpiryThreshold(thresholdInDays))
-                {
-                    // Conversely, re-open expired users if they are now inside the
-                    // threshold, for instance if the threshold was extended.
-                    employeesToSave.Add(Tuple.Create(employee, EmployeeStatusEnum.Exiting));
-                    continue;
-                }
+                employees.Select(e => context.Entry(e).State = EntityState.Modified);
+                await context.SaveChangesAsync();
+                taskResult.AddSucceeded(employees);
             }
-
-            taskResult.AddFinal(await SaveStatusesAndAddTimelineEntries(employeesToSave));
+            catch (Exception exception)
+            {
+                // Assume saving all employees failed.
+                taskResult.AddFailed(employees);
+                taskResult.AddException(
+                    new FailedToSaveContextException(
+                        $"Saving employees failed for a range of employees: {String.Join(", ", employees)}. Error: {exception.Message}"
+                    )
+                );
+            }
 
             return taskResult;
         }
 
-        public async Task<TaskResult<Employee>> SaveStatusesAndAddTimelineEntries(
+        public async Task<TaskResult<Employee>> SaveEmployeeStatusesAndUpdateCallWeb(
             List<Tuple<Employee, EmployeeStatusEnum>> employeesWithStatuses
         )
         {
@@ -328,38 +288,13 @@ namespace ExitSurveyAdmin.Services
             return taskResult;
         }
 
-        private async Task<int> ExpiryThresholdInDays()
+        public List<Employee> ActiveEmployees()
         {
-            var employeeExpirationThresholdSetting = await context.AdminSettings.FirstAsync(
-                a => a.Key == AdminSetting.EmployeeExpirationThreshold
-            );
-            var thresholdInDays = System.Convert.ToInt32(employeeExpirationThresholdSetting.Value);
-
-            return thresholdInDays;
-        }
-
-        public async Task<TaskResult<Employee>> SaveExistingEmployees(List<Employee> employees)
-        {
-            var taskResult = new TaskResult<Employee>();
-
-            try
-            {
-                employees.Select(e => context.Entry(e).State = EntityState.Modified);
-                await context.SaveChangesAsync();
-                taskResult.AddSucceeded(employees);
-            }
-            catch (Exception exception)
-            {
-                // Assume saving all employees failed.
-                taskResult.AddFailed(employees);
-                taskResult.AddException(
-                    new FailedToSaveContextException(
-                        $"Saving employees failed for a range of employees: {String.Join(", ", employees)}. Error: {exception.Message}"
-                    )
-                );
-            }
-
-            return taskResult;
+            return context.Employees
+                .Include(e => e.TimelineEntries)
+                .Include(e => e.CurrentEmployeeStatus)
+                .Where(e => (e.CurrentEmployeeStatus.State != EmployeeStatusEnum.StateFinal))
+                .ToList();
         }
     }
 }

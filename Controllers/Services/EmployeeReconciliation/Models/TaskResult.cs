@@ -13,21 +13,36 @@ namespace ExitSurveyAdmin.Services
 
         public TaskResult()
         {
+            this.Ignored = new List<T>();
             this.Succeeded = new List<T>();
             this.Failed = new List<T>();
             this.Exceptions = new List<Exception>();
         }
 
-        public TaskResult(List<T> succeeded, List<T> failed, List<Exception> exceptions)
+        public TaskResult(
+            List<T> ignored,
+            List<T> succeeded,
+            List<T> failed,
+            List<Exception> exceptions
+        )
         {
+            this.Ignored = ignored;
             this.Succeeded = succeeded;
             this.Failed = failed;
             this.Exceptions = exceptions;
         }
 
+        // A user has been "ignored" if we examined them and realized that they
+        // did not need an operation applied.
+        public List<T> Ignored { get; set; }
         public List<T> Succeeded { get; set; }
         public List<T> Failed { get; set; }
         public List<Exception> Exceptions { get; set; }
+
+        public int IgnoredCount
+        {
+            get { return Ignored.Count; }
+        }
 
         public int SucceededCount
         {
@@ -51,12 +66,22 @@ namespace ExitSurveyAdmin.Services
 
         public int TotalRecordCount
         {
-            get { return SucceededCount + FailedCount; }
+            get { return IgnoredCount + SucceededCount + FailedCount; }
         }
 
         public bool HasExceptions
         {
             get { return (ExceptionCount > 0); }
+        }
+
+        public void AddIgnored(T ignored)
+        {
+            this.Ignored.Add(ignored);
+        }
+
+        public void AddIgnored(IEnumerable<T> ignored)
+        {
+            this.Ignored.AddRange(ignored);
         }
 
         public void AddSucceeded(T succeeded)
@@ -103,7 +128,7 @@ namespace ExitSurveyAdmin.Services
         // next step of the operation.
         public List<T> AddIncremental(TaskResult<T> otherTaskResult)
         {
-            this.CopyFailedAndExceptionsFrom(otherTaskResult);
+            this.CopyFailedIgnoredAndExceptionsFrom(otherTaskResult);
             return otherTaskResult.Succeeded;
         }
 
@@ -115,17 +140,17 @@ namespace ExitSurveyAdmin.Services
             this.CopyFrom(otherTaskResult);
         }
 
-        public void CopyFailedAndExceptionsFrom(TaskResult<T> otherTaskResult)
+        public void CopyFailedIgnoredAndExceptionsFrom(TaskResult<T> otherTaskResult)
         {
+            this.AddIgnored(otherTaskResult.Ignored);
             this.AddFailed(otherTaskResult.Failed);
             this.AddExceptions(otherTaskResult.Exceptions);
         }
 
         public void CopyFrom(TaskResult<T> otherTaskResult)
         {
+            this.CopyFailedIgnoredAndExceptionsFrom(otherTaskResult);
             this.AddSucceeded(otherTaskResult.Succeeded);
-            this.AddFailed(otherTaskResult.Failed);
-            this.AddExceptions(otherTaskResult.Exceptions);
         }
     }
 }

@@ -11,4 +11,5 @@ BASE_OPENSHIFT_URL="some.openshift.deployment.url"
 BASE_GATEWAY_URL="https://def456.apps.gov.bc.ca"
 KEYCLOAK_URL="Keycloak URL to authenticate against"
 KEYCLOAK_CLIENT_ID="The client ID on Keycloak"
+KEYCLOAK_ROLE="The role the user must have"
 DO_BUILD=true
