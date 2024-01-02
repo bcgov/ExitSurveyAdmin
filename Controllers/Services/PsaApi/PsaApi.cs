@@ -107,6 +107,7 @@ namespace ExitSurveyAdmin.Services.PsaApi
                 return new EmployeeTaskResult(
                     TaskEnum.ParsePsa,
                     jsonObject.Employees.Count,
+                    0,
                     goodEmployees,
                     errors
                 );
