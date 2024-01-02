@@ -86,6 +86,7 @@ namespace ExitSurveyAdmin
             services.AddScoped<EmployeeReconciliationService>();
             services.AddScoped<EmployeeRefreshService>();
             services.AddScoped<EmployeeNotExitingService>();
+            services.AddScoped<EmployeeExpirationService>();
 
             // Email service.
             services.Configure<EmailServiceOptions>(Configuration.GetSection("Email"));

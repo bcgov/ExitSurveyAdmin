@@ -48,6 +48,8 @@ if [ "$DO_BUILD" = true ] ; then
 
   # 4a. Do a local build
   info "Performing local yarn build..."
+  # If included in the build, __ENV.js will mess up the env loading
+  rm -f ../../ClientApp/public/config/__ENV.js
   try yarn --cwd ../../ClientApp/ install
   try yarn --cwd ../../ClientApp/ build
   echo ""

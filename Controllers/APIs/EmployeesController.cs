@@ -147,22 +147,25 @@ namespace ExitSurveyAdmin.Controllers
 
                 if (startIndex > -1 && count > 0)
                 ***REMOVED***
-                    employeesToLoad = currentEmployees.GoodEmployees.GetRange(startIndex, count);
+                    employeesToLoad = currentEmployees.Succeeded.GetRange(startIndex, count);
               ***REMOVED***
                 else
                 ***REMOVED***
-                    employeesToLoad = currentEmployees.GoodEmployees;
+                    employeesToLoad = currentEmployees.Succeeded;
               ***REMOVED***
 
                 // Reconcile the employees with the database.
-                var taskResult = await employeeReconciler.ReconcileEmployeesAndLog(
+                var reconciliationTuple = await employeeReconciler.ReconcileEmployeesAndLog(
                     TaskEnum.LoadFromJson,
                     employeesToLoad
                 );
 
+                var createdAndUpdatedEmployees = reconciliationTuple.Item1;
+                var taskResult = reconciliationTuple.Item2;
+
                 emailService.SendTaskResultEmail(taskResult);
 
-                return Ok(taskResult.GoodEmployees);
+                return Ok(createdAndUpdatedEmployees);
           ***REMOVED***
             catch (Exception exception)
             ***REMOVED***
@@ -188,14 +191,16 @@ namespace ExitSurveyAdmin.Controllers
             try
             ***REMOVED***
                 // Reconcile the employees with the database.
-                var taskResult = await employeeReconciler.ReconcileEmployeesAndLog(
+                var reconciliationTuple = await employeeReconciler.ReconcileEmployeesAndLog(
                     TaskEnum.LoadFromJson,
                     employees
                 );
 
+                var taskResult = reconciliationTuple.Item2;
+
                 emailService.SendTaskResultEmail(taskResult);
 
-                return Ok(taskResult.GoodEmployees);
+                return Ok(taskResult.Succeeded);
           ***REMOVED***
             catch (Exception e)
             ***REMOVED***
@@ -223,14 +228,16 @@ namespace ExitSurveyAdmin.Controllers
                 var readResult = await csvService.ProcessCsvAndLog(Request);
 
                 // Reconcile the employees with the database.
-                var taskResult = await employeeReconciler.ReconcileEmployeesAndLog(
+                var reconciliationTuple = await employeeReconciler.ReconcileEmployeesAndLog(
                     TaskEnum.LoadFromCsv,
-                    readResult.GoodEmployees
+                    readResult.Succeeded
                 );
+
+                var taskResult = reconciliationTuple.Item2;
 
                 emailService.SendTaskResultEmail(taskResult);
 
-                return Ok(taskResult.GoodEmployees);
+                return Ok(taskResult.Succeeded);
           ***REMOVED***
             catch (Exception e)
             ***REMOVED***
@@ -249,9 +256,11 @@ namespace ExitSurveyAdmin.Controllers
             try
             ***REMOVED***
                 // Update existing employee statuses.
-                var taskResult = await employeeReconciler.RefreshCallWebStatusAndLog();
+                var surveyCompleteTaskResult = await employeeReconciler.CheckSurveyCompleteAndLog();
 
-                emailService.SendTaskResultEmail(taskResult);
+                emailService.SendTaskResultEmail(surveyCompleteTaskResult);
+
+                var unexpireTaskResult = await employeeReconciler.UnexpireAndLog();
 
                 return Ok();
           ***REMOVED***
@@ -272,16 +281,14 @@ namespace ExitSurveyAdmin.Controllers
         ***REMOVED***
             try
             ***REMOVED***
-                // Step 1. Update existing employee statuses.
+                // Steps 1 + 2. Update existing employee statuses. Also Change
+                // Expired to Exiting, if now within the window
                 await RefreshEmployeeStatus();
 
-                // Step 2. Obtain the employees from the PSA API.
+                // Step 3. Obtain the employees from the PSA API.
                 var result = await EmployeesFromPsaApi(startIndex, count);
 
                 var employees = (result.Result as ObjectResult).Value as List<Employee>;
-
-                // Step 3. Refresh again.
-                await RefreshEmployeeStatus();
 
                 // Step 4. For all ACTIVE users in the DB who are NOT in the
                 // data set, set them to Not Exiting, IF they are not in a final
@@ -289,6 +296,9 @@ namespace ExitSurveyAdmin.Controllers
                 // have dropped off the data list because they're not actually
                 // leaving their employment.
                 await employeeReconciler.UpdateNotExitingAndLog(employees);
+
+                // Step 5. Expire employees.
+                await employeeReconciler.ExpireAndLog();
 
                 await logger.LogSuccess(
                     TaskEnum.ScheduledTask,
