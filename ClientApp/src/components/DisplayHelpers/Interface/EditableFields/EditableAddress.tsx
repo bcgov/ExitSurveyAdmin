@@ -57,7 +57,7 @@ const EditableAddress = (props: Props): JSX.Element => ***REMOVED***
     event.preventDefault()
     requestJSONWithErrorHandler(
       `api/employees/$***REMOVED***employee.id***REMOVED***`,
-      'patch',
+      'PATCH',
       ***REMOVED***
         PreferredAddress1: line1,
         PreferredAddress2: line2,
