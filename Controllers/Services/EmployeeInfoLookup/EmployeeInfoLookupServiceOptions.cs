@@ -3,6 +3,7 @@ namespace ExitSurveyAdmin.Services
     public class EmployeeInfoLookupServiceOptions
     ***REMOVED***
         public string Host ***REMOVED*** get; set; ***REMOVED***
+        public string TrustedIssuers ***REMOVED*** get; set; ***REMOVED***
         public int Port ***REMOVED*** get; set; ***REMOVED***
         public string Base ***REMOVED*** get; set; ***REMOVED***
         public string Username ***REMOVED*** get; set; ***REMOVED***

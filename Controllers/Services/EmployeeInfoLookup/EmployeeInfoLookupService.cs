@@ -1,12 +1,14 @@
 using System;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ExitSurveyAdmin.Services
 ***REMOVED***
     public class EmployeeInfoLookupService
     ***REMOVED***
         private string Host ***REMOVED*** get; set; ***REMOVED***
+        private string TrustedIssuers ***REMOVED*** get; set; ***REMOVED***
         private int Port ***REMOVED*** get; set; ***REMOVED***
         private string Base ***REMOVED*** get; set; ***REMOVED***
         private string Username ***REMOVED*** get; set; ***REMOVED***
@@ -16,6 +18,7 @@ namespace ExitSurveyAdmin.Services
         public EmployeeInfoLookupService(IOptions<EmployeeInfoLookupServiceOptions> options)
         ***REMOVED***
             Host = options.Value.Host;
+            TrustedIssuers = options.Value.TrustedIssuers;
             Port = options.Value.Port;
             Base = options.Value.Base;
             Username = options.Value.Username;
@@ -35,7 +38,49 @@ namespace ExitSurveyAdmin.Services
                 using (var ldapConnection = new LdapConnection())
                 ***REMOVED***
                     ldapConnection.SecureSocketLayer = true;
-                    ldapConnection.UserDefinedServerCertValidationDelegate += (sender, cert, chain, sslPolicyErrors) => true;
+
+                    // this will allow all errors to be accepted
+                    //ldapConnection.UserDefinedServerCertValidationDelegate += (sender, cert, chain, sslPolicyErrors) => true;
+
+                    ldapConnection.UserDefinedServerCertValidationDelegate += (sender, certificate, chain, sslPolicyErrors) =>
+                    ***REMOVED***
+                        // Handle Remote Certificate Chain Errors (e.g. untrusted root)
+                        // Our Root CA is issued by an internal CA, so we need to check
+                        // that the certificate is signed by one of our trusted issuers.
+                        if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors && chain != null)
+                        ***REMOVED***
+                            foreach (var chainElement in chain.ChainElements)
+                            ***REMOVED***
+                                var issuer = chainElement.Certificate.Issuer;
+
+                                if (!TrustedIssuers.Contains(issuer))
+                                ***REMOVED***
+                                    Console.WriteLine($"Certificate issuer not found in trusted issuers list: ***REMOVED***issuer***REMOVED***");
+                                    return false;
+                              ***REMOVED***
+                          ***REMOVED***
+                      ***REMOVED***
+                        // all other errors are not trusted
+                        else if (sslPolicyErrors != System.Net.Security.SslPolicyErrors.None)
+                        ***REMOVED***
+                            Console.WriteLine($"SSL Policy Errors: ***REMOVED***sslPolicyErrors***REMOVED***");
+                            return false; // Reject the certificate
+                      ***REMOVED***
+
+                        // Check for the expected host name
+                        var serverCertificate = (X509Certificate2)certificate;
+                        var dnsName = serverCertificate.GetNameInfo(X509NameType.DnsName, false);
+                        // we're expecting dnsName to be <servername>.<Host>
+                        if (!dnsName.ToLower().Contains(Host.ToLower()))
+                        ***REMOVED***
+                            Console.WriteLine($"Certificate DNS Name Mismatch: ***REMOVED***dnsName***REMOVED*** -- Expected: ***REMOVED***Host***REMOVED***");
+                            return false; // Reject if the certificate's DNS Name doesn't match the expected value
+                      ***REMOVED***
+
+                        // If all checks pass, accept the certificate
+                        return true;
+                  ***REMOVED***;
+
 
                     ldapConnection.Connect(Host, Port);
                     ldapConnection.Bind(Username, Password);
