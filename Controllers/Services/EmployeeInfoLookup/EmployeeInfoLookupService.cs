@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
 using System.Security.Cryptography.X509Certificates;
@@ -53,7 +54,10 @@ namespace ExitSurveyAdmin.Services
                             ***REMOVED***
                                 var issuer = chainElement.Certificate.Issuer;
 
-                                if (!TrustedIssuers.Contains(issuer))
+                                if (!TrustedIssuers
+                                        .Split(',')
+                                        .Select(s => s.Trim())
+                                        .Any(substring => issuer.Contains(substring)))
                                 ***REMOVED***
                                     Console.WriteLine($"Certificate issuer not found in trusted issuers list: ***REMOVED***issuer***REMOVED***");
                                     return false;
