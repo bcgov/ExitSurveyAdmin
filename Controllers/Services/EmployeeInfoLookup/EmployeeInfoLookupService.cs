@@ -1,12 +1,15 @@
 using System;
+using System.Linq;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ExitSurveyAdmin.Services
 {
     public class EmployeeInfoLookupService
     {
         private string Host { get; set; }
+        private string TrustedIssuers { get; set; }
         private int Port { get; set; }
         private string Base { get; set; }
         private string Username { get; set; }
@@ -16,6 +19,7 @@ namespace ExitSurveyAdmin.Services
         public EmployeeInfoLookupService(IOptions<EmployeeInfoLookupServiceOptions> options)
         {
             Host = options.Value.Host;
+            TrustedIssuers = options.Value.TrustedIssuers;
             Port = options.Value.Port;
             Base = options.Value.Base;
             Username = options.Value.Username;
@@ -34,6 +38,54 @@ namespace ExitSurveyAdmin.Services
                 // user's attributes, setting as necessary.
                 using (var ldapConnection = new LdapConnection())
                 {
+                    ldapConnection.SecureSocketLayer = true;
+
+                    // this will allow all errors to be accepted
+                    //ldapConnection.UserDefinedServerCertValidationDelegate += (sender, cert, chain, sslPolicyErrors) => true;
+
+                    ldapConnection.UserDefinedServerCertValidationDelegate += (sender, certificate, chain, sslPolicyErrors) =>
+                    {
+                        // Handle Remote Certificate Chain Errors (e.g. untrusted root)
+                        // Our Root CA is issued by an internal CA, so we need to check
+                        // that the certificate is signed by one of our trusted issuers.
+                        if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors && chain != null)
+                        {
+                            foreach (var chainElement in chain.ChainElements)
+                            {
+                                var issuer = chainElement.Certificate.Issuer;
+
+                                if (!TrustedIssuers
+                                        .Split(',')
+                                        .Select(s => s.Trim())
+                                        .Any(substring => issuer.Contains(substring)))
+                                {
+                                    Console.WriteLine($"Certificate issuer not found in trusted issuers list: {issuer}");
+                                    return false;
+                                }
+                            }
+                        }
+                        // all other errors are not trusted
+                        else if (sslPolicyErrors != System.Net.Security.SslPolicyErrors.None)
+                        {
+                            Console.WriteLine($"SSL Policy Errors: {sslPolicyErrors}");
+                            return false; // Reject the certificate
+                        }
+
+                        // Check for the expected host name
+                        var serverCertificate = (X509Certificate2)certificate;
+                        var dnsName = serverCertificate.GetNameInfo(X509NameType.DnsName, false);
+                        // we're expecting dnsName to be <servername>.<Host>
+                        if (!dnsName.ToLower().Contains(Host.ToLower()))
+                        {
+                            Console.WriteLine($"Certificate DNS Name Mismatch: {dnsName} -- Expected: {Host}");
+                            return false; // Reject if the certificate's DNS Name doesn't match the expected value
+                        }
+
+                        // If all checks pass, accept the certificate
+                        return true;
+                    };
+
+
                     ldapConnection.Connect(Host, Port);
                     ldapConnection.Bind(Username, Password);
 
