@@ -49,7 +49,7 @@ const EditableNumber = ({
     event.preventDefault()
     requestJSONWithErrorHandler(
       `api/${modelPath || 'employees'}/${modelDatabaseId}`,
-      'patch',
+      'PATCH',
       {
         [fieldName]: newValue,
         AdminUserName: KeycloakService.getUsername(),
@@ -93,9 +93,8 @@ const EditableNumber = ({
           <input
             type="button"
             value="Cancel"
-            className={`btn btn-sm btn-outline-danger ${!inline && 'mt-2'} ${
-              inline && 'ml-2'
-            } mr-2`}
+            className={`btn btn-sm btn-outline-danger ${!inline && 'mt-2'} ${inline && 'ml-2'
+              } mr-2`}
             onClick={toggleEditable}
           />
           <input
