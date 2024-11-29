@@ -71,7 +71,11 @@ echo ""
 
 # 6. Set up deploy config
 info "Updating OpenShift deployment from dc-api.yaml..."
-try oc process -f ./dc-api.yaml -p NAME=$NAME IMAGE_NAME=$NAME IMAGE_TAG=$IMAGE_TAG IMAGE_NAMESPACE=$TOOLS_NAMESPACE DEPLOY_NAMESPACE=$DEPLOY_NAMESPACE BASE_OPENSHIFT_URL=$BASE_OPENSHIFT_URL | try oc apply -f -
+try oc process -f ./dc-api.yaml -p NAME=$NAME IMAGE_NAME=$NAME IMAGE_TAG=$IMAGE_TAG \
+  IMAGE_NAMESPACE=$TOOLS_NAMESPACE DEPLOY_NAMESPACE=$DEPLOY_NAMESPACE \
+  BASE_OPENSHIFT_URL=$BASE_OPENSHIFT_URL BASE_GATEWAY_URL=$BASE_GATEWAY_URL \
+  DEPLOY_ENV=$DEPLOY_ENV \
+  | try oc apply -f -
 echo ""
 
 success "Done."

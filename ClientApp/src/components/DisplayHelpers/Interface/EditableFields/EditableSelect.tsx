@@ -45,7 +45,7 @@ const EditableSelect = (props: Props): JSX.Element => ***REMOVED***
     event.preventDefault()
     requestJSONWithErrorHandler(
       `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
-      'patch',
+      'PATCH',
       ***REMOVED***
         [fieldName]: newValue,
         AdminUserName: KeycloakService.getUsername(),

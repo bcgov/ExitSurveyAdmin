@@ -65,7 +65,7 @@ const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
       event.preventDefault()
       requestJSONWithErrorHandler(
         `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
-        'patch',
+        'PATCH',
         patchBody,
         'CANNOT_EDIT_EMPLOYEE',
         (responseJSON: AnyJson): void => ***REMOVED***
@@ -92,8 +92,8 @@ const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
   const saveButtonText = !isValid
     ? 'Field is invalid'
     : !isDirty
-    ? 'No changes made'
-    : 'Save changes'
+      ? 'No changes made'
+      : 'Save changes'
 
   return (
     <div className="EditableField EditableStringField">
