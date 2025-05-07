@@ -1,18 +1,17 @@
-import env from '@beam-australia/react-env'
 import ***REMOVED*** KeycloakInitOptions ***REMOVED*** from 'keycloak-js'
 
-export const routerBase = (): string => env('APP_PATH')
+export const routerBase = (): string => import.meta.env.VITE_APP_PATH ?? ''
 
 export const apiUrl = (): string => ***REMOVED***
-  return `$***REMOVED***env('API_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
+  return `$***REMOVED***import.meta.env.VITE_API_DOMAIN ?? ''***REMOVED***$***REMOVED***import.meta.env.VITE_APP_PATH ?? ''***REMOVED***`
 ***REMOVED***
 
 export const frontendUrl = (): string => ***REMOVED***
-  return `$***REMOVED***env('APP_DOMAIN')***REMOVED***$***REMOVED***env('APP_PATH')***REMOVED***`
+  return `$***REMOVED***import.meta.env.VITE_APP_DOMAIN ?? ''***REMOVED***$***REMOVED***import.meta.env.VITE_APP_PATH ?? ''***REMOVED***`
 ***REMOVED***
 
 export const authRole = (): string => ***REMOVED***
-  return env('AUTH_ROLE')
+  return import.meta.env.VITE_AUTH_ROLE ?? ''
 ***REMOVED***
 
 export const LOCATION_HREF_KEY = `esa-originating-href`
@@ -24,13 +23,9 @@ export const windowLocation = ***REMOVED***
 ***REMOVED***
 
 export const keycloakCreationOptions = ***REMOVED***
-    //TODO: fix issue with env variables not being pulled
-  /*url: env('AUTH_URL'),*/
-  /*realm: env('AUTH_REALM'),*/
-    /*clientId: env('AUTH_CLIENT_ID'),*/
-    url: 'https://dev.loginproxy.gov.bc.ca/auth',
-    realm:'standard',
-    clientId: 'exit-survey-admin-4373',
+  url: import.meta.env.VITE_AUTH_URL ?? '',
+  realm: import.meta.env.VITE_AUTH_REALM ?? '',
+  clientId: import.meta.env.VITE_AUTH_CLIENT_ID ?? '',
 ***REMOVED***
 
 export const keycloakInitOptions: KeycloakInitOptions = ***REMOVED***
@@ -39,7 +34,7 @@ export const keycloakInitOptions: KeycloakInitOptions = ***REMOVED***
 ***REMOVED***
 
 export const keycloakLoginOptions = ***REMOVED***
-  redirectUri: env('APP_DOMAIN'),
+  redirectUri: import.meta.env.VITE_APP_DOMAIN ?? '',
   idpHint: 'idir',
-  scope: env('AUTH_SCOPE'),
+  scope: import.meta.env.VITE_AUTH_SCOPE ?? '',
 ***REMOVED***
