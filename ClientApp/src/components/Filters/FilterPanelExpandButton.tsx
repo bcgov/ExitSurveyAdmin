@@ -14,7 +14,7 @@ const FilterPanelExpandButton = ({ toggleExpanded }: Props): JSX.Element => {
         iconName={'caret-down'}
         label={`Hide filters`}
         iconRight
-        iconMarginClasses="ml-2"
+        iconMarginClasses="ms-2"
         colorType="secondary"
         buttonClasses="NoOutline NoBackground Faded"
         iconClasses="fa-lg"

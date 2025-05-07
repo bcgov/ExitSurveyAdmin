@@ -26,7 +26,7 @@ const LogoutPage = () => {
             <>Logged out</>
           ) : (
             <>
-              <i className="fas fa-spinner fa-spin mr-4" />
+              <i className="fas fa-spinner fa-spin me-4" />
               Logging out&hellip;
             </>
           )}
