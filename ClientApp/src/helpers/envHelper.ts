@@ -1,18 +1,17 @@
-import env from '@beam-australia/react-env'
 import { KeycloakInitOptions } from 'keycloak-js'
 
-export const routerBase = (): string => env('APP_PATH')
+export const routerBase = (): string => import.meta.env.VITE_APP_PATH ?? ''
 
 export const apiUrl = (): string => {
-  return `${env('API_DOMAIN')}${env('APP_PATH')}`
+  return `${import.meta.env.VITE_API_DOMAIN ?? ''}${import.meta.env.VITE_APP_PATH ?? ''}`
 }
 
 export const frontendUrl = (): string => {
-  return `${env('APP_DOMAIN')}${env('APP_PATH')}`
+  return `${import.meta.env.VITE_APP_DOMAIN ?? ''}${import.meta.env.VITE_APP_PATH ?? ''}`
 }
 
 export const authRole = (): string => {
-  return env('AUTH_ROLE')
+  return import.meta.env.VITE_AUTH_ROLE ?? ''
 }
 
 export const LOCATION_HREF_KEY = `esa-originating-href`
@@ -24,13 +23,9 @@ export const windowLocation = {
 }
 
 export const keycloakCreationOptions = {
-    //TODO: fix issue with env variables not being pulled
-  /*url: env('AUTH_URL'),*/
-  /*realm: env('AUTH_REALM'),*/
-    /*clientId: env('AUTH_CLIENT_ID'),*/
-    url: 'https://dev.loginproxy.gov.bc.ca/auth',
-    realm:'standard',
-    clientId: 'exit-survey-admin-4373',
+  url: import.meta.env.VITE_AUTH_URL ?? '',
+  realm: import.meta.env.VITE_AUTH_REALM ?? '',
+  clientId: import.meta.env.VITE_AUTH_CLIENT_ID ?? '',
 }
 
 export const keycloakInitOptions: KeycloakInitOptions = {
@@ -39,7 +34,7 @@ export const keycloakInitOptions: KeycloakInitOptions = {
 }
 
 export const keycloakLoginOptions = {
-  redirectUri: env('APP_DOMAIN'),
+  redirectUri: import.meta.env.VITE_APP_DOMAIN ?? '',
   idpHint: 'idir',
-  scope: env('AUTH_SCOPE'),
+  scope: import.meta.env.VITE_AUTH_SCOPE ?? '',
 }
