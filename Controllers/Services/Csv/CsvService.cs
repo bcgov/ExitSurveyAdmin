@@ -1,4 +1,5 @@
 using CsvHelper;
+using CsvHelper.Configuration;
 using ExitSurveyAdmin.Models;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,22 @@ namespace ExitSurveyAdmin.Services.CsvService
         // Employees are NOT saved or otherwise processed by default.
         public EmployeeTaskResult EmployeesFromCsv(Stream csvTextStream, Encoding csvEncoding)
         ***REMOVED***
+            var goodRecords = new List<Employee>();
+            var badRecords = new List<string>();
+
+            var isRecordBad = false;
+            var line = 1;
+
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            ***REMOVED***
+                TrimOptions = TrimOptions.Trim,
+                BadDataFound = context => badRecords.Add(context.RawRecord)
+          ***REMOVED***;
             // By default the content will not be read if it is not form or JSON
             // type so we need to use a stream reader to read the request body.
             // CsvReader expects a StreamReader anyways so we will use that.
             using (StreamReader reader = new StreamReader(csvTextStream, csvEncoding))
-            using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            using (CsvReader csv = new CsvReader(reader, config))
             ***REMOVED***
                 // Use the ClassMap to map the headers in the Csv to the fields
                 // of the Employee model.
@@ -37,25 +49,12 @@ namespace ExitSurveyAdmin.Services.CsvService
                 // this issue is fixed in a future release, we have had to add a
                 // TrimAllStrings() extension, which is called below.
                 // https://github.com/JoshClose/CsvHelper/issues/1400
-                csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.InsideQuotes;
                 // csv.Configuration.TypeConverterCache
                 //     .RemoveConverter<DateTime>();
                 // csv.Configuration.TypeConverterCache
                 //     .AddConverter<DateTime>(new CustomDateTimeConverter());
-                csv.Configuration.RegisterClassMap<PsaCsvMap>();
-
-                var goodRecords = new List<Employee>();
-                var badRecords = new List<string>();
-
-                var isRecordBad = false;
-                var line = 1;
-
-                csv.Configuration.BadDataFound = context =>
-                ***REMOVED***
-                    isRecordBad = true;
-                    badRecords.Add(context.RawRecord);
-              ***REMOVED***;
-
+                //RegisterClassMap has been moved from Configuration to Context
+                csv.Context.RegisterClassMap<PsaCsvMap>();
                 while (csv.Read())
                 ***REMOVED***
                     try

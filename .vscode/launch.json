@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "$***REMOVED***workspaceFolder***REMOVED***/bin/Debug/netcoreapp3.1/ExitSurveyAdmin.dll",
+            "program": "$***REMOVED***workspaceFolder***REMOVED***/bin/Debug/net8.0/ExitSurveyAdmin.dll",
             "args": [],
             "cwd": "$***REMOVED***workspaceFolder***REMOVED***",
             "stopAtEntry": false,

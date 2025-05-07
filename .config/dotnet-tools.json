@@ -1,0 +1,13 @@
+***REMOVED***
+  "version": 1,
+  "isRoot": true,
+  "tools": ***REMOVED***
+    "dotnet-ef": ***REMOVED***
+      "version": "8.0.15",
+      "commands": [
+        "dotnet-ef"
+      ],
+      "rollForward": false
+  ***REMOVED***
+***REMOVED***
+***REMOVED***
