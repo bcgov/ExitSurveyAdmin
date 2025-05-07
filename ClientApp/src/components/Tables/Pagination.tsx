@@ -31,28 +31,28 @@ const Pagination = (props: Props): JSX.Element => ***REMOVED***
           buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => gotoPage(0)***REMOVED***
           disabled=***REMOVED***!canPreviousPage***REMOVED***
-          marginClasses=***REMOVED***'mr-2'***REMOVED***
+          marginClasses=***REMOVED***'me-2'***REMOVED***
         />
         <IconButton
           iconName="step-backward"
           buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => previousPage()***REMOVED***
           disabled=***REMOVED***!canPreviousPage***REMOVED***
-          marginClasses=***REMOVED***'mr-2'***REMOVED***
+          marginClasses=***REMOVED***'me-2'***REMOVED***
         />
         <IconButton
           iconName="step-forward"
           buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => nextPage()***REMOVED***
           disabled=***REMOVED***!canNextPage***REMOVED***
-          marginClasses=***REMOVED***'mr-2'***REMOVED***
+          marginClasses=***REMOVED***'me-2'***REMOVED***
         />
         <IconButton
           iconName="fast-forward"
           buttonClasses=***REMOVED***'btn-sm'***REMOVED***
           onClick=***REMOVED***(): void => gotoPage(pageCount - 1)***REMOVED***
           disabled=***REMOVED***!canNextPage***REMOVED***
-          marginClasses=***REMOVED***'mr-2'***REMOVED***
+          marginClasses=***REMOVED***'me-2'***REMOVED***
         />
       </div>
       <div className="col text-center">
@@ -63,7 +63,7 @@ const Pagination = (props: Props): JSX.Element => ***REMOVED***
           </strong>***REMOVED***' '***REMOVED***
         </span>
       </div>
-      <div className="col text-right">
+      <div className="col text-end">
         <div className="form-group row mb-0">
           <label className="col-4 col-form-label" htmlFor="GoToPage">
             Go to page

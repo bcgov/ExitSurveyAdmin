@@ -41,7 +41,7 @@ const SuccessMessage = (***REMOVED***
       style=***REMOVED******REMOVED*** opacity, display ***REMOVED******REMOVED***
     >
       <div className="badge badge-success">
-        <i className="fas fa-check-circle mr-2" />
+        <i className="fas fa-check-circle me-2" />
         &nbsp;***REMOVED***successMessage || 'Success'***REMOVED***
       </div>
     </div>

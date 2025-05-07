@@ -13,7 +13,7 @@ const FilterPanelExpandButton = (***REMOVED*** toggleExpanded ***REMOVED***: Pro
         iconName=***REMOVED***'caret-down'***REMOVED***
         label=***REMOVED***`Hide filters`***REMOVED***
         iconRight
-        iconMarginClasses="ml-2"
+        iconMarginClasses="ms-2"
         colorType="secondary"
         buttonClasses="NoOutline NoBackground Faded"
         iconClasses="fa-lg"

@@ -32,8 +32,8 @@ const ExportData = (***REMOVED***
       (responseJSON: FixTypeLater[]): void => ***REMOVED***
         setDownloadedData(setDownloadedDataCallback(responseJSON))
 
-        // Click the hidden CSVLink
-        ;(csvLinkRef.current as FixTypeLater).link.click()
+          // Click the hidden CSVLink
+          ; (csvLinkRef.current as FixTypeLater).link.click()
     ***REMOVED***
     )
 ***REMOVED*** [sortQuery, filterQuery, listingPath, setDownloadedDataCallback])
@@ -44,7 +44,7 @@ const ExportData = (***REMOVED***
         label="Export data"
         iconName="file-export"
         marginClasses="my-3"
-        iconMarginClasses="mr-2"
+        iconMarginClasses="me-2"
         onClick=***REMOVED***downloadData***REMOVED***
       />
       <CSVLink

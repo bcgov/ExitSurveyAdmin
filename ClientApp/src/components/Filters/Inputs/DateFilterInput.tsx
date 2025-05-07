@@ -42,7 +42,7 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Pro
     <div className="LabelledItem">
       <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***labelFor(name)***REMOVED***</label>
       <div key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** className="d-flex">
-        <div className="w-50 mr-1">
+        <div className="w-50 me-1">
           <DatePicker
             selected=***REMOVED***fromDate***REMOVED***
             onChange=***REMOVED***fromChange***REMOVED***
@@ -50,7 +50,7 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Pro
             placeholderText=***REMOVED***'From'***REMOVED***
           />
         </div>
-        <div className="w-50 ml-1">
+        <div className="w-50 ms-1">
           <DatePicker
             selected=***REMOVED***toDate***REMOVED***
             onChange=***REMOVED***toChange***REMOVED***

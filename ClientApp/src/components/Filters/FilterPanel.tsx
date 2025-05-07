@@ -94,15 +94,15 @@ const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
       <div className="FilterPanelHeader row py-3">
         <div className="col">
           <div className="d-flex align-items-center">
-            <div className="mr-3">
+            <div className="me-3">
               <h2 className="mb-0">
-                <i className="fas fa-filter mr-2"></i>Filter ***REMOVED***props.modelName***REMOVED***
+                <i className="fas fa-filter me-2"></i>Filter ***REMOVED***props.modelName***REMOVED***
               </h2>
             </div>
             <div>
               <ActiveFilters filters=***REMOVED***filters***REMOVED*** removeFilter=***REMOVED***removeFilter***REMOVED*** />
             </div>
-            <div className="ml-auto">
+            <div className="ms-auto">
               ***REMOVED***expanded && <ExpandPanel toggleExpanded=***REMOVED***toggleExpanded***REMOVED*** />***REMOVED***
               ***REMOVED***!expanded && <HidePanel toggleExpanded=***REMOVED***toggleExpanded***REMOVED*** />***REMOVED***
             </div>

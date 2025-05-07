@@ -34,8 +34,8 @@ const SetPreviousMonth = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Pro
         label="Previous month"
         iconName="calendar-minus"
         colorType="outline-primary"
-        marginClasses="mr-2"
-        iconMarginClasses="mr-2"
+        marginClasses="me-2"
+        iconMarginClasses="me-2"
         buttonClasses="btn-sm"
         onClick=***REMOVED***setPreviousMonth***REMOVED***
       />

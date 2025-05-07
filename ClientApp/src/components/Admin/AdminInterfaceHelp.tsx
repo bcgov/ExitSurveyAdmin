@@ -17,14 +17,14 @@ const AdminInterfaceHelp = (): JSX.Element => ***REMOVED***
   return (
     <div className="AdminInterfaceHelp text-muted border border-secondary p-3 shadow mt-4">
       <h2 className="mb-1">
-        <i className="fas fa-info-circle mr-2" /> Information
+        <i className="fas fa-info-circle me-2" /> Information
       </h2>
       <div className="row">
         <div className="col">
           <AdminInterfaceHelpTopic title="Scheduled task">
             The scheduled task runs Monday through Friday at ***REMOVED***TASK_TIME***REMOVED*** Pacific
             time. In order, the task will:
-            <ol className="my-2 pl-3">
+            <ol className="my-2 ps-3">
               <li>
                 <strong>Update employee statuses from CallWeb</strong>, checking
                 to see whether any employees in a non-final state have completed

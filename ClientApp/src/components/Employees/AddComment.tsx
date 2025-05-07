@@ -61,7 +61,7 @@ const AddComment = (props: Props): JSX.Element => ***REMOVED***
               disabled=***REMOVED***comment.length === 0 ? true : false***REMOVED***
             />
           </div>
-          <SuccessMessage className="ml-2 pt-2" successTime=***REMOVED***successTime***REMOVED*** />
+          <SuccessMessage className="ms-2 pt-2" successTime=***REMOVED***successTime***REMOVED*** />
         </div>
       </form>
     </div>

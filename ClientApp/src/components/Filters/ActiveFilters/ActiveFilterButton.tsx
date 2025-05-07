@@ -25,8 +25,8 @@ const ActiveFilterButton = (***REMOVED*** filter, removeFilter ***REMOVED***: Pr
     <IconButton
       label=***REMOVED***label***REMOVED***
       iconName="times"
-      marginClasses="mr-1 my-1 mb-0"
-      iconMarginClasses="ml-2"
+      marginClasses="me-1 my-1 mb-0"
+      iconMarginClasses="ms-2"
       colorType="primary"
       iconRight
       size="sm"

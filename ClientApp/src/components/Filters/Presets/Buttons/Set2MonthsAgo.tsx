@@ -34,8 +34,8 @@ const Set2MonthsAgo = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Props)
         label="2 months ago"
         iconName="calendar-minus"
         colorType="outline-primary"
-        marginClasses="mr-2"
-        iconMarginClasses="mr-2"
+        marginClasses="me-2"
+        iconMarginClasses="me-2"
         buttonClasses="btn-sm"
         onClick=***REMOVED***setPreviousMonth***REMOVED***
       />
