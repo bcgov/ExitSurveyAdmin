@@ -8,16 +8,16 @@ const LoggedInInfo = (): JSX.Element => {
   return (
     <>
       {KeycloakService.isLoggedIn() && (
-        <ul className="navbar-nav mr-auto">
+        <ul className="navbar-nav me-auto">
           <li className="nav-item d-flex align-items-center">
             <div style={{ lineHeight: '100%' }}>
               Logged in: <strong>{KeycloakService.getUsername()}</strong>
             </div>
             <Link
               to="/logout"
-              className="btn btn-outline-secondary btn-sm ml-2"
+              className="btn btn-outline-secondary btn-sm ms-2"
             >
-              Log out <FAIcon name="sign-out-alt" marginClasses="ml-1" />
+              Log out <FAIcon name="sign-out-alt" marginClasses="ms-1" />
             </Link>
           </li>
         </ul>

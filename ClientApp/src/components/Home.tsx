@@ -40,7 +40,7 @@ const Home = (): JSX.Element => {
     <div className="Centered row">
       <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
         <h1 className="text-primary display-4 my-5">
-          <i className="fas fa-envelope-open-text mr-4"></i>Exit Survey Admin
+          <i className="fas fa-envelope-open-text me-4"></i>Exit Survey Admin
         </h1>
         <h2>Quick filters</h2>
         <Link
@@ -53,8 +53,8 @@ const Home = (): JSX.Element => {
             label="Exiting employees"
             iconName="user-check"
             colorType="outline-primary"
-            marginClasses="mr-3"
-            iconMarginClasses="mr-2"
+            marginClasses="me-3"
+            iconMarginClasses="me-2"
           />
         </Link>
         <Link
@@ -67,8 +67,8 @@ const Home = (): JSX.Element => {
             label="Previous month"
             iconName="calendar-minus"
             colorType="outline-primary"
-            marginClasses="mr-3"
-            iconMarginClasses="mr-2"
+            marginClasses="me-3"
+            iconMarginClasses="me-2"
           />
         </Link>
         <Link
@@ -81,8 +81,8 @@ const Home = (): JSX.Element => {
             label="Previous fiscal year"
             iconName="calendar-alt"
             colorType="outline-primary"
-            marginClasses="mr-3"
-            iconMarginClasses="mr-2"
+            marginClasses="me-3"
+            iconMarginClasses="me-2"
           />
         </Link>
         <h2 className="mt-5">Most recent task statuses</h2>
@@ -93,10 +93,10 @@ const Home = (): JSX.Element => {
                 <div>
                   <TaskOutcome taskOutcomeCode={tle.taskOutcomeCode!} />
                 </div>
-                <div className="ml-3 w-25">
+                <div className="ms-3 w-25">
                   <strong>{tle.taskCode}</strong>
                 </div>
-                <div className="ml-3">
+                <div className="ms-3">
                   <FormattedDate
                     date={tle.createdTs}
                     showLocalTimezone
@@ -111,8 +111,8 @@ const Home = (): JSX.Element => {
                   label={'See all'}
                   iconName="arrow-right"
                   colorType="outline-primary"
-                  marginClasses="mr-2 mt-2"
-                  iconMarginClasses="ml-2"
+                  marginClasses="me-2 mt-2"
+                  iconMarginClasses="ms-2"
                   iconRight
                 />
               </Link>

@@ -61,7 +61,7 @@ const AddComment = (props: Props): JSX.Element => {
               disabled={comment.length === 0 ? true : false}
             />
           </div>
-          <SuccessMessage className="ml-2 pt-2" successTime={successTime} />
+          <SuccessMessage className="ms-2 pt-2" successTime={successTime} />
         </div>
       </form>
     </div>

@@ -44,8 +44,8 @@ const SetPreviousFiscalYear = ({
         label="Previous fiscal year"
         iconName="calendar-alt"
         colorType="outline-primary"
-        marginClasses="mr-2"
-        iconMarginClasses="mr-2"
+        marginClasses="me-2"
+        iconMarginClasses="me-2"
         buttonClasses="btn-sm"
         onClick={setPreviousFiscalYear}
       />

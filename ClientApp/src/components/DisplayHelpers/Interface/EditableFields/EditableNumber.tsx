@@ -93,8 +93,8 @@ const EditableNumber = ({
           <input
             type="button"
             value="Cancel"
-            className={`btn btn-sm btn-outline-danger ${!inline && 'mt-2'} ${inline && 'ml-2'
-              } mr-2`}
+            className={`btn btn-sm btn-outline-danger ${!inline && 'mt-2'} ${inline && 'ms-2'
+              } me-2`}
             onClick={toggleEditable}
           />
           <input
@@ -111,7 +111,7 @@ const EditableNumber = ({
         </span>
       )}
       <SuccessMessage
-        className={`pt-1 ${!inline && 'mt-2'} ${inline && 'ml-2'}`}
+        className={`pt-1 ${!inline && 'mt-2'} ${inline && 'ms-2'}`}
         successTime={successTime}
         inline={inline}
       />

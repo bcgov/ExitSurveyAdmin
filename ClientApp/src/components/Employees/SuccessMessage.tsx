@@ -41,7 +41,7 @@ const SuccessMessage = ({
       style={{ opacity, display }}
     >
       <div className="badge badge-success">
-        <i className="fas fa-check-circle mr-2" />
+        <i className="fas fa-check-circle me-2" />
         &nbsp;{successMessage || 'Success'}
       </div>
     </div>

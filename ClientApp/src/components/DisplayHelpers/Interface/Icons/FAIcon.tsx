@@ -17,14 +17,14 @@ interface Props {
  *   with 'fa-'.
  * @param classes Custom classes to apply to the icon. Defaults to empty string.
  * @param marginClasses The margin classes to apply to the icon. Defaults to
- *   'mr-2', for a 2-unit right margin in Bootstrap.
+ *   'me-2', for a 2-unit right margin in Bootstrap.
  */
 class FAIcon extends React.Component<Props> {
   public render(): JSX.Element {
     const type = this.props.type || 'fas'
     const name = this.props.name
     const classes = this.props.classes || ''
-    const marginClasses = this.props.marginClasses || 'mr-1'
+    const marginClasses = this.props.marginClasses || 'me-1'
     return <i className={`${type} fa-${name} ${classes} ${marginClasses}`}></i>
   }
 }
