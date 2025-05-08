@@ -7,13 +7,13 @@ interface Props {
 const TaskOutcome = ({ taskOutcomeCode }: Props): JSX.Element => {
   const color =
     taskOutcomeCode === 'Success'
-      ? 'success'
+      ? 'bg-success'
       : taskOutcomeCode === 'Warn'
-      ? 'warning'
-      : 'danger'
+        ? 'bg-warning'
+        : 'bg-danger'
   return (
     <span
-      className={`TaskOutcome badge badge-${color}`}
+      className={`TaskOutcome badge ${color}`}
       style={{ width: '100px' }}
     >
       <strong>{taskOutcomeCode}</strong>

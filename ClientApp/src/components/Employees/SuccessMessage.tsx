@@ -40,7 +40,7 @@ const SuccessMessage = ({
       className={`SuccessMessage text-success ${className}`}
       style={{ opacity, display }}
     >
-      <div className="badge badge-success">
+      <div className="badge bg-success">
         <i className="fas fa-check-circle me-2" />
         &nbsp;{successMessage || 'Success'}
       </div>
