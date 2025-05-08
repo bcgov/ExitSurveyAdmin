@@ -7,13 +7,13 @@ interface Props ***REMOVED***
 const TaskOutcome = (***REMOVED*** taskOutcomeCode ***REMOVED***: Props): JSX.Element => ***REMOVED***
   const color =
     taskOutcomeCode === 'Success'
-      ? 'success'
+      ? 'bg-success'
       : taskOutcomeCode === 'Warn'
-      ? 'warning'
-      : 'danger'
+        ? 'bg-warning'
+        : 'bg-danger'
   return (
     <span
-      className=***REMOVED***`TaskOutcome badge badge-$***REMOVED***color***REMOVED***`***REMOVED***
+      className=***REMOVED***`TaskOutcome badge $***REMOVED***color***REMOVED***`***REMOVED***
       style=***REMOVED******REMOVED*** width: '100px' ***REMOVED******REMOVED***
     >
       <strong>***REMOVED***taskOutcomeCode***REMOVED***</strong>
