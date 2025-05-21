@@ -48,6 +48,14 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Pro
             onChange=***REMOVED***fromChange***REMOVED***
             className="form-control form-control-sm"
             placeholderText=***REMOVED***'From'***REMOVED***
+            popperPlacement='bottom-start'
+            popperModifiers=***REMOVED***[
+              ***REMOVED***
+                name: 'preventOverflow',
+                options: ***REMOVED*** boundary: 'viewport' ***REMOVED***,
+                fn: (data) => ***REMOVED*** return data; ***REMOVED***,
+            ***REMOVED***
+            ]***REMOVED***
           />
         </div>
         <div className="w-50 ms-1">
@@ -56,6 +64,14 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Pro
             onChange=***REMOVED***toChange***REMOVED***
             className="form-control form-control-sm"
             placeholderText=***REMOVED***'To'***REMOVED***
+            popperPlacement='bottom-start'
+            popperModifiers=***REMOVED***[
+              ***REMOVED***
+                name: 'preventOverflow',
+                options: ***REMOVED*** boundary: 'viewport' ***REMOVED***,
+                fn: (data) => ***REMOVED*** return data; ***REMOVED***,
+            ***REMOVED***
+            ]***REMOVED***
           />
         </div>
       </div>
