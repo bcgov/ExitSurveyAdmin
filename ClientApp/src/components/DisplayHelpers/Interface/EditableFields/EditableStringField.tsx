@@ -124,14 +124,9 @@ const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
           />
         </form>
       ) : (
-        <button
-          type="button"
-          className="Editable btn btn-link p-0"
-          onClick=***REMOVED***toggleEditable***REMOVED***
-          aria-label=***REMOVED***`Edit $***REMOVED***fieldName***REMOVED***`***REMOVED***
-        >
+        <div className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
           ***REMOVED***originalFieldValue || '[None set]'***REMOVED***
-        </button>
+        </div>
       )***REMOVED***
       <SuccessMessage className="pt-1" successTime=***REMOVED***successTime***REMOVED*** />
     </div>
