@@ -124,14 +124,9 @@ const EditableStringField = (props: Props): JSX.Element => {
           />
         </form>
       ) : (
-        <button
-          type="button"
-          className="Editable btn btn-link p-0"
-          onClick={toggleEditable}
-          aria-label={`Edit ${fieldName}`}
-        >
+        <div className="Editable" onClick={toggleEditable}>
           {originalFieldValue || '[None set]'}
-        </button>
+        </div>
       )}
       <SuccessMessage className="pt-1" successTime={successTime} />
     </div>
