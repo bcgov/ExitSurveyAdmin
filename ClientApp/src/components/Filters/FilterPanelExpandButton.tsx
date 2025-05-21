@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 

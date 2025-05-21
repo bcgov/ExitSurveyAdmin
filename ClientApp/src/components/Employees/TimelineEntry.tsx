@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** EmployeeTimelineEntry ***REMOVED*** from '../../types/EmployeeTimelineEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
@@ -26,8 +26,7 @@ class TimelineEntry extends React.Component<Props> ***REMOVED***
             <span className="text-muted">Action</span> ***REMOVED***tl.employeeActionCode***REMOVED***
             ***REMOVED***tl.adminUserName && (
               <>
-                &nbsp;•&nbsp;
-                <span className="text-muted">By</span> ***REMOVED***tl.adminUserName***REMOVED***
+                &nbsp;•&nbsp; <span className="text-muted">By</span> ***REMOVED***tl.adminUserName***REMOVED***
               </>
             )***REMOVED***
           </small>

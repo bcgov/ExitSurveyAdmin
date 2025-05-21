@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
@@ -10,7 +10,6 @@ interface Props ***REMOVED***
   canPreviousPage: boolean
   canNextPage: boolean
   pageIndex: number
-  className?: string
 ***REMOVED***
 
 const Pagination = (props: Props): JSX.Element => ***REMOVED***

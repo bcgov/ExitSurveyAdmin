@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** Filter ***REMOVED*** from '../FilterClasses/FilterTypes'
 import ActiveFilterButton from './ActiveFilterButton'
@@ -19,11 +19,11 @@ const sort = (a: Filter, b: Filter): number => ***REMOVED***
 
 const ActiveFilters = (props: Props): JSX.Element => ***REMOVED***
   const filterButtons = props.filters
-    .sort(sort)
+    .toSorted(sort)
     .filter((f) => f.isSet)
     .map((f) => (
       <ActiveFilterButton
-        key=***REMOVED***`$***REMOVED***f.fieldName***REMOVED***$***REMOVED***Math.random()***REMOVED***`***REMOVED***
+        key=***REMOVED***f.fieldName***REMOVED***
         filter=***REMOVED***f***REMOVED***
         removeFilter=***REMOVED***props.removeFilter***REMOVED***
       />

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** Filter ***REMOVED*** from '../FilterClasses/FilterTypes'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'

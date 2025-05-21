@@ -1,4 +1,4 @@
-import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
+import React, ***REMOVED*** useEffect, type JSX ***REMOVED*** from 'react'
 import ***REMOVED*** useLocation ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'

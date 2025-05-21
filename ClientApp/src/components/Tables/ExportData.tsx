@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'

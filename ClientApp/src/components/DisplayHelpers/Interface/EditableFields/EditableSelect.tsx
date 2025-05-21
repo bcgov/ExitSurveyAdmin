@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../../../helpers/requestHelpers'
@@ -44,7 +44,7 @@ const EditableSelect = (props: Props): JSX.Element => ***REMOVED***
   const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => ***REMOVED***
     event.preventDefault()
     requestJSONWithErrorHandler(
-      `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
+      `api/$***REMOVED***modelPath ?? 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
       'PATCH',
       ***REMOVED***
         [fieldName]: newValue,
@@ -91,11 +91,17 @@ const EditableSelect = (props: Props): JSX.Element => ***REMOVED***
           />
         </form>
       ) : (
-        <span className="Editable" onClick=***REMOVED***toggleEditable***REMOVED***>
+        <button
+          type="button"
+          className="Editable btn btn-link p-0"
+          onClick=***REMOVED***toggleEditable***REMOVED***
+          tabIndex=***REMOVED***0***REMOVED***
+          aria-label=***REMOVED***`Edit $***REMOVED***fieldName***REMOVED***`***REMOVED***
+        >
           ***REMOVED***valueToDisplayAccessor
             ? valueToDisplayAccessor(fieldValue)
             : fieldValue***REMOVED***
-        </span>
+        </button>
       )***REMOVED***
       <SuccessMessage className="pt-1 mt-2" successTime=***REMOVED***successTime***REMOVED*** />
     </div>

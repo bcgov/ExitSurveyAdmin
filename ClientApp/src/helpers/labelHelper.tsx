@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** SelectOption ***REMOVED*** from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../types/EmployeeStatus'

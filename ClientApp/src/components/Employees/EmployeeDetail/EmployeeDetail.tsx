@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import React from 'react'
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
-import ***REMOVED*** useParams ***REMOVED*** from 'react-router-dom'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
+import ***REMOVED*** Link, useParams ***REMOVED*** from 'react-router-dom'
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
@@ -250,7 +249,7 @@ class EmployeeDetail extends React.Component<Props, IState> ***REMOVED***
 ***REMOVED***
 
 const EmployeeDetailWrapper = () => ***REMOVED***
-  const ***REMOVED*** employeeId ***REMOVED*** = useParams<IParams>()
+  const ***REMOVED*** employeeId ***REMOVED*** = useParams()
   return <EmployeeDetail employeeId=***REMOVED***employeeId!***REMOVED*** />
 ***REMOVED***
 

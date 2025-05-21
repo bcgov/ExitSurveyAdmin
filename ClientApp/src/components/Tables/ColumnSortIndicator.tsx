@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
 
 export interface IColumn ***REMOVED***
@@ -12,17 +12,18 @@ interface Props ***REMOVED***
 
 const ColumnSortIndicator = (props: Props): JSX.Element => ***REMOVED***
   const ***REMOVED*** column ***REMOVED*** = props
+  let sortIcon = null;
+  if (column.isSorted) ***REMOVED***
+    sortIcon = column.isSortedDesc ? (
+      <FAIcon name="caret-up" marginClasses="ms-1" />
+    ) : (
+      <FAIcon name="caret-down" marginClasses="ms-1" />
+    );
+***REMOVED***
+
   return (
     <span>
-      ***REMOVED***column.isSorted ? (
-        column.isSortedDesc ? (
-          <FAIcon name="caret-up" marginClasses="ms-1" />
-        ) : (
-          <FAIcon name="caret-down" marginClasses="ms-1" />
-        )
-      ) : (
-        ''
-      )***REMOVED***
+      ***REMOVED***sortIcon***REMOVED***
     </span>
   )
 ***REMOVED***

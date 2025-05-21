@@ -13,7 +13,6 @@ export interface ICommonButtonProps ***REMOVED***
 
 interface Props extends ICommonButtonProps ***REMOVED***
   children: React.ReactNode
-  icon?: string
 ***REMOVED***
 
 // Convert Button to a function component for React 18+ compatibility

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import ***REMOVED*** useLocation, useNavigate ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** Filter ***REMOVED*** from './FilterClasses/FilterTypes'

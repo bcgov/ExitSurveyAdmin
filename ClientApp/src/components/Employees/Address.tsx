@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 
@@ -28,7 +28,7 @@ const Address = (***REMOVED*** employee: e, showPreferred ***REMOVED***: Props):
           <br />
         </React.Fragment>
       ) : (
-        <React.Fragment />
+        null
       )***REMOVED***
       ***REMOVED***addressCity***REMOVED***, ***REMOVED***addressProvince***REMOVED***&nbsp;&nbsp;
       ***REMOVED***addressPostCode***REMOVED***
