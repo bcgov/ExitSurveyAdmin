@@ -16,24 +16,26 @@ interface Props extends ICommonButtonProps {
   icon?: string
 }
 
-class Button extends React.Component<Props> {
-  public render(): JSX.Element {
-    const { onClick, children, submit, reset } = this.props
-    const className = this.props.className || ''
-    const colorType = this.props.colorType || 'primary'
-    const marginClasses = this.props.marginClasses || ''
-    const size = this.props.size ? `btn-${this.props.size}` : ''
-    return (
-      <button
-        className={`btn ${size} btn-${colorType} ${marginClasses} ${className}`}
-        onClick={onClick}
-        type={submit ? 'submit' : reset ? 'reset' : 'button'}
-        disabled={this.props.disabled}
-      >
-        {children}
-      </button>
-    )
-  }
+// Convert Button to a function component for React 18+ compatibility
+const Button: React.FC<Props> = (props) => {
+  const { onClick, children, submit, reset, className, colorType, marginClasses, size, disabled } = props
+  const btnClass = className ?? ''
+  const btnColorType = colorType ?? 'primary'
+  const btnMarginClasses = marginClasses ?? ''
+  const btnSize = size ? `btn-${size}` : ''
+  let buttonType: 'button' | 'submit' | 'reset' = 'button'
+  if (submit) buttonType = 'submit'
+  else if (reset) buttonType = 'reset'
+  return (
+    <button
+      className={`btn ${btnSize} btn-${btnColorType} ${btnMarginClasses} ${btnClass}`}
+      onClick={onClick}
+      type={buttonType}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  )
 }
 
 export default Button

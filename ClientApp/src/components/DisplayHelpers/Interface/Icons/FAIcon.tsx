@@ -19,14 +19,8 @@ interface Props {
  * @param marginClasses The margin classes to apply to the icon. Defaults to
  *   'me-2', for a 2-unit right margin in Bootstrap.
  */
-class FAIcon extends React.Component<Props> {
-  public render(): JSX.Element {
-    const type = this.props.type || 'fas'
-    const name = this.props.name
-    const classes = this.props.classes || ''
-    const marginClasses = this.props.marginClasses || 'me-1'
-    return <i className={`${type} fa-${name} ${classes} ${marginClasses}`}></i>
-  }
+const FAIcon: React.FC<Props> = ({ type = 'fas', name, classes = '', marginClasses = 'me-1' }) => {
+  return <i className={`${type} fa-${name} ${classes} ${marginClasses}`}></i>
 }
 
 export default FAIcon
