@@ -1,4 +1,4 @@
-import React from 'react'
+import { type JSX } from 'react'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import relativeTime from 'dayjs/plugin/relativeTime'
