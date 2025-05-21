@@ -1,10 +1,10 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import SuccessMessage from '../Employees/SuccessMessage'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
-interface Props ***REMOVED******REMOVED***
+interface Props ***REMOVED*** ***REMOVED***
 
 const RefreshStatusButton = (props: Props): JSX.Element => ***REMOVED***
   const [successTime, setSuccessTime] = React.useState(0)

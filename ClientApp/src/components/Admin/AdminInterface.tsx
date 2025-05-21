@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** AdminSetting ***REMOVED*** from '../../types/AdminSetting'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
@@ -39,7 +38,7 @@ const AdminInterface = (): JSX.Element => ***REMOVED***
                 ***REMOVED***adminSettings.map((as) => (
                   <ColumnarLabelledText
                     key=***REMOVED***as.id***REMOVED***
-                    label=***REMOVED***as.displayName!***REMOVED***
+                    label=***REMOVED***as.displayName***REMOVED***
                     columnClass="col-12"
                   >
                     <EditableStringField

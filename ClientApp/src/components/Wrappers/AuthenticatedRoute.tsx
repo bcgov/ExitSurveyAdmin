@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import AuthWrapper from './AuthWrapper'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
 

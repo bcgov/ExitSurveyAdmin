@@ -1,7 +1,7 @@
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** defaultDateFormat ***REMOVED*** from '../../helpers/dateHelper'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'

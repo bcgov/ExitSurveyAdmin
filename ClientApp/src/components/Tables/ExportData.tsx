@@ -20,6 +20,7 @@ const ExportData = (***REMOVED***
   setDownloadedDataCallback,
   sortQuery,
 ***REMOVED***: Props): JSX.Element => ***REMOVED***
+
   const downloadData = React.useCallback((): void => ***REMOVED***
     requestJSONWithErrorHandler(
       `api/$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***MAX_PAGE_SIZE***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,

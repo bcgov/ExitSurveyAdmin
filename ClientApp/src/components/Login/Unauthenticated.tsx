@@ -1,4 +1,4 @@
-import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
+import ***REMOVED*** useEffect, type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** windowLocation ***REMOVED*** from '../../helpers/envHelper'
 import KeycloakService from './KeycloakService'
