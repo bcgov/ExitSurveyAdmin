@@ -14,7 +14,7 @@ import './FilterPanel.scss'
 interface Props ***REMOVED***
   modelName: string
   filterableFields: Filter[]
-  presetComponent?: React.FC<PresetProps>
+  presetComponent?: React.ComponentType<PresetProps>
 ***REMOVED***
 
 const removeExactMatch = (arr: Filter[], candidate: Filter): void => ***REMOVED***

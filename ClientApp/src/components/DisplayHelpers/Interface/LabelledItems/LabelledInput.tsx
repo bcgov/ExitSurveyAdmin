@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import slugify from 'slugify'
 
 import LabelledItem from './LabelledItem'

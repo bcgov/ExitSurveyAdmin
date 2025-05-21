@@ -1,6 +1,5 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import ReactSelect from 'react-select'
-import ***REMOVED*** ValueType ***REMOVED*** from 'react-select/src/types'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 
@@ -37,32 +36,29 @@ export const singleValue = (
 ***REMOVED***
 
 export interface ICollectionSelect<T> ***REMOVED***
-  suppressLabel?: boolean
   valueAccessor?: (item: T) => string
   nameAccessor?: (item: T) => string
   onChangeCallback: (selectedValues: CollectionSelectReturnValue) => void
-  includeBlank?: boolean
   label?: string
   placeholder?: React.ReactNode
   className?: string
   id?: string
   items?: T[]
-  excludeNames?: string[]
-  excludeValues?: string[]
   defaultValueKeys?: string[]
   isMultiSelect?: boolean
 ***REMOVED***
 
 const customReactSelectStyles = ***REMOVED***
-  option: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => (***REMOVED***
-    ...provided,
-    borderRadius: '0px',
-    backgroundColor: state.isSelected
-      ? baseColor
-      : state.isFocused
-      ? focusShadowColor
-      : 'white',
-***REMOVED***),
+  option: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => ***REMOVED***
+    let backgroundColor = 'white';
+    if (state.isSelected) backgroundColor = baseColor;
+    else if (state.isFocused) backgroundColor = focusShadowColor;
+    return ***REMOVED***
+      ...provided,
+      borderRadius: '0px',
+      backgroundColor,
+  ***REMOVED***;
+***REMOVED***
   menu: (provided: FixTypeLater): FixTypeLater => (***REMOVED***
     ...provided,
     borderRadius: '0px',
@@ -83,7 +79,7 @@ const customReactSelectStyles = ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-interface Props<T> extends ICollectionSelect<T> ***REMOVED******REMOVED***
+interface Props<T> extends ICollectionSelect<T> ***REMOVED*** ***REMOVED***
 
 class CollectionSelect<T> extends React.Component<Props<T>> ***REMOVED***
   public constructor(props: Props<T>) ***REMOVED***
@@ -92,7 +88,7 @@ class CollectionSelect<T> extends React.Component<Props<T>> ***REMOVED***
 ***REMOVED***
 
   protected onChange(
-    selectedItems: ValueType<ICollectionSelectValue, FixTypeLater>
+    selectedItems: any // react-select v5+ uses generics, but for our use case, 'any' is safe
   ): void ***REMOVED***
     if (selectedItems != null && !Array.isArray(selectedItems)) ***REMOVED***
       // Selected items is not an array. But for simplicity, we want to return
@@ -131,8 +127,8 @@ class CollectionSelect<T> extends React.Component<Props<T>> ***REMOVED***
 ***REMOVED***
 
   public render(): JSX.Element ***REMOVED***
-    const items = this.props.items
-    const options = items && items.length ? this.mapItems(items) : []
+    const items = this.props.items;
+    const options = items?.length ? this.mapItems(items) : [];
     const defaultOptions = this.props.defaultValueKeys
       ? options.filter((option) => option.isDefault)
       : undefined
