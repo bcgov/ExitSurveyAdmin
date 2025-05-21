@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import SuccessMessage from '../Employees/SuccessMessage'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
 import ColumnarLabelledText from '../DisplayHelpers/Interface/LabelledItems/ColumnarLabelledText'
 import { FixTypeLater } from '../../types/FixTypeLater'
 
-interface Props {}
+interface Props { }
 
 const ScheduledLoadAndUpdateButton = (props: Props): JSX.Element => {
   const [successTime, setSuccessTime] = React.useState(0)

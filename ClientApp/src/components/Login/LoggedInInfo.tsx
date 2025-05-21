@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import React from 'react'
+import { type JSX } from 'react'
 
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
 import KeycloakService from './KeycloakService'

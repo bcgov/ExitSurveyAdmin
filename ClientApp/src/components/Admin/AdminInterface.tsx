@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { AdminSetting } from '../../types/AdminSetting'
 import { FixTypeLater } from '../../types/FixTypeLater'
@@ -39,7 +38,7 @@ const AdminInterface = (): JSX.Element => {
                 {adminSettings.map((as) => (
                   <ColumnarLabelledText
                     key={as.id}
-                    label={as.displayName!}
+                    label={as.displayName}
                     columnClass="col-12"
                   >
                     <EditableStringField
