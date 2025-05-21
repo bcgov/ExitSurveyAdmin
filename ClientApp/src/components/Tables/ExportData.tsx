@@ -1,5 +1,5 @@
 import React, { type JSX } from 'react'
-import { CSVLink } from 'react-csv'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../helpers/requestHelpers'
@@ -20,9 +20,6 @@ const ExportData = ({
   setDownloadedDataCallback,
   sortQuery,
 }: Props): JSX.Element => {
-  const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
-  const csvLinkRef = React.useRef(null)
-
   const downloadData = React.useCallback((): void => {
     requestJSONWithErrorHandler(
       `api/${listingPath}?pageSize=${MAX_PAGE_SIZE}${sortQuery}${filterQuery}`,
@@ -30,10 +27,17 @@ const ExportData = ({
       null,
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => {
-        setDownloadedData(setDownloadedDataCallback(responseJSON))
+        const processedData = setDownloadedDataCallback(responseJSON)
 
-          // Click the hidden CSVLink
-          ; (csvLinkRef.current as FixTypeLater).link.click()
+        if (processedData.length > 0) {
+          const csvConfig = mkConfig({
+            useKeysAsHeaders: true,
+            filename: 'ExitSurveyAdminData',
+            quoteStrings: true,
+          })
+          const csv = generateCsv(csvConfig)(processedData)
+          download(csvConfig)(csv)
+        }
       }
     )
   }, [sortQuery, filterQuery, listingPath, setDownloadedDataCallback])
@@ -46,13 +50,6 @@ const ExportData = ({
         marginClasses="my-3"
         iconMarginClasses="me-2"
         onClick={downloadData}
-      />
-      <CSVLink
-        data={downloadedData}
-        filename="ExitSurveyAdminData.csv"
-        className="hidden"
-        ref={csvLinkRef}
-        target="_blank"
       />
     </div>
   )
