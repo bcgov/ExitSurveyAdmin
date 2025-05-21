@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, type JSX } from 'react'
 
 import './SuccessMessage.scss'
 import { timeout } from '../../helpers/objectHelper'
@@ -42,7 +42,7 @@ const SuccessMessage = ({
     >
       <div className="badge bg-success">
         <i className="fas fa-check-circle me-2" />
-        &nbsp;{successMessage || 'Success'}
+        &nbsp;{successMessage ?? 'Success'}
       </div>
     </div>
   )

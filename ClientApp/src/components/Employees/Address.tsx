@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { Employee } from '../../types/Employee'
 
@@ -28,7 +28,7 @@ const Address = ({ employee: e, showPreferred }: Props): JSX.Element => {
           <br />
         </React.Fragment>
       ) : (
-        <React.Fragment />
+        null
       )}
       {addressCity}, {addressProvince}&nbsp;&nbsp;
       {addressPostCode}

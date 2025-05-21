@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import React, { type JSX } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { plainToInstance } from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
@@ -250,7 +249,7 @@ class EmployeeDetail extends React.Component<Props, IState> {
 }
 
 const EmployeeDetailWrapper = () => {
-  const { employeeId } = useParams<IParams>()
+  const { employeeId } = useParams()
   return <EmployeeDetail employeeId={employeeId!} />
 }
 

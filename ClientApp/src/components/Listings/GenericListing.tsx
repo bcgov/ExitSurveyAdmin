@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, type JSX } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { FixTypeLater } from '../../types/FixTypeLater'

@@ -1,14 +1,11 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
+import './AdminInterfaceHelp.scss'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
-import React from 'react'
-
-import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
-
-import './AdminInterfaceHelp.scss'
 
 // The scheduled task runs at 16:00 UTC.
 const SCHEDULED_TASK_UTC_TIME = dayjs().utc().hour(16).minute(0)
@@ -46,9 +43,8 @@ const AdminInterfaceHelp = (): JSX.Element => {
               <li>
                 <strong>
                   Set any employees who have dropped off the PSA API to Not
-                  Exiting
-                </strong>
-                . In this case, they most likely are not actually exiting
+                  Exiting.
+                </strong> In this case, they most likely are not actually exiting
                 employment.
               </li>
               <li>

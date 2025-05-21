@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, type JSX } from 'react'
 import DatePicker from 'react-datepicker'
 
 import { FilterDispatch } from '../FilterForm'

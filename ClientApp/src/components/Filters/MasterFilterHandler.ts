@@ -13,7 +13,7 @@ export class MasterFilterHandler {
       : ''
   }
 
-  static decodeFromQueryString = (
+  public static readonly decodeFromQueryString = (
     filterableFields: Filter[],
     queryString: string
   ): Filter[] => {
@@ -40,14 +40,14 @@ export class MasterFilterHandler {
       if (matchingFilters.length > 0) {
         const clone = filter.clone()
         const decoded = clone.decode(matchingFilters)
-        filters.push(decoded as Filter)
+        filters.push(decoded)
       }
     })
 
     return filters
   }
 
-  static extractFromRawQueryString = (
+  public static readonly extractFromRawQueryString = (
     filterableFields: Filter[],
     queryString: string
   ): string => {

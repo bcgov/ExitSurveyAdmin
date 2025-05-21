@@ -1,4 +1,4 @@
-import React from 'react'
+import { type JSX } from 'react'
 
 import { SelectOption } from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import { EmployeeStatus } from '../types/EmployeeStatus'
