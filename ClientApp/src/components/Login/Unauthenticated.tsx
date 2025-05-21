@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, type JSX } from 'react'
 
 import { windowLocation } from '../../helpers/envHelper'
 import KeycloakService from './KeycloakService'

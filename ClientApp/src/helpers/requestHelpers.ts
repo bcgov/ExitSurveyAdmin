@@ -63,7 +63,8 @@ export const requestJSONWithErrorHandler = async (
   try {
     json = await response.json()
   } catch (e) {
-    console.error('getJSONWithErrorHandler: Error decoding JSON from response.')
+    console.error('getJSONWithErrorHandler: Error decoding JSON from response.', e);
+    return null;
   }
 
   const paginationHeader = response.headers.get('X-Pagination')
@@ -94,7 +95,8 @@ export const requestJSONWithoutAuth = async (
   try {
     json = await response.json()
   } catch (e) {
-    console.error('getJSONWithErrorHandler: Error decoding JSON from response.')
+    console.error('getJSONWithErrorHandler: Error decoding JSON from response.', e);
+    return null;
   }
 
   const paginationHeader = response.headers.get('X-Pagination')

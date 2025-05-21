@@ -3,6 +3,7 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
 import './AdminInterfaceHelp.scss'
+import { type JSX } from 'react'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

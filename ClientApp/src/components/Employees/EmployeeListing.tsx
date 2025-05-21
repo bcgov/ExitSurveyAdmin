@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { defaultDateFormat } from '../../helpers/dateHelper'
 import { Employee } from '../../types/Employee'
