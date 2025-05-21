@@ -22,6 +22,9 @@ const App = () => {
 
   useEffect(() => {
     const href = windowLocation.get()
+    // If the href is not the current location, and it is not the base URL,
+    // redirect to the href. This is to handle the case where the user was
+    // trying to access a protected resource before being redirected to login.
     if (href && href !== window.location.href && href !== baseUrl) {
       window.location.href = href
     }
