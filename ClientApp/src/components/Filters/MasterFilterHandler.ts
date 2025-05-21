@@ -1,4 +1,4 @@
-import * as qs from 'query-string'
+import qs from 'query-string'
 
 import ***REMOVED*** Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 

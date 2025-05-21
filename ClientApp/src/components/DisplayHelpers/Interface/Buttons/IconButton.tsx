@@ -16,37 +16,40 @@ interface Props extends ICommonButtonProps ***REMOVED***
   reset?: boolean
   onClick?: () => void
   disabled?: boolean
+  children?: React.ReactNode
 ***REMOVED***
 
-class IconButton extends React.Component<Props> ***REMOVED***
-  public render(): JSX.Element ***REMOVED***
-    const ***REMOVED***
-      buttonClasses,
-      iconClasses,
-      iconMarginClasses,
-      iconName,
-      iconRight,
-      iconType,
-      label,
-  ***REMOVED*** = this.props
+// Convert IconButton to a function component for compatibility with React 18+ JSX
+const IconButton: React.FC<Props> = (props) => ***REMOVED***
+  const ***REMOVED***
+    buttonClasses,
+    iconClasses,
+    iconMarginClasses,
+    iconName,
+    iconRight,
+    iconType,
+    label,
+    children,
+    ...rest
+***REMOVED*** = props
 
-    const icon = (
-      <FAIcon
-        name=***REMOVED***iconName***REMOVED***
-        type=***REMOVED***iconType***REMOVED***
-        classes=***REMOVED***iconClasses***REMOVED***
-        marginClasses=***REMOVED***iconMarginClasses***REMOVED***
-      />
-    )
+  const icon = (
+    <FAIcon
+      name=***REMOVED***iconName***REMOVED***
+      type=***REMOVED***iconType***REMOVED***
+      classes=***REMOVED***iconClasses***REMOVED***
+      marginClasses=***REMOVED***iconMarginClasses***REMOVED***
+    />
+  )
 
-    return (
-      <Button ***REMOVED***...this.props***REMOVED*** className=***REMOVED***buttonClasses***REMOVED***>
-        ***REMOVED***!iconRight && icon***REMOVED***
-        ***REMOVED***label***REMOVED***
-        ***REMOVED***iconRight && icon***REMOVED***
-      </Button>
-    )
-***REMOVED***
+  return (
+    <Button ***REMOVED***...rest***REMOVED*** className=***REMOVED***buttonClasses***REMOVED***>
+      ***REMOVED***!iconRight && icon***REMOVED***
+      ***REMOVED***label***REMOVED***
+      ***REMOVED***iconRight && icon***REMOVED***
+      ***REMOVED***children***REMOVED***
+    </Button>
+  )
 ***REMOVED***
 
 export default IconButton
