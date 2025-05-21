@@ -1,4 +1,4 @@
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** Link ***REMOVED*** from 'react-router'
 import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import LoggedInInfo from './Login/LoggedInInfo'

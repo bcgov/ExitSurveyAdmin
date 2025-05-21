@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
-import ***REMOVED*** Link, useParams ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** Link, useParams ***REMOVED*** from 'react-router'
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 

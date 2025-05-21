@@ -1,8 +1,7 @@
 import 'reflect-metadata'
-import React from 'react'
 import ***REMOVED*** createRoot ***REMOVED*** from 'react-dom/client'
 
-import ***REMOVED*** HashRouter ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** HashRouter ***REMOVED*** from 'react-router'
 import ***REMOVED*** routerBase as getRouterBasename ***REMOVED*** from './helpers/envHelper'
 import ***REMOVED*** unregister ***REMOVED*** from './registerServiceWorker'
 import App from './components/App'

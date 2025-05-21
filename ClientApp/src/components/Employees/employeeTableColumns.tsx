@@ -1,6 +1,6 @@
 import React from 'react'
 import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** Link ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'

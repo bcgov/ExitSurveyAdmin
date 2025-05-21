@@ -1,5 +1,5 @@
 import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
-import ***REMOVED*** useLocation, useNavigate ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** useLocation, useNavigate ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
