@@ -1,5 +1,5 @@
 import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
-import ***REMOVED*** CSVLink ***REMOVED*** from 'react-csv'
+import ***REMOVED*** mkConfig, generateCsv, download ***REMOVED*** from 'export-to-csv'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
@@ -20,9 +20,6 @@ const ExportData = (***REMOVED***
   setDownloadedDataCallback,
   sortQuery,
 ***REMOVED***: Props): JSX.Element => ***REMOVED***
-  const [downloadedData, setDownloadedData] = React.useState<FixTypeLater[]>([])
-  const csvLinkRef = React.useRef(null)
-
   const downloadData = React.useCallback((): void => ***REMOVED***
     requestJSONWithErrorHandler(
       `api/$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***MAX_PAGE_SIZE***REMOVED***$***REMOVED***sortQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`,
@@ -30,10 +27,17 @@ const ExportData = (***REMOVED***
       null,
       'EMPLOYEE_NOT_FOUND',
       (responseJSON: FixTypeLater[]): void => ***REMOVED***
-        setDownloadedData(setDownloadedDataCallback(responseJSON))
+        const processedData = setDownloadedDataCallback(responseJSON)
 
-          // Click the hidden CSVLink
-          ; (csvLinkRef.current as FixTypeLater).link.click()
+        if (processedData.length > 0) ***REMOVED***
+          const csvConfig = mkConfig(***REMOVED***
+            useKeysAsHeaders: true,
+            filename: 'ExitSurveyAdminData',
+            quoteStrings: true,
+        ***REMOVED***)
+          const csv = generateCsv(csvConfig)(processedData)
+          download(csvConfig)(csv)
+      ***REMOVED***
     ***REMOVED***
     )
 ***REMOVED*** [sortQuery, filterQuery, listingPath, setDownloadedDataCallback])
@@ -46,13 +50,6 @@ const ExportData = (***REMOVED***
         marginClasses="my-3"
         iconMarginClasses="me-2"
         onClick=***REMOVED***downloadData***REMOVED***
-      />
-      <CSVLink
-        data=***REMOVED***downloadedData***REMOVED***
-        filename="ExitSurveyAdminData.csv"
-        className="hidden"
-        ref=***REMOVED***csvLinkRef***REMOVED***
-        target="_blank"
       />
     </div>
   )
