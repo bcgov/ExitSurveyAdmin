@@ -1,5 +1,5 @@
 import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
-import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
+import ***REMOVED*** useLocation ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** Filter ***REMOVED*** from '../Filters/FilterClasses/FilterTypes'
@@ -19,8 +19,8 @@ a desc sort. If the sortBy array is empty, return the empty string. */
 const processSorts = (sortBy: ITableSort[]): string => ***REMOVED***
   return sortBy.length
     ? `&sorts=$***REMOVED***sortBy
-        .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
-        .join(',')***REMOVED***`
+      .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
+      .join(',')***REMOVED***`
     : ''
 ***REMOVED***
 
@@ -42,9 +42,7 @@ export interface IGenericListingProps<T extends object> ***REMOVED***
   sortProp?: string
 ***REMOVED***
 
-interface Props<T extends object>
-  extends RouteComponentProps,
-    IGenericListingProps<T> ***REMOVED******REMOVED***
+interface Props<T extends object> extends IGenericListingProps<T> ***REMOVED*** ***REMOVED***
 
 const GenericListing = <T extends object>(***REMOVED***
   columns,
@@ -52,12 +50,12 @@ const GenericListing = <T extends object>(***REMOVED***
   exportedDataMapper,
   filterableFields,
   listingPath,
-  location,
   pageSize: propPageSize,
   presetComponent,
   modelName,
   sortProp,
 ***REMOVED***: Props<T>): JSX.Element => ***REMOVED***
+  const location = useLocation()
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
@@ -98,9 +96,8 @@ const GenericListing = <T extends object>(***REMOVED***
         newPageIndex = 0
     ***REMOVED***
 
-      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***
-        newPageIndex + 1
-    ***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
+      const path = `$***REMOVED***listingPath***REMOVED***?pageSize=$***REMOVED***pageSize***REMOVED***&page=$***REMOVED***newPageIndex + 1
+      ***REMOVED***$***REMOVED***sortByQuery***REMOVED***$***REMOVED***filterQuery***REMOVED***`
 
       requestJSONWithErrorHandler(
         `api/$***REMOVED***path***REMOVED***`,
@@ -153,4 +150,4 @@ const GenericListing = <T extends object>(***REMOVED***
   )
 ***REMOVED***
 
-export default withRouter(GenericListing)
+export default GenericListing

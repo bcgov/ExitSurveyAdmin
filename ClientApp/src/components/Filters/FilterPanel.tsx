@@ -1,5 +1,5 @@
 import React from 'react'
-import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
+import ***REMOVED*** useLocation, useNavigate ***REMOVED*** from 'react-router-dom'
 
 import ***REMOVED*** Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
@@ -11,7 +11,7 @@ import HidePanel from './FilterPanelHideButton'
 
 import './FilterPanel.scss'
 
-interface Props extends RouteComponentProps ***REMOVED***
+interface Props ***REMOVED***
   modelName: string
   filterableFields: Filter[]
   presetComponent?: React.FC<PresetProps>
@@ -36,11 +36,13 @@ const removeIfRequired = (arr: Filter[], candidate: Filter): void => ***REMOVED*
 ***REMOVED***
 
 const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
+  const location = useLocation()
+  const navigate = useNavigate()
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<Filter[]>(() =>
     MasterFilterHandler.decodeFromQueryString(
       props.filterableFields,
-      props.location.search
+      location.search
     )
   )
 
@@ -77,14 +79,14 @@ const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
 ***REMOVED*** [])
 
   React.useEffect(() => ***REMOVED***
-    props.history.push(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***)
-***REMOVED*** [filters, props.history])
+    navigate(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***, ***REMOVED*** replace: true ***REMOVED***)
+***REMOVED*** [filters, navigate])
 
   React.useEffect(() => ***REMOVED***
-    if (props.location.search === '') ***REMOVED***
+    if (location.search === '') ***REMOVED***
       setFilters([])
   ***REMOVED***
-***REMOVED*** [props.location.search])
+***REMOVED*** [location.search])
 
   const expandedHeight = expanded ? '400px' : '0px'
   const expandedClass = expanded ? 'Expanded' : ''
@@ -129,4 +131,4 @@ const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
   )
 ***REMOVED***
 
-export default withRouter(FilterPanel)
+export default FilterPanel

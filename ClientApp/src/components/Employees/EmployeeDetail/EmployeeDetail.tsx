@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React from 'react'
-import ***REMOVED*** Link, RouteComponentProps ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** useParams ***REMOVED*** from 'react-router-dom'
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
@@ -26,13 +27,9 @@ interface IParams ***REMOVED***
   employeeId: string
 ***REMOVED***
 
-interface IOwnProps extends RouteComponentProps<IParams> ***REMOVED******REMOVED***
-
-interface IStateProps ***REMOVED******REMOVED***
-
-interface IDispatchProps ***REMOVED******REMOVED***
-
-interface Props extends IOwnProps, IStateProps, IDispatchProps ***REMOVED******REMOVED***
+interface Props ***REMOVED***
+  employeeId: string
+***REMOVED***
 
 interface IState ***REMOVED***
   employee?: Employee
@@ -240,7 +237,7 @@ class EmployeeDetail extends React.Component<Props, IState> ***REMOVED***
 
   async populateData(): Promise<void> ***REMOVED***
     await requestJSONWithErrorHandler(
-      `api/employees/$***REMOVED***this.props.match.params.employeeId***REMOVED***`,
+      `api/employees/$***REMOVED***this.props.employeeId***REMOVED***`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
@@ -252,4 +249,9 @@ class EmployeeDetail extends React.Component<Props, IState> ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 
-export default EmployeeDetail
+const EmployeeDetailWrapper = () => ***REMOVED***
+  const ***REMOVED*** employeeId ***REMOVED*** = useParams<IParams>()
+  return <EmployeeDetail employeeId=***REMOVED***employeeId!***REMOVED*** />
+***REMOVED***
+
+export default EmployeeDetailWrapper

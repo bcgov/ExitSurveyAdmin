@@ -103,30 +103,42 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => ***REMO
             pageSize=***REMOVED***pageSize***REMOVED***
             recordCount=***REMOVED***recordCount***REMOVED***
           />
-          ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => (
-            <tr ***REMOVED***...headerGroup.getHeaderGroupProps()***REMOVED***>
-              ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => (
-                <th ***REMOVED***...column.getHeaderProps()***REMOVED***>
-                  <span ***REMOVED***...column.getSortByToggleProps()***REMOVED***>
-                    ***REMOVED***column.render('Header')***REMOVED***
-                    <ColumnSortIndicator column=***REMOVED***column***REMOVED*** />
-                  </span>
-                  <div>***REMOVED***column.canFilter ? column.render('Filter') : null***REMOVED***</div>
-                </th>
-              ))***REMOVED***
-            </tr>
-          ))***REMOVED***
+          ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => ***REMOVED***
+            const headerGroupProps = headerGroup.getHeaderGroupProps();
+            const ***REMOVED*** key: headerGroupKey, ...restHeaderGroupProps ***REMOVED*** = headerGroupProps;
+            return (
+              <tr key=***REMOVED***headerGroupKey***REMOVED*** ***REMOVED***...restHeaderGroupProps***REMOVED***>
+                ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => ***REMOVED***
+                  const columnProps = column.getHeaderProps();
+                  const ***REMOVED*** key: columnKey, ...restColumnProps ***REMOVED*** = columnProps;
+                  return (
+                    <th key=***REMOVED***columnKey***REMOVED*** ***REMOVED***...restColumnProps***REMOVED***>
+                      <span ***REMOVED***...column.getSortByToggleProps()***REMOVED***>
+                        ***REMOVED***column.render('Header')***REMOVED***
+                        <ColumnSortIndicator column=***REMOVED***column***REMOVED*** />
+                      </span>
+                      <div>***REMOVED***column.canFilter ? column.render('Filter') : null***REMOVED***</div>
+                    </th>
+                  );
+              ***REMOVED***)***REMOVED***
+              </tr>
+            );
+        ***REMOVED***)***REMOVED***
         </thead>
         <tbody ***REMOVED***...getTableBodyProps()***REMOVED***>
           ***REMOVED***page.map((row: FixTypeLater) => ***REMOVED***
-            prepareRow(row)
+            prepareRow(row);
+            const rowProps = row.getRowProps();
+            const ***REMOVED*** key: rowKey, ...restRowProps ***REMOVED*** = rowProps;
             return (
-              <tr ***REMOVED***...row.getRowProps()***REMOVED***>
+              <tr key=***REMOVED***rowKey***REMOVED*** ***REMOVED***...restRowProps***REMOVED***>
                 ***REMOVED***row.cells.map((cell: FixTypeLater) => ***REMOVED***
-                  return <td ***REMOVED***...cell.getCellProps()***REMOVED***>***REMOVED***cell.render('Cell')***REMOVED***</td>
+                  const cellProps = cell.getCellProps();
+                  const ***REMOVED*** key: cellKey, ...restCellProps ***REMOVED*** = cellProps;
+                  return <td key=***REMOVED***cellKey***REMOVED*** ***REMOVED***...restCellProps***REMOVED***>***REMOVED***cell.render('Cell')***REMOVED***</td>;
               ***REMOVED***)***REMOVED***
               </tr>
-            )
+            );
         ***REMOVED***)***REMOVED***
         </tbody>
         <tfoot>

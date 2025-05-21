@@ -1,7 +1,7 @@
-import ***REMOVED*** Route ***REMOVED*** from 'react-router-dom'
-import React, ***REMOVED*** useEffect ***REMOVED*** from 'react'
+import React, ***REMOVED*** use, useEffect ***REMOVED*** from 'react'
+import ***REMOVED*** Routes, Route, useLocation ***REMOVED*** from 'react-router-dom'
 
-import ***REMOVED*** windowLocation ***REMOVED*** from '../helpers/envHelper'
+import ***REMOVED*** frontendUrl, windowLocation ***REMOVED*** from '../helpers/envHelper'
 import AdminInterface from './Admin/AdminInterface'
 import AuthenticatedRoute from './Wrappers/AuthenticatedRoute'
 import EmployeeDetail from './Employees/EmployeeDetail/EmployeeDetail'
@@ -17,30 +17,27 @@ import '../custom.css'
 const App = () => ***REMOVED***
   // If we get redirected here from a Keycloak logon, redirect the user to
   // the location we had saved for them before being redirected.
+  const location = useLocation();
+  const baseUrl = frontendUrl();
+
   useEffect(() => ***REMOVED***
     const href = windowLocation.get()
-    if (href) ***REMOVED***
+    if (href && href !== window.location.href && href !== baseUrl) ***REMOVED***
       window.location.href = href
   ***REMOVED***
-***REMOVED*** [])
+***REMOVED*** [location])
 
   return (
     <Layout>
-      <AuthenticatedRoute exact path="/" component=***REMOVED***Home***REMOVED*** />
-      <Route path="/logout" component=***REMOVED***LogoutPage***REMOVED*** />
-      <Route path="/status" component=***REMOVED***HealthStatus***REMOVED*** />
-      <AuthenticatedRoute
-        exact
-        path="/employees/:employeeId"
-        component=***REMOVED***EmployeeDetail***REMOVED***
-      />
-      <AuthenticatedRoute exact path="/employees" component=***REMOVED***EmployeeListing***REMOVED*** />
-      <AuthenticatedRoute
-        exact
-        path="/task-log-entries"
-        component=***REMOVED***TaskLogEntryListing***REMOVED***
-      />
-      <AuthenticatedRoute exact path="/admin" component=***REMOVED***AdminInterface***REMOVED*** />
+      <Routes>
+        <Route path="/logout" element=***REMOVED***<LogoutPage />***REMOVED*** />
+        <Route path="/status" element=***REMOVED***<HealthStatus />***REMOVED*** />
+        <Route path="/employees/:employeeId" element=***REMOVED***<AuthenticatedRoute><EmployeeDetail /></AuthenticatedRoute>***REMOVED*** />
+        <Route path="/employees" element=***REMOVED***<AuthenticatedRoute><EmployeeListing /></AuthenticatedRoute>***REMOVED*** />
+        <Route path="/task-log-entries" element=***REMOVED***<AuthenticatedRoute><TaskLogEntryListing /></AuthenticatedRoute>***REMOVED*** />
+        <Route path="/admin" element=***REMOVED***<AuthenticatedRoute><AdminInterface /></AuthenticatedRoute>***REMOVED*** />
+        <Route path="/" element=***REMOVED***<AuthenticatedRoute><Home /></AuthenticatedRoute>***REMOVED*** />
+      </Routes>
     </Layout>
   )
 ***REMOVED***
