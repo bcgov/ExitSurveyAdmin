@@ -1,6 +1,6 @@
 import React from 'react'
 import { CellProps, Column } from 'react-table'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import { Employee } from '../../types/Employee'
 import { EmployeeStatus } from '../../types/EmployeeStatus'

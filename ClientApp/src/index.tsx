@@ -1,8 +1,7 @@
 import 'reflect-metadata'
-import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { HashRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router'
 import { routerBase as getRouterBasename } from './helpers/envHelper'
 import { unregister } from './registerServiceWorker'
 import App from './components/App'

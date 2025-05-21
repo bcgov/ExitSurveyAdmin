@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router'
 
 import { frontendUrl, windowLocation } from '../helpers/envHelper'
 import AdminInterface from './Admin/AdminInterface'
