@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import React, { type JSX } from 'react'
 import { Link } from 'react-router-dom'
 
 import { FixTypeLater } from '../types/FixTypeLater'
