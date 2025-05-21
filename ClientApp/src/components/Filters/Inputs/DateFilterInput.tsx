@@ -33,8 +33,8 @@ const DateFilterInput = ({ filter, resetTimestamp }: Props): JSX.Element => {
     }
   }, [fromDate, toDate, filter, dispatch])
 
-  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
-  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+  const fromChange = React.useCallback((d: Date | null) => setFromDate(d ?? undefined), [])
+  const toChange = React.useCallback((d: Date | null) => setToDate(d ?? undefined), [])
 
   const name = filter.fieldName
 
