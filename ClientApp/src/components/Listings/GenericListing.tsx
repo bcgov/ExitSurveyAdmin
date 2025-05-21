@@ -13,15 +13,14 @@ import GenericTable from '../Tables/GenericTable'
 
 const DEFAULT_PAGE_SIZE = 20
 
-/** Maps the sortBy array produced by the react-table to a string that can be
+/** Maps the sortBy array produced by the table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
-a desc sort. If the sortBy array is empty, return the empty string. */
-const processSorts = (sortBy: ITableSort[]): string => ***REMOVED***
-  return sortBy.length
-    ? `&sorts=$***REMOVED***sortBy
-      .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
-      .join(',')***REMOVED***`
-    : ''
+a desc sort. If the sortBy array is empty or undefined, return the empty string. */
+const processSorts = (sortBy: ITableSort[] | undefined): string => ***REMOVED***
+  if (!Array.isArray(sortBy) || !sortBy.length) return ''
+  return `&sorts=$***REMOVED***sortBy
+    .map((s: FixTypeLater) => `$***REMOVED***s.desc ? '-' : ''***REMOVED***$***REMOVED***s.id***REMOVED***`)
+    .join(',')***REMOVED***`
 ***REMOVED***
 
 const extractFilters = (

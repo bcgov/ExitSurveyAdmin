@@ -1,44 +1,32 @@
-import React from 'react'
-import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
+import ***REMOVED*** createColumnHelper, ColumnDef ***REMOVED*** from '@tanstack/react-table'
 
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import ***REMOVED*** TaskLogEntry ***REMOVED*** from '../../types/TaskLogEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import TaskComment from './TaskComment'
 import TaskOutcome from './TaskOutcome'
 
-type TaskLogEntryCellProps = React.PropsWithChildren<
-  CellProps<TaskLogEntry, FixTypeLater>
->
+const columnHelper = createColumnHelper<TaskLogEntry>()
 
-export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
-  ***REMOVED***
-    Header: 'Date',
-    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
+export const taskLogEntryTableColumns = (): ColumnDef<TaskLogEntry, any>[] => [
+  columnHelper.accessor('createdTs', ***REMOVED***
+    header: 'Date',
+    cell: info => (
       <FormattedDate
-        date=***REMOVED***props.value as unknown as Date***REMOVED***
+        date=***REMOVED***info.getValue() as unknown as Date***REMOVED***
         showTime
         showLocalTimezone
       />
     ),
-    accessor: 'createdTs',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Task',
-    accessor: 'taskCode',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Status',
-    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
-      <TaskOutcome taskOutcomeCode=***REMOVED***props.value as string***REMOVED*** />
-    ),
-    accessor: 'taskOutcomeCode',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Comment',
-    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
-      <TaskComment comment=***REMOVED***props.value as string***REMOVED*** />
-    ),
-    accessor: 'comment',
-***REMOVED***
+***REMOVED***),
+  columnHelper.accessor('taskCode', ***REMOVED***
+    header: 'Task',
+***REMOVED***),
+  columnHelper.accessor('taskOutcomeCode', ***REMOVED***
+    header: 'Status',
+    cell: info => <TaskOutcome taskOutcomeCode=***REMOVED***info.getValue() as string***REMOVED*** />,
+***REMOVED***),
+  columnHelper.accessor('comment', ***REMOVED***
+    header: 'Comment',
+    cell: info => <TaskComment comment=***REMOVED***info.getValue() as string***REMOVED*** />,
+***REMOVED***),
 ]

@@ -4,17 +4,23 @@
 // supplied when rendering in browser).
 
 import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
-import ***REMOVED*** Column, usePagination, useSortBy, useTable ***REMOVED*** from 'react-table'
-
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
+import ***REMOVED***
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
+  flexRender,
+  ColumnDef,
+  SortingState,
+***REMOVED*** from '@tanstack/react-table'
 import ColumnSortIndicator from './ColumnSortIndicator'
 import LoadingRow from './LoadingRow'
 import Pagination from './Pagination'
 
 interface Props<T extends object> ***REMOVED***
   data: T[]
-  columns: () => Column<T>[]
-  fetchData: (options: FixTypeLater) => FixTypeLater
+  columns: () => ColumnDef<T, any>[]
+  fetchData: (options: any) => any
   loading: boolean
   controlledPageCount: number
   controlledPageIndex: number
@@ -35,50 +41,47 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => ***REMO
 ***REMOVED*** = props
 
   const columns = React.useMemo(propColumns, [propColumns])
-  const initialPageSize = propPageSize
+  const [pageIndex, setPageIndex] = React.useState(0)
+  const [sorting, setSorting] = React.useState<SortingState>([])
 
-  const ***REMOVED***
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    // Get the state from the instance
-    state: ***REMOVED*** pageIndex, pageSize, sortBy ***REMOVED***,
-***REMOVED***: FixTypeLater = useTable(
+  const table = useReactTable(***REMOVED***
+    data,
+    columns,
+    pageCount: controlledPageCount,
+    state: ***REMOVED***
+      pagination: ***REMOVED*** pageIndex, pageSize: propPageSize ***REMOVED***,
+      sorting,
+  ***REMOVED***
+    manualPagination: true,
+    manualSorting: true,
+    onPaginationChange: (updater) => ***REMOVED***
+      if (typeof updater === 'function') ***REMOVED***
+        const next = updater(***REMOVED*** pageIndex, pageSize: propPageSize ***REMOVED***)
+        setPageIndex(next.pageIndex)
+    ***REMOVED*** else ***REMOVED***
+        setPageIndex(updater.pageIndex)
     ***REMOVED***
-      columns,
-      data,
-      // defaultColumn,
-      initialState: ***REMOVED***
-        pageIndex: 0,
-        pageSize: initialPageSize,
-    ***REMOVED*** as FixTypeLater,
-      manualPagination: true,
-      pageCount: controlledPageCount,
-      manualSortBy: true,
-      manualFilters: true,
-      defaultCanFilter: true,
-      autoResetSortBy: false,
-      autoResetFilters: false,
-  ***REMOVED*** as FixTypeLater,
-    useSortBy,
-    usePagination
-  )
+  ***REMOVED***
+    onSortingChange: (updater) => ***REMOVED***
+      if (typeof updater === 'function') ***REMOVED***
+        setSorting(updater(sorting))
+    ***REMOVED*** else ***REMOVED***
+        setSorting(updater)
+    ***REMOVED***
+  ***REMOVED***
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    debugTable: false,
+***REMOVED***)
 
   React.useEffect(() => ***REMOVED***
-    fetchData(***REMOVED*** pageIndex, sortBy ***REMOVED***)
-***REMOVED*** [fetchData, pageIndex, sortBy])
+    fetchData(***REMOVED*** pageIndex, sorting ***REMOVED***)
+***REMOVED*** [fetchData, pageIndex, sorting])
 
   React.useEffect(() => ***REMOVED***
     if (controlledPageIndex !== pageIndex) ***REMOVED***
-      gotoPage(controlledPageIndex)
+      setPageIndex(controlledPageIndex)
   ***REMOVED***
     // Intentionally only looking at controlledPageIndex
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,76 +90,65 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => ***REMO
   return (
     <>
       <Pagination
-        gotoPage=***REMOVED***gotoPage***REMOVED***
-        nextPage=***REMOVED***nextPage***REMOVED***
-        previousPage=***REMOVED***previousPage***REMOVED***
-        canNextPage=***REMOVED***canNextPage***REMOVED***
-        canPreviousPage=***REMOVED***canPreviousPage***REMOVED***
-        pageCount=***REMOVED***pageCount***REMOVED***
+        gotoPage=***REMOVED***table.setPageIndex***REMOVED***
+        nextPage=***REMOVED***() => table.setPageIndex(pageIndex + 1)***REMOVED***
+        previousPage=***REMOVED***() => table.setPageIndex(pageIndex - 1)***REMOVED***
+        canNextPage=***REMOVED***pageIndex < controlledPageCount - 1***REMOVED***
+        canPreviousPage=***REMOVED***pageIndex > 0***REMOVED***
+        pageCount=***REMOVED***controlledPageCount***REMOVED***
         pageIndex=***REMOVED***pageIndex***REMOVED***
       />
-      <table className="table table-sm table-striped" ***REMOVED***...getTableProps()***REMOVED***>
+      <table className="table table-sm table-striped">
         <thead>
           <LoadingRow
             loading=***REMOVED***loading***REMOVED***
             pageIndex=***REMOVED***pageIndex***REMOVED***
-            pageSize=***REMOVED***pageSize***REMOVED***
+            pageSize=***REMOVED***propPageSize***REMOVED***
             recordCount=***REMOVED***recordCount***REMOVED***
           />
-          ***REMOVED***headerGroups.map((headerGroup: FixTypeLater) => ***REMOVED***
-            const headerGroupProps = headerGroup.getHeaderGroupProps();
-            const ***REMOVED*** key: headerGroupKey, ...restHeaderGroupProps ***REMOVED*** = headerGroupProps;
-            return (
-              <tr key=***REMOVED***headerGroupKey***REMOVED*** ***REMOVED***...restHeaderGroupProps***REMOVED***>
-                ***REMOVED***headerGroup.headers.map((column: FixTypeLater) => ***REMOVED***
-                  const columnProps = column.getHeaderProps();
-                  const ***REMOVED*** key: columnKey, ...restColumnProps ***REMOVED*** = columnProps;
-                  return (
-                    <th key=***REMOVED***columnKey***REMOVED*** ***REMOVED***...restColumnProps***REMOVED***>
-                      <span ***REMOVED***...column.getSortByToggleProps()***REMOVED***>
-                        ***REMOVED***column.render('Header')***REMOVED***
-                        <ColumnSortIndicator column=***REMOVED***column***REMOVED*** />
-                      </span>
-                      <div>***REMOVED***column.canFilter ? column.render('Filter') : null***REMOVED***</div>
-                    </th>
-                  );
-              ***REMOVED***)***REMOVED***
-              </tr>
-            );
-        ***REMOVED***)***REMOVED***
+          ***REMOVED***table.getHeaderGroups().map(headerGroup => (
+            <tr key=***REMOVED***headerGroup.id***REMOVED***>
+              ***REMOVED***headerGroup.headers.map(header => (
+                <th key=***REMOVED***header.id***REMOVED*** colSpan=***REMOVED***header.colSpan***REMOVED***>
+                  <span
+                    ***REMOVED***...***REMOVED***
+                      onClick: header.column.getToggleSortingHandler(),
+                      style: ***REMOVED*** cursor: header.column.getCanSort() ? 'pointer' : undefined ***REMOVED***,
+                  ***REMOVED******REMOVED***
+                  >
+                    ***REMOVED***flexRender(header.column.columnDef.header, header.getContext())***REMOVED***
+                    <ColumnSortIndicator column=***REMOVED***header.column***REMOVED*** />
+                  </span>
+                </th>
+              ))***REMOVED***
+            </tr>
+          ))***REMOVED***
         </thead>
-        <tbody ***REMOVED***...getTableBodyProps()***REMOVED***>
-          ***REMOVED***page.map((row: FixTypeLater) => ***REMOVED***
-            prepareRow(row);
-            const rowProps = row.getRowProps();
-            const ***REMOVED*** key: rowKey, ...restRowProps ***REMOVED*** = rowProps;
-            return (
-              <tr key=***REMOVED***rowKey***REMOVED*** ***REMOVED***...restRowProps***REMOVED***>
-                ***REMOVED***row.cells.map((cell: FixTypeLater) => ***REMOVED***
-                  const cellProps = cell.getCellProps();
-                  const ***REMOVED*** key: cellKey, ...restCellProps ***REMOVED*** = cellProps;
-                  return <td key=***REMOVED***cellKey***REMOVED*** ***REMOVED***...restCellProps***REMOVED***>***REMOVED***cell.render('Cell')***REMOVED***</td>;
-              ***REMOVED***)***REMOVED***
-              </tr>
-            );
-        ***REMOVED***)***REMOVED***
+        <tbody>
+          ***REMOVED***table.getRowModel().rows.map(row => (
+            <tr key=***REMOVED***row.id***REMOVED***>
+              ***REMOVED***row.getVisibleCells().map(cell => (
+                <td key=***REMOVED***cell.id***REMOVED***>***REMOVED***flexRender(cell.column.columnDef.cell, cell.getContext())***REMOVED***</td>
+              ))***REMOVED***
+            </tr>
+          ))***REMOVED***
         </tbody>
         <tfoot>
           <LoadingRow
             loading=***REMOVED***loading***REMOVED***
             pageIndex=***REMOVED***pageIndex***REMOVED***
-            pageSize=***REMOVED***pageSize***REMOVED***
+            pageSize=***REMOVED***propPageSize***REMOVED***
             recordCount=***REMOVED***recordCount***REMOVED***
           />
         </tfoot>
       </table>
       <Pagination
-        gotoPage=***REMOVED***gotoPage***REMOVED***
-        nextPage=***REMOVED***nextPage***REMOVED***
-        previousPage=***REMOVED***previousPage***REMOVED***
-        canNextPage=***REMOVED***canNextPage***REMOVED***
-        canPreviousPage=***REMOVED***canPreviousPage***REMOVED***
-        pageCount=***REMOVED***pageCount***REMOVED***
+        gotoPage=***REMOVED***table.setPageIndex***REMOVED***
+        nextPage=***REMOVED***() => table.setPageIndex(pageIndex + 1)***REMOVED***
+        previousPage=***REMOVED***() => table.setPageIndex(pageIndex - 1)***REMOVED***
+        canNextPage=***REMOVED***pageIndex < controlledPageCount - 1***REMOVED***
+        canPreviousPage=***REMOVED***pageIndex > 0***REMOVED***
+        pageCount=***REMOVED***controlledPageCount***REMOVED***
         pageIndex=***REMOVED***pageIndex***REMOVED***
       />
     </>
