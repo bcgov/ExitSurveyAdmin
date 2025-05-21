@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import { useLocation } from 'react-router-dom'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { Filter } from '../Filters/FilterClasses/FilterTypes'
@@ -19,8 +19,8 @@ a desc sort. If the sortBy array is empty, return the empty string. */
 const processSorts = (sortBy: ITableSort[]): string => {
   return sortBy.length
     ? `&sorts=${sortBy
-        .map((s: FixTypeLater) => `${s.desc ? '-' : ''}${s.id}`)
-        .join(',')}`
+      .map((s: FixTypeLater) => `${s.desc ? '-' : ''}${s.id}`)
+      .join(',')}`
     : ''
 }
 
@@ -42,9 +42,7 @@ export interface IGenericListingProps<T extends object> {
   sortProp?: string
 }
 
-interface Props<T extends object>
-  extends RouteComponentProps,
-    IGenericListingProps<T> {}
+interface Props<T extends object> extends IGenericListingProps<T> { }
 
 const GenericListing = <T extends object>({
   columns,
@@ -52,12 +50,12 @@ const GenericListing = <T extends object>({
   exportedDataMapper,
   filterableFields,
   listingPath,
-  location,
   pageSize: propPageSize,
   presetComponent,
   modelName,
   sortProp,
 }: Props<T>): JSX.Element => {
+  const location = useLocation()
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
@@ -98,9 +96,8 @@ const GenericListing = <T extends object>({
         newPageIndex = 0
       }
 
-      const path = `${listingPath}?pageSize=${pageSize}&page=${
-        newPageIndex + 1
-      }${sortByQuery}${filterQuery}`
+      const path = `${listingPath}?pageSize=${pageSize}&page=${newPageIndex + 1
+        }${sortByQuery}${filterQuery}`
 
       requestJSONWithErrorHandler(
         `api/${path}`,
@@ -153,4 +150,4 @@ const GenericListing = <T extends object>({
   )
 }
 
-export default withRouter(GenericListing)
+export default GenericListing

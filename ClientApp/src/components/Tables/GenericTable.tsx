@@ -103,30 +103,42 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => {
             pageSize={pageSize}
             recordCount={recordCount}
           />
-          {headerGroups.map((headerGroup: FixTypeLater) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column: FixTypeLater) => (
-                <th {...column.getHeaderProps()}>
-                  <span {...column.getSortByToggleProps()}>
-                    {column.render('Header')}
-                    <ColumnSortIndicator column={column} />
-                  </span>
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
-                </th>
-              ))}
-            </tr>
-          ))}
+          {headerGroups.map((headerGroup: FixTypeLater) => {
+            const headerGroupProps = headerGroup.getHeaderGroupProps();
+            const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroupProps;
+            return (
+              <tr key={headerGroupKey} {...restHeaderGroupProps}>
+                {headerGroup.headers.map((column: FixTypeLater) => {
+                  const columnProps = column.getHeaderProps();
+                  const { key: columnKey, ...restColumnProps } = columnProps;
+                  return (
+                    <th key={columnKey} {...restColumnProps}>
+                      <span {...column.getSortByToggleProps()}>
+                        {column.render('Header')}
+                        <ColumnSortIndicator column={column} />
+                      </span>
+                      <div>{column.canFilter ? column.render('Filter') : null}</div>
+                    </th>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row: FixTypeLater) => {
-            prepareRow(row)
+            prepareRow(row);
+            const rowProps = row.getRowProps();
+            const { key: rowKey, ...restRowProps } = rowProps;
             return (
-              <tr {...row.getRowProps()}>
+              <tr key={rowKey} {...restRowProps}>
                 {row.cells.map((cell: FixTypeLater) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  const cellProps = cell.getCellProps();
+                  const { key: cellKey, ...restCellProps } = cellProps;
+                  return <td key={cellKey} {...restCellProps}>{cell.render('Cell')}</td>;
                 })}
               </tr>
-            )
+            );
           })}
         </tbody>
         <tfoot>
