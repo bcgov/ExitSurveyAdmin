@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../../../types/JsonType'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../../../helpers/requestHelpers'
@@ -64,7 +64,7 @@ const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
     ***REMOVED***
       event.preventDefault()
       requestJSONWithErrorHandler(
-        `api/$***REMOVED***modelPath || 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
+        `api/$***REMOVED***modelPath ?? 'employees'***REMOVED***/$***REMOVED***modelDatabaseId***REMOVED***`,
         'PATCH',
         patchBody,
         'CANNOT_EDIT_EMPLOYEE',
@@ -89,11 +89,14 @@ const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
 
   const isDirty = originalFieldValue !== newValue
   const isSaveDisabled = !(isValid && isDirty)
-  const saveButtonText = !isValid
-    ? 'Field is invalid'
-    : !isDirty
-      ? 'No changes made'
-      : 'Save changes'
+  let saveButtonText = ''
+  if (!isValid) ***REMOVED***
+    saveButtonText = 'Field is invalid'
+***REMOVED*** else if (!isDirty) ***REMOVED***
+    saveButtonText = 'No changes made'
+***REMOVED*** else ***REMOVED***
+    saveButtonText = 'Save changes'
+***REMOVED***
 
   return (
     <div className="EditableField EditableStringField">
@@ -110,7 +113,7 @@ const EditableStringField = (props: Props): JSX.Element => ***REMOVED***
           <input
             type="button"
             value="Cancel"
-            className="btn btn-sm btn-outline-danger mt-2 mr-2"
+            className="btn btn-sm btn-outline-danger mt-2 me-2"
             onClick=***REMOVED***toggleEditable***REMOVED***
           />
           <input

@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
@@ -14,7 +14,7 @@ const FilterPanelHideButton = (***REMOVED*** toggleExpanded ***REMOVED***: Props
         iconName=***REMOVED***'caret-right'***REMOVED***
         label=***REMOVED***`Expand filters`***REMOVED***
         iconRight
-        iconMarginClasses="ml-2"
+        iconMarginClasses="ms-2"
         colorType="secondary"
         buttonClasses="NoOutline NoBackground Faded"
         iconClasses="fa-lg"

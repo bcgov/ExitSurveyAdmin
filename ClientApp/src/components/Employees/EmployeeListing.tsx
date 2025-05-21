@@ -1,6 +1,7 @@
 import ***REMOVED*** plainToInstance ***REMOVED*** from 'class-transformer'
-import moment from 'moment-timezone'
-import React from 'react'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** defaultDateFormat ***REMOVED*** from '../../helpers/dateHelper'
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
@@ -9,6 +10,8 @@ import ***REMOVED*** employeeTableColumns ***REMOVED*** from './employeeTableCol
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 import EmployeePresets from '../Filters/Presets/EmployeePresets'
 import GenericListing from '../Listings/GenericListing'
+
+dayjs.extend(timezone)
 
 const EmployeeListing = (): JSX.Element => ***REMOVED***
   const dataMapperCallback = React.useCallback(
@@ -22,15 +25,11 @@ const EmployeeListing = (): JSX.Element => ***REMOVED***
       responseJSON.map((e) => ***REMOVED***
         delete e.timelineEntries
         delete e.currentEmployeeStatus
-        e.birthDate = moment(e.birthDate).format(defaultDateFormat)
-        e.originalHireDate = moment(e.originalHireDate).format(
-          defaultDateFormat
-        )
-        e.lastDayWorkedDate = moment(e.lastDayWorkedDate).format(
-          defaultDateFormat
-        )
-        e.effectiveDate = moment(e.effectiveDate).format(defaultDateFormat)
-        e.leaveDate = moment(e.leaveDate).format(defaultDateFormat)
+        e.birthDate = dayjs(e.birthDate).format(defaultDateFormat)
+        e.originalHireDate = dayjs(e.originalHireDate).format(defaultDateFormat)
+        e.lastDayWorkedDate = dayjs(e.lastDayWorkedDate).format(defaultDateFormat)
+        e.effectiveDate = dayjs(e.effectiveDate).format(defaultDateFormat)
+        e.leaveDate = dayjs(e.leaveDate).format(defaultDateFormat)
         return e
     ***REMOVED***),
     []

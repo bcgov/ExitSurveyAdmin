@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, ***REMOVED*** useMemo ***REMOVED*** from 'react'
+import React, ***REMOVED*** useMemo, type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** FilterType, Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
@@ -15,7 +15,7 @@ interface Props ***REMOVED***
   addFilters: (filters: Filter[]) => void
   resetFilters: () => void
   filterableFields: Filter[]
-  presetComponent?: React.FC<PresetProps>
+  presetComponent?: React.ComponentType<PresetProps>
 ***REMOVED***
 
 export type FilterMapAction = ***REMOVED***
@@ -90,7 +90,6 @@ const FilterForm = (***REMOVED***
                 resetTimestamp=***REMOVED***resetTimestamp***REMOVED***
               />
             )
-            colWidth = 2
             break
           case FilterType.Enum:
             filterComponent = (
@@ -133,15 +132,15 @@ const FilterForm = (***REMOVED***
                 <IconButton
                   label="Set filters"
                   iconName="check"
-                  marginClasses="mr-3"
-                  iconMarginClasses="mr-2"
+                  marginClasses="me-3"
+                  iconMarginClasses="me-2"
                   submit
                 />
                 <IconButton
                   label="Reset all filters"
                   iconName="undo"
                   colorType="secondary"
-                  iconMarginClasses="mr-2"
+                  iconMarginClasses="me-2"
                   onClick=***REMOVED***reset***REMOVED***
                   reset
                 />

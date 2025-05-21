@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../types/JsonType'
 import ***REMOVED*** requestJSONWithErrorHandler ***REMOVED*** from '../../helpers/requestHelpers'
@@ -58,10 +58,10 @@ const AddComment = (props: Props): JSX.Element => ***REMOVED***
               type="submit"
               value="Add comment"
               className="btn btn-sm btn-primary mt-2"
-              disabled=***REMOVED***comment.length === 0 ? true : false***REMOVED***
+              disabled=***REMOVED***comment.length === 0***REMOVED***
             />
           </div>
-          <SuccessMessage className="ml-2 pt-2" successTime=***REMOVED***successTime***REMOVED*** />
+          <SuccessMessage className="ms-2 pt-2" successTime=***REMOVED***successTime***REMOVED*** />
         </div>
       </form>
     </div>

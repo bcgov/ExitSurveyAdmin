@@ -1,4 +1,4 @@
-import * as qs from 'query-string'
+import qs from 'query-string'
 
 import ***REMOVED*** Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 
@@ -13,7 +13,7 @@ export class MasterFilterHandler ***REMOVED***
       : ''
 ***REMOVED***
 
-  static decodeFromQueryString = (
+  public static readonly decodeFromQueryString = (
     filterableFields: Filter[],
     queryString: string
   ): Filter[] => ***REMOVED***
@@ -40,14 +40,14 @@ export class MasterFilterHandler ***REMOVED***
       if (matchingFilters.length > 0) ***REMOVED***
         const clone = filter.clone()
         const decoded = clone.decode(matchingFilters)
-        filters.push(decoded as Filter)
+        filters.push(decoded)
     ***REMOVED***
   ***REMOVED***)
 
     return filters
 ***REMOVED***
 
-  static extractFromRawQueryString = (
+  public static readonly extractFromRawQueryString = (
     filterableFields: Filter[],
     queryString: string
   ): string => ***REMOVED***

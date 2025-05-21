@@ -1,4 +1,4 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** SelectOption ***REMOVED*** from '../components/DisplayHelpers/Interface/EditableFields/EditableSelect'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../types/EmployeeStatus'
@@ -103,7 +103,7 @@ export const labelForWithFlag = (
       title=***REMOVED***flagIsSet ? 'This field has been edited by an admin' : undefined***REMOVED***
     >
       ***REMOVED***fieldLabels[fieldName]***REMOVED******REMOVED***' '***REMOVED***
-      ***REMOVED***flagIsSet && <FAIcon name="flag" marginClasses="ml-1" />***REMOVED***
+      ***REMOVED***flagIsSet && <FAIcon name="flag" marginClasses="ms-1" />***REMOVED***
     </span>
   )
 ***REMOVED***

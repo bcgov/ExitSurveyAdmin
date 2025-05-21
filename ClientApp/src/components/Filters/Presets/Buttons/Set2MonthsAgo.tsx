@@ -1,14 +1,17 @@
 import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
-import moment from 'moment-timezone'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
 
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../../types/FixTypeLater'
 import DateFilter from '../../FilterClasses/DateFilter'
 import IconButton from '../../../DisplayHelpers/Interface/Buttons/IconButton'
 
+dayjs.extend(timezone)
+
 export const get2MonthsAgoFilter = (): DateFilter => ***REMOVED***
-  const startDate = moment().subtract(2, 'month').startOf('month')
-  const endDate = moment(startDate).endOf('month')
+  const startDate = dayjs().subtract(2, 'month').startOf('month')
+  const endDate = startDate.endOf('month')
   return new DateFilter('effectiveDate', startDate.toDate(), endDate.toDate())
 ***REMOVED***
 
@@ -34,8 +37,8 @@ const Set2MonthsAgo = (***REMOVED*** submitId, setSubmitId ***REMOVED***: Props)
         label="2 months ago"
         iconName="calendar-minus"
         colorType="outline-primary"
-        marginClasses="mr-2"
-        iconMarginClasses="mr-2"
+        marginClasses="me-2"
+        iconMarginClasses="me-2"
         buttonClasses="btn-sm"
         onClick=***REMOVED***setPreviousMonth***REMOVED***
       />

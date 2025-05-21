@@ -93,8 +93,8 @@ const EditableNumber = (***REMOVED***
           <input
             type="button"
             value="Cancel"
-            className=***REMOVED***`btn btn-sm btn-outline-danger $***REMOVED***!inline && 'mt-2'***REMOVED*** $***REMOVED***inline && 'ml-2'
-            ***REMOVED*** mr-2`***REMOVED***
+            className=***REMOVED***`btn btn-sm btn-outline-danger $***REMOVED***!inline && 'mt-2'***REMOVED*** $***REMOVED***inline && 'ms-2'
+            ***REMOVED*** me-2`***REMOVED***
             onClick=***REMOVED***toggleEditable***REMOVED***
           />
           <input
@@ -111,7 +111,7 @@ const EditableNumber = (***REMOVED***
         </span>
       )***REMOVED***
       <SuccessMessage
-        className=***REMOVED***`pt-1 $***REMOVED***!inline && 'mt-2'***REMOVED*** $***REMOVED***inline && 'ml-2'***REMOVED***`***REMOVED***
+        className=***REMOVED***`pt-1 $***REMOVED***!inline && 'mt-2'***REMOVED*** $***REMOVED***inline && 'ms-2'***REMOVED***`***REMOVED***
         successTime=***REMOVED***successTime***REMOVED***
         inline=***REMOVED***inline***REMOVED***
       />

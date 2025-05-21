@@ -1,30 +1,21 @@
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
+import ***REMOVED*** Column ***REMOVED*** from '@tanstack/react-table'
 
-export interface IColumn ***REMOVED***
-  isSorted?: boolean
-  isSortedDesc?: boolean
+interface Props<T extends object> ***REMOVED***
+  column: Column<T, unknown>
 ***REMOVED***
 
-interface Props ***REMOVED***
-  column: IColumn
+const ColumnSortIndicator = <T extends object>(***REMOVED*** column ***REMOVED***: Props<T>): JSX.Element => ***REMOVED***
+  let sortIcon = null
+  if (column.getIsSorted()) ***REMOVED***
+    sortIcon = column.getIsSorted() === 'desc' ? (
+      <FAIcon name="caret-up" marginClasses="ms-1" />
+    ) : (
+      <FAIcon name="caret-down" marginClasses="ms-1" />
+    )
 ***REMOVED***
-
-const ColumnSortIndicator = (props: Props): JSX.Element => ***REMOVED***
-  const ***REMOVED*** column ***REMOVED*** = props
-  return (
-    <span>
-      ***REMOVED***column.isSorted ? (
-        column.isSortedDesc ? (
-          <FAIcon name="caret-up" marginClasses="ml-1" />
-        ) : (
-          <FAIcon name="caret-down" marginClasses="ml-1" />
-        )
-      ) : (
-        ''
-      )***REMOVED***
-    </span>
-  )
+  return <span>***REMOVED***sortIcon***REMOVED***</span>
 ***REMOVED***
 
 export default ColumnSortIndicator

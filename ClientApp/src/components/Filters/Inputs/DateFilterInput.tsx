@@ -1,4 +1,4 @@
-import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
+import React, ***REMOVED*** useContext, type JSX ***REMOVED*** from 'react'
 import DatePicker from 'react-datepicker'
 
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
@@ -33,8 +33,8 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Pro
   ***REMOVED***
 ***REMOVED*** [fromDate, toDate, filter, dispatch])
 
-  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
-  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+  const fromChange = React.useCallback((d: Date | null) => setFromDate(d ?? undefined), [])
+  const toChange = React.useCallback((d: Date | null) => setToDate(d ?? undefined), [])
 
   const name = filter.fieldName
 
@@ -42,20 +42,36 @@ const DateFilterInput = (***REMOVED*** filter, resetTimestamp ***REMOVED***: Pro
     <div className="LabelledItem">
       <label htmlFor=***REMOVED***`$***REMOVED***name***REMOVED***-From`***REMOVED***>***REMOVED***labelFor(name)***REMOVED***</label>
       <div key=***REMOVED***`$***REMOVED***resetTimestamp***REMOVED***`***REMOVED*** className="d-flex">
-        <div className="w-50 mr-1">
+        <div className="w-50 me-1">
           <DatePicker
             selected=***REMOVED***fromDate***REMOVED***
             onChange=***REMOVED***fromChange***REMOVED***
             className="form-control form-control-sm"
             placeholderText=***REMOVED***'From'***REMOVED***
+            popperPlacement='bottom-start'
+            popperModifiers=***REMOVED***[
+              ***REMOVED***
+                name: 'preventOverflow',
+                options: ***REMOVED*** boundary: 'viewport' ***REMOVED***,
+                fn: (data) => ***REMOVED*** return data; ***REMOVED***,
+            ***REMOVED***
+            ]***REMOVED***
           />
         </div>
-        <div className="w-50 ml-1">
+        <div className="w-50 ms-1">
           <DatePicker
             selected=***REMOVED***toDate***REMOVED***
             onChange=***REMOVED***toChange***REMOVED***
             className="form-control form-control-sm"
             placeholderText=***REMOVED***'To'***REMOVED***
+            popperPlacement='bottom-start'
+            popperModifiers=***REMOVED***[
+              ***REMOVED***
+                name: 'preventOverflow',
+                options: ***REMOVED*** boundary: 'viewport' ***REMOVED***,
+                fn: (data) => ***REMOVED*** return data; ***REMOVED***,
+            ***REMOVED***
+            ]***REMOVED***
           />
         </div>
       </div>

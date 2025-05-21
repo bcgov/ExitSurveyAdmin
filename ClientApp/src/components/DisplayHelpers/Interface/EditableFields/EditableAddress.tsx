@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** AnyJson ***REMOVED*** from '../../../../types/JsonType'
 import ***REMOVED*** Employee ***REMOVED*** from '../../../../types/Employee'
@@ -27,11 +27,11 @@ const EditableAddress = (props: Props): JSX.Element => ***REMOVED***
     preferredAddressPostCode,
 ***REMOVED*** = employee
 
-  const [line1, setLine1] = React.useState(preferredAddress1 || '')
-  const [line2, setLine2] = React.useState(preferredAddress2 || '')
-  const [city, setCity] = React.useState(preferredAddressCity || '')
-  const [province, setProvince] = React.useState(preferredAddressProvince || '')
-  const [postCode, setPostCode] = React.useState(preferredAddressPostCode || '')
+  const [line1, setLine1] = React.useState(preferredAddress1 ?? '')
+  const [line2, setLine2] = React.useState(preferredAddress2 ?? '')
+  const [city, setCity] = React.useState(preferredAddressCity ?? '')
+  const [province, setProvince] = React.useState(preferredAddressProvince ?? '')
+  const [postCode, setPostCode] = React.useState(preferredAddressPostCode ?? '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [successTime, setSuccessTime] = React.useState(0)
 
@@ -119,7 +119,7 @@ const EditableAddress = (props: Props): JSX.Element => ***REMOVED***
           <input
             type="button"
             value="Cancel"
-            className="btn btn-sm btn-outline-danger mt-2 mr-2"
+            className="btn btn-sm btn-outline-danger mt-2 me-2"
             onClick=***REMOVED***toggleEditable***REMOVED***
           />
           <input
@@ -130,11 +130,17 @@ const EditableAddress = (props: Props): JSX.Element => ***REMOVED***
           />
         </form>
       ) : (
-        <span onClick=***REMOVED***toggleEditable***REMOVED***>
+        <button
+          type="button"
+          onClick=***REMOVED***toggleEditable***REMOVED***
+          className="EditableField__edit-btn"
+          aria-label="Edit address"
+          style=***REMOVED******REMOVED*** background: 'none', border: 'none', padding: 0, margin: 0, width: '100%', textAlign: 'left' ***REMOVED******REMOVED***
+        >
           <div className="Editable">
             <Address employee=***REMOVED***employee***REMOVED*** showPreferred />
           </div>
-        </span>
+        </button>
       )***REMOVED***
       <SuccessMessage className="pt-1" successTime=***REMOVED***successTime***REMOVED*** />
     </div>

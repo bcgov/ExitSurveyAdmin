@@ -13,7 +13,7 @@ const FilterPanelHideButton = (***REMOVED*** toggleExpanded ***REMOVED***: Props
         iconName=***REMOVED***'caret-right'***REMOVED***
         label=***REMOVED***`Expand filters`***REMOVED***
         iconRight
-        iconMarginClasses="ml-2"
+        iconMarginClasses="ms-2"
         colorType="secondary"
         buttonClasses="NoOutline NoBackground Faded"
         iconClasses="fa-lg"

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** Filter ***REMOVED*** from '../FilterClasses/FilterTypes'
 import ***REMOVED*** labelFor ***REMOVED*** from '../../../helpers/labelHelper'
@@ -25,8 +25,8 @@ const ActiveFilterButton = (***REMOVED*** filter, removeFilter ***REMOVED***: Pr
     <IconButton
       label=***REMOVED***label***REMOVED***
       iconName="times"
-      marginClasses="mr-1 my-1 mb-0"
-      iconMarginClasses="ml-2"
+      marginClasses="me-1 my-1 mb-0"
+      iconMarginClasses="ms-2"
       colorType="primary"
       iconRight
       size="sm"

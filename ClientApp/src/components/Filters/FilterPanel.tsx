@@ -1,5 +1,5 @@
-import React from 'react'
-import ***REMOVED*** RouteComponentProps, withRouter ***REMOVED*** from 'react-router'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
+import ***REMOVED*** useLocation, useNavigate ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** Filter ***REMOVED*** from './FilterClasses/FilterTypes'
 import ***REMOVED*** PresetProps ***REMOVED*** from './Presets/PresetProps'
@@ -11,10 +11,10 @@ import HidePanel from './FilterPanelHideButton'
 
 import './FilterPanel.scss'
 
-interface Props extends RouteComponentProps ***REMOVED***
+interface Props ***REMOVED***
   modelName: string
   filterableFields: Filter[]
-  presetComponent?: React.FC<PresetProps>
+  presetComponent?: React.ComponentType<PresetProps>
 ***REMOVED***
 
 const removeExactMatch = (arr: Filter[], candidate: Filter): void => ***REMOVED***
@@ -36,11 +36,13 @@ const removeIfRequired = (arr: Filter[], candidate: Filter): void => ***REMOVED*
 ***REMOVED***
 
 const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
+  const location = useLocation()
+  const navigate = useNavigate()
   const [expanded, setExpanded] = React.useState(true)
   const [filters, setFilters] = React.useState<Filter[]>(() =>
     MasterFilterHandler.decodeFromQueryString(
       props.filterableFields,
-      props.location.search
+      location.search
     )
   )
 
@@ -77,14 +79,14 @@ const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
 ***REMOVED*** [])
 
   React.useEffect(() => ***REMOVED***
-    props.history.push(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***)
-***REMOVED*** [filters, props.history])
+    navigate(***REMOVED*** search: MasterFilterHandler.encodeAll(filters) ***REMOVED***, ***REMOVED*** replace: true ***REMOVED***)
+***REMOVED*** [filters, navigate])
 
   React.useEffect(() => ***REMOVED***
-    if (props.location.search === '') ***REMOVED***
+    if (location.search === '') ***REMOVED***
       setFilters([])
   ***REMOVED***
-***REMOVED*** [props.location.search])
+***REMOVED*** [location.search])
 
   const expandedHeight = expanded ? '400px' : '0px'
   const expandedClass = expanded ? 'Expanded' : ''
@@ -94,15 +96,15 @@ const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
       <div className="FilterPanelHeader row py-3">
         <div className="col">
           <div className="d-flex align-items-center">
-            <div className="mr-3">
+            <div className="me-3">
               <h2 className="mb-0">
-                <i className="fas fa-filter mr-2"></i>Filter ***REMOVED***props.modelName***REMOVED***
+                <i className="fas fa-filter me-2"></i>Filter ***REMOVED***props.modelName***REMOVED***
               </h2>
             </div>
             <div>
               <ActiveFilters filters=***REMOVED***filters***REMOVED*** removeFilter=***REMOVED***removeFilter***REMOVED*** />
             </div>
-            <div className="ml-auto">
+            <div className="ms-auto">
               ***REMOVED***expanded && <ExpandPanel toggleExpanded=***REMOVED***toggleExpanded***REMOVED*** />***REMOVED***
               ***REMOVED***!expanded && <HidePanel toggleExpanded=***REMOVED***toggleExpanded***REMOVED*** />***REMOVED***
             </div>
@@ -129,4 +131,4 @@ const FilterPanel = (props: Props): JSX.Element => ***REMOVED***
   )
 ***REMOVED***
 
-export default withRouter(FilterPanel)
+export default FilterPanel

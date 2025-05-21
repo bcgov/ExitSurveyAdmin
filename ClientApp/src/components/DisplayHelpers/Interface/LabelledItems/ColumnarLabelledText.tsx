@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 import './LabelledText.scss'
 import LabelledText from './LabelledText'
@@ -18,7 +18,7 @@ const ColumnarLabelledText = (***REMOVED***
 ***REMOVED***: Props): JSX.Element => ***REMOVED***
   return (
     <div
-      className=***REMOVED***`ColumnarLabelledText $***REMOVED***columnClass***REMOVED*** $***REMOVED***extraClasses || ''***REMOVED***`***REMOVED***
+      className=***REMOVED***`ColumnarLabelledText $***REMOVED***columnClass***REMOVED*** $***REMOVED***extraClasses ?? ''***REMOVED***`***REMOVED***
     >
       <LabelledText ***REMOVED***...other***REMOVED*** />
     </div>

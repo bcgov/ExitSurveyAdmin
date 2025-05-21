@@ -1,9 +1,16 @@
-import React from 'react'
-import moment from 'moment-timezone'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 import ***REMOVED***
   defaultDateFormat,
   defaultNiceDatetimeFormat,
 ***REMOVED*** from '../../helpers/dateHelper'
+
+dayjs.extend(timezone)
+dayjs.extend(relativeTime)
+dayjs.extend(advancedFormat)
 
 interface Props ***REMOVED***
   date?: Date
@@ -22,22 +29,22 @@ const FormattedDate = (***REMOVED***
   showLocalTimezone,
   showTime,
 ***REMOVED***: Props): JSX.Element => ***REMOVED***
-  let momentDate = moment(date)
+  let dayjsDate = dayjs(date)
 
   if (showLocalTimezone) ***REMOVED***
-    momentDate = momentDate.tz(TIMEZONE)
+    dayjsDate = dayjsDate.tz(TIMEZONE)
 ***REMOVED***
 
   let displayDate = ''
 
   if (customFormat) ***REMOVED***
-    displayDate = momentDate.format(customFormat)
+    displayDate = dayjsDate.format(customFormat)
 ***REMOVED*** else if (nice) ***REMOVED***
-    displayDate = momentDate.fromNow()
+    displayDate = dayjsDate.fromNow()
 ***REMOVED*** else ***REMOVED***
     displayDate = showTime
-      ? momentDate.format(defaultNiceDatetimeFormat)
-      : momentDate.format(defaultDateFormat)
+      ? dayjsDate.format(defaultNiceDatetimeFormat)
+      : dayjsDate.format(defaultDateFormat)
 ***REMOVED***
 
   return <span className="Date">***REMOVED***displayDate***REMOVED***</span>

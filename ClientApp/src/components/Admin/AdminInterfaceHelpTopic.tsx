@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 
 interface Props ***REMOVED***
   title: string
@@ -9,7 +9,7 @@ const AdminInterfaceHelpTopic = (***REMOVED*** title, children ***REMOVED***: Pr
   return (
     <div className="AdminInterfaceHelpTopic">
       <h3 className="mt-4 mb-2">***REMOVED***title***REMOVED***</h3>
-      <p>***REMOVED***children***REMOVED***</p>
+      ***REMOVED***children***REMOVED***
     </div>
   )
 ***REMOVED***

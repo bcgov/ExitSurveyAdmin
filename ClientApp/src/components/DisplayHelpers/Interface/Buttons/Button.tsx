@@ -13,27 +13,28 @@ export interface ICommonButtonProps ***REMOVED***
 
 interface Props extends ICommonButtonProps ***REMOVED***
   children: React.ReactNode
-  icon?: string
 ***REMOVED***
 
-class Button extends React.Component<Props> ***REMOVED***
-  public render(): JSX.Element ***REMOVED***
-    const ***REMOVED*** onClick, children, submit, reset ***REMOVED*** = this.props
-    const className = this.props.className || ''
-    const colorType = this.props.colorType || 'primary'
-    const marginClasses = this.props.marginClasses || ''
-    const size = this.props.size ? `btn-$***REMOVED***this.props.size***REMOVED***` : ''
-    return (
-      <button
-        className=***REMOVED***`btn $***REMOVED***size***REMOVED*** btn-$***REMOVED***colorType***REMOVED*** $***REMOVED***marginClasses***REMOVED*** $***REMOVED***className***REMOVED***`***REMOVED***
-        onClick=***REMOVED***onClick***REMOVED***
-        type=***REMOVED***submit ? 'submit' : reset ? 'reset' : 'button'***REMOVED***
-        disabled=***REMOVED***this.props.disabled***REMOVED***
-      >
-        ***REMOVED***children***REMOVED***
-      </button>
-    )
-***REMOVED***
+// Convert Button to a function component for React 18+ compatibility
+const Button: React.FC<Props> = (props) => ***REMOVED***
+  const ***REMOVED*** onClick, children, submit, reset, className, colorType, marginClasses, size, disabled ***REMOVED*** = props
+  const btnClass = className ?? ''
+  const btnColorType = colorType ?? 'primary'
+  const btnMarginClasses = marginClasses ?? ''
+  const btnSize = size ? `btn-$***REMOVED***size***REMOVED***` : ''
+  let buttonType: 'button' | 'submit' | 'reset' = 'button'
+  if (submit) buttonType = 'submit'
+  else if (reset) buttonType = 'reset'
+  return (
+    <button
+      className=***REMOVED***`btn $***REMOVED***btnSize***REMOVED*** btn-$***REMOVED***btnColorType***REMOVED*** $***REMOVED***btnMarginClasses***REMOVED*** $***REMOVED***btnClass***REMOVED***`***REMOVED***
+      onClick=***REMOVED***onClick***REMOVED***
+      type=***REMOVED***buttonType***REMOVED***
+      disabled=***REMOVED***disabled***REMOVED***
+    >
+      ***REMOVED***children***REMOVED***
+    </button>
+  )
 ***REMOVED***
 
 export default Button

@@ -1,10 +1,12 @@
-@import '~@bcgov/bootstrap-theme/dist/scss/bootstrap-theme';
+@import '@bcgov/bootstrap-v5-theme/scss/bootstrap-theme';
 
 $navbar-height: 60px;
 $navbar-margin: 24px;
 
 .navbar ***REMOVED***
   height: $navbar-height;
+  padding-left: 1rem;
+  padding-right: 1rem;
 ***REMOVED***
 
 .Centered ***REMOVED***
@@ -17,6 +19,7 @@ $navbar-margin: 24px;
 
 .table-sm ***REMOVED***
   font-size: 0.85rem;
+
   thead ***REMOVED***
     input ***REMOVED***
       max-width: 120px;

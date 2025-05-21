@@ -1,4 +1,4 @@
-import React, ***REMOVED*** useContext ***REMOVED*** from 'react'
+import React, ***REMOVED*** useContext, type JSX ***REMOVED*** from 'react'
 
 import ***REMOVED*** FilterDispatch ***REMOVED*** from '../FilterForm'
 import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../../types/FixTypeLater'

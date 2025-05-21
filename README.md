@@ -67,6 +67,16 @@ To get set up:
 15. Still in the `/ClientApp` directory, run `yarn start` to launch the
     front-end. You should see the application open in a new browser.
 
+## Frontend Modernization (CRA → Vite)
+
+- The frontend was migrated from Create React App (CRA) to Vite for improved performance and developer experience.
+- See `ClientApp/README.md` and `frontend-migration-plan.md` for updated instructions and migration notes.
+- Use `yarn dev`/`yarn build`/`yarn preview` in `ClientApp` for frontend development and builds.
+- Environment variables now use the `VITE_` prefix (see `.env.example`).
+- CRA-specific scripts and files are obsolete and can be removed if not needed.
+
+---
+
 ## Required sample input for development
 
 The following sample documents should be placed in the `/SampleInput` folder, and can be obtained from the project team.

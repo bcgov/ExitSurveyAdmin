@@ -1,12 +1,15 @@
-import moment from 'moment-timezone'
-import React from 'react'
-
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
-
 import './AdminInterfaceHelp.scss'
+import ***REMOVED*** type JSX ***REMOVED*** from 'react'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // The scheduled task runs at 16:00 UTC.
-const SCHEDULED_TASK_UTC_TIME = moment.utc().hour(16).minute(0)
+const SCHEDULED_TASK_UTC_TIME = dayjs().utc().hour(16).minute(0)
 
 // The task time will be shown in Pacific time.
 const TASK_TIME = SCHEDULED_TASK_UTC_TIME.clone()
@@ -17,14 +20,16 @@ const AdminInterfaceHelp = (): JSX.Element => ***REMOVED***
   return (
     <div className="AdminInterfaceHelp text-muted border border-secondary p-3 shadow mt-4">
       <h2 className="mb-1">
-        <i className="fas fa-info-circle mr-2" /> Information
+        <i className="fas fa-info-circle me-2" /> Information
       </h2>
       <div className="row">
         <div className="col">
           <AdminInterfaceHelpTopic title="Scheduled task">
-            The scheduled task runs Monday through Friday at ***REMOVED***TASK_TIME***REMOVED*** Pacific
-            time. In order, the task will:
-            <ol className="my-2 pl-3">
+            <p>
+              The scheduled task runs Monday through Friday at ***REMOVED***TASK_TIME***REMOVED*** Pacific
+              time. In order, the task will:
+            </p>
+            <ol className="my-2 ps-3">
               <li>
                 <strong>Update employee statuses from CallWeb</strong>, checking
                 to see whether any employees in a non-final state have completed
@@ -39,9 +44,8 @@ const AdminInterfaceHelp = (): JSX.Element => ***REMOVED***
               <li>
                 <strong>
                   Set any employees who have dropped off the PSA API to Not
-                  Exiting
-                </strong>
-                . In this case, they most likely are not actually exiting
+                  Exiting.
+                </strong> In this case, they most likely are not actually exiting
                 employment.
               </li>
               <li>

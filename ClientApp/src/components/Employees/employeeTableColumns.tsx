@@ -1,99 +1,65 @@
 import React from 'react'
-import ***REMOVED*** CellProps, Column ***REMOVED*** from 'react-table'
-import ***REMOVED*** Link ***REMOVED*** from 'react-router-dom'
+import ***REMOVED*** createColumnHelper, ColumnDef ***REMOVED*** from '@tanstack/react-table'
+import ***REMOVED*** Link ***REMOVED*** from 'react-router'
 
 import ***REMOVED*** Employee ***REMOVED*** from '../../types/Employee'
 import ***REMOVED*** EmployeeStatus ***REMOVED*** from '../../types/EmployeeStatus'
 import ***REMOVED*** Reason ***REMOVED*** from '../../types/Reason'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import ***REMOVED*** AppointmentStatus ***REMOVED*** from '../../types/AppointmentStatus'
-import ***REMOVED*** FixTypeLater ***REMOVED*** from '../../types/FixTypeLater'
 
-type EmployeeCellProps = React.PropsWithChildren<
-  CellProps<Employee, FixTypeLater>
->
+const columnHelper = createColumnHelper<Employee>()
 
-export const employeeTableColumns = (): Column<Employee>[] => [
+export const employeeTableColumns = (): ColumnDef<Employee, any>[] => [
+  columnHelper.accessor('telkey', ***REMOVED***
+    header: 'Telkey',
+    cell: (info: any) => <Link to=***REMOVED***`/employees/$***REMOVED***info.row.original.id***REMOVED***`***REMOVED***>***REMOVED***info.getValue()***REMOVED***</Link>,
+***REMOVED***),
+  columnHelper.accessor('governmentEmployeeId', ***REMOVED***
+    header: 'Employee ID',
+***REMOVED***),
+  columnHelper.accessor('preferredFirstName', ***REMOVED***
+    header: 'Preferred first name',
+***REMOVED***),
+  columnHelper.accessor('lastName', ***REMOVED***
+    header: 'Last name',
+***REMOVED***),
+  columnHelper.accessor('preferredEmail', ***REMOVED***
+    header: 'Preferred email',
+***REMOVED***),
+  columnHelper.accessor('exitCount', ***REMOVED***
+    header: 'Exit count',
+***REMOVED***),
+  columnHelper.accessor('recordCount', ***REMOVED***
+    header: 'Record count',
+***REMOVED***),
+  columnHelper.accessor('appointmentStatus', ***REMOVED***
+    header: 'Appointment status',
+    cell: (info: any) => ***REMOVED***
+      const appointmentStatus = info.getValue() as unknown as AppointmentStatus
+      return <>***REMOVED***appointmentStatus ? appointmentStatus.code : '[Unknown Appointment Status]'***REMOVED***</>
   ***REMOVED***
-    Header: 'Telkey',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <Link to=***REMOVED***`/employees/$***REMOVED***props.cell.row.original.id***REMOVED***`***REMOVED***>***REMOVED***props.value***REMOVED***</Link>
-    ),
-    accessor: 'telkey',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Employee ID',
-    accessor: 'governmentEmployeeId',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Preferred first name',
-    accessor: 'preferredFirstName',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Last name',
-    accessor: 'lastName',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Preferred email',
-    accessor: 'preferredEmail',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Exit count',
-    accessor: 'exitCount',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Record count',
-    accessor: 'recordCount',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Appointment status',
-    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      const appointmentStatus = props.value as unknown as AppointmentStatus
-      return (
-        <>
-          ***REMOVED***appointmentStatus
-            ? appointmentStatus.code
-            : '[Unknown Appointment Status]'***REMOVED***
-        </>
-      )
-  ***REMOVED***
-    accessor: 'appointmentStatus',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Exit effective date',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <FormattedDate showLocalTimezone date=***REMOVED***props.value as unknown as Date***REMOVED*** />
-    ),
-    accessor: 'effectiveDate',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Leave reason',
-    Cell: (props: EmployeeCellProps): JSX.Element => ***REMOVED***
-      const reason = props.value as unknown as Reason
+***REMOVED***),
+  columnHelper.accessor('effectiveDate', ***REMOVED***
+    header: 'Exit effective date',
+    cell: (info: any) => <FormattedDate showLocalTimezone date=***REMOVED***info.getValue() as unknown as Date***REMOVED*** />,
+***REMOVED***),
+  columnHelper.accessor('reason', ***REMOVED***
+    header: 'Leave reason',
+    cell: (info: any) => ***REMOVED***
+      const reason = info.getValue() as unknown as Reason
       return <>***REMOVED***reason ? reason.reasonCode : '[Unknown Reason]'***REMOVED***</>
   ***REMOVED***
-    accessor: 'reason',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Status',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <>***REMOVED***(props.value as unknown as EmployeeStatus).displayName***REMOVED***</>
-    ),
-    accessor: 'currentEmployeeStatusCode',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Last modified time',
-    Cell: (props: EmployeeCellProps): JSX.Element => (
-      <FormattedDate
-        date=***REMOVED***props.value as unknown as Date***REMOVED***
-        showTime
-        showLocalTimezone
-      />
-    ),
-    accessor: 'modifiedTs',
-***REMOVED***
-  ***REMOVED***
-    Header: 'Timeline Entries',
-    accessor: 'timelineEntryCount',
-***REMOVED***
+***REMOVED***),
+  columnHelper.accessor('currentEmployeeStatusCode', ***REMOVED***
+    header: 'Status',
+    cell: (info: any) => <>***REMOVED***(info.getValue() as unknown as EmployeeStatus).displayName***REMOVED***</>,
+***REMOVED***),
+  columnHelper.accessor('modifiedTs', ***REMOVED***
+    header: 'Last modified time',
+    cell: (info: any) => <FormattedDate date=***REMOVED***info.getValue() as unknown as Date***REMOVED*** showTime showLocalTimezone />,
+***REMOVED***),
+  columnHelper.accessor('timelineEntryCount', ***REMOVED***
+    header: 'Timeline Entries',
+***REMOVED***),
 ]

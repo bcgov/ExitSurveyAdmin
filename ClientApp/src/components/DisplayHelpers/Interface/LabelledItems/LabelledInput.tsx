@@ -1,4 +1,4 @@
-import React from 'react'
+import React, ***REMOVED*** type JSX ***REMOVED*** from 'react'
 import slugify from 'slugify'
 
 import LabelledItem from './LabelledItem'
@@ -21,7 +21,7 @@ const LabelledInput = (props: Props): JSX.Element => ***REMOVED***
         name=***REMOVED***name***REMOVED***
         className="form-control form-control-sm"
         type="text"
-        placeholder=***REMOVED***placeholder || title***REMOVED***
+        placeholder=***REMOVED***placeholder ?? title***REMOVED***
         onInput=***REMOVED***onChange***REMOVED*** // onInput, unlike onChange, fires upon pasting text
       />
     </LabelledItem>
