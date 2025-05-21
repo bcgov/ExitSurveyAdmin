@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { type JSX } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import { FixTypeLater } from '../types/FixTypeLater'
 import { getActiveEmployeesFilter } from './Filters/Presets/Buttons/SetActiveEmployees'

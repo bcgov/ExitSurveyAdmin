@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { type JSX } from 'react'
 
 import FAIcon from '../DisplayHelpers/Interface/Icons/FAIcon'
