@@ -30,11 +30,12 @@ const extractFilters = (
 ): string =>
   MasterFilterHandler.extractFromRawQueryString(filters, propLocationSearch)
 
+// Change presetComponent prop to accept React.ComponentType<PresetProps> for compatibility
 export interface IGenericListingProps<T extends object> {
   filterableFields: Filter[]
   listingPath: string
   modelName: string
-  presetComponent?: React.FC<PresetProps>
+  presetComponent?: React.ComponentType<PresetProps>
   columns: () => FixTypeLater[]
   dataMapper: (responseJSON: FixTypeLater[]) => T[]
   exportedDataMapper: (responseJSON: FixTypeLater[]) => FixTypeLater[]
@@ -67,12 +68,12 @@ const GenericListing = <T extends object>({
   const fetchIdRef = React.useRef<number>(0)
 
   // Keep track of the previous value of the filterQuery in a ref
-  const prevFilterQueryRef = React.useRef<string>()
+  const prevFilterQueryRef = React.useRef<string>("")
   useEffect(() => {
     prevFilterQueryRef.current = filterQuery
   }, [filterQuery])
 
-  const pageSize = propPageSize || DEFAULT_PAGE_SIZE
+  const pageSize = propPageSize ?? DEFAULT_PAGE_SIZE
 
   React.useEffect(
     () => setFilterQuery(extractFilters(filterableFields, location.search)),
@@ -88,7 +89,7 @@ const GenericListing = <T extends object>({
 
       // If there are no sorts from the table, use the passed-in sort prop, if
       // any, and otherwise just use an empty string.
-      const sortByQuery = processSorts(sortBy) || sortProp || ''
+      const sortByQuery = processSorts(sortBy) ?? sortProp ?? ''
 
       // Set page index
       let newPageIndex = pageIndex

@@ -1,4 +1,9 @@
-import moment from 'moment-timezone'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 import React from 'react'
 
 import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
@@ -6,7 +11,7 @@ import AdminInterfaceHelpTopic from './AdminInterfaceHelpTopic'
 import './AdminInterfaceHelp.scss'
 
 // The scheduled task runs at 16:00 UTC.
-const SCHEDULED_TASK_UTC_TIME = moment.utc().hour(16).minute(0)
+const SCHEDULED_TASK_UTC_TIME = dayjs().utc().hour(16).minute(0)
 
 // The task time will be shown in Pacific time.
 const TASK_TIME = SCHEDULED_TASK_UTC_TIME.clone()

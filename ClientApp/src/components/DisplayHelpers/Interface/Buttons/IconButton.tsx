@@ -16,37 +16,40 @@ interface Props extends ICommonButtonProps {
   reset?: boolean
   onClick?: () => void
   disabled?: boolean
+  children?: React.ReactNode
 }
 
-class IconButton extends React.Component<Props> {
-  public render(): JSX.Element {
-    const {
-      buttonClasses,
-      iconClasses,
-      iconMarginClasses,
-      iconName,
-      iconRight,
-      iconType,
-      label,
-    } = this.props
+// Convert IconButton to a function component for compatibility with React 18+ JSX
+const IconButton: React.FC<Props> = (props) => {
+  const {
+    buttonClasses,
+    iconClasses,
+    iconMarginClasses,
+    iconName,
+    iconRight,
+    iconType,
+    label,
+    children,
+    ...rest
+  } = props
 
-    const icon = (
-      <FAIcon
-        name={iconName}
-        type={iconType}
-        classes={iconClasses}
-        marginClasses={iconMarginClasses}
-      />
-    )
+  const icon = (
+    <FAIcon
+      name={iconName}
+      type={iconType}
+      classes={iconClasses}
+      marginClasses={iconMarginClasses}
+    />
+  )
 
-    return (
-      <Button {...this.props} className={buttonClasses}>
-        {!iconRight && icon}
-        {label}
-        {iconRight && icon}
-      </Button>
-    )
-  }
+  return (
+    <Button {...rest} className={buttonClasses}>
+      {!iconRight && icon}
+      {label}
+      {iconRight && icon}
+      {children}
+    </Button>
+  )
 }
 
 export default IconButton

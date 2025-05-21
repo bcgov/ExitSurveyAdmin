@@ -1,9 +1,14 @@
 import React from 'react'
-import moment from 'moment-timezone'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import {
   defaultDateFormat,
   defaultNiceDatetimeFormat,
 } from '../../helpers/dateHelper'
+
+dayjs.extend(timezone)
+dayjs.extend(relativeTime)
 
 interface Props {
   date?: Date
@@ -22,22 +27,22 @@ const FormattedDate = ({
   showLocalTimezone,
   showTime,
 }: Props): JSX.Element => {
-  let momentDate = moment(date)
+  let dayjsDate = dayjs(date)
 
   if (showLocalTimezone) {
-    momentDate = momentDate.tz(TIMEZONE)
+    dayjsDate = dayjsDate.tz(TIMEZONE)
   }
 
   let displayDate = ''
 
   if (customFormat) {
-    displayDate = momentDate.format(customFormat)
+    displayDate = dayjsDate.format(customFormat)
   } else if (nice) {
-    displayDate = momentDate.fromNow()
+    displayDate = dayjsDate.fromNow()
   } else {
     displayDate = showTime
-      ? momentDate.format(defaultNiceDatetimeFormat)
-      : momentDate.format(defaultDateFormat)
+      ? dayjsDate.format(defaultNiceDatetimeFormat)
+      : dayjsDate.format(defaultDateFormat)
   }
 
   return <span className="Date">{displayDate}</span>
