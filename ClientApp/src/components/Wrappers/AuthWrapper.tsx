@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import { authRole } from '../../helpers/envHelper'
 
 import KeycloakService from '../Login/KeycloakService'

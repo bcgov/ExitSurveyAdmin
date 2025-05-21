@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-import React from 'react'
-import { Link, RouteComponentProps } from 'react-router-dom'
+import React, { type JSX } from 'react'
+import { Link, useParams } from 'react-router'
 import { plainToInstance } from 'class-transformer'
 import * as EmailValidator from 'email-validator'
 
@@ -26,13 +24,9 @@ interface IParams {
   employeeId: string
 }
 
-interface IOwnProps extends RouteComponentProps<IParams> {}
-
-interface IStateProps {}
-
-interface IDispatchProps {}
-
-interface Props extends IOwnProps, IStateProps, IDispatchProps {}
+interface Props {
+  employeeId: string
+}
 
 interface IState {
   employee?: Employee
@@ -240,7 +234,7 @@ class EmployeeDetail extends React.Component<Props, IState> {
 
   async populateData(): Promise<void> {
     await requestJSONWithErrorHandler(
-      `api/employees/${this.props.match.params.employeeId}`,
+      `api/employees/${this.props.employeeId}`,
       'get',
       null,
       'EMPLOYEE_NOT_FOUND',
@@ -252,4 +246,9 @@ class EmployeeDetail extends React.Component<Props, IState> {
   }
 }
 
-export default EmployeeDetail
+const EmployeeDetailWrapper = () => {
+  const { employeeId } = useParams()
+  return <EmployeeDetail employeeId={employeeId!} />
+}
+
+export default EmployeeDetailWrapper

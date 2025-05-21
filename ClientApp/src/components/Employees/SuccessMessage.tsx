@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, type JSX } from 'react'
 
 import './SuccessMessage.scss'
 import { timeout } from '../../helpers/objectHelper'
@@ -40,9 +40,9 @@ const SuccessMessage = ({
       className={`SuccessMessage text-success ${className}`}
       style={{ opacity, display }}
     >
-      <div className="badge badge-success">
-        <i className="fas fa-check-circle mr-2" />
-        &nbsp;{successMessage || 'Success'}
+      <div className="badge bg-success">
+        <i className="fas fa-check-circle me-2" />
+        &nbsp;{successMessage ?? 'Success'}
       </div>
     </div>
   )

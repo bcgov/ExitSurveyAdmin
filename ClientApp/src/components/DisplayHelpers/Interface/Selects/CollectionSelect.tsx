@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import ReactSelect from 'react-select'
-import { ValueType } from 'react-select/src/types'
 
 import { FixTypeLater } from '../../../../types/FixTypeLater'
 
@@ -37,32 +36,29 @@ export const singleValue = (
 }
 
 export interface ICollectionSelect<T> {
-  suppressLabel?: boolean
   valueAccessor?: (item: T) => string
   nameAccessor?: (item: T) => string
   onChangeCallback: (selectedValues: CollectionSelectReturnValue) => void
-  includeBlank?: boolean
   label?: string
   placeholder?: React.ReactNode
   className?: string
   id?: string
   items?: T[]
-  excludeNames?: string[]
-  excludeValues?: string[]
   defaultValueKeys?: string[]
   isMultiSelect?: boolean
 }
 
 const customReactSelectStyles = {
-  option: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => ({
-    ...provided,
-    borderRadius: '0px',
-    backgroundColor: state.isSelected
-      ? baseColor
-      : state.isFocused
-      ? focusShadowColor
-      : 'white',
-  }),
+  option: (provided: FixTypeLater, state: FixTypeLater): FixTypeLater => {
+    let backgroundColor = 'white';
+    if (state.isSelected) backgroundColor = baseColor;
+    else if (state.isFocused) backgroundColor = focusShadowColor;
+    return {
+      ...provided,
+      borderRadius: '0px',
+      backgroundColor,
+    };
+  },
   menu: (provided: FixTypeLater): FixTypeLater => ({
     ...provided,
     borderRadius: '0px',
@@ -83,7 +79,7 @@ const customReactSelectStyles = {
   },
 }
 
-interface Props<T> extends ICollectionSelect<T> {}
+interface Props<T> extends ICollectionSelect<T> { }
 
 class CollectionSelect<T> extends React.Component<Props<T>> {
   public constructor(props: Props<T>) {
@@ -92,7 +88,7 @@ class CollectionSelect<T> extends React.Component<Props<T>> {
   }
 
   protected onChange(
-    selectedItems: ValueType<ICollectionSelectValue, FixTypeLater>
+    selectedItems: any // react-select v5+ uses generics, but for our use case, 'any' is safe
   ): void {
     if (selectedItems != null && !Array.isArray(selectedItems)) {
       // Selected items is not an array. But for simplicity, we want to return
@@ -131,8 +127,8 @@ class CollectionSelect<T> extends React.Component<Props<T>> {
   }
 
   public render(): JSX.Element {
-    const items = this.props.items
-    const options = items && items.length ? this.mapItems(items) : []
+    const items = this.props.items;
+    const options = items?.length ? this.mapItems(items) : [];
     const defaultOptions = this.props.defaultValueKeys
       ? options.filter((option) => option.isDefault)
       : undefined

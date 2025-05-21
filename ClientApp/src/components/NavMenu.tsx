@@ -1,18 +1,18 @@
-import { Link } from 'react-router-dom'
-import React from 'react'
+import { Link } from 'react-router'
+import React, { type JSX } from 'react'
 
 import LoggedInInfo from './Login/LoggedInInfo'
 
 import './NavMenu.scss'
 
 class NavMenu extends React.Component {
-  static displayName = NavMenu.name
+  public static readonly displayName = NavMenu.name
 
   render(): JSX.Element {
     return (
       <nav className="navbar navbar-expand-xl navbar-light bg-light border-bottom mb-4">
         <Link to="/" className="navbar-brand text-primary">
-          <i className="fas fa-envelope-open-text mr-3"></i>
+          <i className="fas fa-envelope-open-text me-3"></i>{" "}
           Exit Survey Admin
         </Link>
         <button
@@ -31,7 +31,7 @@ class NavMenu extends React.Component {
           id="navbarSupportedContent"
         >
           <LoggedInInfo />
-          <ul className="navbar-nav ml-auto">
+          <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link to="/status" className="nav-link text-primary">
                 Health status

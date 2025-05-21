@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import React, { useEffect, type JSX } from 'react'
+import { useLocation } from 'react-router'
 
 import { FixTypeLater } from '../../types/FixTypeLater'
 import { Filter } from '../Filters/FilterClasses/FilterTypes'
@@ -13,15 +13,14 @@ import GenericTable from '../Tables/GenericTable'
 
 const DEFAULT_PAGE_SIZE = 20
 
-/** Maps the sortBy array produced by the react-table to a string that can be
+/** Maps the sortBy array produced by the table to a string that can be
 used by the server API, of the kind &sorts=Col1,Col2. A minus sign prefixes
-a desc sort. If the sortBy array is empty, return the empty string. */
-const processSorts = (sortBy: ITableSort[]): string => {
-  return sortBy.length
-    ? `&sorts=${sortBy
-        .map((s: FixTypeLater) => `${s.desc ? '-' : ''}${s.id}`)
-        .join(',')}`
-    : ''
+a desc sort. If the sortBy array is empty or undefined, return the empty string. */
+const processSorts = (sortBy: ITableSort[] | undefined): string => {
+  if (!Array.isArray(sortBy) || !sortBy.length) return ''
+  return `&sorts=${sortBy
+    .map((s: FixTypeLater) => `${s.desc ? '-' : ''}${s.id}`)
+    .join(',')}`
 }
 
 const extractFilters = (
@@ -30,11 +29,12 @@ const extractFilters = (
 ): string =>
   MasterFilterHandler.extractFromRawQueryString(filters, propLocationSearch)
 
+// Change presetComponent prop to accept React.ComponentType<PresetProps> for compatibility
 export interface IGenericListingProps<T extends object> {
   filterableFields: Filter[]
   listingPath: string
   modelName: string
-  presetComponent?: React.FC<PresetProps>
+  presetComponent?: React.ComponentType<PresetProps>
   columns: () => FixTypeLater[]
   dataMapper: (responseJSON: FixTypeLater[]) => T[]
   exportedDataMapper: (responseJSON: FixTypeLater[]) => FixTypeLater[]
@@ -42,9 +42,7 @@ export interface IGenericListingProps<T extends object> {
   sortProp?: string
 }
 
-interface Props<T extends object>
-  extends RouteComponentProps,
-    IGenericListingProps<T> {}
+interface Props<T extends object> extends IGenericListingProps<T> { }
 
 const GenericListing = <T extends object>({
   columns,
@@ -52,12 +50,12 @@ const GenericListing = <T extends object>({
   exportedDataMapper,
   filterableFields,
   listingPath,
-  location,
   pageSize: propPageSize,
   presetComponent,
   modelName,
   sortProp,
 }: Props<T>): JSX.Element => {
+  const location = useLocation()
   const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [pageCount, setPageCount] = React.useState<number>(0)
@@ -69,12 +67,12 @@ const GenericListing = <T extends object>({
   const fetchIdRef = React.useRef<number>(0)
 
   // Keep track of the previous value of the filterQuery in a ref
-  const prevFilterQueryRef = React.useRef<string>()
+  const prevFilterQueryRef = React.useRef<string>("")
   useEffect(() => {
     prevFilterQueryRef.current = filterQuery
   }, [filterQuery])
 
-  const pageSize = propPageSize || DEFAULT_PAGE_SIZE
+  const pageSize = propPageSize ?? DEFAULT_PAGE_SIZE
 
   React.useEffect(
     () => setFilterQuery(extractFilters(filterableFields, location.search)),
@@ -90,7 +88,7 @@ const GenericListing = <T extends object>({
 
       // If there are no sorts from the table, use the passed-in sort prop, if
       // any, and otherwise just use an empty string.
-      const sortByQuery = processSorts(sortBy) || sortProp || ''
+      const sortByQuery = processSorts(sortBy) ?? sortProp ?? ''
 
       // Set page index
       let newPageIndex = pageIndex
@@ -98,9 +96,8 @@ const GenericListing = <T extends object>({
         newPageIndex = 0
       }
 
-      const path = `${listingPath}?pageSize=${pageSize}&page=${
-        newPageIndex + 1
-      }${sortByQuery}${filterQuery}`
+      const path = `${listingPath}?pageSize=${pageSize}&page=${newPageIndex + 1
+        }${sortByQuery}${filterQuery}`
 
       requestJSONWithErrorHandler(
         `api/${path}`,
@@ -153,4 +150,4 @@ const GenericListing = <T extends object>({
   )
 }
 
-export default withRouter(GenericListing)
+export default GenericListing

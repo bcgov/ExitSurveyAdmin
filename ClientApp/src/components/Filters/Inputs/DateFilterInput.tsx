@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, type JSX } from 'react'
 import DatePicker from 'react-datepicker'
 
 import { FilterDispatch } from '../FilterForm'
@@ -33,8 +33,8 @@ const DateFilterInput = ({ filter, resetTimestamp }: Props): JSX.Element => {
     }
   }, [fromDate, toDate, filter, dispatch])
 
-  const fromChange = React.useCallback((d: Date) => setFromDate(d), [])
-  const toChange = React.useCallback((d: Date) => setToDate(d), [])
+  const fromChange = React.useCallback((d: Date | null) => setFromDate(d ?? undefined), [])
+  const toChange = React.useCallback((d: Date | null) => setToDate(d ?? undefined), [])
 
   const name = filter.fieldName
 
@@ -42,20 +42,36 @@ const DateFilterInput = ({ filter, resetTimestamp }: Props): JSX.Element => {
     <div className="LabelledItem">
       <label htmlFor={`${name}-From`}>{labelFor(name)}</label>
       <div key={`${resetTimestamp}`} className="d-flex">
-        <div className="w-50 mr-1">
+        <div className="w-50 me-1">
           <DatePicker
             selected={fromDate}
             onChange={fromChange}
             className="form-control form-control-sm"
             placeholderText={'From'}
+            popperPlacement='bottom-start'
+            popperModifiers={[
+              {
+                name: 'preventOverflow',
+                options: { boundary: 'viewport' },
+                fn: (data) => { return data; },
+              },
+            ]}
           />
         </div>
-        <div className="w-50 ml-1">
+        <div className="w-50 ms-1">
           <DatePicker
             selected={toDate}
             onChange={toChange}
             className="form-control form-control-sm"
             placeholderText={'To'}
+            popperPlacement='bottom-start'
+            popperModifiers={[
+              {
+                name: 'preventOverflow',
+                options: { boundary: 'viewport' },
+                fn: (data) => { return data; },
+              },
+            ]}
           />
         </div>
       </div>

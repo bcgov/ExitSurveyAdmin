@@ -1,7 +1,7 @@
-import { Route } from 'react-router-dom'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router'
 
-import { windowLocation } from '../helpers/envHelper'
+import { frontendUrl, windowLocation } from '../helpers/envHelper'
 import AdminInterface from './Admin/AdminInterface'
 import AuthenticatedRoute from './Wrappers/AuthenticatedRoute'
 import EmployeeDetail from './Employees/EmployeeDetail/EmployeeDetail'
@@ -17,30 +17,30 @@ import '../custom.css'
 const App = () => {
   // If we get redirected here from a Keycloak logon, redirect the user to
   // the location we had saved for them before being redirected.
+  const location = useLocation();
+  const baseUrl = frontendUrl();
+
   useEffect(() => {
     const href = windowLocation.get()
-    if (href) {
+    // If the href is not the current location, and it is not the base URL,
+    // redirect to the href. This is to handle the case where the user was
+    // trying to access a protected resource before being redirected to login.
+    if (href && href !== window.location.href && href !== baseUrl) {
       window.location.href = href
     }
-  }, [])
+  }, [location])
 
   return (
     <Layout>
-      <AuthenticatedRoute exact path="/" component={Home} />
-      <Route path="/logout" component={LogoutPage} />
-      <Route path="/status" component={HealthStatus} />
-      <AuthenticatedRoute
-        exact
-        path="/employees/:employeeId"
-        component={EmployeeDetail}
-      />
-      <AuthenticatedRoute exact path="/employees" component={EmployeeListing} />
-      <AuthenticatedRoute
-        exact
-        path="/task-log-entries"
-        component={TaskLogEntryListing}
-      />
-      <AuthenticatedRoute exact path="/admin" component={AdminInterface} />
+      <Routes>
+        <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/status" element={<HealthStatus />} />
+        <Route path="/employees/:employeeId" element={<AuthenticatedRoute><EmployeeDetail /></AuthenticatedRoute>} />
+        <Route path="/employees" element={<AuthenticatedRoute><EmployeeListing /></AuthenticatedRoute>} />
+        <Route path="/task-log-entries" element={<AuthenticatedRoute><TaskLogEntryListing /></AuthenticatedRoute>} />
+        <Route path="/admin" element={<AuthenticatedRoute><AdminInterface /></AuthenticatedRoute>} />
+        <Route path="/" element={<AuthenticatedRoute><Home /></AuthenticatedRoute>} />
+      </Routes>
     </Layout>
   )
 }

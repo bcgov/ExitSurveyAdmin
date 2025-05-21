@@ -1,21 +1,16 @@
-import * as React from 'react'
-import { Route } from 'react-router-dom'
+import React, { type JSX } from 'react'
 
-import { FixTypeLater } from '../../types/FixTypeLater'
 import AuthWrapper from './AuthWrapper'
 
-const AuthenticatedRoute = ({
-  component: Component,
-  ...rest
-}: FixTypeLater): JSX.Element => (
-  <Route
-    {...rest}
-    render={(props): JSX.Element => (
-      <AuthWrapper>
-        <Component {...props} />
-      </AuthWrapper>
-    )}
-  />
-)
+interface AuthenticatedRouteProps {
+  children: React.ReactNode
+}
+
+const AuthenticatedRoute = ({ children }: AuthenticatedRouteProps): JSX.Element => {
+  // AuthWrapper handles authentication and authorization logic
+  // If not authenticated/authorized, it renders Unauthenticated/Unauthorized
+  // Otherwise, it renders children
+  return <AuthWrapper>{children}</AuthWrapper>
+}
 
 export default AuthenticatedRoute

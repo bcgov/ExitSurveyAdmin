@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { AnyJson } from '../../../../types/JsonType'
 import { Employee } from '../../../../types/Employee'
@@ -27,11 +27,11 @@ const EditableAddress = (props: Props): JSX.Element => {
     preferredAddressPostCode,
   } = employee
 
-  const [line1, setLine1] = React.useState(preferredAddress1 || '')
-  const [line2, setLine2] = React.useState(preferredAddress2 || '')
-  const [city, setCity] = React.useState(preferredAddressCity || '')
-  const [province, setProvince] = React.useState(preferredAddressProvince || '')
-  const [postCode, setPostCode] = React.useState(preferredAddressPostCode || '')
+  const [line1, setLine1] = React.useState(preferredAddress1 ?? '')
+  const [line2, setLine2] = React.useState(preferredAddress2 ?? '')
+  const [city, setCity] = React.useState(preferredAddressCity ?? '')
+  const [province, setProvince] = React.useState(preferredAddressProvince ?? '')
+  const [postCode, setPostCode] = React.useState(preferredAddressPostCode ?? '')
   const [isEditable, setIsEditable] = React.useState(false)
   const [successTime, setSuccessTime] = React.useState(0)
 
@@ -119,7 +119,7 @@ const EditableAddress = (props: Props): JSX.Element => {
           <input
             type="button"
             value="Cancel"
-            className="btn btn-sm btn-outline-danger mt-2 mr-2"
+            className="btn btn-sm btn-outline-danger mt-2 me-2"
             onClick={toggleEditable}
           />
           <input
@@ -130,11 +130,17 @@ const EditableAddress = (props: Props): JSX.Element => {
           />
         </form>
       ) : (
-        <span onClick={toggleEditable}>
+        <button
+          type="button"
+          onClick={toggleEditable}
+          className="EditableField__edit-btn"
+          aria-label="Edit address"
+          style={{ background: 'none', border: 'none', padding: 0, margin: 0, width: '100%', textAlign: 'left' }}
+        >
           <div className="Editable">
             <Address employee={employee} showPreferred />
           </div>
-        </span>
+        </button>
       )}
       <SuccessMessage className="pt-1" successTime={successTime} />
     </div>

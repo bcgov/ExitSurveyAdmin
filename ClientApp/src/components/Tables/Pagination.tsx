@@ -1,4 +1,4 @@
-import React from 'react'
+import { type JSX } from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
@@ -10,7 +10,6 @@ interface Props {
   canPreviousPage: boolean
   canNextPage: boolean
   pageIndex: number
-  className?: string
 }
 
 const Pagination = (props: Props): JSX.Element => {
@@ -31,28 +30,28 @@ const Pagination = (props: Props): JSX.Element => {
           buttonClasses={'btn-sm'}
           onClick={(): void => gotoPage(0)}
           disabled={!canPreviousPage}
-          marginClasses={'mr-2'}
+          marginClasses={'me-2'}
         />
         <IconButton
           iconName="step-backward"
           buttonClasses={'btn-sm'}
           onClick={(): void => previousPage()}
           disabled={!canPreviousPage}
-          marginClasses={'mr-2'}
+          marginClasses={'me-2'}
         />
         <IconButton
           iconName="step-forward"
           buttonClasses={'btn-sm'}
           onClick={(): void => nextPage()}
           disabled={!canNextPage}
-          marginClasses={'mr-2'}
+          marginClasses={'me-2'}
         />
         <IconButton
           iconName="fast-forward"
           buttonClasses={'btn-sm'}
           onClick={(): void => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
-          marginClasses={'mr-2'}
+          marginClasses={'me-2'}
         />
       </div>
       <div className="col text-center">
@@ -63,7 +62,7 @@ const Pagination = (props: Props): JSX.Element => {
           </strong>{' '}
         </span>
       </div>
-      <div className="col text-right">
+      <div className="col text-end">
         <div className="form-group row mb-0">
           <label className="col-4 col-form-label" htmlFor="GoToPage">
             Go to page

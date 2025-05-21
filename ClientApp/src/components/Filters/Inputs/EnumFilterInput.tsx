@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, type JSX } from 'react'
 
 import { FilterDispatch } from '../FilterForm'
 import { FixTypeLater } from '../../../types/FixTypeLater'
