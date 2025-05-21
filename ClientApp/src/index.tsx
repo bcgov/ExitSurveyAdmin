@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 
 import { HashRouter } from 'react-router'
 import { routerBase as getRouterBasename } from './helpers/envHelper'
-import { unregister } from './registerServiceWorker'
 import App from './components/App'
 import KeycloakService from './components/Login/KeycloakService'
 
@@ -20,6 +19,3 @@ KeycloakService.initKeycloak(() => {
     )
   }
 })
-
-// registerServiceWorker()
-unregister()
