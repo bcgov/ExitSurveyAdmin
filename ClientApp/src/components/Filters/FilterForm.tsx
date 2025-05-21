@@ -15,7 +15,7 @@ interface Props {
   addFilters: (filters: Filter[]) => void
   resetFilters: () => void
   filterableFields: Filter[]
-  presetComponent?: React.FC<PresetProps>
+  presetComponent?: React.ComponentType<PresetProps>
 }
 
 export type FilterMapAction = {
