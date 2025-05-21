@@ -13,7 +13,6 @@ export interface ICommonButtonProps {
 
 interface Props extends ICommonButtonProps {
   children: React.ReactNode
-  icon?: string
 }
 
 // Convert Button to a function component for React 18+ compatibility

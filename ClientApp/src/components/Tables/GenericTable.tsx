@@ -3,7 +3,7 @@
 // by react-table are not obviously supplying the key (but it actually does get
 // supplied when rendering in browser).
 
-import React from 'react'
+import React, { type JSX } from 'react'
 import { Column, usePagination, useSortBy, useTable } from 'react-table'
 
 import { FixTypeLater } from '../../types/FixTypeLater'

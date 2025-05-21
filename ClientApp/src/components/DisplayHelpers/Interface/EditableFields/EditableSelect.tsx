@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { FixTypeLater } from '../../../../types/FixTypeLater'
 import { requestJSONWithErrorHandler } from '../../../../helpers/requestHelpers'
@@ -44,7 +44,7 @@ const EditableSelect = (props: Props): JSX.Element => {
   const submitEdit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     requestJSONWithErrorHandler(
-      `api/${modelPath || 'employees'}/${modelDatabaseId}`,
+      `api/${modelPath ?? 'employees'}/${modelDatabaseId}`,
       'PATCH',
       {
         [fieldName]: newValue,
@@ -91,11 +91,17 @@ const EditableSelect = (props: Props): JSX.Element => {
           />
         </form>
       ) : (
-        <span className="Editable" onClick={toggleEditable}>
+        <button
+          type="button"
+          className="Editable btn btn-link p-0"
+          onClick={toggleEditable}
+          tabIndex={0}
+          aria-label={`Edit ${fieldName}`}
+        >
           {valueToDisplayAccessor
             ? valueToDisplayAccessor(fieldValue)
             : fieldValue}
-        </span>
+        </button>
       )}
       <SuccessMessage className="pt-1 mt-2" successTime={successTime} />
     </div>

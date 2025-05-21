@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { AnyJson } from '../../../../types/JsonType'
 import { requestJSONWithErrorHandler } from '../../../../helpers/requestHelpers'
@@ -64,7 +64,7 @@ const EditableStringField = (props: Props): JSX.Element => {
       }
       event.preventDefault()
       requestJSONWithErrorHandler(
-        `api/${modelPath || 'employees'}/${modelDatabaseId}`,
+        `api/${modelPath ?? 'employees'}/${modelDatabaseId}`,
         'PATCH',
         patchBody,
         'CANNOT_EDIT_EMPLOYEE',
@@ -89,11 +89,14 @@ const EditableStringField = (props: Props): JSX.Element => {
 
   const isDirty = originalFieldValue !== newValue
   const isSaveDisabled = !(isValid && isDirty)
-  const saveButtonText = !isValid
-    ? 'Field is invalid'
-    : !isDirty
-      ? 'No changes made'
-      : 'Save changes'
+  let saveButtonText = ''
+  if (!isValid) {
+    saveButtonText = 'Field is invalid'
+  } else if (!isDirty) {
+    saveButtonText = 'No changes made'
+  } else {
+    saveButtonText = 'Save changes'
+  }
 
   return (
     <div className="EditableField EditableStringField">
@@ -121,9 +124,14 @@ const EditableStringField = (props: Props): JSX.Element => {
           />
         </form>
       ) : (
-        <div className="Editable" onClick={toggleEditable}>
+        <button
+          type="button"
+          className="Editable btn btn-link p-0"
+          onClick={toggleEditable}
+          aria-label={`Edit ${fieldName}`}
+        >
           {originalFieldValue || '[None set]'}
-        </div>
+        </button>
       )}
       <SuccessMessage className="pt-1" successTime={successTime} />
     </div>

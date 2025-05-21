@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import './LabelledText.scss'
 import LabelledText from './LabelledText'
@@ -18,7 +18,7 @@ const ColumnarLabelledText = ({
 }: Props): JSX.Element => {
   return (
     <div
-      className={`ColumnarLabelledText ${columnClass} ${extraClasses || ''}`}
+      className={`ColumnarLabelledText ${columnClass} ${extraClasses ?? ''}`}
     >
       <LabelledText {...other} />
     </div>

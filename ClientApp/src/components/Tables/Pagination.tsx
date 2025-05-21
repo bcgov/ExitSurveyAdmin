@@ -1,4 +1,4 @@
-import React from 'react'
+import { type JSX } from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 
@@ -10,7 +10,6 @@ interface Props {
   canPreviousPage: boolean
   canNextPage: boolean
   pageIndex: number
-  className?: string
 }
 
 const Pagination = (props: Props): JSX.Element => {

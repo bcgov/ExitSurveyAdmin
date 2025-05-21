@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import { CSVLink } from 'react-csv'
 
 import { FixTypeLater } from '../../types/FixTypeLater'

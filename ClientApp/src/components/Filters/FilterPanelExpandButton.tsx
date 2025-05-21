@@ -1,4 +1,4 @@
-import React from 'react'
+import { type JSX } from 'react'
 
 import IconButton from '../DisplayHelpers/Interface/Buttons/IconButton'
 

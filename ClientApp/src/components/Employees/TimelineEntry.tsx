@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { EmployeeTimelineEntry } from '../../types/EmployeeTimelineEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
@@ -26,8 +26,7 @@ class TimelineEntry extends React.Component<Props> {
             <span className="text-muted">Action</span> {tl.employeeActionCode}
             {tl.adminUserName && (
               <>
-                &nbsp;•&nbsp;
-                <span className="text-muted">By</span> {tl.adminUserName}
+                &nbsp;•&nbsp; <span className="text-muted">By</span> {tl.adminUserName}
               </>
             )}
           </small>

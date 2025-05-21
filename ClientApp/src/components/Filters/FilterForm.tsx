@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useMemo } from 'react'
+import React, { useMemo, type JSX } from 'react'
 
 import { FilterType, Filter } from './FilterClasses/FilterTypes'
 import { PresetProps } from './Presets/PresetProps'
@@ -90,7 +90,6 @@ const FilterForm = ({
                 resetTimestamp={resetTimestamp}
               />
             )
-            colWidth = 2
             break
           case FilterType.Enum:
             filterComponent = (
