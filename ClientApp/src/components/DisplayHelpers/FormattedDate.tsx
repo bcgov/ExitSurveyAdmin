@@ -2,6 +2,7 @@ import { type JSX } from 'react'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 import {
   defaultDateFormat,
   defaultNiceDatetimeFormat,
@@ -9,6 +10,7 @@ import {
 
 dayjs.extend(timezone)
 dayjs.extend(relativeTime)
+dayjs.extend(advancedFormat)
 
 interface Props {
   date?: Date
