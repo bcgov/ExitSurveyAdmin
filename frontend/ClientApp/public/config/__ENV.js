@@ -1,0 +1,1 @@
+window.__ENV = ***REMOVED***"REACT_APP_API_DOMAIN":"https://localhost:5051","REACT_APP_APP_DOMAIN":"http://localhost:3000","REACT_APP_APP_PATH":"/","REACT_APP_AUTH_CLIENT_ID":"exit-survey-admin-4373","REACT_APP_AUTH_REALM":"standard","REACT_APP_AUTH_ROLE":"exitsurveyadmin","REACT_APP_AUTH_SCOPE":"profile","REACT_APP_AUTH_URL":"https://dev.loginproxy.gov.bc.ca/auth"***REMOVED***;
