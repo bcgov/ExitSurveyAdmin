@@ -1,44 +1,32 @@
-import React from 'react'
-import { CellProps, Column } from 'react-table'
+import { createColumnHelper, ColumnDef } from '@tanstack/react-table'
 
-import { FixTypeLater } from '../../types/FixTypeLater'
 import { TaskLogEntry } from '../../types/TaskLogEntry'
 import FormattedDate from '../DisplayHelpers/FormattedDate'
 import TaskComment from './TaskComment'
 import TaskOutcome from './TaskOutcome'
 
-type TaskLogEntryCellProps = React.PropsWithChildren<
-  CellProps<TaskLogEntry, FixTypeLater>
->
+const columnHelper = createColumnHelper<TaskLogEntry>()
 
-export const taskLogEntryTableColumns = (): Column<TaskLogEntry>[] => [
-  {
-    Header: 'Date',
-    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
+export const taskLogEntryTableColumns = (): ColumnDef<TaskLogEntry, any>[] => [
+  columnHelper.accessor('createdTs', {
+    header: 'Date',
+    cell: info => (
       <FormattedDate
-        date={props.value as unknown as Date}
+        date={info.getValue() as unknown as Date}
         showTime
         showLocalTimezone
       />
     ),
-    accessor: 'createdTs',
-  },
-  {
-    Header: 'Task',
-    accessor: 'taskCode',
-  },
-  {
-    Header: 'Status',
-    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
-      <TaskOutcome taskOutcomeCode={props.value as string} />
-    ),
-    accessor: 'taskOutcomeCode',
-  },
-  {
-    Header: 'Comment',
-    Cell: (props: TaskLogEntryCellProps): JSX.Element => (
-      <TaskComment comment={props.value as string} />
-    ),
-    accessor: 'comment',
-  },
+  }),
+  columnHelper.accessor('taskCode', {
+    header: 'Task',
+  }),
+  columnHelper.accessor('taskOutcomeCode', {
+    header: 'Status',
+    cell: info => <TaskOutcome taskOutcomeCode={info.getValue() as string} />,
+  }),
+  columnHelper.accessor('comment', {
+    header: 'Comment',
+    cell: info => <TaskComment comment={info.getValue() as string} />,
+  }),
 ]

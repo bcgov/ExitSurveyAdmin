@@ -4,17 +4,23 @@
 // supplied when rendering in browser).
 
 import React, { type JSX } from 'react'
-import { Column, usePagination, useSortBy, useTable } from 'react-table'
-
-import { FixTypeLater } from '../../types/FixTypeLater'
+import {
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
+  flexRender,
+  ColumnDef,
+  SortingState,
+} from '@tanstack/react-table'
 import ColumnSortIndicator from './ColumnSortIndicator'
 import LoadingRow from './LoadingRow'
 import Pagination from './Pagination'
 
 interface Props<T extends object> {
   data: T[]
-  columns: () => Column<T>[]
-  fetchData: (options: FixTypeLater) => FixTypeLater
+  columns: () => ColumnDef<T, any>[]
+  fetchData: (options: any) => any
   loading: boolean
   controlledPageCount: number
   controlledPageIndex: number
@@ -35,50 +41,47 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => {
   } = props
 
   const columns = React.useMemo(propColumns, [propColumns])
-  const initialPageSize = propPageSize
+  const [pageIndex, setPageIndex] = React.useState(0)
+  const [sorting, setSorting] = React.useState<SortingState>([])
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    // Get the state from the instance
-    state: { pageIndex, pageSize, sortBy },
-  }: FixTypeLater = useTable(
-    {
-      columns,
-      data,
-      // defaultColumn,
-      initialState: {
-        pageIndex: 0,
-        pageSize: initialPageSize,
-      } as FixTypeLater,
-      manualPagination: true,
-      pageCount: controlledPageCount,
-      manualSortBy: true,
-      manualFilters: true,
-      defaultCanFilter: true,
-      autoResetSortBy: false,
-      autoResetFilters: false,
-    } as FixTypeLater,
-    useSortBy,
-    usePagination
-  )
+  const table = useReactTable({
+    data,
+    columns,
+    pageCount: controlledPageCount,
+    state: {
+      pagination: { pageIndex, pageSize: propPageSize },
+      sorting,
+    },
+    manualPagination: true,
+    manualSorting: true,
+    onPaginationChange: (updater) => {
+      if (typeof updater === 'function') {
+        const next = updater({ pageIndex, pageSize: propPageSize })
+        setPageIndex(next.pageIndex)
+      } else {
+        setPageIndex(updater.pageIndex)
+      }
+    },
+    onSortingChange: (updater) => {
+      if (typeof updater === 'function') {
+        setSorting(updater(sorting))
+      } else {
+        setSorting(updater)
+      }
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    debugTable: false,
+  })
 
   React.useEffect(() => {
-    fetchData({ pageIndex, sortBy })
-  }, [fetchData, pageIndex, sortBy])
+    fetchData({ pageIndex, sorting })
+  }, [fetchData, pageIndex, sorting])
 
   React.useEffect(() => {
     if (controlledPageIndex !== pageIndex) {
-      gotoPage(controlledPageIndex)
+      setPageIndex(controlledPageIndex)
     }
     // Intentionally only looking at controlledPageIndex
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,76 +90,65 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => {
   return (
     <>
       <Pagination
-        gotoPage={gotoPage}
-        nextPage={nextPage}
-        previousPage={previousPage}
-        canNextPage={canNextPage}
-        canPreviousPage={canPreviousPage}
-        pageCount={pageCount}
+        gotoPage={table.setPageIndex}
+        nextPage={() => table.setPageIndex(pageIndex + 1)}
+        previousPage={() => table.setPageIndex(pageIndex - 1)}
+        canNextPage={pageIndex < controlledPageCount - 1}
+        canPreviousPage={pageIndex > 0}
+        pageCount={controlledPageCount}
         pageIndex={pageIndex}
       />
-      <table className="table table-sm table-striped" {...getTableProps()}>
+      <table className="table table-sm table-striped">
         <thead>
           <LoadingRow
             loading={loading}
             pageIndex={pageIndex}
-            pageSize={pageSize}
+            pageSize={propPageSize}
             recordCount={recordCount}
           />
-          {headerGroups.map((headerGroup: FixTypeLater) => {
-            const headerGroupProps = headerGroup.getHeaderGroupProps();
-            const { key: headerGroupKey, ...restHeaderGroupProps } = headerGroupProps;
-            return (
-              <tr key={headerGroupKey} {...restHeaderGroupProps}>
-                {headerGroup.headers.map((column: FixTypeLater) => {
-                  const columnProps = column.getHeaderProps();
-                  const { key: columnKey, ...restColumnProps } = columnProps;
-                  return (
-                    <th key={columnKey} {...restColumnProps}>
-                      <span {...column.getSortByToggleProps()}>
-                        {column.render('Header')}
-                        <ColumnSortIndicator column={column} />
-                      </span>
-                      <div>{column.canFilter ? column.render('Filter') : null}</div>
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id} colSpan={header.colSpan}>
+                  <span
+                    {...{
+                      onClick: header.column.getToggleSortingHandler(),
+                      style: { cursor: header.column.getCanSort() ? 'pointer' : undefined },
+                    }}
+                  >
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    <ColumnSortIndicator column={header.column} />
+                  </span>
+                </th>
+              ))}
+            </tr>
+          ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row: FixTypeLater) => {
-            prepareRow(row);
-            const rowProps = row.getRowProps();
-            const { key: rowKey, ...restRowProps } = rowProps;
-            return (
-              <tr key={rowKey} {...restRowProps}>
-                {row.cells.map((cell: FixTypeLater) => {
-                  const cellProps = cell.getCellProps();
-                  const { key: cellKey, ...restCellProps } = cellProps;
-                  return <td key={cellKey} {...restCellProps}>{cell.render('Cell')}</td>;
-                })}
-              </tr>
-            );
-          })}
+        <tbody>
+          {table.getRowModel().rows.map(row => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map(cell => (
+                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
         <tfoot>
           <LoadingRow
             loading={loading}
             pageIndex={pageIndex}
-            pageSize={pageSize}
+            pageSize={propPageSize}
             recordCount={recordCount}
           />
         </tfoot>
       </table>
       <Pagination
-        gotoPage={gotoPage}
-        nextPage={nextPage}
-        previousPage={previousPage}
-        canNextPage={canNextPage}
-        canPreviousPage={canPreviousPage}
-        pageCount={pageCount}
+        gotoPage={table.setPageIndex}
+        nextPage={() => table.setPageIndex(pageIndex + 1)}
+        previousPage={() => table.setPageIndex(pageIndex - 1)}
+        canNextPage={pageIndex < controlledPageCount - 1}
+        canPreviousPage={pageIndex > 0}
+        pageCount={controlledPageCount}
         pageIndex={pageIndex}
       />
     </>
