@@ -248,16 +248,16 @@ EmailTemplates/*
 # App settings
 **/appsettings.Development.json
 **/appsettings.Production.json
-/secret/appsettings.json
-/config/appsettings.json
+/backend/secret/appsettings.json
+/backend/config/appsettings.json
 **/deploy_api_vars.sh
 **/deploy_frontend_vars.sh
 
-# Auto-generated env.js in ClientApp
-ClientApp/.env*
-!ClientApp/.env.example
-ClientApp/public/env.js
-ClientApp/public/config/__ENV.js
+# Auto-generated env.js in frontend
+frontend/.env*
+!frontend/.env.example
+frontend/public/env.js
+frontend/public/config/__ENV.js
 
 # Various
 .DS_Store
