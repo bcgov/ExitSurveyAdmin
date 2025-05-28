@@ -266,3 +266,5 @@ frontend/public/config/__ENV.js
 # Various
 .DS_Store
 .odo/odo-file-index.json
+
+*.sln
