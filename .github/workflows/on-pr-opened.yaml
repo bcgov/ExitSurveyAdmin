@@ -1,4 +1,7 @@
 name: Pull Request Opened
+permissions:
+  contents: read
+  id-token: write
 
 env:
   APP_NAME: esa
