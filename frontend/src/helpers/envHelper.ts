@@ -1,17 +1,19 @@
 import { KeycloakInitOptions } from 'keycloak-js'
 
-export const routerBase = (): string => import.meta.env.VITE_APP_PATH ?? ''
+const config = (window as any).APP_CONFIG ?? {};
+
+export const routerBase = (): string => config.VITE_APP_PATH ?? ''
 
 export const apiUrl = (): string => {
-  return `${import.meta.env.VITE_API_DOMAIN ?? ''}${import.meta.env.VITE_APP_PATH ?? ''}`
+  return `${config.VITE_API_DOMAIN ?? ''}${config.VITE_APP_PATH ?? ''}`
 }
 
 export const frontendUrl = (): string => {
-  return `${import.meta.env.VITE_APP_DOMAIN ?? ''}${import.meta.env.VITE_APP_PATH ?? ''}`
+  return `${config.VITE_APP_DOMAIN ?? ''}${config.VITE_APP_PATH ?? ''}`
 }
 
 export const authRole = (): string => {
-  return import.meta.env.VITE_AUTH_ROLE ?? ''
+  return config.VITE_AUTH_ROLE ?? ''
 }
 
 export const LOCATION_HREF_KEY = `esa-originating-href`
@@ -23,9 +25,9 @@ export const windowLocation = {
 }
 
 export const keycloakCreationOptions = {
-  url: import.meta.env.VITE_AUTH_URL ?? '',
-  realm: import.meta.env.VITE_AUTH_REALM ?? '',
-  clientId: import.meta.env.VITE_AUTH_CLIENT_ID ?? '',
+  url: config.VITE_AUTH_URL ?? '',
+  realm: config.VITE_AUTH_REALM ?? '',
+  clientId: config.VITE_AUTH_CLIENT_ID ?? '',
 }
 
 export const keycloakInitOptions: KeycloakInitOptions = {
@@ -34,7 +36,7 @@ export const keycloakInitOptions: KeycloakInitOptions = {
 }
 
 export const keycloakLoginOptions = {
-  redirectUri: import.meta.env.VITE_APP_DOMAIN ?? '',
+  redirectUri: config.VITE_APP_DOMAIN ?? '',
   idpHint: 'idir',
-  scope: import.meta.env.VITE_AUTH_SCOPE ?? '',
+  scope: config.VITE_AUTH_SCOPE ?? '',
 }
