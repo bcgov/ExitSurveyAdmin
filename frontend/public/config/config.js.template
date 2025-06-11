@@ -1,0 +1,10 @@
+window.APP_CONFIG = {
+    VITE_APP_DOMAIN:'http://localhost:3000',
+    VITE_API_DOMAIN:'https://localhost:5051',
+    VITE_APP_PATH:'/',
+    VITE_AUTH_SCOPE:'profile',
+    VITE_AUTH_URL:'The base URL of the KeyCloak realm, e.g. https://some-keycloak-server/auth',
+    VITE_AUTH_REALM:'The realm, e.g. standard',
+    VITE_AUTH_CLIENT_ID:'the-client-id',
+    VITE_AUTH_ROLE:'The Keycloak role a user requires to access the app',
+}

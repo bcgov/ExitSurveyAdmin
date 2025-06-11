@@ -248,8 +248,8 @@ EmailTemplates/*
 # App settings
 **/appsettings.Development.json
 **/appsettings.Production.json
-/secret/appsettings.json
-/config/appsettings.json
+**/secret/appsettings.json
+**/config/appsettings.json
 **/deploy_api_vars.sh
 **/deploy_frontend_vars.sh
 
@@ -258,7 +258,13 @@ ClientApp/.env*
 !ClientApp/.env.example
 ClientApp/public/env.js
 ClientApp/public/config/__ENV.js
+frontend/.env*
+!frontend/.env.example
+frontend/public/env.js
+frontend/public/config/__ENV.js
 
 # Various
 .DS_Store
 .odo/odo-file-index.json
+
+*.sln
