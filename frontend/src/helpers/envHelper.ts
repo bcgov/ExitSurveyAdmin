@@ -1,6 +1,17 @@
 import { KeycloakInitOptions } from 'keycloak-js'
 
-const config = (window as any).APP_CONFIG ?? {};
+interface AppConfig {
+  VITE_APP_PATH?: string;
+  VITE_API_DOMAIN?: string;
+  VITE_APP_DOMAIN?: string;
+  VITE_AUTH_ROLE?: string;
+  VITE_AUTH_URL?: string;
+  VITE_AUTH_REALM?: string;
+  VITE_AUTH_CLIENT_ID?: string;
+  VITE_AUTH_SCOPE?: string;
+}
+
+const config: AppConfig = (window as { APP_CONFIG?: AppConfig }).APP_CONFIG ?? {};
 
 export const routerBase = (): string => config.VITE_APP_PATH ?? ''
 
