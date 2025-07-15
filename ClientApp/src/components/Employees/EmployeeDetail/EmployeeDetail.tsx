@@ -103,7 +103,7 @@ class EmployeeDetail extends React.Component<Props, IState> {
                 />
               </CLText>
               <CLText label={labelFor('lastName')}>{e.lastName}</CLText>
-              <CLText label={labelFor('gender')}>{e.gender}</CLText>
+              <CLText label={labelFor('gender')}>{e.gender || 'Not specified'}</CLText>
               <CLText label={labelFor('birthDate')}>
                 <Date date={e.birthDate} />
               </CLText>

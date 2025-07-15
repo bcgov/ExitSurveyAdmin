@@ -90,7 +90,6 @@ namespace ExitSurveyAdmin.Models
         [Required]
         public DateTime BirthDate { get; set; }
 
-        [Required]
         public string Gender { get; set; }
 
         [Sieve(CanFilter = true, CanSort = true)]
