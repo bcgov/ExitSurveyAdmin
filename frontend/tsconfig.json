@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2020",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -10,12 +10,13 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node10",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "types": ["vite/client"]
   },
-  "include": ["src"]
+  "include": ["src", "vite-env.d.ts"]
 }
