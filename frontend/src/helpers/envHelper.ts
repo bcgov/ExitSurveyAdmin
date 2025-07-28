@@ -16,7 +16,7 @@ const config: AppConfig = (window as { __ENV?: AppConfig }).__ENV ?? {};
 export const routerBase = (): string => config.VITE_APP_PATH ?? ''
 
 export const apiUrl = (): string => {
-  return `${config.VITE_API_DOMAIN ?? ''}${config.VITE_APP_PATH ?? ''}`
+  return config.VITE_API_DOMAIN ?? ''
 }
 
 export const frontendUrl = (): string => {
