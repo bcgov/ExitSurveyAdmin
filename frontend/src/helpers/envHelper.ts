@@ -11,7 +11,7 @@ interface AppConfig {
   VITE_AUTH_SCOPE?: string;
 }
 
-const config: AppConfig = (window as { APP_CONFIG?: AppConfig }).APP_CONFIG ?? {};
+const config: AppConfig = (window as { __ENV?: AppConfig }).__ENV ?? {};
 
 export const routerBase = (): string => config.VITE_APP_PATH ?? ''
 

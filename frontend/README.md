@@ -13,7 +13,7 @@ This project was migrated from Create React App (CRA) to [Vite](https://vitejs.d
 
 ### Key Changes
 - **Scripts:** Use `yarn dev`, `yarn build`, and `yarn preview` for development, build, and preview respectively.
-- **Environment Variables:** Use `VITE_` prefix (e.g., `VITE_API_DOMAIN`) in `.env` files. Update any references from `process.env.REACT_APP_*` to `import.meta.env.VITE_*` in code.
+- **Configuration:** Runtime configuration is loaded from `__ENV.js` (production) or created from `__ENV.js.template` (local development). No longer uses `.env` files or build-time environment variables.
 - **Static Assets:** Place static files in the `public/` directory. Reference them with root-relative paths (e.g., `/logo.png`).
 - **Service Worker:** If you need a service worker, use the [Vite PWA plugin](https://vite-pwa-org.netlify.app/) or set up manually. The old CRA service worker is no longer used.
 - **Testing:** If you used Jest, consider migrating to [Vitest](https://vitest.dev/) for better Vite integration.
@@ -31,11 +31,22 @@ For more details, see the migration plan in `frontend-migration-plan.md`.
 
 ### Installation
 
-In the `ClientApp` directory, install dependencies:
+In the `frontend` directory, install dependencies:
 
 ```sh
 yarn install
 ```
+
+### Configuration
+
+For local development, create the runtime configuration file:
+
+```sh
+# Copy the template and update values for your local environment
+cp public/config/__ENV.js.template public/config/__ENV.js
+```
+
+Edit `public/config/__ENV.js` with your local development settings (API endpoints, auth configuration, etc.).
 
 ### Development
 
@@ -55,7 +66,7 @@ To build the app for production:
 yarn build
 ```
 
-This will bundle the app using Vite and output the static files to the `public` folder.
+This will bundle the app using Vite and output the static files to the `build` folder.
 
 ### Preview Production Build
 
@@ -69,8 +80,19 @@ yarn preview
 
 - `src/` — Main source code (components, helpers, types, styles, etc.)
 - `public/` — Static assets and the production build output
+- `public/config/` — Runtime configuration files (`__ENV.js` for runtime config, `__ENV.js.template` for local development template)
 - `vite.config.ts` — Vite configuration
 - `tsconfig.json` — TypeScript configuration
+
+## Configuration
+
+This application uses runtime configuration instead of build-time environment variables:
+
+- **Local Development:** Create `public/config/__ENV.js` from the template file
+- **Production:** Configuration is provided by OpenShift ConfigMap as `__ENV.js`
+- **Variables:** All configuration uses `VITE_*` prefixed variables (e.g., `VITE_API_DOMAIN`, `VITE_AUTH_URL`)
+
+This approach allows the same build artifact to be deployed across different environments with different configurations.
 
 ## Notes
 - This project was migrated from Create React App to Vite. Some legacy files (such as `react-app-env.d.ts`) may remain for compatibility.

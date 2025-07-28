@@ -17,6 +17,8 @@
 .env.test.local
 .env.production.local
 env.js
+# Runtime configuration (create from template for local development)
+__ENV.js
 config.js
 
 npm-debug.log*
