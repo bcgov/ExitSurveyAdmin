@@ -47,7 +47,7 @@ export const keycloakInitOptions: KeycloakInitOptions = {
 }
 
 export const keycloakLoginOptions = {
-  redirectUri: config.VITE_APP_DOMAIN ?? '',
+  redirectUri: frontendUrl(),
   idpHint: 'idir',
   scope: config.VITE_AUTH_SCOPE ?? '',
 }
