@@ -35,6 +35,7 @@ jobs:
           image_registry: ${{ secrets.IMAGE_REGISTRY }}
           image_registry_user: ${{ secrets.IMAGE_REGISTRY_USER }}
           image_registry_password: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+          vite_app_path: ${{ secrets.VITE_APP_PATH }}
 
   build-api:
     name: Build & Push Backend

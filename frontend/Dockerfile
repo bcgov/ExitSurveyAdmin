@@ -2,6 +2,10 @@
 FROM docker.io/node:22-alpine AS builder
 WORKDIR /opt/app-root/src
 
+# Accept build arguments for Vite environment variables
+ARG VITE_APP_PATH=/
+ENV VITE_APP_PATH=${VITE_APP_PATH}
+
 # Copy package.json and yarn.lock first for better caching
 COPY package.json yarn.lock ./
 
