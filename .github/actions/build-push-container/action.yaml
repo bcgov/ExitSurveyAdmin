@@ -21,9 +21,6 @@ inputs:
   image_registry_password:
     description: Image Registry User Password
     required: true
-  vite_app_path:
-    description: VITE_APP_PATH for frontend builds
-    required: false
 
 runs:
   using: composite
@@ -69,5 +66,3 @@ runs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        build-args: |
-          VITE_APP_PATH=${{ inputs.vite_app_path }}

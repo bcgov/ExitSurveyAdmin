@@ -4,7 +4,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 
 export default defineConfig({
-    base: process.env.VITE_APP_PATH || '/',
+    // Use relative base - assets will be relative to the HTML document
+    base: './',
     plugins: [
         react(),
         VitePWA({
@@ -12,7 +13,7 @@ export default defineConfig({
             manifest: {
                 name: 'Exit Survey Admin',
                 short_name: 'ExitSurvey',
-                start_url: process.env.VITE_APP_PATH || '/',
+                start_url: './',
                 display: 'standalone',
                 background_color: '#ffffff',
                 theme_color: '#0d6efd',
