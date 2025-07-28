@@ -94,6 +94,23 @@ This application uses runtime configuration instead of build-time environment va
 
 This approach allows the same build artifact to be deployed across different environments with different configurations.
 
+### Build-time Configuration
+
+For deployment to subpaths, Vite requires the base path to be configured at build time:
+
+- **GitHub Secret:** `VITE_APP_PATH` must be set in repository secrets for proper asset loading
+- **Format:** Must start and end with `/` (e.g., `/app-path/`)
+- **Purpose:** Ensures CSS, JavaScript, and other static assets load from correct URLs when deployed to subpaths
+
+**Example:**
+```javascript
+// If VITE_APP_PATH = "/esa-dev/"
+// Assets will load from: https://domain.com/esa-dev/assets/file.js
+// Instead of:           https://domain.com/assets/file.js
+```
+
+See the main README for details on configuring GitHub secrets.
+
 ## Notes
 - This project was migrated from Create React App to Vite. Some legacy files (such as `react-app-env.d.ts`) may remain for compatibility.
 - For more information on Vite, see the [Vite documentation](https://vitejs.dev/guide/).

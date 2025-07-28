@@ -75,6 +75,24 @@ To get set up:
 - Runtime configuration is loaded from `__ENV.js` (created from `__ENV.js.template` for local development).
 - CRA-specific scripts and files are obsolete and can be removed if not needed.
 
+## Deployment
+
+### GitHub Secrets Configuration
+
+For proper deployment with subpath routing, the following GitHub repository secret must be configured:
+
+- **`VITE_APP_PATH`**: The application's deployment path (e.g., `/esa-dev/`, `/esa-staging/`, `/esa/`)
+
+This secret is used during the Docker build process to configure Vite's base path, ensuring that static assets (CSS, JS, images) are loaded from the correct URLs when deployed to a subpath.
+
+**To configure:**
+1. Go to GitHub repository **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret**
+3. Name: `VITE_APP_PATH`
+4. Value: Your deployment path (must start and end with `/`, e.g., `/your-app-path/`)
+
+**Note:** This is a build-time configuration that gets baked into the static assets. It's separate from the runtime `VITE_APP_PATH` in `__ENV.js`.
+
 ---
 
 ## Required sample input for development
