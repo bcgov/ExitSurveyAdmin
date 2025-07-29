@@ -1,7 +1,7 @@
 window.__ENV = {
   "NODE_ENV": "production",
   "VITE_APP_DOMAIN": "http://localhost:3000",
-  "VITE_API_DOMAIN": "https://localhost:5051",
+  "VITE_API_DOMAIN": "https://localhost:5051/",
   "VITE_APP_PATH": "/",
   "VITE_AUTH_URL": "The base URL of the KeyCloak realm, e.g. https://some-keycloak-server/auth",
   "VITE_AUTH_SCOPE": "profile",
