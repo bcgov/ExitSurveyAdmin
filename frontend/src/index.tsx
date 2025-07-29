@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import { createRoot } from 'react-dom/client'
 
 import { HashRouter } from 'react-router'
-import { routerBase as getRouterBasename } from './helpers/envHelper'
 import App from './components/App'
 import KeycloakService from './components/Login/KeycloakService'
 
@@ -13,7 +12,7 @@ const rootElement = document.getElementById('root')
 KeycloakService.initKeycloak(() => {
   if (rootElement) {
     createRoot(rootElement).render(
-      <HashRouter basename={getRouterBasename()}>
+      <HashRouter>
         <App />
       </HashRouter>
     )

@@ -63,7 +63,7 @@ export const requestJSONWithErrorHandler = async (
   try {
     json = await response.json()
   } catch (e) {
-    console.error('getJSONWithErrorHandler: Error decoding JSON from response.', e);
+    console.error('requestJSONWithoutAuth: Error decoding JSON from response.', e);
     return null;
   }
 
@@ -95,7 +95,7 @@ export const requestJSONWithoutAuth = async (
   try {
     json = await response.json()
   } catch (e) {
-    console.error('getJSONWithErrorHandler: Error decoding JSON from response.', e);
+    console.error('requestJSONWithoutAuth: Error decoding JSON from response.', e);
     return null;
   }
 

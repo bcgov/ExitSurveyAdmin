@@ -22,11 +22,18 @@ const App = () => {
 
   useEffect(() => {
     const href = windowLocation.get()
-    // If the href is not the current location, and it is not the base URL,
-    // redirect to the href. This is to handle the case where the user was
-    // trying to access a protected resource before being redirected to login.
+    
+    // Only redirect if:
+    // 1. There's a saved location
+    // 2. It's different from current location
+    // 3. It's not the base URL
+    // 4. We haven't already processed this redirect (prevent loops)
     if (href && href !== window.location.href && href !== baseUrl) {
+      windowLocation.remove() // Clear immediately to prevent redirect loops
       window.location.href = href
+    } else if (href) {
+      // If there's a saved location but we're already there, clear it
+      windowLocation.remove()
     }
   }, [location])
 

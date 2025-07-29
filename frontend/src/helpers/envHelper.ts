@@ -11,12 +11,12 @@ interface AppConfig {
   VITE_AUTH_SCOPE?: string;
 }
 
-const config: AppConfig = (window as { APP_CONFIG?: AppConfig }).APP_CONFIG ?? {};
+const config: AppConfig = (window as { __ENV?: AppConfig }).__ENV ?? {};
 
 export const routerBase = (): string => config.VITE_APP_PATH ?? ''
 
 export const apiUrl = (): string => {
-  return `${config.VITE_API_DOMAIN ?? ''}${config.VITE_APP_PATH ?? ''}`
+  return config.VITE_API_DOMAIN ?? ''
 }
 
 export const frontendUrl = (): string => {
@@ -47,7 +47,7 @@ export const keycloakInitOptions: KeycloakInitOptions = {
 }
 
 export const keycloakLoginOptions = {
-  redirectUri: config.VITE_APP_DOMAIN ?? '',
+  redirectUri: frontendUrl(),
   idpHint: 'idir',
   scope: config.VITE_AUTH_SCOPE ?? '',
 }

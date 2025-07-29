@@ -39,7 +39,7 @@ To get set up:
 8. Do the same with `/secret/appsettings.secret-template.json`, copying it into
    `/secret/appsettings.json`.
 
-9. We also need to set up the frontend environment. In the `/ClientApp` directory, copy `env.example` into `.env`, and update the values as   appropriate.
+9. We also need to set up the frontend environment. In the `/frontend` directory, copy `/frontend/public/config/__ENV.js.template` to `/frontend/public/config/__ENV.js`, and update the values as appropriate for your local development environment.
 
 ### Run migrations
 
@@ -60,22 +60,20 @@ To get set up:
 
 ### Install frontend dependencies
 
-14. From the `/ClientApp` directory run `yarn install`.
+14. From the `/frontend` directory run `yarn install`.
 
 ### Start the frontend
 
-15. Still in the `/ClientApp` directory, run `yarn start` to launch the
+15. Still in the `/frontend` directory, run `yarn dev` to launch the
     front-end. You should see the application open in a new browser.
 
 ## Frontend Modernization (CRA → Vite)
 
 - The frontend was migrated from Create React App (CRA) to Vite for improved performance and developer experience.
-- See `ClientApp/README.md` and `frontend-migration-plan.md` for updated instructions and migration notes.
-- Use `yarn dev`/`yarn build`/`yarn preview` in `ClientApp` for frontend development and builds.
-- Environment variables now use the `VITE_` prefix (see `.env.example`).
+- See `frontend/README.md` for updated instructions and migration notes.
+- Use `yarn dev`/`yarn build`/`yarn preview` in `/frontend` for frontend development and builds.
+- Runtime configuration is loaded from `__ENV.js` (created from `__ENV.js.template` for local development).
 - CRA-specific scripts and files are obsolete and can be removed if not needed.
-
----
 
 ## Required sample input for development
 
