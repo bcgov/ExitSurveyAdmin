@@ -59,7 +59,7 @@ class EmployeeDetail extends React.Component<Props, IState> {
           </div>
           <div className="col">
             <LabelledText label={'Current status'}>
-              <h3 className="mt-1">
+              <div className="mt-1 status-heading">
                 <EditableDropdown
                   modelDatabaseId={e.id!}
                   fieldName="currentEmployeeStatusCode"
@@ -71,7 +71,7 @@ class EmployeeDetail extends React.Component<Props, IState> {
                       .displayName
                   }
                 />
-              </h3>
+              </div>
             </LabelledText>
           </div>
         </div>
