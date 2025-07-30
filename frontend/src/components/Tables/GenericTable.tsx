@@ -76,7 +76,7 @@ const GenericTable = <T extends object>(props: Props<T>): JSX.Element => {
   })
 
   React.useEffect(() => {
-    fetchData({ pageIndex, sorting })
+    fetchData({ pageIndex, sortBy: sorting })
   }, [fetchData, pageIndex, sorting])
 
   React.useEffect(() => {

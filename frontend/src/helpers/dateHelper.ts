@@ -23,8 +23,8 @@ export const dateToString = (date: Date | undefined): string => {
 }
 
 export function createDateAsUTCFromString(dateString: string): Date {
-  // Use UTC plugin for UTC conversion
-  return dayjs(dateString).utc().toDate()
+  // Parse the string as UTC (assumes the string is in UTC)
+  return dayjs.utc(dateString).toDate()
 }
 
 export function createDateFromString(dateString: string): Date {

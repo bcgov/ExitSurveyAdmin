@@ -31,3 +31,21 @@ $navbar-margin: 24px;
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
 }
+
+// Custom styling for EditableDropdown to look like heading when used as status
+.status-heading .EditableDropdown .Editable {
+  font-size: 18.7435px;
+  font-weight: bold;
+  line-height: 1.2;
+  color: rgb(73, 73, 73) !important;
+  background-color: #f3f3f3 !important;
+  border-bottom: solid #333 1px !important;
+  padding: 0.25rem 0.5rem !important;
+  text-decoration: none !important;
+
+  &:hover {
+    background-color: #eee !important;
+    text-decoration: none !important;
+    color: rgb(73, 73, 73) !important;
+  }
+}
